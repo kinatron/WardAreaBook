@@ -1,0 +1,18 @@
+<p>
+  <b>Type:</b>
+  <%=h @companionship.type %>
+</p>
+
+<p>
+  <b>Person1:</b>
+  <%=h @companionship.person1 %>
+</p>
+
+<p>
+  <b>Person2:</b>
+  <%=h @companionship.person2 %>
+</p>
+
+
+<%= link_to 'Edit', edit_companionship_path(@companionship) %> |
+<%= link_to 'Back', companionships_path %>

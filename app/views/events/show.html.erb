@@ -1,0 +1,23 @@
+<p>
+  <b>Date:</b>
+  <%=h @event.date %>
+</p>
+
+<p>
+  <b>Family:</b>
+  <%=h @event.family_id %>
+</p>
+
+<p>
+  <b>Member:</b>
+  <%=h @event.ward_representative_id %>
+</p>
+
+<p>
+  <b>Comment:</b>
+  <%=h @event.comment %>
+</p>
+
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>

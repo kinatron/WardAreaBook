@@ -1,0 +1,22 @@
+<h1>Listing ward_representatives</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+  </tr>
+
+<% @ward_representatives.each do |ward_representative| %>
+  <tr>
+    <td><%=h ward_representative.name %></td>
+    <td><%=h ward_representative.type %></td>
+    <td><%= link_to 'Show', ward_representative %></td>
+    <td><%= link_to 'Edit', edit_ward_representative_path(ward_representative) %></td>
+    <td><%= link_to 'Destroy', ward_representative, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New ward_representative', new_ward_representative_path %>

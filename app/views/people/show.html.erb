@@ -1,0 +1,28 @@
+<p>
+  <b>Name:</b>
+  <%=h @person.name %>
+</p>
+
+<p>
+  <b>Family:</b>
+  <%=h @person.family_id %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%=h @person.phone %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=h @person.email %>
+</p>
+
+<p>
+  <b>Calling:</b>
+  <%=h @person.calling %>
+</p>
+
+
+<%= link_to 'Edit', edit_person_path(@person) %> |
+<%= link_to 'Back', people_path %>

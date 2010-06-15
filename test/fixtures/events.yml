@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  date: 2010-06-07
+  family_id: 1
+  member: MyString
+  comment: MyText
+
+two:
+  date: 2010-06-07
+  family_id: 1
+  member: MyString
+  comment: MyText
