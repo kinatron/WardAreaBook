@@ -1,7 +1,7 @@
 class TestData < ActiveRecord::Migration
   def self.up
     down
-    Family.create(:name => "Clark", :head_of_house_hold => "Ryan and Jennifer",
+    Family.create(:name => "Clark", :head_of_house_hold => "Ted and Nancy",
                   :phone => "206-854-5598", :address => "1505 Westbridge Dr, Burien WA 98146",
                   :status => "active", :information => "They have lived in the Ward for about five years. \
                   Sister Clark is in the relief society and Brother Clark is the ward mission leader")
