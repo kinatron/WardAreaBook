@@ -28,10 +28,7 @@ Clark, Ted and Nancy            206-526-8544     2345 WestRidge Dr   Active     
 
 1. Import Data from the spreadsheet
 
-    a) Parse the comments into events
-       Names will either default to Hopes or unknown
-
-    b) Get children
+    a) Get children
 
 
 4. Add users link them to ward_representatives

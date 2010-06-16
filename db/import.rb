@@ -8,6 +8,8 @@ ENV["RAILS_ENV"] ||= "development"
 require File.dirname(__FILE__) + "/../config/environment"
 
 
+Family.delete_all
+Event.delete_all
 
 
 #Read contents into the variables
@@ -69,7 +71,7 @@ CSV.open('WardList.csv', 'r') do |row|
           family.information = event
 
         else
-          print "\t Event (" + date + ") -->" + event[0..100] + "\n";
+          print "\t Event (" + date + ") -->" + event + "\n";
           month,day = date.split('/');
           year = DateTime.now.year
           
