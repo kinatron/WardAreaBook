@@ -31,7 +31,11 @@ Clark, Ted and Nancy            206-526-8544     2345 WestRidge Dr   Active     
     a) Get children
 
 2. Check out git gui's for push and pulling things.
+<<<<<<< HEAD
     shark sandwhich
+=======
+   Now I"m going to make an update from here and see if the other side gets them
+>>>>>>> b042499bef10f3bff2b336976973424f092eec49
 
 4. Add users link them to ward_representatives
 
