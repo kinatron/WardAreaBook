@@ -85,7 +85,10 @@ CSV.open('WardList.csv', 'r') do |row|
     family.save!
 
 
+    # cvsImport - I need to create an individual records and  record head of house hold names as individuals with a family record.
+
 =begin
+
 
     #Get children
     x=6
