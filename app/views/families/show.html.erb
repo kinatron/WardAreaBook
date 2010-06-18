@@ -1,7 +1,7 @@
 <% form_remote_tag :url => {:controller => 'events', :action => 'new_family_event', 
                             :family_id => @family.id } do %>
 <h1><%=h @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp;
-  <%= submit_tag "New Event" , {:style => 'padding:1px;'} %>
+  <div style='display:inline' id='shark'> <%= submit_tag "New Event" , {:style => 'padding:1px;',:onclick => "document.getElementById('shark').style.display='none';"} %></div>
 </h1>
 <% end %>
 <div id = 'new-action'> </div>
@@ -41,7 +41,7 @@
   <% unless @family.events().empty? %>
     <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('family-events', 'blind');
             return false;">Events </a> 
-    <div id='family-events' style = 'display:none'>
+    <div id='family-events'>
       <div>
         <ul>
         <% @family.events.each do |event| %>

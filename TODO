@@ -30,8 +30,11 @@ Clark, Ted and Nancy            206-526-8544     2345 WestRidge Dr   Active     
 
     a) Get children
 
-2. Check out git gui's for push and pulling things.
-    I like gitg's interface it just doesn't seem to be able to pull but I think I can do that manually
+2.  Make the events list by default 
+
+3. hide the "add Event" button when creating a new record.
+
+3. Get rid the update family flash.
 
 
 4. Add users link them to ward_representatives
