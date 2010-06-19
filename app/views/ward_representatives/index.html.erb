@@ -3,12 +3,14 @@
 <table>
   <tr>
     <th>Name</th>
+    <th>Email</th>
     <th>Type</th>
   </tr>
 
 <% @ward_representatives.each do |ward_representative| %>
   <tr>
     <td><%=h ward_representative.name %></td>
+    <td><%=h ward_representative.email %></td>
     <td><%=h ward_representative.type %></td>
     <td><%= link_to 'Show', ward_representative %></td>
     <td><%= link_to 'Edit', edit_ward_representative_path(ward_representative) %></td>

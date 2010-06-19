@@ -13,7 +13,7 @@ companionships
 ID | person1 | person2
 
 ward_representative
-ID | name | type
+ID | name | type | email 
 
 events
 ID | date | type | family | ward_representative_id | comment
