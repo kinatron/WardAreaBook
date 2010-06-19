@@ -1,3 +1,8 @@
+
+=====================================================================================
+Data Schema
+=====================================================================================
+
 families
 ID | family_name | head_of_house_hold | phone | address | status | information 
 
@@ -22,19 +27,43 @@ family_id | column | old_text | new_text
 CVS Format
 familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 
+=====================================================================================
+TODO's 
+=====================================================================================
 
-Family***                       Phone            Address             Status***   Last Visit***    Comment
-Clark, Ted and Nancy            206-526-8544     2345 WestRidge Dr   Active      April 13         Gave a member visit on....
+1. Create user account and populate ward_rep fields with them
 
-1. Import Data from the spreadsheet
 
-    a) Get children
+2. Edit events   
+    a) add event type to the event page.
 
-2.  Make the events list by default 
+3. Add enum to the status field
 
-3. hide the "add Event" button when creating a new record.
+4. Create a reports page that lists events by month.
+                    |
+            |       | 
+    |       |       |
+    |       |       |
+   Feb    March   April
 
-3. Get rid the update family flash.
+5. Report listed by week 
+
+6. Hopes report
+
+7. Send out release 0.0 for the Hopes, and Brother Miller to review.
+
+
+
+
+
+
+
+
+
+
+10. Display family members int the families/show page 
+    a) head of house old with children endented beneath
+    b) show any cellphones or email addresses
 
 
 4. Add users link them to ward_representatives
@@ -46,8 +75,5 @@ Clark, Ted and Nancy            206-526-8544     2345 WestRidge Dr   Active     
 7. Need to create naivation menus
 
 8. Validate all input able data.
-
-9. Add events   
-    a) add event type to the event page.
 
 10. Create a partial to limit the events to the within the last month with a link to see more.

@@ -61,7 +61,7 @@ class FamiliesController < ApplicationController
 
     respond_to do |format|
       if @family.update_attributes(params[:family])
-        flash[:notice] = 'Family was successfully updated.'
+        #flash[:notice] = 'Family was successfully updated.'
         format.html { redirect_to(@family) }
         format.xml  { head :ok }
       else

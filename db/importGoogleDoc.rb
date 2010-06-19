@@ -10,6 +10,7 @@ require File.dirname(__FILE__) + "/../config/environment"
 
 Family.delete_all
 Event.delete_all
+Person.delete_all
 
 
 #Read contents into the variables
@@ -57,6 +58,30 @@ CSV.open('WardList.csv', 'r') do |row|
     family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
                         :phone => phone, :address => address, :status => status)
 
+    # Create people records from person columns 
+    # "Ryan <kinateder@gmail.com>", "Jennifer Jones"
+    # while the rest of the columns are not empty
+    #
+    col = 6
+    # For a couple of exceptions
+    if row[col] == nil
+      Person.create(:name => headOfHouseHold, :family_id => family.id)
+    else
+      while row[col] != nil do 
+        person = row[col].match(/<.*>/)
+        if person == nil
+          Person.create(:name => row[col].strip, 
+                        :family_id => family.id)
+        else
+          Person.create(:name => person.pre_match.strip, 
+                        :email => person.to_s[1..(person.to_s.length-2)],
+                        :family_id => family.id)
+        end
+        col += 1
+      end # while loop
+    end
+
+
     # Add any events                                  
     count = 0;
     events.each do |event|
@@ -86,7 +111,6 @@ CSV.open('WardList.csv', 'r') do |row|
 
 
     # cvsImport - I need to create an individual records and  record head of house hold names as individuals with a family record.
-    # OK I thnk I've got it.
 
 =begin
 
