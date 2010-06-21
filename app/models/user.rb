@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
 private 
 
   def valid_email
-    if CommitteeMember.find(:all, :conditions => ["email = ?", name]).empty? 
+    if Person.find(:all, :conditions => ["email = ?", name]).empty? 
       errors.add(:email, " - Your Email address is not on file.\n 
                              Please contact Brother Kinateder to create an account")
     end

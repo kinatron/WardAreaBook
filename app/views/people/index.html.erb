@@ -12,7 +12,7 @@
 <% @people.each do |person| %>
   <tr>
     <td><%=h person.name %></td>
-    <td><%=h person.family_id %></td>
+    <td><%=h person.family.name %></td>
     <td><%=h person.phone %></td>
     <td><%=h person.email %></td>
     <td><%=h person.calling %></td>

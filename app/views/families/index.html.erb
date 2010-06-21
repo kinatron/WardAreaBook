@@ -20,7 +20,8 @@
     <td><%=h family.phone %></td>
     <td><%=h family.address %></td>
     <td bgcolor=<%=statusColor(family.status)%>><%=h family.status %></td>
-    <td><%= getLastVisitDate(family) %></td>
+    <td sorttable_customkey="<%=getLastVisitDateSortable(family)%>">
+        <%= getLastVisitDate(family) %></td>
     <td><%= getLastVisitComment(family) %></td>
 
   </tr>

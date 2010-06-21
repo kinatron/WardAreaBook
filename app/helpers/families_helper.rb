@@ -12,6 +12,15 @@ module FamiliesHelper
   end
 
 
+  def getLastVisitDateSortable(family)
+    if family.events.first != nil
+      date = family.events.first.date 
+      date.strftime("%Y%m%d000000")
+    else
+      ""
+    end
+  end
+
   def getLastVisitDate(family)
     if family.events.first != nil
       family.events.first.date 

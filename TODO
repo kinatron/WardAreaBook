@@ -18,6 +18,9 @@ ID | name | type | email
 events
 ID | date | type | family | ward_representative_id | comment
 
+user
+name | hashed_password | salt | access_level
+
 record_status
 familyID | status (old record, recently updated, new, needs fix)
 
@@ -30,14 +33,13 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 =====================================================================================
 TODO's 
 =====================================================================================
-
-1. Create user account and populate ward_rep fields with them
-
-
-2. Edit events   
+ 
+1. Edit events    - June 21st
     a) add event type to the event page.
 
-3. Add enum to the status field
+2. Add enum to the status field - June 21st
+
+3. Get the dates to sort       - June 21st
 
 4. Create a reports page that lists events by month.
                     |

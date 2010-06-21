@@ -11,7 +11,7 @@
   </p>
   <p>
     <%= f.label :ward_representative_id %><br />
-    <%= f.select :ward_representative_id, WardRepresentative::ALL %>
+    <%= f.select :ward_representative_id, Person::ALL, {:selected => session[:user_id]} %>
   </p>
   <p>
     <%= f.label :comment %><br />
