@@ -15,7 +15,7 @@ module FamiliesHelper
   def getLastVisitDateSortable(family)
     if family.events.first != nil
       date = family.events.first.date 
-      date.strftime("%Y%m%d000000")
+      date.strftime("%Y%m%d")
     else
       ""
     end

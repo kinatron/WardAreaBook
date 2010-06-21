@@ -34,30 +34,31 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
  
-1. Edit events    - June 21st
-    a) add event type to the event page.
+1. Hopes report - June 21st
+   a) List everything they've done for the week.
+   b)  Just Lessons taught
+   c)  Just Visits
 
-2. Add enum to the status field - June 21st
-
-3. Get the dates to sort       - June 21st
-
-4. Create a reports page that lists events by month.
+1. Create a reports page that lists visits by month.
                     |
             |       | 
     |       |       |
     |       |       |
    Feb    March   April
 
-5. Report listed by week 
-
-6. Hopes report
-
-7. Send out release 0.0 for the Hopes, and Brother Miller to review.
+2. Report listed by week 
 
 
+4. Get the dates to sort       - June 21st
+
+5. FIX HACK!!!!
+
+6. Send out release 0.0 for the Hopes, and Brother Miller to review. - June 27th
 
 
 
+
+========================================================================
 
 
 

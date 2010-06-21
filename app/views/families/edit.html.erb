@@ -21,7 +21,12 @@
   </p>
   <p>
     <%= f.label :status %><br />
-    <%= f.text_field :status %>
+    <%= f.select :status, {"Active"         => "Active", 
+                           "Less Active"    => "Less Active", 
+                           "Moved"          => "Moved", 
+                           "Moved-Recorded" => "Moved-Recorded", 
+                           "Not Interested" => "Not Interested",
+                           "DNC"            => "DNC" } %>
   </p>
   <p>
     <%= f.label :information %><br />
