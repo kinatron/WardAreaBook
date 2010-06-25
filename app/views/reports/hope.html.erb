@@ -1,0 +1,17 @@
+<h1>Hope's Report</h1>
+<% @event_weeks.each do |week, events| %>  
+  <a href ='#' class = 'subtile-links' onclick="Effect.toggle('<%= week.to_s %>-events', 'blind'); return false;">
+    <h4><%= week %>&#151;<%= week.advance(:days => 6) %></h4></a>
+  <ul>
+    <div id='<%= week.to_s %>-events' style='display:none'>
+      <b>
+        Lessons Taught      <%=getWeeklyTotal(events,"Vist")%>&nbsp;&nbsp;&nbsp;&nbsp;
+        Vists               <%=getWeeklyTotal(events,"Lesson")%>&nbsp;&nbsp;&nbsp;&nbsp;
+        Attempts to Contact <%=getWeeklyTotal(events,"Attempt")%>&nbsp;&nbsp;&nbsp;&nbsp;
+        <br><br>
+      </b>
+      <%= render(:partial => "event", :collection => events) %>
+    </div>
+  </ul>
+<% end %> 
+

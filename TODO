@@ -33,20 +33,51 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 =====================================================================================
 TODO's 
 =====================================================================================
- 
+
+0. update the csvImport to...
+   a) Clear out the databases 
+      - Delete the add data migration
+      - Call the migration from the script
+
+   b) Add the Hopes and the Elders as families and then add them as people "The Hopes" and "The Elders" 
+
+   c) Create all families and people first and then rotate thought the events, change bishops name to "Bishop"
+
+   d) For Events guess 
+      - ward rep "Hope" "Kinateder" else Bishop Puloka
+      - event type - Lesson | prayer => Lesson, "no.*home" => Attempt, else => Visit
+      
+
+1. Create a reports page that Lists visits or Lessons by month.
+
+  March
+  April  - 30 families visited
+    Kinateders
+    Millers
+    Connews 
+    Jorgensens
+    Boohers.
+  May
+  June
+
+
+
 1. Hopes report - June 21st
    a) List everything they've done for the week.
+      
+      June 1-6
+      June 7-13
+          Lessons Taught 7    Visits 3     Attempts to Contact  16
+          June 7th
+            Afa Family        - Attempt -  Stopped by no one was home
+            Kinateder Family  - Lesson  -  Taught a message on prayer
+            Connew            - Visit   -  Chatted about their neighbors
+      June 14-20
+      June 21-28
+
+
    b)  Just Lessons taught
    c)  Just Visits
-
-1. Create a reports page that lists visits by month.
-                    |
-            |       | 
-    |       |       |
-    |       |       |
-   Feb    March   April
-
-2. Report listed by week 
 
 
 4. Get the dates to sort       - June 21st
@@ -55,11 +86,17 @@ TODO's
 
 6. Send out release 0.0 for the Hopes, and Brother Miller to review. - June 27th
 
-
 ========================================================================
 
 
 
+1. Create a reports page that lists visits by month.
+
+                    |
+            |       | 
+    |       |       |
+    |       |       |
+   Feb    March   April
 
 
 10. Display family members int the families/show page 
