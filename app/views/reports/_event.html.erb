@@ -1,6 +1,8 @@
 <li>
   <%=h event.date.strftime("%m/%d") %>&#151;
-  <%=h event.family.name %>&#151;
+  <!-- TODO use associations -->
   <%=h event.category %>&#151;
+  <%=h Person.find(event.ward_representative_id).name %>&nbsp;
+  <%=h Person.find(event.ward_representative_id).family.name%>&#151;
   <%=h event.comment %>
 </li>

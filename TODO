@@ -34,32 +34,20 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-0. update the csvImport to...
-   a) Clear out the databases 
-      - Delete the add data migration
-      - Call the migration from the script
-
-   b) Add the Hopes and the Elders as families and then add them as people "The Hopes" and "The Elders" 
-
-   c) Create all families and people first and then rotate thought the events, change bishops name to "Bishop"
-
-   d) For Events guess 
-      - ward rep "Hope" "Kinateder" else Bishop Puloka
-      - event type - Lesson | prayer => Lesson, "no.*home" => Attempt, else => Visit
-      
-
 1. Create a reports page that Lists visits or Lessons by month.
+   a) Get the totals
 
   March
-  April  - 30 families visited
+  April  - 30 families visited  
     Kinateders
+      4/10 - The Hopes - Gave a message on prayer
+      4/29 - The Hopes - Followed up on previous message
     Millers
     Connews 
     Jorgensens
     Boohers.
   May
   June
-
 
 
 1. Hopes report - June 21st

@@ -3,20 +3,31 @@ require 'csv'
 require 'rubygems'
 require 'sqlite3'
 require 'date'
+require 'rake'
 
 ENV["RAILS_ENV"] ||= "development"
 require File.dirname(__FILE__) + "/../config/environment"
 
+system("rake db:migrate:reset")
+#Rake.application.rake_require '../../lib/tasks/metric_fetcher'
+#Rake.db:migrate.reset 
 
-Family.delete_all
-Event.delete_all
-Person.delete_all
+# Add the Hopes and the Elders as families and then add them as people "The Hopes" and "The Elders" 
+family = Family.create(:name => "Hopes", :head_of_house_hold =>"Elder and Sister",
+                        :phone => "206-851-3221", :status => "Active")
+
+Person.create(:name => "The", :family_id => family.id)
+
+family = Family.create(:name => "Elders", :head_of_house_hold =>"Full Time Missionaries",
+                        :phone => "206-851-3221", :status => "Active")
+
+Person.create(:name => "The", :family_id => family.id)
 
 
 #Read contents into the variables
 CSV.open('WardList.csv', 'r') do |row|
   # Don't want the first or last values
-  unless row[0] == nil or row[0]=='familyname'
+  unless row[0] == nil or row[0]=='Name'
 
     ########################################################################
     # Extract the data from the cvs file
@@ -46,11 +57,6 @@ CSV.open('WardList.csv', 'r') do |row|
     row[4] ||= "";
     status = row[4];
 
-    row[5] ||= "";
-    comment = row[5];
-
-    dates =  comment.gsub(/\/2010/,'').scan(/\d+\/\d+/); 
-    events = comment.gsub(/\/2010/,'').split(/\d+\/\d+/); 
 
     puts familyname
 
@@ -63,16 +69,21 @@ CSV.open('WardList.csv', 'r') do |row|
     # while the rest of the columns are not empty
     #
     col = 6
-    # For a couple of exceptions
+    # This is to handle a couple of exceptions
     if row[col] == nil
       Person.create(:name => headOfHouseHold, :family_id => family.id)
     else
       while row[col] != nil do 
+
+        # this is to capture any emails
         person = row[col].match(/<.*>/)
+
+        #If there are not emails just Use what's ever in the column
         if person == nil
           Person.create(:name => row[col].strip, 
                         :family_id => family.id)
         else
+          # insert both the person name and email
           Person.create(:name => person.pre_match.strip, 
                         :email => person.to_s[1..(person.to_s.length-2)],
                         :family_id => family.id)
@@ -81,7 +92,28 @@ CSV.open('WardList.csv', 'r') do |row|
       end # while loop
     end
 
+    family.save!
+  end
+end
 
+
+# Cycle back through the ward list and add events
+CSV.open('WardList.csv', 'r') do |row|
+  # Don't want the first or last values
+  unless row[0] == nil or row[0]=='Name'
+
+    # Get the family 
+    lastName, headOfHouseHold =   row[0].split(/,/)
+    lastName.strip!
+    family = Family.find_by_name(lastName)
+
+    row[5] ||= "";
+    comment = row[5];
+
+    dates =  comment.gsub(/\/2010/,'').scan(/\d+\/\d+/); 
+    events = comment.gsub(/\/2010/,'').split(/\d+\/\d+/); 
+
+    puts family.name
     # Add any events                                  
     count = 0;
     events.each do |event|
@@ -94,139 +126,36 @@ CSV.open('WardList.csv', 'r') do |row|
         if date == ""
           print "\t Comment -->",event[0..80] , "\n"
           family.information = event
-
         else
           print "\t Event (" + date + ") -->" + event + "\n";
           month,day = date.split('/');
           year = DateTime.now.year
           
+  # d) For Events guess 
+  #    - ward rep "Hope" "Kinateder" else Bishop Puloka
+  #    - event type - Lesson | prayer => Lesson, "no.*home" => Attempt, else => Visit
+          case event 
+          when /lesson|prayer|message/i; type = "Lesson"
+          when /no.*home/i; type = "Attempt"
+          else
+            type = "Visit"
+          end
+
+          case event 
+          when /hope/i;      id = Person.find_by_name("The").id
+          when /elder/i;     id = Person.find_by_name("The").id + 1
+          when /kinateder/i; id = Person.find_by_name("Ryan").id
+          when /no.*home/i;  id = Person.find_by_name("The").id
+          else
+            id = Person.find_by_name("Bishop").id
+          end
+
           Event.create(:date => Date.new(year,month.to_i,day.to_i), :family_id => family.id, 
-                       :ward_representative_id => '1', :comment => event)
+                       :ward_representative_id => id, :comment => event, :category => type)
         end
         count = count + 1
       end
     end
-
-    family.save!
-
-
-    # cvsImport - I need to create an individual records and  record head of house hold names as individuals with a family record.
-
-=begin
-
-
-    #Get children
-    x=6
-    children = ""
-    seperator = " | "
-    while row[x]
-      #1. for now I want to strip out any emails they might have.
-      if index = row[x].index('<')
-        row[x] = row[x].slice(0, index).strip
-      end
-      #2. See if the name is included in the family name (I just want children not head of house hold
-      unless familyname.include? row[x]
-
-      #3. Converge all of the names into a single string
-        children += row[x] + seperator
-      end
-      x+=1
-    end
-    children.chomp!(seperator)
-    ########################################################################
-    # Query the database to see make any updates
-    ########################################################################
-  begin  
-    query = db.execute("select * from families where name == '#{familyname}'" ) 
-    
-    #If the name is new insert it into the dabase
-    if query.size == 0
-      # check to see if the address exists (maybe the names changed this is actually quite likely)
-      # if so update the family name 
-      query = db.execute("select * from families where address == '#{address}'" ) 
-      if query.size > 0 
-        #update the database and flag
-        next 
-      end
-
-      #insert into database
-      print "Inserting -->", familyname, "\n"
-      action = db.execute("insert into families ('name', 'phone','address','status') \
-                          VALUES ('#{familyname.gsub(/'/, "''")}','#{phone.gsub(/'/, "''")}', 
-                                  '#{address.gsub(/'/, "''") }',  '#{status.gsub(/'/, "''")}')")
-
-      # Add any events                                  
-      count = 0;
-      events.each do |event|
-        if event != ""
-          date = dates[count];
-          date ||= ""
-
-          #create the event and comments.
-          #If there isn't a date place this in info
-          if date == ""
-            print "\t Comment -->",event[0..80] , "\n"
-            status = db.execute("UPDATE families 
-                                 SET information='#{event.gsub(/'/, "''")}' 
-                                 WHERE family_name == '#{familyname}'")
-          else
-            print "\t Event (" + date + ") -->" + event[0..100] + "\n";
-            action = 
-            db.execute("insert into events ('date', 'family_id','ward_representative_id','comment') \
-                          VALUES ('#{date.gsub(/'/, "''")}','1','1', 
-                                  '#{comment.gsub(/'/, "''") }')")
-          end
-          count = count + 1
-        end
-      end
-    end
-  end
-
-=begin 
-    # The family exists check for any updates 
-    else 
-      # TODO there's got to be a cleaner way
-      if query[0][2] != phone
-        updateAndFlag(db, familyname, "phone", query[0][2], phone)
-
-      end
-      if query[0][3] != address
-        updateAndFlag(db, familyname, "address", query[0][3], address)
-      end
-      if query[0][4] != children
-        updateAndFlag(db, familyname, "children", query[0][4], children)
-      end
-    
-      status = db.execute("UPDATE families 
-                           SET update_flag='true'
-                           WHERE family_name == '#{familyname}'")
-    end
-
-
-    #Check to see if there are an fields that didn't get updated.
-    
-#    familyname
-#    phone
-#    address
-#    children
-  rescue SQLite3::SQLException
-    print "Issues with row ", row, "\n"
-    raise
-  end
-#db.execute("select * from Wardlist where name8 != 'U'") do |deleted|
-#db.execute("update WardList set name8='U' where familyname == '#{newCSV[0]}'")
-#
-#
-=end
-
-  end
-end
-=begin
-# TODO update the approprate field
-db.execute("select * from families where update_flag == 'false'" ) do |row|
-  print "No longer have records for -> ", row[1], "\n"
-end
-    
-status = db.execute("UPDATE families SET update_flag='false'")
-=end
+  end # skip the first col
+end # do (cvs sheet)
 

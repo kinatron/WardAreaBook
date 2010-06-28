@@ -1,0 +1,11 @@
+<% visits = event_month.group_by { |event| event.family_id} %> 
+<% visits.each do |family_id, events| %>
+      <a href ='#' class = 'subtile-links' onclick="Effect.toggle('<%= events[0].date.mon.to_s + family_id.to_s %>', 'blind'); 
+        return false;"><%= Family.find(family_id).name %></a>
+      <div id='<%= events[0].date.mon.to_s + family_id.to_s %>' style='display:none'>
+        <ul>
+          <%= render(:partial => "event", :collection => events) %>
+        </ul>
+      </div>
+      <br>
+<% end %>
