@@ -6,7 +6,8 @@ class ReportsController < ApplicationController
   end
 
   def month
-    @events = Event.find(:all, :conditions => "category == 'Visit' or category == 'Lesson'", :order => 'date DESC')
+    @events = Event.find(:all, :conditions => "category == 'Visit' or category == 'Lesson'", 
+                         :order => 'date DESC')
     @event_months = @events.group_by { |month| month.date.at_beginning_of_month }
   end
 

@@ -2,7 +2,7 @@
 <% @event_months.each do |month, events| %>  
   <% events.sort! { |a,b| a.family_id <=> b.family_id } %>
   <b><a href ='#' class = 'subtile-links' onclick="Effect.toggle('<%= month.to_s %>-events', 'blind'); return false;">
-      <%= month.strftime("%b") %></a></b>
+      <%= month.strftime("%b") %></b> &#151; <%=getMonthlyTotal(events)%> Families Visited</a> 
   <ul>
   <div id='<%= month %>-events' style='display:none'>
     <%= render(:partial => "event_month", :object => events) %>

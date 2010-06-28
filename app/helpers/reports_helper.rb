@@ -9,4 +9,10 @@ module ReportsHelper
     end
     count
   end
+  def getMonthlyTotal (events)
+    families_visited = events.group_by { |event| event.family_id }
+    families_visited.keys.size
+
+    
+  end
 end
