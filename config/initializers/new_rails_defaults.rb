@@ -19,6 +19,7 @@ ActiveSupport.use_standard_json_time_format = true
   # define this in your environment.rb
   # Default date/time format
 ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:default => "%B %d")
+ActiveSupport::CoreExtensions::Date::Conversions::DATE_FORMATS.merge!(:sortable => "%m/%d/%y")
 
 # Don't escape HTML entities in JSON, leave that for the #json_escape helper.
 # if you're including raw json in an HTML page.

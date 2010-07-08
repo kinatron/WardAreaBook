@@ -23,7 +23,7 @@ module FamiliesHelper
 
   def getLastVisitDate(family)
     if family.events.first != nil
-      family.events.first.date 
+      family.events.first.date.to_s(:sortable) 
     else
       ""
     end
