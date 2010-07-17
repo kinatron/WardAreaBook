@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 protected 
   def authorize
     unless User.find_by_name(session[:user_email])
-      flash[:notice] = "Please log in "
+      flash[:notice] = "Please log in.  Or click on the 'Create a new Account' link to the left"
       redirect_to :controller => 'login', :action=> 'login'
     end
   end

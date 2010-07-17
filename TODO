@@ -34,49 +34,30 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-1. Create a reports page that Lists visits or Lessons by month.
-   a) Get the totals
+1. Get rid of ward_representative 
 
-  March
-  April  - 30 families visited  
-    Kinateders
-      4/10 - The Hopes - Gave a message on prayer
-      4/29 - The Hopes - Followed up on previous message
-    Millers
-    Connews 
-    Jorgensens
-    Boohers.
-  May
-  June
+2. Add Vills suggestion to add first names
+
+3. Make events editable
+
+4. Hopify the event creation page.
+
+5. Parse the new google sheet.
 
 
-1. Hopes report - June 21st
-   a) List everything they've done for the week.
-      
-      June 1-6
-      June 7-13
-          Lessons Taught 7    Visits 3     Attempts to Contact  16
-          June 7th
-            Afa Family        - Attempt -  Stopped by no one was home
-            Kinateder Family  - Lesson  -  Taught a message on prayer
-            Connew            - Visit   -  Chatted about their neighbors
-      June 14-20
-      June 21-28
-
-
-   b)  Just Lessons taught
-   c)  Just Visits
-
-
-4. Get the dates to sort       - June 21st
 
 5. FIX HACK!!!!
 
-6. Send out release 0.0 for the Hopes, and Brother Miller to review. - June 27th
+6. Display family members int the families/show page 
+    a) head of house old with children endented beneath
+    b) show any cellphones or email addresses
+
+6. Send out release 0.0 for the Hopes, and Brother Miller to review. - July 15th
 
 ========================================================================
 
 
+4. Access control to the users page.  Only I can enter it.
 
 1. Create a reports page that lists visits by month.
 
@@ -86,10 +67,6 @@ TODO's
     |       |       |
    Feb    March   April
 
-
-10. Display family members int the families/show page 
-    a) head of house old with children endented beneath
-    b) show any cellphones or email addresses
 
 
 4. Add users link them to ward_representatives
