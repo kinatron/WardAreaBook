@@ -10,8 +10,8 @@
     <%= f.hidden_field :family_id %>
   </p>
   <p>
-    <%= f.label :ward_representative_id %><br />
-    <%= f.select :ward_representative_id, Person::ALL, {:selected => session[:user_id]} %>
+    <%= f.label :person_id %><br />
+    <%= f.select :person_id, Person::ALL, {:selected => session[:user_id]} %>
   </p>
   <p>
     <%= f.label :category %><br />

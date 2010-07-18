@@ -48,10 +48,10 @@
           <li>
             <%=h event.date %> &#151;  
             <!-- TODO HACK!! I thnk there's a better rails way of doing this -->
-            <% if event.ward_representative_id == 1 %>
+            <% if event.person_id == 1 %>
               <%= "The Hopes" %>
             <% else %>
-              <% person = Person.find(event.ward_representative_id) %>
+              <% person = Person.find(event.person_id) %>
               <% if person.name == "Elder and Sister" %>
                 <%= person.name + " " + person.family.name %>
               <% else %>

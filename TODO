@@ -12,11 +12,8 @@ ID | name | family_id | phone | email | calling |
 companionships
 ID | person1 | person2
 
-ward_representative
-ID | name | type | email 
-
 events
-ID | date | type | family | ward_representative_id | comment
+ID | date | category | family | person_id | comment
 
 user
 name | hashed_password | salt | access_level
@@ -34,17 +31,11 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-1. Get rid of ward_representative 
-
-2. Add Vills suggestion to add first names
-
 3. Make events editable
 
 4. Hopify the event creation page.
 
 5. Parse the new google sheet.
-
-
 
 5. FIX HACK!!!!
 
@@ -56,6 +47,7 @@ TODO's
 
 ========================================================================
 
+2. Add Vills suggestion to add first names
 
 4. Access control to the users page.  Only I can enter it.
 
@@ -68,8 +60,6 @@ TODO's
    Feb    March   April
 
 
-
-4. Add users link them to ward_representatives
 
 5. Find a way to do dynamic selection lists
 

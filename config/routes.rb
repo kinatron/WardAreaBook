@@ -1,8 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :users
 
-  map.resources :ward_representatives
-
   map.resources :people
 
   map.resources :companionships

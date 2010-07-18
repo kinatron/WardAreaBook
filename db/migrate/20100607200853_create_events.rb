@@ -3,7 +3,8 @@ class CreateEvents < ActiveRecord::Migration
     create_table :events do |t|
       t.date :date
       t.integer :family_id
-      t.string :member
+      t.integer :person_id
+      t.string :category
       t.text :comment
 
       t.timestamps

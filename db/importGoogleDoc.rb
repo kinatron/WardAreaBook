@@ -5,7 +5,6 @@ require 'sqlite3'
 require 'date'
 require 'rake'
 
-ENV["RAILS_ENV"] ||= "development"
 require File.dirname(__FILE__) + "/../config/environment"
 
 system("rake db:migrate:reset")
@@ -151,7 +150,7 @@ CSV.open('WardList.csv', 'r') do |row|
           end
 
           Event.create(:date => Date.new(year,month.to_i,day.to_i), :family_id => family.id, 
-                       :ward_representative_id => id, :comment => event, :category => type)
+                       :person_id => id, :comment => event, :category => type)
         end
         count = count + 1
       end
