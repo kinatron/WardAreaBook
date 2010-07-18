@@ -5,21 +5,18 @@
   <p>
     <%= f.label :date %><br />
     <%= f.date_select :date %>
-  </p>
-  <p>
     <%= f.hidden_field :family_id %>
+    Visiting
+    <%= f.label :person_id %>
+    <%= f.select :person_id, Person::ALL, {:selected => session[:user_id]} %> <br />
   </p>
   <p>
-    <%= f.label :person_id %><br />
-    <%= f.select :person_id, Person::ALL, {:selected => session[:user_id]} %>
-  </p>
-  <p>
-    <%= f.label :category %><br />
+    <%= f.label :category %>
     <%= f.select :category, {"Visit" => "Visit", "Lesson" => "Lesson", "Attempt" => "Attempt"} %>
   </p>
   <p>
     <%= f.label :comment %><br />
-    <%= f.text_area :comment, :cols => 125, :rows => 5%>
+    <%= f.text_area :comment, :cols => 75, :rows => 3%>
   </p>
   <p>
     <%= f.submit 'Create' %>

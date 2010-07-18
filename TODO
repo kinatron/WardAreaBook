@@ -31,21 +31,18 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-3. Make events editable
+5. Production mode
 
-4. Hopify the event creation page.
+7. Send out release 0.0 for the Hopes, and Brother Miller to review. - July 15th
 
-5. Parse the new google sheet.
+========================================================================
 
-5. FIX HACK!!!!
 
 6. Display family members int the families/show page 
     a) head of house old with children endented beneath
     b) show any cellphones or email addresses
 
-6. Send out release 0.0 for the Hopes, and Brother Miller to review. - July 15th
-
-========================================================================
+4. FIX HACK!!!!
 
 2. Add Vills suggestion to add first names
 

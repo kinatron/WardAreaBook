@@ -13,12 +13,12 @@ system("rake db:migrate:reset")
 
 # Add the Hopes and the Elders as families and then add them as people "The Hopes" and "The Elders" 
 family = Family.create(:name => "Hopes", :head_of_house_hold =>"Elder and Sister",
-                        :phone => "206-851-3221", :status => "Active")
+                       :phone => "206-851-3221", :status => "Active")
 
 Person.create(:name => "The", :family_id => family.id)
 
 family = Family.create(:name => "Elders", :head_of_house_hold =>"Full Time Missionaries",
-                        :phone => "206-851-3221", :status => "Active")
+                       :phone => "206-851-3221", :status => "Active")
 
 Person.create(:name => "The", :family_id => family.id)
 
@@ -34,14 +34,14 @@ CSV.open('WardList.csv', 'r') do |row|
     ########################################################################
     # Get family name
     familyname = row[0]
-#    puts familyname
+    #    puts familyname
 
     lastName, headOfHouseHold =   familyname.split(/,/)
 
     lastName.strip!
     headOfHouseHold.strip!
-#    puts lastName  + "--"  + headOfHouseHold 
-    
+    #    puts lastName  + "--"  + headOfHouseHold 
+
 
     # Get phone
     phone = row[1]
@@ -51,17 +51,24 @@ CSV.open('WardList.csv', 'r') do |row|
     row[2] ||= "";
     row[3] ||= "";
     address = (row[2] + " " + row[3] +" ").strip
-    
+
     # Get status
     row[4] ||= "";
-    status = row[4];
-
+    case row[4]
+    when /dnc/i       ; status = "dnc"
+    when /less/i      ; status = "less active"
+    when /active/i    ; status = "active"
+    when /mailing/i   ; status = "not interested"
+    when /interested/i; status = "not interested"
+    when /moved/i     ; status = "moved"
+    else  status = 'Unknown - ' + row[4]
+    end
 
     puts familyname
 
 
     family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
-                        :phone => phone, :address => address, :status => status)
+                           :phone => phone, :address => address, :status => status)
 
     # Create people records from person columns 
     # "Ryan <kinateder@gmail.com>", "Jennifer Jones"
@@ -104,7 +111,8 @@ CSV.open('WardList.csv', 'r') do |row|
     # Get the family 
     lastName, headOfHouseHold =   row[0].split(/,/)
     lastName.strip!
-    family = Family.find_by_name(lastName)
+    headOfHouseHold.strip!
+    family = Family.find_by_name_and_head_of_house_hold(lastName,headOfHouseHold)
 
     row[5] ||= "";
     comment = row[5];
@@ -121,18 +129,27 @@ CSV.open('WardList.csv', 'r') do |row|
         date ||= ""
 
         #create the event and comments.
-        #If there isn't a date place this in info
+        #If there isn't a date place this into family.information
         if date == ""
           print "\t Comment -->",event[0..80] , "\n"
           family.information = event
+          family.save
         else
+
+          # strip a leading ( or trialing )
+          event.gsub!(/^\(/,'')
+          event.gsub!(/^\)/,'')
+          event.gsub!(/\)$/,'')
+          event.gsub!(/\($/,'')
+          event.strip!
+
           print "\t Event (" + date + ") -->" + event + "\n";
           month,day = date.split('/');
           year = DateTime.now.year
-          
-  # d) For Events guess 
-  #    - ward rep "Hope" "Kinateder" else Bishop Puloka
-  #    - event type - Lesson | prayer => Lesson, "no.*home" => Attempt, else => Visit
+
+          # d) For Events guess 
+          #    - ward rep "Hope" "Kinateder" else Bishop Puloka
+          #    - event type - Lesson | prayer => Lesson, "no.*home" => Attempt, else => Visit
           case event 
           when /lesson|prayer|message/i; type = "Lesson"
           when /no.*home/i; type = "Attempt"

@@ -2,7 +2,7 @@
 module ApplicationHelper
   def getWardRepresentative(id)
     begin
-      WardRepresentative.find(id).name
+      Person.find(id).name
     rescue
       "Error with id " + id.to_s
     end

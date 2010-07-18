@@ -87,7 +87,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update_attributes(params[:event])
         flash[:notice] = 'Event was successfully updated.'
-        format.html { redirect_to(@event) }
+        format.html { redirect_back }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -96,14 +96,20 @@ class EventsController < ApplicationController
     end
   end
 
+  #TODO Hack!  There's got to be a more approprate way to do this.
+  def remove
+    destroy
+  end
+
   # DELETE /events/1
   # DELETE /events/1.xml
   def destroy
+    flash[:notice] = 'Event successfully deleted.'
     @event = Event.find(params[:id])
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to(events_url) }
+      format.html { redirect_back }
       format.xml  { head :ok }
     end
   end

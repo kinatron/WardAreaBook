@@ -27,7 +27,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
 
-    @list = WardRepresentative.find(:all).map do |s| 
+    @list = People.find(:all).map do |s| 
       [s.email, s.id ]
     end
 

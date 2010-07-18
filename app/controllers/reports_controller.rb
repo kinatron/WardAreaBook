@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+  before_filter :store_return_point
 
   def hope
     @events = Event.find_all_by_person_id(1, :order => 'date DESC')

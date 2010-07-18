@@ -1,4 +1,5 @@
 class FamiliesController < ApplicationController
+  before_filter :store_return_point, :only => [:show]
   # GET /families
   # GET /families.xml
   def index

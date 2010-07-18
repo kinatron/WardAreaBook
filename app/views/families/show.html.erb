@@ -62,6 +62,8 @@
             <%=h event.category %>
             &#151;  
             <%=h event.comment %>
+            <%= link_to 'Edit',   :controller => 'events', :action => 'edit', :id=> event %>
+            <%= link_to 'Delete', :controller => 'events', :action => 'remove', :id=> event %>
           </li>
         <% end %>
         </ul>

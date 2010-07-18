@@ -12,7 +12,7 @@
   <tr>
     <td><%=h event.date %></td>
     <td><%=h Family.find(event.family_id).name %></td>
-    <td><%=h getWardRepresentative(event.ward_representative_id) %></td>
+    <td><%=h getWardRepresentative(event.person_id) %></td>
     <td><%=h event.comment %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
