@@ -7,32 +7,16 @@ require 'rake'
 
 require File.dirname(__FILE__) + "/../config/environment"
 
-system("rake db:migrate:reset")
-#Rake.application.rake_require '../../lib/tasks/metric_fetcher'
-#Rake.db:migrate.reset 
-
-# Add the Hopes and the Elders as families and then add them as people "The Hopes" and "The Elders" 
-family = Family.create(:name => "Hopes", :head_of_house_hold =>"Elder and Sister",
-                       :phone => "206-851-3221", :status => "Active")
-
-Person.create(:name => "The", :family_id => family.id)
-
-family = Family.create(:name => "Elders", :head_of_house_hold =>"Full Time Missionaries",
-                       :phone => "206-851-3221", :status => "Active")
-
-Person.create(:name => "The", :family_id => family.id)
-
-
-#Read contents into the variables
+########################################################################
+# Extract the data from the cvs file
+# familyname,  phone,   addr1,   addr2,  addr3,   addr4,   name1,   name2,  name3,   name4
+########################################################################
+# set all records to non current
+Family.update_all("current == 0");
 CSV.open('WardList.csv', 'r') do |row|
-  # Don't want the first or last values
-  unless row[0] == nil or row[0]=='Name'
 
-    ########################################################################
-    # Extract the data from the cvs file
-    # familyname	phone	addr1	addr2	Status	Comments	name1	name2	name3	name4
-    ########################################################################
-    # Get family name
+  # Don't want the first or last values
+  unless row[0] == nil or row[0]=='familyname'
     familyname = row[0]
     #    puts familyname
 
@@ -40,17 +24,90 @@ CSV.open('WardList.csv', 'r') do |row|
 
     lastName.strip!
     headOfHouseHold.strip!
-    #    puts lastName  + "--"  + headOfHouseHold 
-
 
     # Get phone
     phone = row[1]
     phone ||= "";
 
-    # Get address
+    # Get the address
     row[2] ||= "";
     row[3] ||= "";
-    address = (row[2] + " " + row[3] +" ").strip
+    address = (row[2] + " " + row[3] + " " + row[4] + " " + row[5]).strip
+
+    # Find out if this is a new family. 
+    # Users may update their preferred name, There might be slight variations 
+    # in their address 100 S vs 100 south, and phones are always changing.  
+    # We will end up creating a new family record (and move the exiting one out) 
+    # if all three of these fields change.
+
+    family = Family.find(:all, 
+                         :conditions => ["UPPER(name)= ? and UPPER(head_of_house_hold) = ? or \
+                                          UPPER(name)= ? and Upper(address) like ? or \
+                                          UPPER(name)= ? and phone like ? ", 
+                                          lastName.upcase, headOfHouseHold.upcase,
+                                          lastName.upcase, row[2].upcase + "%",
+                                          lastName.upcase, "206" + "%"])
+
+    if family.size > 1 
+      puts "issues with family " + family[0].name
+      puts family.size
+    end
+=begin
+    # New family
+    if (family == nil) 
+      puts "New Family *** "  + lastName  + "," + headOfHouseHold
+      # Create the new family
+      # Set status 
+      # label them as current
+
+
+      next
+    end
+
+    # update family info
+    # label them as current
+    puts "Updating the " + lastName + "," + headOfHouseHold + " Family"
+    if family.name != lastName 
+      puts "                 " + family.name 
+      puts "                 " + lastName 
+      family.name = lastName
+      #family.save
+    end
+    if family.head_of_house_hold != headOfHouseHold 
+      puts "                 " + family.head_of_house_hold 
+      puts "                 " + headOfHouseHold
+      family.head_of_house_hold = headOfHouseHold
+      #family.save
+    end
+    if family.phone != phone 
+      puts "                 " + family.phone 
+      puts "                 " + phone 
+      family.phone = phone
+      #family.save
+    end
+    if family.address != address 
+      puts "                 " + family.address
+      puts "                 " + address 
+      family.address = address
+      #family.save
+    end
+=end
+  end
+end
+
+    # Get all of the non-current families. 
+    # Find all that don't have a status of "Moved - Old Record" and print those to a report
+    # change status of those families to   "Moved - Old Record"
+    #
+    # Read CVSFile
+    
+
+
+
+
+
+=begin
+
 
     # Get status
     row[4] ||= "";
@@ -174,4 +231,5 @@ CSV.open('WardList.csv', 'r') do |row|
     end
   end # skip the first col
 end # do (cvs sheet)
+=end
 

@@ -1,5 +1,6 @@
 class FamiliesController < ApplicationController
   before_filter :store_return_point, :only => [:show]
+  caches_page :index
   # GET /families
   # GET /families.xml
   def index
@@ -45,6 +46,7 @@ class FamiliesController < ApplicationController
 
     respond_to do |format|
       if @family.save
+        expire_page :action => "index"
         flash[:notice] = 'Family was successfully created.'
         format.html { redirect_to(@family) }
         format.xml  { render :xml => @family, :status => :created, :location => @family }
@@ -62,7 +64,8 @@ class FamiliesController < ApplicationController
 
     respond_to do |format|
       if @family.update_attributes(params[:family])
-        #flash[:notice] = 'Family was successfully updated.'
+        expire_page :action => "index"
+        flash[:notice] = 'Family was successfully updated.'
         format.html { redirect_to(@family) }
         format.xml  { head :ok }
       else

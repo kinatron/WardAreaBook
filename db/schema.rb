@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100620171300) do
+ActiveRecord::Schema.define(:version => 20100720230417) do
 
   create_table "companionships", :force => true do |t|
     t.string   "type"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20100620171300) do
     t.text     "information"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "current",            :default => true
   end
 
   create_table "people", :force => true do |t|
