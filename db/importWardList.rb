@@ -35,34 +35,39 @@ CSV.open('WardList.csv', 'r') do |row|
     address = (row[2] + " " + row[3] + " " + row[4] + " " + row[5]).strip
 
     # Find out if this is a new family. 
-    # Users may update their preferred name, There might be slight variations 
-    # in their address 100 S vs 100 south, and phones are always changing.  
-    # We will end up creating a new family record (and move the exiting one out) 
-    # if all three of these fields change.
 
-    family = Family.find(:all, 
-                         :conditions => ["UPPER(name)= ? and UPPER(head_of_house_hold) = ? or \
-                                          UPPER(name)= ? and Upper(address) like ? or \
-                                          UPPER(name)= ? and phone like ? ", 
-                                          lastName.upcase, headOfHouseHold.upcase,
-                                          lastName.upcase, row[2].upcase + "%",
-                                          lastName.upcase, "206" + "%"])
-
-    if family.size > 1 
-      puts "issues with family " + family[0].name
-      puts family.size
-    end
-=begin
+    family = Family.find(:first, 
+                         :conditions => ["UPPER(name)= ? and UPPER(head_of_house_hold) = ?", 
+                                          lastName.upcase, headOfHouseHold.upcase])
     # New family
     if (family == nil) 
+      # Users may update their preferred name, so check for slight variations
       puts "New Family *** "  + lastName  + "," + headOfHouseHold
+      
+      family =  Family.find_all_by_name(lastName)
+
+      # William and Debbie --> Bill and Debbie
+      # Jeff --> Jeff and Tanya
+      # Michael Vern and Stacy - Mike and Stacy
+      for family.each  do | fam | 
+        if true
+          #fam.head_of_house_hold.upcase.include?  headOfHouseHold.upcase
+          puts " Existing Family " + lastName  + "," + headOfHouseHold 
+        end
+      end
+      #next
+    end
+
+
+
+
+
       # Create the new family
       # Set status 
       # label them as current
 
 
-      next
-    end
+=begin
 
     # update family info
     # label them as current
