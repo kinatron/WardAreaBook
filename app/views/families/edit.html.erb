@@ -1,32 +1,27 @@
-<h1>Editing family</h1>
+<h1>Editing family...</h1>
 
 <% form_for(@family) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= @family.name%><br />
   </p>
   <p>
-    <%= f.label :head_of_house_hold %><br />
-    <%= f.text_field :head_of_house_hold %>
+    <%= @family.head_of_house_hold %><br />
   </p>
   <p>
-    <%= f.label :phone %><br />
-    <%= f.text_field :phone %>
+    <%= @family.phone %><br />
   </p>
   <p>
-    <%= f.label :address %><br />
-    <%= f.text_field :address %>
+    <%= @family.address %><br />
   </p>
   <p>
     <%= f.label :status %><br />
-    <%= f.select :status, {"Active"         => "Active", 
-                           "Less Active"    => "Less Active", 
-                           "Moved"          => "Moved", 
-                           "Moved-Recorded" => "Moved-Recorded", 
-                           "Not Interested" => "Not Interested",
-                           "DNC"            => "DNC" } %>
+    <%= f.select :status, {"active"         => "active", 
+                           "less active"    => "less active", 
+                           "moved"          => "moved", 
+                           "not interested" => "not interested",
+                           "dnc"            => "dnc" } %>
   </p>
   <p>
     <%= f.label :information %><br />
@@ -36,6 +31,3 @@
     <%= f.submit 'Update' %>
   </p>
 <% end %>
-
-<%= link_to 'Show', @family %> |
-<%= link_to 'Back', families_path %>
