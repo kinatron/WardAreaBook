@@ -5,7 +5,22 @@ require 'sqlite3'
 require 'date'
 require 'rake'
 
+# load the rails environment
 require File.dirname(__FILE__) + "/../config/environment"
+
+
+
+# TODO Create a copy of the new WardList
+
+# Create a copy of the database
+# TODO Get the database name from the environment
+#copy("production.sqlite3","bak/"+Time.now.to_s+"  - production.sqlite3")
+copy("development.sqlite3","bak/"+Time.now.to_s+"  - development.sqlite3")
+
+# Append to the running log
+$stdout = File.open("WardListImport.log",'a')
+puts Time.now.to_s
+
 
 ########################################################################
 # Extract the data from the cvs file
@@ -13,6 +28,19 @@ require File.dirname(__FILE__) + "/../config/environment"
 ########################################################################
 # set all records to non current
 Family.update_all("current == 0");
+
+# Find the Hopes and Elders make them current because 
+# they won't show up in the new  ward list
+#
+hopes = Family.find_by_name("Hopes")
+hopes.current=1
+hopes.save
+
+elders = Family.find_by_name("Elders")
+elders.current=1
+elders.save
+
+
 CSV.open('WardList.csv', 'r') do |row|
 
   # Don't want the first or last values
@@ -24,6 +52,13 @@ CSV.open('WardList.csv', 'r') do |row|
 
     lastName.strip!
     headOfHouseHold.strip!
+
+
+    # Hack TODO - I think there is more elegant solution but for now take 
+    # Bishops name from the ward list and replace it with Bishop
+    if lastName == "Puloka"
+      headOfHouseHold.gsub!("Uaisele Kalingitoni","Bishop") 
+    end
 
     # Get phone
     phone = row[1]
@@ -42,60 +77,102 @@ CSV.open('WardList.csv', 'r') do |row|
     # New family
     if (family == nil) 
       # Users may update their preferred name, so check for slight variations
-      puts "New Family *** "  + lastName  + "," + headOfHouseHold
       
-      family =  Family.find_all_by_name(lastName)
+      familyList =  Family.find_all_by_name(lastName)
 
-      # William and Debbie --> Bill and Debbie
+      # if there is a common name between the new headOfHousHold and the 
+      # existing one then the head of household names have changed and it 
+      # will not be interpreted as a new family
       # Jeff --> Jeff and Tanya
       # Michael Vern and Stacy - Mike and Stacy
-      for family.each  do | fam | 
-        if true
-          #fam.head_of_house_hold.upcase.include?  headOfHouseHold.upcase
-          puts " Existing Family " + lastName  + "," + headOfHouseHold 
+      # William and Debbie --> Bill and Debbie
+      newFamily = true
+      familyId = 0
+      familyList.each  do | fam | 
+        currentNames = fam.head_of_house_hold.upcase.split.to_set.delete("AND")
+        newNames = headOfHouseHold.upcase.split.to_set.delete("AND")
+        result = currentNames & newNames
+       
+        if result.size > 0 
+          newFamily = false
+          familyId = fam.id;
+          break
         end
       end
-      #next
+      if newFamily
+        puts "  *** New Family *** ";
+        puts "  \t" + lastName  + "," + headOfHouseHold
+        puts "  \t" + phone;
+        puts "  \t" + address;
+        # Create the new family
+        # Set status 
+        # label them as current
+
+        family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
+                               :phone => phone, :address => address, :status => "New")
+
+        # Create people records from person columns 
+        # "Ryan <kinateder@gmail.com>", "Jennifer Jones"
+        # while the rest of the columns are not empty
+        #
+        col = 6
+        # This is to handle a couple of exceptions
+        if row[col] == nil
+          Person.create(:name => headOfHouseHold, :family_id => family.id)
+        else
+          while row[col] != nil do 
+
+            # this is to capture any emails
+            person = row[col].match(/<.*>/)
+
+            #If there are not emails just Use what's ever in the column
+            if person == nil
+              Person.create(:name => row[col].strip, 
+                            :family_id => family.id)
+            else
+              # insert both the person name and email
+              Person.create(:name => person.pre_match.strip, 
+                            :email => person.to_s[1..(person.to_s.length-2)],
+                            :family_id => family.id)
+            end
+            col += 1
+          end # while loop
+        end
+        next
+      end
+
+      # Grab the family name as we continue
+      family = Family.find(familyId)
     end
-
-
-
-
-
-      # Create the new family
-      # Set status 
-      # label them as current
-
-
-=begin
 
     # update family info
+    # if there is a change update and log it
+    if family.name != lastName or family.head_of_house_hold != headOfHouseHold or
+      family.phone != phone   or family.address != address
+
+      puts "\t" + family.name  + "," + family.head_of_house_hold + " update"
+      if family.name != lastName 
+        puts "\t  familyName : " + family.name + "--->" + lastName
+        family.name = lastName
+      end
+      if family.head_of_house_hold != headOfHouseHold 
+        puts "\t  Head of House Hold: : " + family.head_of_house_hold + "--->" + headOfHouseHold
+        family.head_of_house_hold = headOfHouseHold
+      end
+      if family.phone != phone 
+        puts "\t  phone      : " + family.phone + "--->" + phone
+        family.phone = phone
+      end
+      if family.address != address 
+        puts "\t  address    : " + family.address + "--->"+  address
+        family.address = address
+      end
+    end
+
     # label them as current
-    puts "Updating the " + lastName + "," + headOfHouseHold + " Family"
-    if family.name != lastName 
-      puts "                 " + family.name 
-      puts "                 " + lastName 
-      family.name = lastName
-      #family.save
-    end
-    if family.head_of_house_hold != headOfHouseHold 
-      puts "                 " + family.head_of_house_hold 
-      puts "                 " + headOfHouseHold
-      family.head_of_house_hold = headOfHouseHold
-      #family.save
-    end
-    if family.phone != phone 
-      puts "                 " + family.phone 
-      puts "                 " + phone 
-      family.phone = phone
-      #family.save
-    end
-    if family.address != address 
-      puts "                 " + family.address
-      puts "                 " + address 
-      family.address = address
-      #family.save
-    end
+    family.current=1
+    family.save
+=begin
 =end
   end
 end
@@ -105,9 +182,32 @@ end
     # change status of those families to   "Moved - Old Record"
     #
     # Read CVSFile
-    
+
+moved = Family.find_all_by_current(0)
+
+# TODO gotta be amore elegant way to determine if we need to print
+# "Familes moved out.  --- Database query
+newMoveOuts = false;
+moved.each do |family|
+  if family.status != "Moved - Old Record"
+    newMoveOuts = true
+    break
+  end
+end
 
 
+if newMoveOuts 
+  puts "\tFamilies moved out:"
+end
+moved.each do |family|
+  if family.status != "Moved - Old Record"
+    puts "\t\t" + family.name + "," + family.head_of_house_hold
+    family.status = "Moved - Old Record"
+    family.save
+  end
+end
+
+puts "\n"
 
 
 

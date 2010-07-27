@@ -1,6 +1,6 @@
 class FamiliesController < ApplicationController
   before_filter :store_return_point, :only => [:show]
-  caches_page :index
+  #caches_page :index
   # GET /families
   # GET /families.xml
   def index
