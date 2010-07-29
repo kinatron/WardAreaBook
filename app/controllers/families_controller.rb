@@ -1,6 +1,10 @@
 class FamiliesController < ApplicationController
   before_filter :store_return_point, :only => [:show]
-  #caches_page :index
+  caches_action :index, :show
+  #TODO for some reason the sweeper is not getting called when I update 
+  #the family records.  So I instead I'm explicitly updating this.
+  #the sweeper is working for the events_controller....
+  cache_sweeper :family_sweeper, :only => [:update, :edit]
   # GET /families
   # GET /families.xml
   def index
@@ -46,7 +50,6 @@ class FamiliesController < ApplicationController
 
     respond_to do |format|
       if @family.save
-        expire_page :action => "index"
         flash[:notice] = 'Family was successfully created.'
         format.html { redirect_to(@family) }
         format.xml  { render :xml => @family, :status => :created, :location => @family }
@@ -64,8 +67,9 @@ class FamiliesController < ApplicationController
 
     respond_to do |format|
       if @family.update_attributes(params[:family])
-        expire_page :action => "index"
-        flash[:notice] = 'Family was successfully updated.'
+        expire_action :action => "index"
+        expire_action :action => "show", :id => @family
+        #flash[:notice] = 'Family was successfully updated.'
         format.html { redirect_to(@family) }
         format.xml  { head :ok }
       else

@@ -31,13 +31,13 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-1. Add caching
-     a) Ward List 
-        - I seem to be having issues expiring the cached pages.
+2. Make the Hopes page more printable.        
+   a) Remove the frame
+   b) Sort by family and head of house hold
+   Afa, James and Tamara
+       July 22 - Visit - Taught the Word of Wisdom
+       July 24 - Attempt - Tried to follup
 
-     b) The Select box names
-
-2. Synch up with the ward list
 
 3. in_place_edit (with a delete option)
 
@@ -47,6 +47,13 @@ TODO's
 
 ========================================================================
 
+1. Add caching
+     b) The Select box names
+        - For some reason I can't cache the query that creates the select box.
+
+2. Synch up with the ward list Automatically
+
+* Caching TODO sweepers wasn't working for the families controller.  I instead used explict action_expire commands
 
 6. Display family members int the families/show page 
     a) head of house old with children endented beneath

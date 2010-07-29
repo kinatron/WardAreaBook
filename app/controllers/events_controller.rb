@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  cache_sweeper :family_sweeper, :only => [:create_new_family_event, :remove, :update]
   # GET /events
   # GET /events.xml
   def index
@@ -22,6 +23,7 @@ class EventsController < ApplicationController
   end
 
   def new_family_event
+    @names = getMapping
     @event = Event.new
     @event.family_id = params[:family_id]
     respond_to do |format|
@@ -69,7 +71,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        flash[:notice] = 'Event was successfully created.'
+        #flash[:notice] = 'Event was successfully created.'
         format.html { redirect_to(@event) }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
@@ -86,7 +88,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
-        flash[:notice] = 'Event was successfully updated.'
+        #flash[:notice] = 'Event was successfully updated.'
         format.html { redirect_back }
         format.xml  { head :ok }
       else
@@ -104,7 +106,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.xml
   def destroy
-    flash[:notice] = 'Event successfully deleted.'
+    #flash[:notice] = 'Event successfully deleted.'
     @event = Event.find(params[:id])
     @event.destroy
 

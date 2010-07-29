@@ -8,7 +8,7 @@
     <%= f.hidden_field :family_id %>
     Visiting
     <%= f.label :person_id %>
-    <%= f.select :person_id, Person::ALL, {:selected => session[:user_id]} %> <br />
+    <%= f.select :person_id, @names, {:selected => session[:user_id]} %> <br />
   </p>
   <p>
     <%= f.label :category %>

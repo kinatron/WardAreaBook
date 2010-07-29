@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-#  before_filter :authorize, :except => :login
+  before_filter :authorize, :except => :login
   include RedirectBack
   helper :all # include all helpers, all the time
 
@@ -36,6 +36,20 @@ class ApplicationController < ActionController::Base
     redirect_to(:controller => 'report', :action => "member_actions", :id => committee_member.id) 
   end
 
+  def getMapping
+    @@names ||= Person.find(:all, :order=>'name').map do |s|
+      if s.name == "Elder and Sister"
+        ["The Hopes", s.id]
+      else
+        if s.family
+          [s.name.split(" ")[0] + " " + s.family.name, s.id]
+        else
+          [s.name.split(" ")[0], s.id]
+        end
+      end
+    end
+  end
+
 protected 
   def authorize
     unless User.find_by_name(session[:user_email])
@@ -43,6 +57,8 @@ protected
       redirect_to :controller => 'login', :action=> 'login'
     end
   end
+
+
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
