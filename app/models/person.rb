@@ -1,6 +1,17 @@
 class Person < ActiveRecord::Base
   belongs_to :family
 
+    ALL = self.find(:all, :order=>'name').map do |s|
+      if s.name == "Elder and Sister"
+        ["The Hopes", s.id]
+      else
+        if s.family
+          [s.name.split(" ")[0] + " " + s.family.name, s.id]
+        else
+          [s.name.split(" ")[0], s.id]
+        end
+      end
+    end
 
 
   def Person.get_first_and_last_names
