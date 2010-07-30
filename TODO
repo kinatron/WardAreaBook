@@ -31,27 +31,43 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-2. Make the Hopes page more printable.        
+1. Make the Hopes page more printable.        
    a) Remove the frame
-   b) Sort by family and head of house hold
-   Afa, James and Tamara
-       July 22 - Visit - Taught the Word of Wisdom
-       July 24 - Attempt - Tried to follup
 
+2. Access controll 
+      - Time out sessions.  
+      - Only allow me to access the users page
 
-3. in_place_edit (with a delete option)
+3. Add a nonmember list.
 
 4. Import Brother Millers Home teaching sheet.
 
-5. Split out the month report into HP and Elder Families.
+5. Add children to the family display page 
+   ReDesign the page to page to a more horizontal format.
+
+6. Synch up with the ward list Automatically
+   - Check for family members, names and email addresses for family updates.
+
+7. Create Tests
+
+8. in_place_edit (with a delete option)
 
 ========================================================================
+
+
+5. Split out the month report into HP and Elder Families.
+
+1. Remove the dots and line up the columns
+   Afa, James and Tamara
+       July 22 - Visit - Taught the Word of Wisdom. Brother xxx is really
+                         Struggline with smoking right now.  I need to add
+                         some additional text right here
+       July 24 - Attempt - Tried to follup
 
 1. Add caching
      b) The Select box names
         - For some reason I can't cache the query that creates the select box.
 
-2. Synch up with the ward list Automatically
 
 * Caching TODO sweepers wasn't working for the families controller.  I instead used explict action_expire commands
 
@@ -61,7 +77,6 @@ TODO's
 
 4. FIX HACK!!!!
 
-4. Access control to the users page.  Only I can enter it.
 
 1. Create a reports page that lists visits by month.
 
@@ -74,10 +89,6 @@ TODO's
 
 
 5. Find a way to do dynamic selection lists
-
-6. Make status indicator and enum
-
-7. Need to create naivation menus
 
 8. Validate all input able data.
 

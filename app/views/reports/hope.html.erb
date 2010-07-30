@@ -1,5 +1,6 @@
 <h1>Hope's Report</h1>
 <% @event_weeks.each do |week, events| %>  
+  <% events.sort! { |a,b| a.family.name <=> b.family.name } %>
   <a href ='#' class = 'subtile-links' onclick="Effect.toggle('<%= week.to_s %>-events', 'blind'); return false;">
     <h4><%= week %>&#151;<%= week.advance(:days => 6) %></h4></a>
   <ul>
@@ -10,7 +11,7 @@
         Attempts to Contact <%=getWeeklyTotal(events,"Attempt")%>&nbsp;&nbsp;&nbsp;&nbsp;
         <br><br>
       </b>
-      <%= render(:partial => "hope_event", :collection => events) %>
+      <%= render(:partial => "flubber", :object => events) %>
     </div>
   </ul>
 <% end %> 
