@@ -9,8 +9,9 @@
         Lessons Taught      <%=getWeeklyTotal(events,"Lesson")%>&nbsp;&nbsp;&nbsp;&nbsp;
         Visits              <%=getWeeklyTotal(events,"Visit")%>&nbsp;&nbsp;&nbsp;&nbsp;
         Attempts to Contact <%=getWeeklyTotal(events,"Attempt")%>&nbsp;&nbsp;&nbsp;&nbsp;
-        <br><br>
       </b>
+      <%= link_to "print", {:action => 'print', :date => week}, {:target => '_blank'} %>
+        <br><br>
       <%= render(:partial => "flubber", :object => events) %>
     </div>
   </ul>

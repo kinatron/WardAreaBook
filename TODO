@@ -1,4 +1,3 @@
-
 =====================================================================================
 Data Schema
 =====================================================================================
@@ -31,26 +30,23 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-1. Make the Hopes page more printable.        
-   a) Remove the frame
+1. Add a nonmember list.
 
 2. Access controll 
       - Time out sessions.  
       - Only allow me to access the users page
 
-3. Add a nonmember list.
+3. Import Brother Millers Home teaching sheet.
 
-4. Import Brother Millers Home teaching sheet.
-
-5. Add children to the family display page 
+4. Add children to the family display page 
    ReDesign the page to page to a more horizontal format.
 
-6. Synch up with the ward list Automatically
+5. Synch up with the ward list Automatically
    - Check for family members, names and email addresses for family updates.
 
-7. Create Tests
+6. Create Tests
 
-8. in_place_edit (with a delete option)
+7. in_place_edit (with a delete option)
 
 ========================================================================
 
