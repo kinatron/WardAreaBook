@@ -7,9 +7,13 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :events
 
-  map.resources :families
   map.resources :roster
 
+
+  map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
+  map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'
+
+  map.resources :families
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -42,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-   map.root :controller => "families"
+  # map.root :controller => "families"
 
   # See how all your routes lay out with "rake routes"
 

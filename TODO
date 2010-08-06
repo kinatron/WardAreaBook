@@ -3,7 +3,7 @@ Data Schema
 =====================================================================================
 
 families
-ID | family_name | head_of_house_hold | phone | address | status | information 
+ID | family_name | head_of_house_hold | phone | address | status | information | current | member
 
 people
 ID | name | family_id | phone | email | calling |
@@ -29,27 +29,46 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 =====================================================================================
 TODO's 
 =====================================================================================
-
-1. Add a nonmember list.
-
-2. Access controll 
+1. Access controll     - Aug 6th
       - Time out sessions.  
-      - Only allow me to access the users page
+      
+2. Add a Teaching pool   - Aug 7th
+      Add a way to add people to the teaching pool
 
-3. Import Brother Millers Home teaching sheet.
+3. Access controll   - Aug 8th
+      - Levels of access
+         5 - admin
+         4 - PEC
+         3 - Home Teacher
+         2 - General Access
 
-4. Add children to the family display page 
-   ReDesign the page to page to a more horizontal format.
+4. ReDesign the page to page to a more horizontal format.
+   a) Add children to the family display page 
+   b) Add a spot for home teachers
+   c) Add a spot to display "additional" information
 
-5. Synch up with the ward list Automatically
+5. in_place_edit 
+   a) based on author
+   b) with a delete option
+
+6. Synch up with the ward list Automatically
+   - Use Vcard instead of csv files add guid to family data
    - Check for family members, names and email addresses for family updates.
+   - Use mechanize gem
 
-6. Create Tests
+7. Add Home teacher support - Aug 31st
+   a) Report for my home teaching (may want to add the quorums home teaching also...)
+   b) Home teacher access to "addtional information"
+   c) Import Brother Millers Home teaching sheet.
+      - Identify HP vs Elder Q. families
 
-7. in_place_edit (with a delete option)
+8. Create Tests
+
+9. Create a nice mechanism to edit events.  To clean up past events
 
 ========================================================================
 
+1. Go in and fix the Glafke events
 
 5. Split out the month report into HP and Elder Families.
 

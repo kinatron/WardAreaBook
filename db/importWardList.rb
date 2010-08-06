@@ -8,8 +8,6 @@ require 'rake'
 # load the rails environment
 require File.dirname(__FILE__) + "/../config/environment"
 
-
-
 # TODO Create a copy of the new WardList
 
 # Create a copy of the database
@@ -27,12 +25,12 @@ puts Time.now.to_s
 # familyname,  phone,   addr1,   addr2,  addr3,   addr4,   name1,   name2,  name3,   name4
 ########################################################################
 # set all records to non current
-Family.update_all("current == 0");
+Family.update_all("current == 0")
 
 # Find the Hopes and Elders make them current because 
 # they won't show up in the new  ward list
 #
-hopes = Family.find_by_name("Hopes")
+hopes = Family.find_by_name("Hope")
 hopes.current=1
 hopes.save
 
@@ -58,6 +56,12 @@ CSV.open('WardList.csv', 'r') do |row|
     # Bishops name from the ward list and replace it with Bishop
     if lastName == "Puloka"
       headOfHouseHold.gsub!("Uaisele Kalingitoni","Bishop") 
+    end
+
+
+    #Glaefke hack
+    if lastName == "Glaefke"
+      headOfHouseHold.gsub!("Jack Warren Perry","Jack Warren P.")
     end
 
     # Get phone
@@ -172,10 +176,8 @@ CSV.open('WardList.csv', 'r') do |row|
     # label them as current
     family.current=1
     family.save
-=begin
-=end
-  end
-end
+  end # skip past the first, or any empty rows
+end # iterate through the ward list
 
     # Get all of the non-current families. 
     # Find all that don't have a status of "Moved - Old Record" and print those to a report
@@ -183,7 +185,9 @@ end
     #
     # Read CVSFile
 
-moved = Family.find_all_by_current(0)
+# TODO this seems like a really bad flaw with rails and the sqlite database
+# having some booleans use 0,1 and others use true, false
+moved = Family.find_all_by_current_and_member(0,true)
 
 # TODO gotta be amore elegant way to determine if we need to print
 # "Familes moved out.  --- Database query

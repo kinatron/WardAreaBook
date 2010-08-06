@@ -20,6 +20,11 @@
     <div id="side">
       <br> <br> 
       <%= link_to 'Ward List', :controller => 'families'  %><br />
+      <br>
+      <%= link_to 'Investigators', :controller => 'families', :action => 'investigators'  %><br />
+      <br>
+      <% #link_to 'Missionary <br>Teaching Pool', :controller => 'families', :action => 'teachingPool'  %><br />
+      <br> <br> 
       <br> <br> 
       <%= link_to 'Reports', :controller => 'reports', :action => 'month' %><br />
       &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Hopes', :controller => 'reports', :action => 'hope' %><br />

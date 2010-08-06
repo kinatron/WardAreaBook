@@ -8,7 +8,7 @@ class FamiliesController < ApplicationController
   # GET /families
   # GET /families.xml
   def index
-    @families = Family.all(:order => :name)
+    @families = Family.find_all_by_member_and_current(true,true, :order => :name)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,6 +16,22 @@ class FamiliesController < ApplicationController
     end
   end
 
+  def investigators
+    @families = Family.find_all_by_member(false, :order => :name)
+    respond_to do |format|
+      format.html # investigators.html.erb
+      format.xml  { render :xml => @families }
+    end
+  end
+
+  def teachingPool
+    @families = Family.all(:order => :name)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @families }
+    end
+  end
   # GET /families/1
   # GET /families/1.xml
   def show
@@ -86,7 +102,7 @@ class FamiliesController < ApplicationController
     @family.destroy
 
     respond_to do |format|
-      format.html { redirect_to(families_url) }
+      format.html { redirect_to(:action => 'investigators') }
       format.xml  { head :ok }
     end
   end

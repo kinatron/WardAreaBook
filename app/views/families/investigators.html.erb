@@ -1,0 +1,34 @@
+<h1>Investigating families</h1>
+
+<table class = 'sortable resizable'>
+  <thead>
+  <tr align="left">
+    <th>Name**</th>
+    <th class='nosort'>Phone</th>
+    <th class='nosort'>Address</th>
+    <th>Found Through**</th>
+    <th padding='10px'>Last&nbsp;Visit**</th>
+    <th class='nosort'>Comment</th>
+    <th class='nosort'>Comment</th>
+  </tr>
+</thead>
+<tbody>
+
+<% @families.each do |family| %>
+  <tr class="<%=cycle('list-line-odd','list-line-even')%>">
+    <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.name %>, <%=h family.head_of_house_hold %></td>
+    <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.phone %></td>
+    <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.address %></td>
+    <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.status %></td>
+    <td onClick = "window.location.href='<%= family_path(family) %>'" sorttable_customkey="<%=getLastVisitDateSortable(family)%>"> <%= getLastVisitDate(family) %></td>
+    <td onClick = "window.location.href='<%= family_path(family) %>'" ><%= getLastVisitComment(family) %></td>
+    <td><%= link_to 'delete', family, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+
+<% end %>
+</tbody>
+</table>
+
+<br />
+<br />
+<%= link_to 'New Family', new_family_path %>
