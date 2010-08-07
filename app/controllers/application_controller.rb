@@ -2,38 +2,25 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :authorize, :except => :login
+  before_filter :authorize, :checkAccess, :except => :login
   include RedirectBack
   helper :all # include all helpers, all the time
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
   layout "WardAreaBook"
 
+  # Minutes of inactivity before relogin
+  INACTIVITY_PERIOD = 60
+
   def load_session(user)
-    session[:user_email] = user.name
     person = Person.find_by_email(user.name)
+    uri = session[:requested_uri]
+    session[:user_email] = user.name
+    session[:access_level] = user.access_level
     session[:user_name] = person.name + " " +  person.family.name
     session[:user_id] = person.id
-    redirect_to(:controller => 'families')
-  end
-
-  def load_session_roster(user)
-    committee_member = CommitteeMember.find_by_email(user.name)
-    session[:user_id] = user.name
-    session[:user_name] = committee_member.name.match(/\w*/)[0]
-    logger.debug(user)
-    logger.debug(user.accessLevel)
-    session[:edit_actions] = committee_member.access_level
-    session[:admin_access] = committee_member.access_level
-    session[:read_access] = committee_member.read_level
-    session[:cm_id] = committee_member.id
-
-    session[:home_url] = "/report/member_actions/#{committee_member.id}"
     refresh_session
-
-    # TODO are you sure you want to do this?   What about the page they were originally 
-    # wanting?  Revisit
-    redirect_to(:controller => 'report', :action => "member_actions", :id => committee_member.id) 
+    redirect_to(uri || {:controller => 'families'})
   end
 
   def getMapping
@@ -52,12 +39,45 @@ class ApplicationController < ActionController::Base
 
 protected 
   def authorize
-    unless User.find_by_name(session[:user_email])
+    if session[:user_email] == nil
       flash[:notice] = "Please log in.  Or click on the 'Create a new Account' link to the left"
+      session[:requested_uri] = request.request_uri
       redirect_to :controller => 'login', :action=> 'login'
+      return
+    end
+    if (session[:expiration] == nil) or (session[:expiration] < Time.now)  
+      reset_session
+      session[:requested_uri] = request.request_uri
+      flash[:notice] = "User Session Expired.  Please login."
+      redirect_to :controller => 'login', :action => 'login'
+      return
+    end
+
+    # Refresh the activity period
+    refresh_session
+  end
+
+  def refresh_session
+    session[:expiration]  = INACTIVITY_PERIOD.minutes.from_now
+  end
+
+  def checkAccess
+    if session[:access_level] < 3
+      deny_access
     end
   end
 
+  def deny_access
+      flash[:notice] = "User '#{session[:user_name]}' does not have access to that page"
+      if request.env["HTTP_REFERER"]  
+        (redirect_to :back)  
+      else
+        #redirect_to session[:home_url]
+        #TODO this should go back to the page they just came from
+        redirect_to :controller=>  :families, :action => :index
+      end
+      return false
+  end
 
 
   # Scrub sensitive parameters from your log

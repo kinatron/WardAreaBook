@@ -2,6 +2,12 @@ class ReportsController < ApplicationController
   before_filter :store_return_point
   caches_action :hope, :month
 
+  # override the application accessLevel method
+   def checkAccess
+     # Everybody has access to these methods
+   end
+
+
   # TODO reference the hopes by name not id 1
   def hope
     @events = Event.find_all_by_person_id(1, :order => 'date DESC')

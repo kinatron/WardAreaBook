@@ -5,6 +5,14 @@ class FamiliesController < ApplicationController
   #the family records.  So I instead I'm explicitly updating this.
   #the sweeper is working for the events_controller....
   cache_sweeper :family_sweeper, :only => [:update, :edit]
+
+  # override the application accessLevel method
+   def checkAccess
+     # Everybody has access to these methods
+   end
+
+
+
   # GET /families
   # GET /families.xml
   def index
@@ -106,4 +114,5 @@ class FamiliesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
 end

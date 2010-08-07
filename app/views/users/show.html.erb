@@ -4,15 +4,9 @@
 </p>
 
 <p>
-  <b>Hashed password:</b>
-  <%=h @user.hashed_password %>
+  <b>Access Level:</b>
+  <%=h @user.access_level %>
 </p>
-
-<p>
-  <b>Salt:</b>
-  <%=h @user.salt %>
-</p>
-
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

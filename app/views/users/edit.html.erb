@@ -8,12 +8,8 @@
     <%= f.text_field :name %>
   </p>
   <p>
-    <%= f.label :hashed_password %><br />
-    <%= f.text_field :hashed_password %>
-  </p>
-  <p>
-    <%= f.label :salt %><br />
-    <%= f.text_field :salt %>
+    <%= f.label :access_level %><br />
+    <%= f.select :access_level, {"0"=>0,"1"=>1,"2"=>2,"3"=>3,"4"=>4,"5"=>5} %>
   </p>
   <p>
     <%= f.submit 'Update' %>

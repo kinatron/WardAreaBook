@@ -29,31 +29,23 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Access controll     - Aug 6th
-      - Time out sessions.  
-      
-2. Add a Teaching pool   - Aug 7th
+
+1. Add a Teaching pool   - Aug 7th
       Add a way to add people to the teaching pool
 
-3. Access controll   - Aug 8th
-      - Levels of access
-         5 - admin
-         4 - PEC
-         3 - Home Teacher
-         2 - General Access
-
-4. ReDesign the page to page to a more horizontal format.
+4. ReDesign the page to page to a more horizontal format. - Aug 8th.
    a) Add children to the family display page 
    b) Add a spot for home teachers
    c) Add a spot to display "additional" information
 
 5. in_place_edit 
-   a) based on author
+   a) based on author or admin
    b) with a delete option
 
 6. Synch up with the ward list Automatically
    - Use Vcard instead of csv files add guid to family data
    - Check for family members, names and email addresses for family updates.
+   - Clear the cache directories - rm public/cache/.../families
    - Use mechanize gem
 
 7. Add Home teacher support - Aug 31st
@@ -67,6 +59,13 @@ TODO's
 9. Create a nice mechanism to edit events.  To clean up past events
 
 ========================================================================
+
+1. Access controll   - Aug 7th
+  c) Each controller/action has an acccess level
+      - Levels of access
+         3 - admin
+         2 - PEC
+         1 - General Access
 
 1. Go in and fix the Glafke events
 
