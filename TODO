@@ -8,6 +8,11 @@ ID | family_name | head_of_house_hold | phone | address | status | information |
 people
 ID | name | family_id | phone | email | calling |
 
+teachingPool
+                (active, less active, part-member, investigator) 
+ID | family_id | status  | Lessons Taught | Last Lesson | Next Lesson | Fellowshipper 
+
+
 companionships
 ID | person1 | person2
 
