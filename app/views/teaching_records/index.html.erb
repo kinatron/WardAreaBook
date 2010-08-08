@@ -1,0 +1,46 @@
+<h1>Teaching Pool</h1>
+
+<table class = 'sortable resizable'>
+  <thead>
+  <tr align="left">
+    <th>Family</th>
+    <th>Category</th>
+    <th>Lessons taught</th>
+    <th>Last lesson</th>
+    <th>Next lesson</th>
+    <th>Fellowshipper</th>
+    <th>Next Milestone</th>
+    <th>Milestone goal</th>
+  </tr>
+</thead>
+<tbody>
+
+<% @teaching_records.each do |teaching_record| %>
+  <tr class="<%=cycle('list-line-odd','list-line-even')%>" > 
+    <% # TODO create associations %>
+    <% if teaching_record.family_id == nil or teaching_record.family_id ==0 %>
+      <td><%= "" %></td>
+    <% else %>
+      <% family = Family.find(teaching_record.family_id) %> 
+      <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h family.name + "," + family.head_of_house_hold  %></td>
+    <% end %>
+    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.category %></td>
+    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.lessons_taught %></td>
+    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h getLastVisitDate(teaching_record.family) %></td>
+    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.next_lesson %></td>
+    <% if teaching_record.person_id == nil or teaching_record.person_id ==0 %>
+      <td><%= "" %></td>
+    <% else %>
+      <% fellowshipper = Person.find(teaching_record.person_id) %>
+      <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h fellowshipper.name + " " + fellowshipper.family.name %></td>
+    <% end %>
+    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.membership_milestone %></td>
+    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.milestone_date_goal %></td>
+    <td><%= link_to 'Remove', teaching_record, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New teaching_record', new_teaching_record_path %>

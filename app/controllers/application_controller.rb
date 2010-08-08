@@ -37,6 +37,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  
+  def getFamilyMapping
+    @families = Family.find(:all, :order => :member, 
+                            :conditions => "current=='t' or member=='f'").map do |s|
+      [s.name + "," + s.head_of_house_hold, s.id]
+    end
+  end
+
 protected 
   def authorize
     if session[:user_email] == nil

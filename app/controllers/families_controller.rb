@@ -32,14 +32,6 @@ class FamiliesController < ApplicationController
     end
   end
 
-  def teachingPool
-    @families = Family.all(:order => :name)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @families }
-    end
-  end
   # GET /families/1
   # GET /families/1.xml
   def show

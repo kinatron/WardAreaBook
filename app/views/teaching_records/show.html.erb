@@ -1,0 +1,42 @@
+<p>
+  <b>Family:</b>
+  <%=h @teaching_record.family.name + "," + @teaching_record.family.head_of_house_hold %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%=h @teaching_record.category %>
+</p>
+
+<p>
+  <b>Lessons taught:</b>
+  <%=h @teaching_record.lessons_taught %>
+</p>
+
+<p>
+  <b>Last lesson:</b>
+  <%=h @teaching_record.last_lesson %>
+  <%=h getLastVisitDate(@teaching_record.family) %>
+</p>
+<p>
+  <b>Next lesson:</b>
+  <%=h @teaching_record.next_lesson %>
+</p>
+<p>
+  <b>Fellowshipper:</b>
+  <%=h @teaching_record.person.name %>
+</p>
+
+<p>
+  <b>Membership milestone:</b>
+  <%=h @teaching_record.membership_milestone %>
+</p>
+
+<p>
+  <b>Milestone date goal:</b>
+  <%=h @teaching_record.milestone_date_goal %>
+</p>
+
+
+<%= link_to 'Edit', edit_teaching_record_path(@teaching_record) %> |
+<%= link_to 'Back', teaching_records_path %>
