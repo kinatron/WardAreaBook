@@ -22,10 +22,22 @@ class EventsController < ApplicationController
     end
   end
 
+  def test_me
+    @names = getMapping
+    @event = Event.new
+    @event.family_id = 51
+    @family = Family.find(@event.family_id)
+    respond_to do |format|
+      format.html # new.html.erb
+      #format.xml  { render :xml => @event }
+    end
+  end
+
   def new_family_event
     @names = getMapping
     @event = Event.new
     @event.family_id = params[:family_id]
+    @family = Family.find(@event.family_id)
     respond_to do |format|
       format.js
       #format.html # new.html.erb
@@ -51,6 +63,17 @@ class EventsController < ApplicationController
 
   def create_new_family_event
     @event = Event.new(params[:event])
+    if (@event.family.teaching_record) and (@event.category =~ /lesson\d/i)
+      lessonNum = @event.category.match(/\d/)[0]
+      unless @event.family.teaching_record.lessons_taught.include? lessonNum
+        if @event.family.teaching_record.lessons_taught.empty? 
+          @event.family.teaching_record.lessons_taught == lessonNum
+        else
+          @event.family.teaching_record.lessons_taught << "," + lessonNum
+        end
+        @event.family.teaching_record.save
+      end
+    end
 
     respond_to do |format|
       if @event.save

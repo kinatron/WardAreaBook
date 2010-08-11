@@ -37,6 +37,42 @@
       </div>
     </div>
   </li>
+  <!-- Teaching Record -->
+  <% if @family.teaching_record != nil %>
+    <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
+            return false;">Teaching Record </a> 
+    <div id="teaching-record" style = 'display:none'>
+      <div>
+        <ul>
+  <b>Category:</b>
+  <%=h @family.teaching_record.category %>
+
+  <b>Lessons taught:</b>
+  <%=h @family.teaching_record.lessons_taught %>
+
+  <b>Last lesson:</b>
+  <%=h @family.teaching_record.last_lesson %>
+  <%=h getLastVisitDate(@family.teaching_record.family) %>
+  <b>Next lesson:</b>
+  <%=h @family.teaching_record.next_lesson %>
+  <b>Fellowshipper:</b>
+  <%=h @family.teaching_record.person.name %>
+
+  <b>Membership milestone:</b>
+  <%=h @family.teaching_record.membership_milestone %>
+
+  <b>Milestone date goal:</b>
+  <%=h @family.teaching_record.milestone_date_goal %>
+  <br>
+
+<%= link_to 'Edit', edit_teaching_record_path(@family.teaching_record) %> |
+<%= link_to 'Back', teaching_records_path %>
+        </ul>
+      </div>
+    </div>
+  </li>
+  <% end %>
+
   <!-- Events -->
   <% unless @family.events().empty? %>
     <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('family-events', 'blind');
@@ -67,7 +103,6 @@
           </li>
         <% end %>
         </ul>
-
       </div>
     </div>
   </li>

@@ -22,20 +22,20 @@
       <td><%= "" %></td>
     <% else %>
       <% family = Family.find(teaching_record.family_id) %> 
-      <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h family.name + "," + family.head_of_house_hold  %></td>
+      <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h family.name + "," + family.head_of_house_hold  %></td>
     <% end %>
-    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.category %></td>
-    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.lessons_taught %></td>
-    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h getLastVisitDate(teaching_record.family) %></td>
-    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.next_lesson %></td>
+    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.category %></td>
+    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.lessons_taught %></td>
+    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h getLastVisitDate(teaching_record.family) %></td>
+    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.next_lesson %></td>
     <% if teaching_record.person_id == nil or teaching_record.person_id ==0 %>
       <td><%= "" %></td>
     <% else %>
       <% fellowshipper = Person.find(teaching_record.person_id) %>
-      <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h fellowshipper.name + " " + fellowshipper.family.name %></td>
+      <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h fellowshipper.name + " " + fellowshipper.family.name %></td>
     <% end %>
-    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.membership_milestone %></td>
-    <td onClick = "window.location.href='<%= teaching_record_path(teaching_record) %>'" ><%=h teaching_record.milestone_date_goal %></td>
+    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.membership_milestone %></td>
+    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.milestone_date_goal %></td>
     <td><%= link_to 'Remove', teaching_record, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

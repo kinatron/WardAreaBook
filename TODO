@@ -35,13 +35,20 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-2. I need to edit investigator records
-   I need the views for investigator records to be the same as families.  Integrate the two
+1.  Investigator records - Need to be integrated into the family view.
+    a) make the teaching record viewable by default when accessing a family page
+    b) make the field editable by default
+    c) Get rid of the test_me page and make sure everything still works.
+
 
 4. ReDesign the page to page to a more horizontal format. - Aug 8th.
    a) Add children to the family display page 
    b) Add a spot for home teachers
    c) Add a spot to display "additional" information
+
+
+3. Automatic form submission to change status
+
 
 5. in_place_edit 
    a) based on author or admin
@@ -64,6 +71,8 @@ TODO's
 9. Create a nice mechanism to edit events.  To clean up past events
 
 ========================================================================
+
+    b) improve teaching record section in the family view page.
 
 1. Access controll   - Aug 7th
   c) Each controller/action has an acccess level
