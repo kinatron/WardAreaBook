@@ -24,7 +24,9 @@
 </p>
 <p>
   <b>Fellowshipper:</b>
-  <%=h @teaching_record.person.name %>
+  <% if @teaching_record.person != nil %>
+    <%=h @teaching_record.person.name %>
+  <% end %>
 </p>
 
 <p>

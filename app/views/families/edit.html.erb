@@ -1,31 +1,41 @@
-<h1>Editing family...</h1>
+<h1>Editing family <%= @family.name %> </h1>
 
 <% form_for(@family) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= @family.name%><br />
+    <% if @family.member == false %>
+      Last Name:
+      <%= f.text_field :name %>&nbsp;&nbsp;&nbsp; 
+      Head Of Household: 
+      <%= f.text_field :head_of_house_hold %> 
+    <% else %>
+      <%= @family.head_of_house_hold %>
+    <% end %>
   </p>
   <p>
-    <%= @family.head_of_house_hold %><br />
-  </p>
-  <p>
-    <%= @family.phone %><br />
-  </p>
-  <p>
-    <%= @family.address %><br />
+    <% if @family.member == false %>
+      <%= f.label :phone %> 
+      <%= f.text_field :phone %> &nbsp;&nbsp;&nbsp; 
+      <%= f.label :address %> 
+      <%= f.text_field :address %> 
+    <% else %>
+      <%= @family.phone %> &nbsp; &nbsp; &nbsp; 
+      <%= @family.address %>
+    <% end %>
   </p>
   <p>
     <%= f.label :status %><br />
-    <%= f.select :status, {"active"         => "active", 
-                           "less active"    => "less active", 
-                           "moved"          => "moved", 
-                           "not interested" => "not interested",
-                           "dnc"            => "dnc" } %>
+    <% if @family.member == false %>
+      <%= f.select :status, nonmemberStatus %>
+    <% else %> 
+      <%= f.select :status, memberStatus %>
+    <% end %>
+
   </p>
   <p>
     <%= f.label :information %><br />
-    <%= f.text_area :information %>
+    <%= f.text_area :information, :rows => 4, :cols=> 80 %>
   </p>
   <p>
     <%= f.submit 'Update' %>

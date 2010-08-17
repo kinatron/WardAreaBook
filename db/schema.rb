@@ -62,17 +62,6 @@ ActiveRecord::Schema.define(:version => 20100807153043) do
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
-  create_table "teaching_pools", :force => true do |t|
-    t.integer  "family_id"
-    t.string   "category"
-    t.string   "lessons_taught"
-    t.string   "last_lesson"
-    t.string   "next_lesson"
-    t.string   "fellowshipper"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "teaching_records", :force => true do |t|
     t.integer  "family_id"
     t.string   "category"

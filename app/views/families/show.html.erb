@@ -11,20 +11,17 @@
   <li> <a href='#' class = 'subtile-links' onclick="Effect.toggle('family-details', 'blind'); return false;">Family Details </a>
     <div id="family-details" style = 'display:none'>
       <div>
-        <%= simple_format(@family.head_of_house_hold) %>
-        <p>
-          <b>Phone:</b>
-          <%= simple_format(@family.phone) %>
-        </p>
-
-        <p>
-          <b>Address:</b><br />
-          <%= simple_format(@family.address) %>
-        </p>
-
         <p>
           <b>Status:</b>
-          <%=h @family.status %>
+          <%=h @family.status %>&nbsp;&nbsp;&nbsp;&nbsp; 
+          <b>Head of House Hold:</b>
+          <%= (@family.head_of_house_hold) %> &nbsp;&nbsp;&nbsp;&nbsp; 
+          <b>Phone:</b>
+          <%= (@family.phone) %>&nbsp;&nbsp;&nbsp;&nbsp; 
+          <b>Address:</b>
+          <%= (@family.address) %>
+        </p>
+        <p>
         </p>
 
         <p>
@@ -40,37 +37,45 @@
   <!-- Teaching Record -->
   <% if @family.teaching_record != nil %>
     <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
-            return false;">Teaching Record </a> 
-    <div id="teaching-record" style = 'display:none'>
-      <div>
-        <ul>
-  <b>Category:</b>
-  <%=h @family.teaching_record.category %>
+        return false;">Teaching Record </a> 
+      <div id="teaching-record" style = 'display:none'>
+        <div>
+          <ul>
+            <% form_for(@family.teaching_record) do |f| %>
+              <%= f.error_messages %>
 
-  <b>Lessons taught:</b>
-  <%=h @family.teaching_record.lessons_taught %>
+              <p>
+                <%= f.label :Type %>
+                <%= f.select :category, teachingRecordCategories %>
 
-  <b>Last lesson:</b>
-  <%=h @family.teaching_record.last_lesson %>
-  <%=h getLastVisitDate(@family.teaching_record.family) %>
-  <b>Next lesson:</b>
-  <%=h @family.teaching_record.next_lesson %>
-  <b>Fellowshipper:</b>
-  <%=h @family.teaching_record.person.name %>
+                <%= f.label :fellowshipper %>
+                <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
 
-  <b>Membership milestone:</b>
-  <%=h @family.teaching_record.membership_milestone %>
-
-  <b>Milestone date goal:</b>
-  <%=h @family.teaching_record.milestone_date_goal %>
-  <br>
-
-<%= link_to 'Edit', edit_teaching_record_path(@family.teaching_record) %> |
-<%= link_to 'Back', teaching_records_path %>
-        </ul>
+              </p>
+              <p>
+                Lessons Taught:
+                <%= @family.teaching_record.lessons_taught %>
+                &nbsp; &nbsp;
+                Last lesson 
+                <%=h getLastVisitDate(@family) %>
+                &nbsp; &nbsp; &nbsp; &nbsp; 
+                <%= f.label :next_lesson %>
+                <%= f.date_select :next_lesson, :include_blank => true, :discard_year => true %>
+              </p>
+              <p>
+                Next Milestone Goal
+                <%= f.select :membership_milestone, memberMilestoneCategories, {:selected => "Baptism"} %>
+                Goal Date:
+                <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
+              </p>
+              <p>
+                <%= f.submit 'Update' %>
+              </p>
+            <% end %>
+          </ul>
+        </div>
       </div>
-    </div>
-  </li>
+    </li>
   <% end %>
 
   <!-- Events -->

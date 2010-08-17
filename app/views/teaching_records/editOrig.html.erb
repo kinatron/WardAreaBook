@@ -1,0 +1,48 @@
+<h1>Editing teaching_record</h1>
+
+<% form_for(@teaching_record) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :family_id %><br />
+    <%= f.select :family_id, @families %> <br />
+  </p>
+  <p>
+    <%= f.label :Type %><br />
+    <%= f.select :category, teachingRecordCategories %>
+  </p>
+  <p>
+    <% #TODO Make this a series of check boxes %>
+    <%= f.label :lessons_taught %><br />
+    <%= f.text_field :lessons_taught %>
+  </p>
+  <!--
+  <p>
+    <%= f.label :last_lesson %><br />
+    <%= f.date_select :last_lesson, :include_blank => true, :discard_year => true %>
+  </p>
+  -->
+  <p>
+    <%= f.label :next_lesson %><br />
+    <%= f.date_select :next_lesson, :include_blank => true, :discard_year => true %>
+  </p>
+  <p>
+    <%= f.label :fellowshipper %><br />
+    <% #TODO hack to default the hopes as a fellowshippers %>
+    <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
+  </p>
+  <p>
+    <%= f.label :membership_milestone %><br />
+    <%= f.select :membership_milestone, memberMilestoneCategories, {:selected => "Baptism"} %>
+  </p>
+  <p>
+    <%= f.label :milestone_date_goal %><br />
+    <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @teaching_record %> |
+<%= link_to 'Back', teaching_records_path %>

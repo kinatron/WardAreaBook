@@ -36,4 +36,21 @@ module FamiliesHelper
       ""
     end
   end
+  def nonmemberStatus
+    [
+      ["Investigator" , "Investigator"],
+      ["Less Active" , "Less Active"],
+      ["Part Member" , "Part Member"],
+      ["Active" , "Active"]
+    ]
+  end
+  def memberStatus
+    [
+      ["active"     , "active"], 
+      ["less active", "less active"], 
+      [ "moved"     , "moved"], 
+      [ "not interested" , "not interested"],
+      [ "dnc"       , "dnc" ]
+    ]
+  end
 end

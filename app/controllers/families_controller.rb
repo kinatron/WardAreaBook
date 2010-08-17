@@ -37,6 +37,10 @@ class FamiliesController < ApplicationController
   def show
     @family = Family.find(params[:id])
 
+    @familyName = @family.name + "," + @family.head_of_house_hold;
+    @families = getFamilyMapping
+    @fellowShippers = getMapping
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @family }

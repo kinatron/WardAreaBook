@@ -67,7 +67,7 @@ class EventsController < ApplicationController
       lessonNum = @event.category.match(/\d/)[0]
       unless @event.family.teaching_record.lessons_taught.include? lessonNum
         if @event.family.teaching_record.lessons_taught.empty? 
-          @event.family.teaching_record.lessons_taught == lessonNum
+          @event.family.teaching_record.lessons_taught = lessonNum
         else
           @event.family.teaching_record.lessons_taught << "," + lessonNum
         end
