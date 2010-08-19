@@ -1,6 +1,6 @@
 class FamiliesController < ApplicationController
   before_filter :store_return_point, :only => [:show]
-  caches_action :index, :show
+  caches_action :index
   #TODO for some reason the sweeper is not getting called when I update 
   #the family records.  So I instead I'm explicitly updating this.
   #the sweeper is working for the events_controller....

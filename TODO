@@ -35,6 +35,8 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
+1. update cache after a teaching recored update.
+
 1. Merge the teaching record status and family status it could still cause some confusion
 
 3. Automatic form submission to change status
