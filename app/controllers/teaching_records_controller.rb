@@ -1,4 +1,5 @@
 class TeachingRecordsController < ApplicationController
+  cache_sweeper :family_sweeper, :only => [:update]
   # GET /teaching_records
   # GET /teaching_records.xml
   def index
@@ -73,7 +74,7 @@ class TeachingRecordsController < ApplicationController
 
     respond_to do |format|
       if @teaching_record.update_attributes(params[:teaching_record])
-        flash[:notice] = 'TeachingRecord was successfully updated.'
+        #flash[:notice] = 'TeachingRecord was successfully updated.'
         format.html { redirect_to(:back) }
         format.xml  { head :ok }
       else

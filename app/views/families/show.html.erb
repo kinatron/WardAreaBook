@@ -64,7 +64,7 @@
               </p>
               <p>
                 Next Milestone Goal
-                <%= f.select :membership_milestone, memberMilestoneCategories, {:selected => "Baptism"} %>
+                <%= f.select :membership_milestone, memberMilestoneCategories  %>
                 Goal Date:
                 <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
               </p>
