@@ -35,10 +35,11 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-1. Merge the teaching record status and family status it could still cause some confusion
+1. The flash items are showing up on the index page!! 
+2. Remove "Found Through" and just make it category then add "Request Records"
+3. Change Investigators to non-members 
 
-3. Automatic form submission to change status
-
+2. Merge the teaching record status and family status it could still cause some confusion
 
 5. in_place_edit 
    a) based on author or admin
@@ -61,6 +62,9 @@ TODO's
 9. Create a nice mechanism to edit events.  To clean up past events
 
 ========================================================================
+
+
+3. Automatic form submission to change status
 
 4. ReDesign the page to page to a more horizontal format. - Aug 8th.
    a) Add children to the family display page 
