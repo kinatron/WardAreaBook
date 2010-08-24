@@ -36,12 +36,14 @@ module FamiliesHelper
       ""
     end
   end
-  def nonmemberStatus
+
+  def nonmemberType
     [
-      ["Investigator" , "Investigator"],
-      ["Less Active" , "Less Active"],
+      ["Missionary Find" , "Missionary Find"],
+      ["Member Referral" , "Member Referral"],
+      ["Self Referral"   , "Self Referral"],
       ["Part Member" , "Part Member"],
-      ["Active" , "Active"]
+      ["Request Records" , "Request Records"]
     ]
   end
   def memberStatus

@@ -19,9 +19,11 @@
   <div id="columns">
     <div id="side">
       <br> <br> 
-      <%= link_to 'Ward List', :controller => 'families'  %><br />
-      <br>
-      <%= link_to 'Investigators', :controller => 'families', :action => 'investigators'  %><br />
+      <p>
+        <%= link_to 'Ward List', :controller => 'families'  %><br />
+        <br>
+        <%= link_to 'Other Families', :controller => 'families', :action => 'investigators'  %><br />
+      </p>
       <br>
       <%= link_to 'Teaching Pool', :controller => 'teaching_records' %><br />
       <br> <br> 

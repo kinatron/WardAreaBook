@@ -28,14 +28,8 @@
   <p>
   </p>
   <p>
-    <%= f.label "Found through" %><br />
-    <!-- TODO Move this into a helper... code duplication -->
-    <%= f.select :status, {"Member Referral"    => "Member Referral", 
-      "Part Member Family" => "Part Member Family",
-      "Missionary Find"    => "Missionary Find",
-      "Former Investigator" => "Former Investigator",
-      "Self Referral"       => "Self Referral"}, 
-      {:selected => "Member Referral"} %>
+    <%= f.label "Type" %><br />
+    <%= f.select :status, nonmemberType %>
     </p>
     <p>
       <%= f.label "Family Information" %><br />

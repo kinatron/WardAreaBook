@@ -57,7 +57,7 @@ class TeachingRecordsController < ApplicationController
 
     respond_to do |format|
       if @teaching_record.save
-        flash[:notice] = 'TeachingRecord was successfully created.'
+        #flash[:notice] = 'TeachingRecord was successfully created.'
         format.html { redirect_to(:action => "index") }
         format.xml  { render :xml => @teaching_record, :status => :created, :location => @teaching_record }
       else

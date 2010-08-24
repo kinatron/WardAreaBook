@@ -35,17 +35,7 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 
-1. The flash items are showing up on the index page!! 
-2. Remove "Found Through" and just make it category then add "Request Records"
-3. Change Investigators to non-members 
-=======
-1. update cache after a teaching recored update.
-
-1. Merge the teaching record status and family status it could still cause some confusion
-
-3. Automatic form submission to change status
-
-2. Merge the teaching record status and family status it could still cause some confusion
+1. Teaching Record Status should just be the family status.  Remove teachingRecordCategories
 
 5. in_place_edit 
    a) based on author or admin

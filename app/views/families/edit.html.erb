@@ -27,7 +27,7 @@
   <p>
     <%= f.label :status %><br />
     <% if @family.member == false %>
-      <%= f.select :status, nonmemberStatus %>
+      <%= f.select :status, nonmemberType %>
     <% else %> 
       <%= f.select :status, memberStatus %>
     <% end %>
