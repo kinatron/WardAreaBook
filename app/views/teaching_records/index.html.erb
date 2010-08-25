@@ -24,7 +24,7 @@
       <% family = Family.find(teaching_record.family_id) %> 
       <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h family.name + "," + family.head_of_house_hold  %></td>
     <% end %>
-    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.category %></td>
+    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h family.status %></td>
     <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.lessons_taught %></td>
     <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h getLastVisitDate(teaching_record.family) %></td>
     <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.next_lesson %></td>

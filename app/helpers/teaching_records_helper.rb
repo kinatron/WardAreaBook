@@ -1,12 +1,4 @@
 module TeachingRecordsHelper
-  def teachingRecordCategories  
-    [
-      ["Investigator" , "Investigator"],
-      ["Less Active" , "Less Active"],
-      ["Part Member" , "Part Member"],
-      ["Active" , "Active"]
-    ]
-  end
 
   def memberMilestoneCategories  
     [

@@ -45,9 +45,6 @@
               <%= f.error_messages %>
 
               <p>
-                <%= f.label :Type %>
-                <%= f.select :category, teachingRecordCategories %>
-
                 <%= f.label :fellowshipper %>
                 <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
 
