@@ -34,20 +34,18 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 =====================================================================================
 TODO's 
 =====================================================================================
-
-1. Teaching Record Status should just be the family status.  Remove teachingRecordCategories
-
-5. in_place_edit 
-   a) based on author or admin
-   b) with a delete option
-
-6. Synch up with the ward list Automatically
-   - Use Vcard instead of csv files add guid to family data
+1. Synch up with the ward list Automatically
+   - Remember the children!!!!
    - Check for family members, names and email addresses for family updates.
    - Clear the cache directories - rm public/cache/.../families
    - Use mechanize gem
 
-7. Add Home teacher support - Aug 31st
+2. in_place_edit 
+   a) based on author or admin
+   b) with a delete option
+
+
+3. Add Home teacher support - Aug 31st
    a) Report for my home teaching (may want to add the quorums home teaching also...)
    b) Home teacher access to "addtional information"
    c) Import Brother Millers Home teaching sheet.
