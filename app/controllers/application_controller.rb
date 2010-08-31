@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :authorize, :checkAccess, :except => :login
+  before_filter :authorize, :except => :login
   include RedirectBack
   helper :all # include all helpers, all the time
 

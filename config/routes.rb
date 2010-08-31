@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :roster
 
 
+  map.connect '/login', :controller => 'families', :action => 'index'
   map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
   map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'
 
