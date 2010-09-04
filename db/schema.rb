@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100826235445) do
+ActiveRecord::Schema.define(:version => 20100901231115) do
 
   create_table "companionships", :force => true do |t|
     t.string   "type"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20100826235445) do
     t.string   "calling"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "current",    :default => true
   end
 
   create_table "sessions", :force => true do |t|

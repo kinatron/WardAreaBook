@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
+require 'rubygems'
 require 'vpim/vcard'
 # load the rails environment
-require File.dirname(__FILE__) + "/../config/environment"
+require File.dirname(__FILE__) + "./../config/environment"
 
 # Manually add the following.  as of Aug 27th
 #
