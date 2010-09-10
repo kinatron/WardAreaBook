@@ -3,7 +3,8 @@ module EventsHelper
     [
       ["Visit"  , "Visit"], 
       ["Lesson" , "Lesson"], 
-      ["Attempt", "Attempt"]
+      ["Attempt", "Attempt"],
+      ["Other", "Other"]
     ]
   end
 

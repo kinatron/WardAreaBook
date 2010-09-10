@@ -1,49 +1,92 @@
 #!/usr/bin/env ruby
 require 'rubygems'
+require 'mechanize'
 require 'date'
 require 'rake'
 require 'vpim/vcard'
+
+# This is a flag to determine if I need to clear the cache or not for the ward 
+# list index page.
+updateMade = false
+
+class VcardPerson
+  attr_accessor :name, :email
+end
+
+# TODO better log file so that all family updates happen together
+def getFamilyMembers cardData
+  #create people records from family members
+  # Sample vard data  ---> Household members:=0D=0A=Ryan <kinateder@gmail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
+  #
+  familyMembers = []
+  personList = cardData.split(/=0D=0A=/);
+  personList.shift
+  personList.each do |individual| 
+    person = VcardPerson.new
+    foundEmail = individual.match(/<.*>/)
+    if foundEmail
+      person.email = foundEmail.to_s[1..(foundEmail.to_s.length-2)]
+      person.name = foundEmail.pre_match.strip
+    else
+      person.name = individual.strip
+      person.email = nil
+    end
+    familyMembers << person
+  end
+  return familyMembers
+end
+
+def downLoadNewList
+  agent = Mechanize.new
+  puts "accessing http://lds.org"
+  agent.get('http://lds.org/') do |page|
+    # TODO find out if there is way to search for the links 
+    # based on a regex instead of having to cycle through the links
+    page.links.each do |link|
+      if link.text =~ /Stake and Ward/
+        page = link.click
+        break
+      end
+    end
+    form = page.form('loginForm')
+    # TODO grab this from the database
+    form.username = ""
+    form.password = ""
+    page = agent.submit(form)
+    puts "Just logged in"
+    page.links.each do |link|
+      if link.text =~ /Membership Directory/i
+        page = link.click
+        break
+      end
+    end
+    vcardHref = ""
+    page.links.each do |link| 
+      if link.text =~ /vcard/i
+        line = link.href.match(/\'.*\'/)
+        vcardHref = line.to_s[1..(line.to_s.length-2)]
+        break
+      end
+    end
+    puts "Downloading the ward list"
+    agent.get(vcardHref).save_as("WardList.vcf")
+    puts "Done"
+  end
+end
 
 begin
   # load the rails environment
   require File.dirname(__FILE__) + "/../../config/environment"
 
-  class VcardPerson
-    attr_accessor :name, :email
-  end
-
-  def getFamilyMembers cardData
-
-    #create people records from family members
-    # Sample vard data  ---> Household members:=0D=0A=Ryan <kinateder@gmail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
-    #
-    familyMembers = []
-    personList = cardData.split(/=0D=0A=/);
-    personList.shift
-    personList.each do |individual| 
-      person = VcardPerson.new
-      foundEmail = individual.match(/<.*>/)
-      if foundEmail
-        person.email = foundEmail.to_s[1..(foundEmail.to_s.length-2)]
-        person.name = foundEmail.pre_match.strip
-      else
-        person.name = individual.strip
-        person.email = ""
-      end
-      familyMembers << person
-    end
-    return familyMembers
-  end
   # Create a copy of the database
-  # TODO Get the database name from the environment
-  #copy("production.sqlite3","bak/"+Time.now.to_s+"  - production.sqlite3")
-  copy("../development.sqlite3","bak/"+Time.now.to_s+"  - development.sqlite3")
-  copy("../development.sqlite3","recover.sqlite3")
+  DATABASE = "../#{ENV['RAILS_ENV']}.sqlite3"
+  BACKUP = "bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
+  copy(DATABASE,BACKUP)
 
-  # TODO Append to the running log
-  #$stdout = File.open("WardListImport.log",'a')
-  puts Time.now.to_s
+  downLoadNewList 
 
+  $stdout = File.open("WardListImport.log",'a')
+  puts Time.now.strftime("%a %b %d %Y - %I:%M %p")
 
   ########################################################################
   # Extract the data from the cvs file
@@ -92,6 +135,7 @@ begin
       if family.name != lastName or family.head_of_house_hold != headOfHouseHold or
         family.phone != phone   or family.address != address
         puts "\t" + family.name  + "," + family.head_of_house_hold + " update"
+        updateMade = true
 
         if family.name != lastName 
           puts "\t  familyName          : " + family.name + "--->" + lastName
@@ -125,15 +169,19 @@ begin
         person = Person.find_by_name_and_family_id(new.name,family)
         # if the person exists make them current and then verify the email address
         if person
-          if person.email != new.email 
-            puts "\t  updating email <" + new.email + "> for " + new.name
+          if new.email && person.email != new.email 
+            puts "\t  updating email <" + new.email + "> for " + new.name + " " + family.name
             person.email = new.email
           end
           person.current = true
           person.save
           # otherwise create new person
         else
-          puts "\t  Creating person :" + new.name + " with email :" + new.email 
+          if new.email 
+            puts "\t  Creating person :" + new.name + " with email :" + new.email 
+          else
+            puts "\t  Creating person :" + new.name 
+          end
           Person.create(:name => new.name, :email => new.email, 
                         :family_id => family.id, :current => true)
         end
@@ -145,6 +193,13 @@ begin
         puts "\t  #{person.name} #{family.name} is no longer current"
       }
 
+      #Flag if this is a moved out record that is returning.
+      if family.status == "Moved - Old Record"
+        family.status = "Returned Record"
+        puts "  *** Returned Record ***"
+        puts "\t#{lastName}, #{headOfHouseHold}"
+        updateMade = true
+      end
 
       # label the family as current
       family.current=1
@@ -165,6 +220,7 @@ begin
       family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
                              :phone => phone, :address => address, :status => "New", 
                              :uid => uid, :current => 1)
+      updateMade = true
 
       #create people records from family members
       # Sample vard data  ---> Household members:=0D=0A=Ryan <kinateder@gmail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
@@ -215,15 +271,19 @@ begin
       # make all of the family members not current
       Person.update_all("current == 0","family_id == #{family.id}")
       family.save
+      updateMade = true
     end
   end
 
   puts "\n"
-rescue 
-  puts "\n\n"
-  puts "Opps"
-  copy("recover.sqlite3", "../development.sqlite3")
 
+rescue Exception => e
+  puts $!
+  p e.backtrace
+  copy(BACKUP,DATABASE)
 end
 
-# TODO clear the cache if any updates are made.
+# Clear the cache if any updates are made.
+if updateMade
+  system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
+end

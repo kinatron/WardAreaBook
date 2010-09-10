@@ -35,10 +35,16 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 1. Synch up with the ward list Automatically
-   - Remember the children!!!!
-   - Check for family members, names and email addresses for family updates.
    - Clear the cache directories - rm public/cache/.../families
-   - Use mechanize gem
+   - Test with the production database and a new wardList
+   - remove your username and password
+   - check in a and push out.
+   - Make sure the new repository does not have any church info in it.
+   - pull down on production.  Add my username and pass
+   - db:migrate
+   - addGUID
+   - update
+   - Reset the edit log.
 
 2. in_place_edit 
    a) based on author or admin
