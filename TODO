@@ -35,11 +35,7 @@ familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
 TODO's 
 =====================================================================================
 1. Synch up with the ward list Automatically
-   - pull down on production.  Add my username and pass
-   - db:migrate
-   - addGUID
-   - update
-   - Reset the edit log.
+   - Remove all relative links
 
 2. in_place_edit 
    a) based on author or admin

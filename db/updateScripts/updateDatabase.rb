@@ -69,7 +69,7 @@ def downLoadNewList
       end
     end
     puts "Downloading the ward list"
-    agent.get(vcardHref).save_as("WardList.vcf")
+    agent.get(vcardHref).save_as("#{UPDATEDIR}/WardList.vcf")
     puts "Done"
   end
 end
@@ -78,14 +78,15 @@ begin
   # load the rails environment
   require File.dirname(__FILE__) + "/../../config/environment"
 
+  UPDATEDIR = "#{RAILS_ROOT}/db/updateScripts/"
   # Create a copy of the database
-  DATABASE = "../#{ENV['RAILS_ENV']}.sqlite3"
-  BACKUP = "bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
+  DATABASE = "#{RAILS_ROOT}/db/#{ENV['RAILS_ENV']}.sqlite3"
+  BACKUP = "#{UPDATEDIR}/bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
   copy(DATABASE,BACKUP)
 
   downLoadNewList 
 
-  $stdout = File.open("WardListImport.log",'a')
+  $stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
   puts Time.now.strftime("%a %b %d %Y - %I:%M %p")
 
   ########################################################################
@@ -107,7 +108,7 @@ begin
   elders.save
 
 
-  cards = Vpim::Vcard.decode(open("WardList.vcf"))
+  cards = Vpim::Vcard.decode(open("#{UPDATEDIR}/WardList.vcf"))
   cards.each do |card|
     lastName = card.name.family.strip
     lastName ||= "" 
