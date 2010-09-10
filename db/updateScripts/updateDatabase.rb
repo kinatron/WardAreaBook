@@ -16,7 +16,7 @@ end
 # TODO better log file so that all family updates happen together
 def getFamilyMembers cardData
   #create people records from family members
-  # Sample vard data  ---> Household members:=0D=0A=Ryan <kinateder@gmail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
+  # Sample vard data  ---> Household members:=0D=0A=Ryan <todd@grail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
   #
   familyMembers = []
   personList = cardData.split(/=0D=0A=/);
@@ -224,7 +224,7 @@ begin
       updateMade = true
 
       #create people records from family members
-      # Sample vard data  ---> Household members:=0D=0A=Ryan <kinateder@gmail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
+      # Sample vard data  ---> Household members:=0D=0A=Ryan <todd@grail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
       #
 
       vcardMembers = getFamilyMembers card.note
