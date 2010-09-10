@@ -9,7 +9,6 @@
     <th>Type</th>
     <th padding='10px'>Last&nbsp;Visit**</th>
     <th class='nosort'>Comment</th>
-    <th class='nosort'></th>
   </tr>
 </thead>
 <tbody>
@@ -22,7 +21,6 @@
     <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.status %></td>
     <td onClick = "window.location.href='<%= family_path(family) %>'" sorttable_customkey="<%=getLastVisitDateSortable(family)%>"> <%= getLastVisitDate(family) %></td>
     <td onClick = "window.location.href='<%= family_path(family) %>'" ><%= getLastVisitComment(family) %></td>
-    <td><%= link_to 'delete', family, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 
 <% end %>

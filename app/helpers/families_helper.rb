@@ -1,12 +1,13 @@
 module FamiliesHelper
   def statusColor(status)
     case status
-      when /dnc/i          ; "maroon"
-      when /less active/i  ; "cyan"
-      when /active/i       ; "#00ff00"
-      when /mailing/i       ; "#B88A00"
+      when /dnc/i            ; "maroon"
+      when /less active/i    ; "cyan"
+      when /active/i         ; "#00ff00"
+      when /mailing/i        ; "#B88A00"
       when /not interested/i ; "#B88A00"
       when /moved/i          ; "red"
+      when /returned/i       ; "red"
       else ; "yellow"
     end
   end
@@ -48,11 +49,12 @@ module FamiliesHelper
   end
   def memberStatus
     [
-      ["active"     , "active"], 
-      ["less active", "less active"], 
-      [ "moved"     , "moved"], 
-      [ "not interested" , "not interested"],
-      [ "dnc"       , "dnc" ]
+      ["active"          , "active"], 
+      ["less active"     , "less active"], 
+      ["moved"           , "moved"], 
+      ["moved - recorded", "moved - recorded"], 
+      ["not interested"  , "not interested"],
+      ["dnc"             , "dnc" ]
     ]
   end
 end
