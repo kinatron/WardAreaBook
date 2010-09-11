@@ -11,17 +11,37 @@
   <li> <a href='#' class = 'subtile-links' onclick="Effect.toggle('family-details', 'blind'); return false;">Family Details </a>
     <div id="family-details" style = 'display:none'>
       <div>
+        <table style='border:none'>
+          <tr>
+            <td style='border:none'>
+              <%= @family.head_of_house_hold %>
+              <ul id='nodot'>
+                <li>
+                  <% @family.people.each do |member| %>
+                    <%= member.name -%> 
+                    <% if member.email != nil %> 
+                      &mdash; <%= member.email %>
+                    <% end %>
+                    <br>
+                  <% end %>
+                </li>
+              </ul>
+            </td>
+            <td style='border:none'>&nbsp;&nbsp;&nbsp;</td>
+            <td style='border:none'>
+                <%= @family.phone %><br>
+              <p>
+                <%= displayAddress(@family.address) %><br>
+              </p>
+            </td>
+          </tr>
+        </table>
+
         <p>
           <b>Status:</b>
-          <%=h @family.status %>&nbsp;&nbsp;&nbsp;&nbsp; 
-          <b>Head of House Hold:</b>
-          <%= (@family.head_of_house_hold) %> &nbsp;&nbsp;&nbsp;&nbsp; 
-          <b>Phone:</b>
-          <%= (@family.phone) %>&nbsp;&nbsp;&nbsp;&nbsp; 
-          <b>Address:</b>
-          <%= (@family.address) %>
-        </p>
-        <p>
+          <span style='background-color: <%= statusColor(@family.status) -%>'>
+            &nbsp;<%=h @family.status %>&nbsp;
+          </span>
         </p>
 
         <p>

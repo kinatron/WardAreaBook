@@ -4,3 +4,4 @@ tmp/**/*
 db/*.sqlite3
 *.csv
 *.swp
+/db/updateScripts/WardList.vcf

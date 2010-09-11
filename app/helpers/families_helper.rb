@@ -12,6 +12,14 @@ module FamiliesHelper
     end
   end
 
+  # TODO this is very "Burien" Ward Specific.  Come up with more generalized solution
+  def displayAddress(address)
+    begin
+      address.insert((address.index(/burien|seat|tukwila/i)),"<br>")
+    rescue
+      address
+    end
+  end
 
   def getLastVisitDateSortable(family)
     if family.events.first != nil

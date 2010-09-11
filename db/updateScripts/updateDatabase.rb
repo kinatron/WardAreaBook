@@ -230,8 +230,8 @@ begin
       vcardMembers = getFamilyMembers card.note
       vcardMembers.each { |person| 
         print "\t  Creating person :" + person.name
-        unless person.email == "" or person.email == nil 
-          print + " with email :" + person.email 
+        unless person.email == nil or person.email == "" 
+          print " with email :" + person.email 
         end
         puts ""
         Person.create(:name => person.name, :email => person.email, 
