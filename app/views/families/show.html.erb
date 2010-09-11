@@ -18,11 +18,13 @@
               <ul id='nodot'>
                 <li>
                   <% @family.people.each do |member| %>
-                    <%= member.name -%> 
-                    <% if member.email != nil %> 
-                      &mdash; <%= member.email %>
+                    <% if member.current == true %>
+                      <%= member.name -%> 
+                      <% if member.email != nil %> 
+                        &mdash; <%= member.email %>
+                      <% end %>
+                      <br>
                     <% end %>
-                    <br>
                   <% end %>
                 </li>
               </ul>
