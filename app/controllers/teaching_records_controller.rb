@@ -1,5 +1,15 @@
 class TeachingRecordsController < ApplicationController
   cache_sweeper :family_sweeper, :only => [:update]
+
+  def checkAccess
+    #only the ward council has access
+    if hasAccess(2)
+      true
+    else
+      deny_access
+    end
+  end
+
   # GET /teaching_records
   # GET /teaching_records.xml
   def index

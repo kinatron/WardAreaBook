@@ -154,6 +154,13 @@ h1 {
 #banner img {
   float: left;
 }
+#banner div {
+  width: 100px;
+  padding-right: 10px;
+  font: small-caps 15px/15px "Times New Roman", serif;
+  text-align: left;
+  float: right;
+}
 
 #columns {
   background: #feb;

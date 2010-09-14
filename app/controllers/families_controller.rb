@@ -6,10 +6,17 @@ class FamiliesController < ApplicationController
   #the sweeper is working for the events_controller....
   cache_sweeper :family_sweeper, :only => [:update, :edit]
 
+  @hasFullAccess = false
+
   # override the application accessLevel method
-   def checkAccess
-     # Everybody has access to these methods
-   end
+  def checkAccess
+    # Everybody has access to these methods
+    if hasAccess(2)
+      @hasFullAccess = true
+    else 
+      @hasFullAccess = false
+    end
+  end
 
 
 
@@ -18,17 +25,49 @@ class FamiliesController < ApplicationController
   def index
     @families = Family.find_all_by_member_and_current(true,true, :order => :name)
 
+    if @hasFullAccess
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @families }
+      end
+    else
+      render :action => "members"
+    end
+  end
+
+  # This is a limited access list
+  def members
+    @families = Family.find_all_by_member_and_current(true,true, :order => :name)
     respond_to do |format|
-      format.html # index.html.erb
+      format.html # investigators.html.erb
       format.xml  { render :xml => @families }
     end
   end
 
   def investigators
-    @families = Family.find_all_by_member(false, :order => :name)
-    respond_to do |format|
-      format.html # investigators.html.erb
-      format.xml  { render :xml => @families }
+    if @hasFullAccess
+      @families = Family.find_all_by_member(false, :order => :name)
+      respond_to do |format|
+        format.html # investigators.html.erb
+        format.xml  { render :xml => @families }
+      end
+    else
+      flash[:notice] = 'User does not have access to this page.'
+      redirect_to(:action => 'index')
+    end
+  end
+
+  def mergeRecords
+    @family = Family.find(params[:family])
+    if @hasFullAccess
+      @families = Family.find(params[:family_merge])
+      respond_to do |format|
+        format.html # investigators.html.erb
+        format.xml  { render :xml => @families }
+      end
+    else
+      flash[:notice] = 'User does not have access to this page.'
+      redirect_to(:action => 'index')
     end
   end
 
@@ -41,9 +80,13 @@ class FamiliesController < ApplicationController
     @families = getFamilyMapping
     @fellowShippers = getMapping
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @family }
+    if @hasFullAccess
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml  { render :xml => @family }
+      end
+    else
+      render "show2"
     end
   end
 

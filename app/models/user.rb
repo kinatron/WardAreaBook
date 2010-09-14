@@ -42,8 +42,9 @@ private
 
   def valid_email
     if Person.find(:all, :conditions => ["email = ?", name]).empty? 
-      errors.add(:email, " - Your Email address is not on file.\n 
-                             Please contact Brother Kinateder to create an account")
+      errors.add(:email, " - You must be a member of this ward
+                             and have an email registered with lds.org
+                             Please contact Brother Kinateder for more information")
     end
   end
 

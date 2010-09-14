@@ -1,5 +1,9 @@
 class LoginController < ApplicationController
 
+  def checkAccess
+  end
+
+
   def login
     if request.post?
       user = User.authenticate(params[:name], params[:password])
@@ -15,7 +19,7 @@ class LoginController < ApplicationController
     name = session[:user_name]
     reset_session
     flash[:notice] = name, " successfully logged out."
-    redirect_to :controller => 'login'
+    redirect_to :controller => 'families'
   end
 
   def index

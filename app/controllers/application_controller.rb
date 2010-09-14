@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  before_filter :authorize, :except => :login
+  before_filter :authorize, :checkAccess, :except => :login
   include RedirectBack
   helper :all # include all helpers, all the time
 
@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
     session[:user_email] = user.name
     session[:access_level] = user.access_level
     session[:user_name] = person.name + " " +  person.family.name
+    session[:first_name] = person.name
     session[:user_id] = person.id
     refresh_session
     redirect_to(uri || {:controller => 'families'})
@@ -70,9 +71,16 @@ protected
   end
 
   def checkAccess
-    if session[:access_level] < 3
+    # Make the default the most restrictive
+    if hasAccess(2)
+      true
+    else
       deny_access
     end
+  end
+
+  def hasAccess(value)
+    session[:access_level] >= value 
   end
 
   def deny_access

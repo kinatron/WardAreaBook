@@ -3,9 +3,14 @@ class ReportsController < ApplicationController
   caches_action :hope, :month
 
   # override the application accessLevel method
-   def checkAccess
-     # Everybody has access to these methods
-   end
+  def checkAccess
+    #only the ward council has access
+    if hasAccess(2)
+      true
+    else
+      deny_access
+    end
+  end
 
 
   # TODO reference the hopes by name not id 1

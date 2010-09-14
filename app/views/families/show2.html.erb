@@ -1,0 +1,34 @@
+<h1><%=h @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp; </h1>
+  <!-- Family Details -->
+    <table style='border:none'>
+      <tr>
+        <td style='border:none'>
+          <%= @family.head_of_house_hold %>
+          <ul id='nodot'>
+            <li>
+              <% @family.people.each do |member| %>
+                <% if member.current == true %>
+                  <%= member.name -%> 
+                  <% if member.email != nil %> 
+                    &mdash; <%= member.email %>
+                  <% end %>
+                  <br>
+                <% end %>
+              <% end %>
+            </li>
+          </ul>
+        </td>
+        <td style='border:none'>&nbsp;&nbsp;&nbsp;</td>
+        <td style='border:none'>
+          <%= @family.phone %><br>
+          <p>
+            <%= displayAddress(@family.address) %><br>
+          </p>
+        </td>
+      </tr>
+    </table>
+<br> <br> <br>
+<br> <br> <br>
+<br> <br> <br>
+
+

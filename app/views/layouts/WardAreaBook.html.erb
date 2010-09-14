@@ -13,8 +13,11 @@
 </head>
 <body id="store">
   <div id="banner">
-    <!-- <%= image_tag("logo.png") %> -->
-    <%= @page_title || "Burien Ward Area Book" %><!-- <label id="code.depot.e.title"/> -->
+    <%= @page_title || "Burien Ward Area Book" %>
+    <div>
+      <%= session[:user_name] %><br>
+      <%= link_to "logout", :controller => 'login', :action => 'logout' %> 
+    </div>
   </div>
   <div id="columns">
     <div id="side">
@@ -22,6 +25,7 @@
       <p>
         <%= link_to 'Ward List', :controller => 'families'  %><br />
         <br>
+<% if session[:access_level] >=2 %>
         <%= link_to 'Other Families', :controller => 'families', :action => 'investigators'  %><br />
       </p>
       <br>
@@ -31,7 +35,8 @@
       <%= link_to 'Reports', :controller => 'reports', :action => 'month' %><br />
       &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Hopes', :controller => 'reports', :action => 'hope' %><br />
       &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Month', :controller => 'reports', :action => 'month' %><br />
-    </div>
+<% end %>
+  </div>
     <div id="main">
       <!-- START:flash -->
       <% if flash[:notice] -%>

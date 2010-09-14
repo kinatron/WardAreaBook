@@ -12,10 +12,10 @@ module FamiliesHelper
     end
   end
 
-  # TODO this is very "Burien" Ward Specific.  Come up with more generalized solution
   def displayAddress(address)
     begin
-      address.insert((address.index(/burien|seat|tukwila/i)),"<br>")
+      # city, state zipcode   - put a break right before the city.
+      address.insert(address.rindex(/\W+\w+\W+\w+\W+\d\d\d\d\d/),"<br>")
     rescue
       address
     end

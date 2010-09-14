@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   layout 'login'
+
+
   # GET /users
   # GET /users.xml
   def index
@@ -47,6 +49,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
 
+    # TODO Make access level an attribute of the person class
+    # and update priv's according to the leadership page on the 
+    # church website.
+    @user.access_level = 1
+
     if @user.save
       load_session(@user)
     else
@@ -93,10 +100,13 @@ protected
     end
   end
 
-  def access
-    unless params[:action] == 'new' || params[:action] =='create'
-      super
+  def checkAccess
+    unless action_name == "new" or action_name == "create"   
+      if hasAccess(3)
+        true
+      else
+        deny_access
+      end
     end
   end
-
 end

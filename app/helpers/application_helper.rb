@@ -8,12 +8,8 @@ module ApplicationHelper
     General=0
   end
 
-  def hasAccess(value)
-    session[:access_level] > value 
-  end
-
-  def hasAccess(value,family)
-    session[:access_level] > value 
+  def hasAccessHelper(value,family)
+    session[:access_level] >= value 
     # TODO or if the session[user_id] is the home teacher of this family.
   end
 

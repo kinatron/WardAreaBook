@@ -1,52 +1,20 @@
 =====================================================================================
-Data Schema
-=====================================================================================
-
-families
-ID | family_name | head_of_house_hold | phone | address | status | information | current | member
-
-people
-ID | name | family_id | phone | email | calling |
-
-teachingRecords
-                (active, less active, part-member, investigator) 
-ID | family_id | status  | Lessons Taught | Last Lesson | Next Lesson | Fellowshipper | membership milestone (baptism,  inverview with the Bishop, etc... | membership goal
-
-
-companionships
-ID | person1 | person2
-
-events
-ID | date | category | family | person_id | comment
-
-user
-name | hashed_password | salt | access_level
-
-record_status
-familyID | status (old record, recently updated, new, needs fix)
-
-changed_field
-family_id | column | old_text | new_text
-
-CVS Format
-familyname, phone, addr1, addr2, addr3, addr4, name1, name2, name3, name4
-
-=====================================================================================
 TODO's 
 =====================================================================================
-1. Synch up with the ward list Automatically
-   - Remove all relative links
-
-2. in_place_edit 
-   a) based on author or admin
-   b) with a delete option
-
+   
+2. Merge others --> members.  
+    - Dropdown list in edit to mv events and teaching records to a member.
 
 3. Add Home teacher support - Aug 31st
-   a) Report for my home teaching (may want to add the quorums home teaching also...)
-   b) Home teacher access to "addtional information"
-   c) Import Brother Millers Home teaching sheet.
-      - Identify HP vs Elder Q. families
+   a) Add hometeacher1, hometeacher2 columns to family table.
+   b) display families home teachers
+
+   c) within the family edit allow drop down lists to assign hometeachers. (Remove this later)
+   c) report to list families by home teacher
+
+   d) Home teacher access to "addtional information"
+
+   e) Import a csv home teaching file. (Elders vs HP)
 
 8. Create Tests
 
@@ -55,26 +23,32 @@ TODO's
 ========================================================================
 
 
+1. Access controll  
+  c) Each controller/action has an acccess level
+      - Levels of access
+         1 - General Access  - TODO I think there is a cleaner way to do this
+         2 - PEC - They can access everything on the menues
+         3 - admin - can access events, users, and other hidden items
+
+
+1. Synch up with the ward list Automatically
+  - move lds.org password to the database
+  - minor TODO updates
+
+2. in_place_edit 
+   a) based on author or admin
+   b) with a delete option
+
 3. Automatic form submission to change status
 
 4. ReDesign the page to page to a more horizontal format. - Aug 8th.
-   a) Add children to the family display page 
    b) Add a spot for home teachers
-   c) Add a spot to display "additional" information
 
 2. When a LessonX event is removed or updated update the Teaching Record. 
 
     c) Get rid of the test_me page and make sure everything still works.
     b) improve teaching record section in the family view page.
 
-1. Access controll   - Aug 7th
-  c) Each controller/action has an acccess level
-      - Levels of access
-         3 - admin
-         2 - PEC
-         1 - General Access
-
-1. Go in and fix the Glafke events
 
 5. Split out the month report into HP and Elder Families.
 
