@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     session[:first_name] = person.name
     session[:user_id] = person.id
     refresh_session
-    redirect_to(uri || {:controller => 'families'})
+    redirect_to(:controller => 'families')
   end
 
   def getMapping

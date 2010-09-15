@@ -15,7 +15,7 @@
   <div id="banner">
     <%= @page_title || "Burien Ward Area Book" %>
     <div>
-      <%= session[:user_name] %><br>
+      <!--%= # TODO work with caching session[:user_name] %><br-->
       <%= link_to "logout", :controller => 'login', :action => 'logout' %> 
     </div>
   </div>
