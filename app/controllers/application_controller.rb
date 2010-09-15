@@ -17,7 +17,12 @@ class ApplicationController < ActionController::Base
     uri = session[:requested_uri]
     session[:user_email] = user.name
     session[:access_level] = user.access_level
-    session[:user_name] = person.name + " " +  person.family.name
+    # TODO Hope Hack
+    if person.id == 1
+      session[:user_name] = "The Hopes"
+    else
+      session[:user_name] = person.name + " " +  person.family.name
+    end
     session[:first_name] = person.name
     session[:user_id] = person.id
     refresh_session
