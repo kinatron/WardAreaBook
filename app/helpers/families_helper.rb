@@ -3,11 +3,14 @@ module FamiliesHelper
     case status
       when /dnc/i            ; "maroon"
       when /less active/i    ; "cyan"
+      when /missionary/i    ; "cyan"
       when /active/i         ; "#00ff00"
+      when /member/i         ; "#00ff00"
       when /mailing/i        ; "#B88A00"
       when /not interested/i ; "#B88A00"
       when /moved/i          ; "red"
       when /returned/i       ; "red"
+      when /request/i       ; "red"
       else ; "yellow"
     end
   end

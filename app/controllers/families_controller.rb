@@ -58,18 +58,32 @@ class FamiliesController < ApplicationController
   end
 
   def mergeRecords
-    @family = Family.find(params[:family])
     if @hasFullAccess
-      @families = Family.find(params[:family_merge])
-      respond_to do |format|
-        format.html # investigators.html.erb
-        format.xml  { render :xml => @families }
+      @family = Family.find(params[:family])
+      if @family.member
+        redirect_to :back 
+      else
+        @familyList = Family.find_all_by_member_and_current(true,true)
+        respond_to do |format|
+          format.html # investigators.html.erb
+          format.xml  { render :xml => @families }
+        end
       end
     else
       flash[:notice] = 'User does not have access to this page.'
       redirect_to(:action => 'index')
     end
   end
+
+  def merge_the_record
+    @family = Family.find(params[:family])
+    @memberRecord = Family.find(params[:family_to_merge_with])
+    @family.mergeTo(@memberRecord)
+    respond_to do |format|
+      format.html { redirect_to(@memberRecord) }
+    end
+  end
+
 
   # GET /families/1
   # GET /families/1.xml

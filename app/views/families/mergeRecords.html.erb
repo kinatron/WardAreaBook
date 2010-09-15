@@ -1,0 +1,23 @@
+<h1>Merge records for familiy <%= @family.name %> </h1>
+
+<% form_tag(:action => :merge_the_record) do  %>
+  <p>
+    This options allows you to transfer all events and teaching records<br> 
+    from this 'non-member' record to an official member record from the ward list.
+  </p>
+  <p>
+    It's pretty hard to undo this so be sure to select the correct family...
+  </p>
+  <br><br>
+  <p>
+    Merge Records for:
+    <%= @family.head_of_house_hold %> <%= @family.name %> with 
+    <%= hidden_field_tag 'family', @family.id %>
+    <%= select_tag 'family_to_merge_with', options_for_select(Family::ALL) %>
+ </p>
+  <br>
+  <p>
+    <%= submit_tag 'Merge', :confirm => "This operation will remove record " + 
+                                          @family.name + '   Are you sure?' %>
+  </p>
+<% end %>

@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
 #  map.connect '/login', :controller => 'families', :action => 'index'
   map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
   map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'
+  map.connect '/families/mergeRecords/', :controller => 'families', :action => 'mergeRecords'
 
   map.resources :families
   # The priority is based upon order of creation: first created -> highest priority.

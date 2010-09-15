@@ -18,7 +18,7 @@
     <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.name %>, <%=h family.head_of_house_hold %></td>
     <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.phone %></td>
     <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.address %></td>
-    <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.status %></td>
+    <td bgcolor=<%=statusColor(family.status)%> onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.status %></td>
     <td onClick = "window.location.href='<%= family_path(family) %>'" sorttable_customkey="<%=getLastVisitDateSortable(family)%>"> <%= getLastVisitDate(family) %></td>
     <td onClick = "window.location.href='<%= family_path(family) %>'" ><%= getLastVisitComment(family) %></td>
   </tr>

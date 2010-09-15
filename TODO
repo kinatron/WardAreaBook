@@ -1,11 +1,8 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-   
-2. Merge others --> members.  
-    - Dropdown list in edit to mv events and teaching records to a member.
 
-3. Add Home teacher support - Aug 31st
+1. Add Home teacher support - Aug 31st
    a) Add hometeacher1, hometeacher2 columns to family table.
    b) display families home teachers
 
@@ -16,9 +13,9 @@ TODO's
 
    e) Import a csv home teaching file. (Elders vs HP)
 
-8. Create Tests
+2. Create Tests
 
-9. Create a nice mechanism to edit events.  To clean up past events
+3. Create a nice mechanism to edit events.  To clean up past events
 
 ========================================================================
 
