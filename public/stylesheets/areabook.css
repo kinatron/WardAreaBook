@@ -48,6 +48,9 @@ h1 {
   text-decoration:none;
   color: #433;
 }
+
+
+
 /* Styles for products/index */
 
 .subtile-links {
@@ -138,13 +141,18 @@ h1 {
   background-color:   #bdb;
 }
 
+.cell:hover {
+  background-color:   #bdb;
+}
+
+
 /* START:mainlayout */
 /* Styles for main page */
 
 #banner {
   background: #9c9;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   border-bottom: 2px solid;
   font: small-caps 40px/40px "Times New Roman", serif;
   color: #000;
@@ -155,11 +163,11 @@ h1 {
   float: left;
 }
 #banner div {
-  width: 100px;
+  width: 110px;
   padding-right: 10px;
   font: small-caps 15px/15px "Times New Roman", serif;
-  text-align: left;
   float: right;
+  float: top;
 }
 
 #columns {
@@ -167,9 +175,9 @@ h1 {
 }
 
 #main {
-  margin-left: 13em;
-  padding-top: 4ex;
-  padding-left: 2em;
+  margin-left: 11em;
+  padding-top: 2em;
+  padding-left: 3em;
   background: #ffd;
 }
 
@@ -178,7 +186,7 @@ h1 {
   padding-top: 1em;
   padding-left: 1em;
   padding-bottom: 1em;
-  width: 12em;
+  width: 10em;
   background: #feb;
 }
 

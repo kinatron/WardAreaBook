@@ -1,0 +1,26 @@
+<h1>Listing name_mappings</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Person Id</th>
+    <th>Family Id</th>
+    <th>Category</th>
+  </tr>
+
+<% @name_mappings.each do |name_mapping| %>
+  <tr>
+    <td><%=h name_mapping.name %></td>
+    <td><%=h name_mapping.person_id %></td>
+    <td><%=h name_mapping.family_id %></td>
+    <td><%=h name_mapping.category %></td>
+    <td><%= link_to 'Show', name_mapping %></td>
+    <td><%= link_to 'Edit', edit_name_mapping_path(name_mapping) %></td>
+    <td><%= link_to 'Destroy', name_mapping, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New name_mapping', new_name_mapping_path %>

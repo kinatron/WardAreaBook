@@ -25,7 +25,7 @@ def getFamilyMembers cardData
     person = VcardPerson.new
     foundEmail = individual.match(/<.*>/)
     if foundEmail
-      person.email = foundEmail.to_s[1..(foundEmail.to_s.length-2)]
+      person.email = foundEmail.to_s[1..(foundEmail.to_s.length-2)].downcase
       person.name = foundEmail.pre_match.strip
     else
       person.name = individual.strip

@@ -1,0 +1,13 @@
+<h1>Opps...</h1>
+<p>
+An Error has occured with the csv file you just used.  
+All home teaching assignments have just been deleted.
+<p>
+  Click on the following button to restore the home teaching assignments <br>
+  to their previous values.
+  <% form_tag (:action => :createHomeTeachingRoutes, :path=>@path) do %>
+    <%= submit_tag "Restore", {:onclick=>"Effect.toggle('patients','blind');return true;"} %>
+    <div id="patients" style = 'display:none'>
+      Be patient... this takes a minute.
+    </div>
+  <% end %>

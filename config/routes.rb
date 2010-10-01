@@ -1,11 +1,19 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :name_mappings
+
+  map.connect '/teaching_routes/updateError/', :controller => 'teaching_routes', 
+                                               :action => 'updateError'
+  map.connect '/teaching_routes/updateRoutes/', :controller => 'teaching_routes', 
+                                               :action => 'updateRoutes'
+  map.connect '/teaching_routes/teacherList/', :controller => 'teaching_routes', 
+                                               :action => 'teacherList'
+  map.resources :teaching_routes
+
   map.resources :teaching_records
 
   map.resources :users
 
   map.resources :people
-
-  map.resources :companionships
 
   map.resources :events
 
@@ -13,6 +21,7 @@ ActionController::Routing::Routes.draw do |map|
 
 
 #  map.connect '/login', :controller => 'families', :action => 'index'
+  map.connect '/families/members/', :controller => 'families', :action => 'members'
   map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
   map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'
   map.connect '/families/mergeRecords/', :controller => 'families', :action => 'mergeRecords'

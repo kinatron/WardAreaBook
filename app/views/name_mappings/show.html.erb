@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%=h @name_mapping.name %>
+</p>
+
+<p>
+  <b>Person:</b>
+  <%=h @name_mapping.person_id %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%=h @name_mapping.category %>
+</p>
+
+
+<%= link_to 'Edit', edit_name_mapping_path(@name_mapping) %> |
+<%= link_to 'Back', name_mappings_path %>

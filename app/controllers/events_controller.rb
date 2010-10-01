@@ -1,5 +1,9 @@
 class EventsController < ApplicationController
   cache_sweeper :family_sweeper, :only => [:create_new_family_event, :remove, :update]
+
+  def checkAccess
+  end
+
   # GET /events
   # GET /events.xml
   def index

@@ -43,7 +43,7 @@ module FamiliesHelper
 
   def getLastVisitComment(family)
     if family.events.first != nil
-      truncate(family.events.first.comment, :length => 30) 
+      truncate(family.events.first.comment, :length => 100) 
     else
       ""
     end

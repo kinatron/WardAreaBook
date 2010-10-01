@@ -1,0 +1,2 @@
+module NameMappingsHelper
+end

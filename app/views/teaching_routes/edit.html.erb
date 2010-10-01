@@ -1,0 +1,24 @@
+<h1>Editing teaching_route</h1>
+
+<% form_for(@teaching_route) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :category %><br />
+    <%= f.select :category, [["HP","HP"],["EQ","EQ"],["RS","RS"]] %>
+  </p>
+  <p>
+    <%= f.label :family_id %><br />
+    <%= f.select :family_id, Family::ALL %>
+  </p>
+  <p>
+    <%= f.label :person1 %><br />
+    <%= f.select :person_id, @names %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @teaching_route %> |
+<%= link_to 'Back', teaching_routes_path %>

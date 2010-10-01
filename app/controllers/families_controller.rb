@@ -1,6 +1,7 @@
 class FamiliesController < ApplicationController
   before_filter :store_return_point, :only => [:show]
-  caches_action :index
+  caches_action :index, :layout => false
+  caches_action :members, :layout => false
   #TODO for some reason the sweeper is not getting called when I update 
   #the family records.  So I instead I'm explicitly updating this.
   #the sweeper is working for the events_controller....
@@ -10,28 +11,23 @@ class FamiliesController < ApplicationController
 
   # override the application accessLevel method
   def checkAccess
+    @hasFullAccess = hasAccess(2)
     # Everybody has access to these methods
-    if hasAccess(2)
-      @hasFullAccess = true
+    if action_name == 'members' or action_name == 'show' or hasAccess(2)
+      true
     else 
-      @hasFullAccess = false
+      deny_access
     end
   end
-
-
 
   # GET /families
   # GET /families.xml
   def index
     @families = Family.find_all_by_member_and_current(true,true, :order => :name)
 
-    if @hasFullAccess
-      respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render :xml => @families }
-      end
-    else
-      render :action => "members"
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @families }
     end
   end
 
@@ -45,33 +41,23 @@ class FamiliesController < ApplicationController
   end
 
   def investigators
-    if @hasFullAccess
-      @families = Family.find_all_by_member(false, :order => :name)
-      respond_to do |format|
-        format.html # investigators.html.erb
-        format.xml  { render :xml => @families }
-      end
-    else
-      flash[:notice] = 'User does not have access to this page.'
-      redirect_to(:action => 'index')
+    @families = Family.find_all_by_member(false, :order => :name)
+    respond_to do |format|
+      format.html # investigators.html.erb
+      format.xml  { render :xml => @families }
     end
   end
 
   def mergeRecords
-    if @hasFullAccess
-      @family = Family.find(params[:family])
-      if @family.member
-        redirect_to :back 
-      else
-        @familyList = Family.find_all_by_member_and_current(true,true)
-        respond_to do |format|
-          format.html # investigators.html.erb
-          format.xml  { render :xml => @families }
-        end
-      end
+    @family = Family.find(params[:family])
+    if @family.member
+      redirect_to :back 
     else
-      flash[:notice] = 'User does not have access to this page.'
-      redirect_to(:action => 'index')
+      @familyList = Family.find_all_by_member_and_current(true,true)
+      respond_to do |format|
+        format.html # investigators.html.erb
+        format.xml  { render :xml => @families }
+      end
     end
   end
 
@@ -94,7 +80,9 @@ class FamiliesController < ApplicationController
     @families = getFamilyMapping
     @fellowShippers = getMapping
 
-    if @hasFullAccess
+    if @hasFullAccess or 
+       @family.teaching_routes[0].person_id == session[:user_id] or
+       @family.teaching_routes[1].person_id == session[:user_id]
       respond_to do |format|
         format.html # show.html.erb
         format.xml  { render :xml => @family }

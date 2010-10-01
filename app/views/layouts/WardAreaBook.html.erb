@@ -15,7 +15,7 @@
   <div id="banner">
     <%= @page_title || "Burien Ward Area Book" %>
     <div>
-      <!--%= # TODO work with caching session[:user_name] %><br-->
+      <%= session[:user_name] %><br>
       <%= link_to "logout", :controller => 'login', :action => 'logout' %> 
     </div>
   </div>
@@ -23,19 +23,37 @@
     <div id="side">
       <br> <br> 
       <p>
-        <%= link_to 'Ward List', :controller => 'families'  %><br />
-        <br>
 <% if session[:access_level] >=2 %>
+        <%= link_to 'Ward List', :controller => 'families'  %><br />
         <%= link_to 'Other Families', :controller => 'families', :action => 'investigators'  %><br />
+        <%= link_to 'Teaching Pool', :controller => 'teaching_records' %><br />
       </p>
-      <br>
-      <%= link_to 'Teaching Pool', :controller => 'teaching_records' %><br />
+      <br><br>
+      <p>
+        <%= link_to 'Home Teaching', :controller => 'teaching_routes' %><br />
+ <% else %>      
+        <%= link_to 'Ward List', :controller => 'families', :action => 'members'  %><br />
+<% end %>
+        <%= link_to 'My Families ', :controller => 'teaching_routes',
+                                    :action => 'teacherList', 
+                                    :id => session[:user_id]
+          %><br />
+
+<% if session[:access_level] >=2 %>
+      </p>
       <br> <br> 
       <br> <br> 
       <%= link_to 'Reports', :controller => 'reports', :action => 'month' %><br />
       &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Hopes', :controller => 'reports', :action => 'hope' %><br />
       &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Month', :controller => 'reports', :action => 'month' %><br />
 <% end %>
+
+<% if Person.find(session[:user_id]).teachingRoutes.size %>
+  <br><br><br>
+  <% # TODO work out caching %>
+  <% link_to 'My Families', :controller => 'reports', :action => 'myFamilies'  %><br />
+<% end %>
+
   </div>
     <div id="main">
       <!-- START:flash -->
@@ -44,7 +62,7 @@
       <% end -%>
       <!-- END:flash -->
       <%= yield :layout %><!-- <label id="code.depot.e.include"/> -->
-    </div>
-  </div>
+      </div> <!-- main -->
+  </div> <!-- columns -->
 </body>
 </html>

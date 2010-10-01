@@ -12,7 +12,6 @@ class ReportsController < ApplicationController
     end
   end
 
-
   # TODO reference the hopes by name not id 1
   def hope
     @events = Event.find_all_by_person_id(1, :order => 'date DESC')

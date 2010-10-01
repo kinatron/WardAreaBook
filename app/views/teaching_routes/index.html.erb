@@ -1,0 +1,30 @@
+<h1>Home Teaching Assignments 
+  &mdash;
+  <%= link_to "update", :action => 'updateRoutes'  %>
+</h1>
+<table class = 'sortable resizable'>
+  <tr>
+    <th>Quorum</th>
+    <th class='nosort' onclick = "window.location.href='<%= teaching_routes_path %>'">Family</th>
+    <th>Home Teacher</th>
+  </tr>
+
+<% fam = "" %>
+<% @teaching_routes.each do |route| %>
+  <tr>
+    <td><%=h route.category %></td>
+    <td class='cell' onclick = "window.location.href='<%= family_path(route.family) %>'">
+      <% unless fam == route.family.name + route.family.head_of_house_hold%>
+        <%=h route.family.head_of_house_hold  + " " + route.family.name %>
+      <% end %>
+    </td>
+    <% fam = route.family.name + route.family.head_of_house_hold %>
+    <td class='cell' onClick = "window.location.href='<%= "/teaching_routes/teacherList?id=" + route.person.id.to_s %>'">
+      <%=h route.person.name + " " + route.person.family.name %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

@@ -25,6 +25,12 @@
             <%= displayAddress(@family.address) %><br>
           </p>
         </td>
+        <td style='border:none'>&nbsp;&nbsp;&nbsp;</td>
+        <td style='border:none'> 
+          <% @family.teaching_routes.each do |teacher| %>
+            Home Teacher: <%= teacher.person.name + " " + teacher.person.family.name %> <br>
+          <% end %>
+        </td>
       </tr>
     </table>
 <br> <br> <br>

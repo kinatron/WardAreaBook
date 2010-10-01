@@ -1,5 +1,6 @@
 class Person < ActiveRecord::Base
   belongs_to :family
+  has_many :teachingRoutes 
 
     ALL = self.find(:all, :order=>'name').map do |s|
       if s.name == "Elder and Sister"

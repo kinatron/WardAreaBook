@@ -1,0 +1,18 @@
+<% form_tag (:action => :updateNames) do %>
+  <h1>Please match up the following hometeachers</h1>
+  <% @cantFindTeacher.each do |teacher| %>
+    <%= teacher %>&nbsp; &nbsp; &nbsp; 
+    <%= select_tag "correct_person[#{teacher}]", options_for_select(personSuggestions(teacher)) %>
+    <br><br>
+  <% end %>
+  <br><br><br>
+  <h1>Please match up the following familes</h1>
+  <% @cantFindFamily.each do |family| %>
+    <%= family %>&nbsp; &nbsp; &nbsp; 
+    <%= select_tag "correct_family[#{family}]", options_for_select(familySuggestions(family)) %>
+    <br><br>
+  <% end %>
+  <%= submit_tag "Update Names" %>
+<% end %>
+
+

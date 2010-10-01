@@ -2,25 +2,17 @@
 TODO's 
 =====================================================================================
 
-1. Add Home teacher support - Aug 31st
-   a) Add hometeacher1, hometeacher2 columns to family table.
-   b) display families home teachers
-
-   c) within the family edit allow drop down lists to assign hometeachers. (Remove this later)
-   c) report to list families by home teacher
-
-   d) Home teacher access to "addtional information"
-
-   e) Import a csv home teaching file. (Elders vs HP)
-
-2. Create Tests
-
-3. Create a nice mechanism to edit events.  To clean up past events
+1. Create a ward leadership list.
 
 ========================================================================
 
+1. Lock out the events index page.
 
-1. Access controll  
+3. Create Tests
+
+4. Create a nice mechanism to edit events.  To clean up past events
+
+1. Access controll  - Isn't quite there Jen still has access to the people page.
   c) Each controller/action has an acccess level
       - Levels of access
          1 - General Access  - TODO I think there is a cleaner way to do this
@@ -38,8 +30,6 @@ TODO's
 
 3. Automatic form submission to change status
 
-4. ReDesign the page to page to a more horizontal format. - Aug 8th.
-   b) Add a spot for home teachers
 
 2. When a LessonX event is removed or updated update the Teaching Record. 
 
@@ -64,11 +54,9 @@ TODO's
 * Caching TODO sweepers wasn't working for the families controller.  I instead used explict action_expire commands
 
 6. Display family members int the families/show page 
-    a) head of house old with children endented beneath
-    b) show any cellphones or email addresses
+    b) show any cellphones
 
 4. FIX HACK!!!!
-
 
 1. Create a reports page that lists visits by month.
 
@@ -78,10 +66,10 @@ TODO's
     |       |       |
    Feb    March   April
 
-
-
 5. Find a way to do dynamic selection lists
 
 8. Validate all input able data.
 
-10. Create a partial to limit the events to the within the last month with a link to see more.
+10. Create a partial to limit the events to the within the last 10 events with a link to see more.
+
+11. Add dynamic content to the reports page (don't generate all of the data unless they need it.

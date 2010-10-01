@@ -9,15 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100901231115) do
-
-  create_table "companionships", :force => true do |t|
-    t.string   "type"
-    t.integer  "person1"
-    t.integer  "person2"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20100928222606) do
 
   create_table "events", :force => true do |t|
     t.date     "date"
@@ -41,6 +33,21 @@ ActiveRecord::Schema.define(:version => 20100901231115) do
     t.boolean  "current",            :default => true
     t.boolean  "member",             :default => true
     t.string   "uid"
+  end
+
+  create_table "home_teaching_files", :force => true do |t|
+    t.string   "location"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "name_mappings", :force => true do |t|
+    t.string   "name"
+    t.string   "category"
+    t.integer  "person_id"
+    t.integer  "family_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "people", :force => true do |t|
@@ -75,6 +82,14 @@ ActiveRecord::Schema.define(:version => 20100901231115) do
     t.date     "milestone_date_goal"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "teaching_routes", :force => true do |t|
+    t.string   "category"
+    t.integer  "person_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "family_id"
   end
 
   create_table "users", :force => true do |t|

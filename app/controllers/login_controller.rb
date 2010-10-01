@@ -19,7 +19,7 @@ class LoginController < ApplicationController
     name = session[:user_name]
     reset_session
     flash[:notice] = name, " successfully logged out."
-    redirect_to :controller => 'families'
+    redirect_to :controller => 'login'
   end
 
   def index

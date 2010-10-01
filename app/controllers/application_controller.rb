@@ -26,7 +26,13 @@ class ApplicationController < ActionController::Base
     session[:first_name] = person.name
     session[:user_id] = person.id
     refresh_session
-    redirect_to(:controller => 'families')
+    # TODO Get this working
+    #redirect_to(uri || {:controller => 'families'})
+    if hasAccess(2)
+      redirect_to(:controller => 'families')
+    else
+      redirect_to(:controller => 'families', :action => 'members')
+    end
   end
 
   def getMapping
@@ -95,11 +101,14 @@ protected
       else
         #redirect_to session[:home_url]
         #TODO this should go back to the page they just came from
-        redirect_to :controller=>  :families, :action => :index
+        if hasAccess(2)
+          redirect_to(:controller => 'families')
+        else
+          redirect_to(:controller => 'families', :action => 'members')
+        end
       end
       return false
   end
-
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
