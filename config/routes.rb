@@ -1,6 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :name_mappings
 
+  map.connect '/teaching_routes/updateNames/', :controller => 'teaching_routes', 
+                                               :action => 'updateNames'
   map.connect '/teaching_routes/updateError/', :controller => 'teaching_routes', 
                                                :action => 'updateError'
   map.connect '/teaching_routes/updateRoutes/', :controller => 'teaching_routes', 

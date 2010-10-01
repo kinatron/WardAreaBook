@@ -1,4 +1,5 @@
 <% form_tag (:action => :updateNames) do %>
+  <%= hidden_field_tag :path, @path %>
   <h1>Please match up the following hometeachers</h1>
   <% @cantFindTeacher.each do |teacher| %>
     <%= teacher %>&nbsp; &nbsp; &nbsp; 

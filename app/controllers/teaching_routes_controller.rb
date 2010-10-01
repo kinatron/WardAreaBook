@@ -95,6 +95,7 @@ class TeachingRoutesController < ApplicationController
       end
       redirect_to(teaching_routes_path) 
     else 
+      @path = homeTeachingFile 
       render 'updateNames'
     end
 
@@ -104,8 +105,8 @@ class TeachingRoutesController < ApplicationController
     @path = params[:path]
   end
 
-
   def updateNames
+    @path = params[:path] || ""
     names = params[:correct_person] || ""
     names.each do |name, person_id|
       if NameMapping.find_by_name_and_category(name,'person') == nil
@@ -120,7 +121,7 @@ class TeachingRoutesController < ApplicationController
                            :category =>'family')
       end
     end
-    createHomeTeachingRoutes
+    createHomeTeachingRoutes(@path)
   end
 
 

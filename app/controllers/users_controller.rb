@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     # TODO Make access level an attribute of the person class
     # and update priv's according to the leadership page on the 
     # church website.
-    @user.access_level = 2
+    @user.access_level = 1
 
     if @user.save
       load_session(@user)
