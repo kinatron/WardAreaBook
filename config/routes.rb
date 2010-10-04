@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :callings
+
+  map.connect '/callings/updateAccessLevels/', :controller => 'callings', 
+                                               :action => 'updateAccessLevels'
   map.resources :name_mappings
 
   map.connect '/teaching_routes/updateNames/', :controller => 'teaching_routes', 

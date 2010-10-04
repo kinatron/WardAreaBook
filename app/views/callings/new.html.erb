@@ -1,0 +1,24 @@
+<h1>New calling</h1>
+
+<% form_for(@calling) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :job %><br />
+    <%= f.text_field :job %>
+  </p>
+  <p>
+    Member<br />
+    <%= f.select :person_id, @names %>
+  </p>
+
+  <p>
+    <%= f.label :access_level %><br />
+    <%= f.text_field :access_level %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', callings_path %>

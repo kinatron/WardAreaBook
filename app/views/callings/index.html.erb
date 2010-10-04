@@ -1,0 +1,27 @@
+<h1>Listing callings</h1>
+
+<% form_tag :action => :updateAccessLevels do %>
+  <table>
+    <tr>
+      <th>PEC <br>Access</th>
+      <th>Job</th>
+      <th>Person</th>
+    </tr>
+    <% @callings.each do |calling| %>
+      <tr>
+        <td>
+          <%= check_box_tag "accessLevels[#{calling.job}]", value=2, 
+            checked = (calling.access_level >= 2) %>
+        </td>
+        <td><%=h calling.job %></td>
+        <td><%=h calling.person.name + " " + calling.person.family.name %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br />
+  <%= submit_tag "Update Access Levels" %>
+<% end %>
+
+<br> <br> 
+<%= link_to 'New calling', new_calling_path %>
+<br><br>

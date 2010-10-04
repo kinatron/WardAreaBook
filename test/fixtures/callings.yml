@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  job: 
+  person_id: 
+  access_level: 1
+
+two:
+  job: 
+  person_id: 
+  access_level: 1

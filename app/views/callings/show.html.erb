@@ -1,0 +1,18 @@
+<p>
+  <b>Job:</b>
+  <%=h @calling.job %>
+</p>
+
+<p>
+  <b>Person:</b>
+  <%=h @calling.person_id %>
+</p>
+
+<p>
+  <b>Access level:</b>
+  <%=h @calling.access_level %>
+</p>
+
+
+<%= link_to 'Edit', edit_calling_path(@calling) %> |
+<%= link_to 'Back', callings_path %>

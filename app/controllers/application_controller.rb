@@ -16,7 +16,13 @@ class ApplicationController < ActionController::Base
     person = Person.find_by_email(user.name)
     uri = session[:requested_uri]
     session[:user_email] = user.name
-    session[:access_level] = user.access_level
+    # Lookup this persons access level (based on the leadership dir at lds.org)
+    access_level = 0
+    calling = Calling.find_by_person_id(person.id)
+    unless calling == nil
+      access_level = calling.access_level
+    end
+    session[:access_level] = access_level 
     # TODO Hope Hack
     if person.id == 1
       session[:user_name] = "The Hopes"
