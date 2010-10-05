@@ -21,8 +21,8 @@ require 'vpim/vcard'
     end
     form = page.form('loginForm')
     # TODO grab this from the database
-    form.username = "kinateder"
-    form.password = "Ilovejenjen100%"
+    form.username = ""
+    form.password = ""
     page = agent.submit(form)
     puts "Just logged in"
     page.links.each do |link|

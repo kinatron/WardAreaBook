@@ -2,7 +2,32 @@
 TODO's 
 =====================================================================================
 
-1. Create a ward leadership list.
+1. Make event and family information only editable by content provider
+   - Provide a date and signature for family information.  
+   - Allow others to make comments.
+
+2. Create events for status changes
+     "other" - date - owner - changed from <status> to <status>
+
+3. update scripts
+    - Move lds.org password into the database
+    - combine the getLeadership and updateDatabase into one script 
+    - make the contents of updateLog available through the site
+    - minor todo's
+
+4. email challenge for password
+
+5. Three main layouts - break the layout into a series of partials
+    - areabook
+    - admin
+    - login
+
+6. Tests
+    - Creating users
+    - Access control 
+    - Accessing all of the pages.
+
+7. Admin to add non-member users and escalting user privs
 
 ========================================================================
 
@@ -18,11 +43,6 @@ TODO's
          1 - General Access  - TODO I think there is a cleaner way to do this
          2 - PEC - They can access everything on the menues
          3 - admin - can access events, users, and other hidden items
-
-
-1. Synch up with the ward list Automatically
-  - move lds.org password to the database
-  - minor TODO updates
 
 2. in_place_edit 
    a) based on author or admin
