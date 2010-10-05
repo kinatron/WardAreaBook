@@ -1,24 +1,36 @@
-<h1>Home Teaching Assignments 
-  &mdash;
+<h1>Home Teaching Assignments &mdash;
   <%= link_to "update", :action => 'updateRoutes'  %>
 </h1>
+<table>
+  <tr>
+    <td bgcolor="#00ff00">This Month</td>
+    <td bgcolor="cyan">Last Month</td>
+    <td bgcolor="yellow">Two Months Ago</td>
+  </tr>
+</table>
+<br>
 <table class = 'sortable resizable'>
   <tr>
     <th>Quorum</th>
-    <th class='nosort' onclick = "window.location.href='<%= teaching_routes_path %>'">Family</th>
+    <th>Family</th>
+    <th>Last Visit</th>
     <th>Home Teacher</th>
   </tr>
 
-<% fam = "" %>
 <% @teaching_routes.each do |route| %>
   <tr>
     <td><%=h route.category %></td>
     <td class='cell' onclick = "window.location.href='<%= family_path(route.family) %>'">
-      <% unless fam == route.family.name + route.family.head_of_house_hold%>
+      <div>
         <%=h route.family.head_of_house_hold  + " " + route.family.name %>
-      <% end %>
+      </div>
     </td>
-    <% fam = route.family.name + route.family.head_of_house_hold %>
+    <% lastEvent = getLastHomeTeacherVisit(route.family) %>
+    <td bgcolor=<%= getLastHomeTeacherVisitColor(lastEvent) %> >
+      <div>
+        <%= lastEvent.date.to_s(:sortable) if lastEvent %>
+      </div>
+    </td>
     <td class='cell' onClick = "window.location.href='<%= "/teaching_routes/teacherList?id=" + route.person.id.to_s %>'">
       <%=h route.person.name + " " + route.person.family.name %>
     </td>

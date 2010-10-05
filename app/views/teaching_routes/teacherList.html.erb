@@ -1,6 +1,14 @@
 <h1><%= @homeTeacher.name + " " + @homeTeacher.family.name %>  
   Home Teaching Assignments</h1>
 
+<table>
+  <tr>
+    <td bgcolor="#00ff00">This Month</td>
+    <td bgcolor="cyan">Last Month</td>
+    <td bgcolor="yellow">Two Months Ago</td>
+  </tr>
+</table>
+<br>
 <table class = 'sortable resizable'>
   <thead>
     <tr align="left">
@@ -18,10 +26,11 @@
       onClick = "window.location.href='<%= family_path(family) %>'" >
       <td>
         <%=h family.name %>, <%=h family.head_of_house_hold %></td>
-      <td bgcolor=<%=statusColor(family.status)%>>
+      <td>
         <%=h family.status %></td>
-      <td sorttable_customkey="<%=getLastVisitDateSortable(family)%>">
-        <%= lastVisit.date if lastVisit %></td>
+      <td bgcolor=<%= getLastHomeTeacherVisitColor(lastVisit) %> 
+          sorttable_customkey="<%=getLastVisitDateSortable(family)%>">
+        <%= lastVisit.date.to_s(:sortable) if lastVisit %></td>
       <td>
         <%= lastVisit.comment if lastVisit  %></td>
     </tr>

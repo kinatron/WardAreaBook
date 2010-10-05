@@ -96,6 +96,10 @@ tr.roweven {
 	background-color: #feb;
 }
 
+table tr.roweven div {
+  visibility:hidden;
+}
+
 .sortcol {
 	cursor: pointer;
 	padding-right: 20px;
