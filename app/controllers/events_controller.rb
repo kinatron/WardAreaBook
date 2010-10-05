@@ -79,6 +79,7 @@ class EventsController < ApplicationController
       end
     end
 
+    @event.author = session[:user_id]
     respond_to do |format|
       if @event.save
         #flash[:notice] = 'Event was successfully created.'
@@ -95,6 +96,7 @@ class EventsController < ApplicationController
   # POST /events.xml
   def create
     @event = Event.new(params[:event])
+    @event.author = session[:user_id]
 
     respond_to do |format|
       if @event.save

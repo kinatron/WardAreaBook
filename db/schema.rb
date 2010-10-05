@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101004030505) do
+ActiveRecord::Schema.define(:version => 20101005165247) do
 
   create_table "callings", :force => true do |t|
     t.string   "job"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20101004030505) do
     t.text     "comment"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "author",     :default => 1
   end
 
   create_table "families", :force => true do |t|

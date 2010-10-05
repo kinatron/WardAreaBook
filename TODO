@@ -3,8 +3,16 @@ TODO's
 =====================================================================================
 
 1. Make event and family information only editable by content provider
-   - Provide a date and signature for family information.  
-   - Allow others to make comments.
+
+   2) - Add a comment field to the family record
+        Create a new comment table
+        family_id | author_id | text | udpated_at
+        Authors can update the comment
+        Users can add their own comments.
+        Display the updated_at and owner name when displaying the comments
+        create a script that creates comment based on the information field
+        have "information now reference comments
+        
 
 2. Create events for status changes
      "other" - date - owner - changed from <status> to <status>
