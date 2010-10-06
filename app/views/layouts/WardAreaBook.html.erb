@@ -42,10 +42,12 @@
 <% if session[:access_level] >=2 %>
       </p>
       <br> <br> 
-      <br> <br> 
+      <br> 
       <%= link_to 'Reports', :controller => 'reports', :action => 'month' %><br />
       &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Hopes', :controller => 'reports', :action => 'hope' %><br />
       &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Month', :controller => 'reports', :action => 'month' %><br />
+      <br><br><br>
+      <%= link_to 'Stats', :controller => 'stats' %><br />
 <% end %>
 
 <% if Person.find(session[:user_id]).teachingRoutes.size %>

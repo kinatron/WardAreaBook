@@ -1,0 +1,30 @@
+<div id='stats'>
+<h1>Percentage of the ward who has been visited </h1>
+<p>
+  add content
+</p>
+<h1>Ward Profile &mdash; <%= @total %> Families</h1>
+<p>
+  <div style="background-color:<%= statusColor('active') %>"> 
+    Active &ndash; <%= @active %> <br>
+    <%= ((@active.to_f/@total.to_f)*100).round %>%
+  </div> <div class='spacer'>&nbsp;</div>
+  <div style="background-color:<%= statusColor('less active') %>"> 
+    Less Active &ndash; <%= @lessActive %>  <br>
+    <%= ((@lessActive.to_f/@total.to_f)*100).round %>%
+  </div> <div class='spacer'>&nbsp;</div>
+  <div style="background-color:<%= statusColor('Not Interested') %>"> 
+    Not Interested &ndash; <%=@notInterested %> <br>
+    <%= ((@notInterested.to_f/@total.to_f)*100).round %>%
+  </div> <div class='spacer'>&nbsp;</div>
+  <div style="background-color:<%= statusColor('dnc') %>"> 
+    DNC &ndash; <%=@dnc %><br>
+    <%= ((@dnc.to_f/@total.to_f)*100).round %>%
+  </div> <div class='spacer'>&nbsp;</div>
+  <div style="background-color:<%= statusColor('Unknown/New') %>"> 
+    Unknown/New &ndash; <%=@unknown %><br>
+    <%= ((@unkown.to_f/@total.to_f)*100).round %>%
+  </div> <div class='spacer'>&nbsp;</div>
+</p>
+<br><br><br>
+</div>

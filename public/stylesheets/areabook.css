@@ -14,6 +14,20 @@
   text-indent: 1.5em;
 }
 
+
+#stats div {
+  padding-right: 10px;
+  padding-left: 10px;
+  float: left;
+  text-align: center;
+}
+#stats .spacer {
+  background-color:none;
+  padding-right: 20px;
+  float: left;
+}
+
+
 /* START:notice */
 #notice {
   border: 2px solid red;

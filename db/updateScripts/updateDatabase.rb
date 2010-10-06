@@ -220,7 +220,7 @@ begin
       # label them as current
 
       family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
-                             :phone => phone, :address => address, :status => "New", 
+                             :phone => phone, :address => address, :status => "new", 
                              :uid => uid, :current => 1)
       updateMade = true
 
