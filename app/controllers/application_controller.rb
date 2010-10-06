@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   INACTIVITY_PERIOD = 60
 
   def load_session(user)
-    person = Person.find_by_email(user.name)
+    person = Person.find_by_current_and_email(true, user.name)
     uri = session[:requested_uri]
     session[:user_email] = user.name
     # Lookup this persons access level (based on the leadership dir at lds.org)
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   end
 
   def getMapping
-    @@names ||= Person.find(:all, :order=>'name').map do |s|
+    @@names ||= Person.find_all_by_current(true, :order=>'name').map do |s|
       if s.name == "Elder and Sister"
         ["The Hopes", s.id]
       else

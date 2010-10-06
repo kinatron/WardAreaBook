@@ -247,7 +247,7 @@ private
 
       family.each do |fam|
         #puts firstName + "--" + fam.id.to_s
-        person = Person.find_by_name_and_family_id(firstName,fam.id)
+        person = Person.find_by_current_and_name_and_family_id(true,firstName,fam.id)
         if person == nil
           next 
         end

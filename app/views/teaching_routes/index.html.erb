@@ -22,7 +22,7 @@
     <td><%=h route.category %></td>
     <td class='cell' onclick = "window.location.href='<%= family_path(route.family) %>'">
       <div>
-        <%=h route.family.head_of_house_hold  + " " + route.family.name %>
+        <%=h route.family.name + ", " + route.family.head_of_house_hold %>
       </div>
     </td>
     <% lastEvent = getLastHomeTeacherVisit(route.family) %>

@@ -29,10 +29,6 @@ class UsersController < ApplicationController
   def new
     @user = User.new
 
-    @list = Person.find(:all).map do |s| 
-      [s.email, s.id ]
-    end
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user }

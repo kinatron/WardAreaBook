@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
 private 
 
   def valid_email
-    if Person.find(:all, :conditions => ["email = ?", name]).empty? 
+    if Person.find_all_by_email(name).empty? 
       errors.add(:email, " - You must be a member of this ward
                              and have an email registered with lds.org
                              Please contact Brother Kinateder for more information")

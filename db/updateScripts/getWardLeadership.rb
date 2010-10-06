@@ -66,7 +66,9 @@ require 'vpim/vcard'
     if fullTime == nil
       Calling.create(:job => missionary, :person_id =>1, :access_level => 2)
     end
+
     callings.each do |calling,person|
+      person.gsub!("Uaisele Kalingitoni","Bishop") 
       puts calling + " <==> " + person
       cal = Calling.find_by_job(calling)
       if cal

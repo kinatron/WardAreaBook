@@ -31,6 +31,7 @@ def getFamilyMembers cardData
       person.name = individual.strip
       person.email = nil
     end
+    person.name.gsub!("Uaisele Kalingitoni","Bishop") 
     familyMembers << person
   end
   return familyMembers
