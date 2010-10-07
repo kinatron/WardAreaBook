@@ -1,4 +1,5 @@
-<h1>Monthly Report - Lessons and Visits</h1>
+<h1>Monthly Report - Lessons and Visits <br>
+  for both Members and Investigators</h1>
 <% @event_months.each do |month, events| %>  
   <% events.sort! { |a,b| a.family.name <=> b.family.name } %>
   <b><a href ='#' class = 'subtile-links' onclick="Effect.toggle('<%= month.to_s %>-events', 'blind'); return false;">

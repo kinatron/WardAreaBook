@@ -2,7 +2,7 @@
   <%=h event.date.strftime("%m/%d") %>&#151;
   <!-- TODO use associations -->
   <%=h event.category %>&#151;
-  <%=h Person.find(event.person_id).name %>&nbsp;
-  <%=h Person.find(event.person_id).family.name%>&#151;
+  <%=h event.person.name%>&nbsp;
+  <%=h event.person.family.name%>&#151;
   <%=h event.comment %>
 </li>

@@ -19,5 +19,6 @@ class FamilySweeper < ActionController::Caching::Sweeper
     expire_action(:controller => :families, :action => :show, :id => family.family)
     expire_action(:controller => :reports, :action => [:hope, :month])
     expire_action(:controller => :teaching_routes, :action => :index)
+    expire_action(:controller => :stats, :action => :index)
   end
 end

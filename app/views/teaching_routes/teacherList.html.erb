@@ -28,8 +28,7 @@
         <%=h family.name %>, <%=h family.head_of_house_hold %></td>
       <td>
         <%=h family.status %></td>
-      <td bgcolor=<%= getLastHomeTeacherVisitColor(lastVisit) %> 
-          sorttable_customkey="<%=getLastVisitDateSortable(family)%>">
+      <td bgcolor="<%= getLastHomeTeacherVisitColor(lastVisit) %>">
         <%= lastVisit.date.to_s(:sortable) if lastVisit %></td>
       <td>
         <%= lastVisit.comment if lastVisit  %></td>

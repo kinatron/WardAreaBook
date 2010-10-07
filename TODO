@@ -2,9 +2,7 @@
 TODO's 
 =====================================================================================
 
-1. Make event and family information only editable by content provider
-
-   2) - Add a comment field to the family record
+1. - Add a comment field to the family record
         Create a new comment table
         family_id | author_id | text | udpated_at
         Authors can update the comment
