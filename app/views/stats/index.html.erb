@@ -1,61 +1,58 @@
-<div id='stats'>
-<h1>Percentage of Families in the Ward who have been visited</h1>
-<p>
-  <div>
-    This Month &ndash; <%= this = familiesVisited(0) %> <br>
-    <%= getPercentage(this,@total) %>%
-  </div>
-  <div>
-    Last Month &ndash; <%= last = familiesVisited(1) %> <br>
-    <%= getPercentage(last,@total) %>%
-
-  </div>
-  <div>
-    Last 3 Months &ndash; <%= month3= familiesVisited(3) %> <br>
-    <%= getPercentage(month3,@total) %>%
-
-  </div>
-  <div>
-    Last 6 Months &ndash; <%= month6= familiesVisited(6) %> <br>
-    <%= getPercentage(month6,@total) %>%
-
-  </div>
-  <div>
-    Last Year &ndash; <%= year = familiesVisited(12) %> <br>
-    <%= getPercentage(year,@total) %>%
-  </div>
-  <br><br>
-</p>
-<br>
-<br>
-<br>
-<br>
 <h1>Ward Profile &mdash; <%= @total %> Families</h1>
 <p>
-  <div style="background-color:<%= statusColor('active') %>"> 
-    Active &ndash; <%= @active %> <br>
-    <%= getPercentage(@active,@total) %>%
-  </div> <div class='spacer'>&nbsp;</div>
-  <div style="background-color:<%= statusColor('less active') %>"> 
-    Less Active &ndash; <%= @lessActive %>  <br>
-    <%= getPercentage(@lessActive,@total) %>%
-  </div> <div class='spacer'>&nbsp;</div>
-  <div style="background-color:<%= statusColor('Not Interested') %>"> 
-    Not Interested &ndash; <%=@notInterested %> <br>
-    <%= getPercentage(@notInterested,@total) %>%
-  </div> <div class='spacer'>&nbsp;</div>
-  <div style="background-color:<%= statusColor('dnc') %>"> 
-    DNC &ndash; <%=@dnc %><br>
-    <%= getPercentage(@dnc,@total) %>%
-  </div> <div class='spacer'>&nbsp;</div>
-  <div style="background-color:<%= statusColor('Unknown/New') %>"> 
-    Unknown/New &ndash; <%=@unknown %><br>
-    <%= getPercentage(@unknown,@total) %>%
-  </div> <div class='spacer'>&nbsp;</div>
+  <div class='forceWidth'>
+    <div style="background-color:<%= statusColor('active') %>"> 
+      Active &ndash; <%= @active %> <br>
+      <%= getPercentage(@active,@total) %>%
+    </div> 
+    <div style="background-color:<%= statusColor('less active') %>"> 
+      Less Active &ndash; <%= @lessActive %>  <br>
+      <%= getPercentage(@lessActive,@total) %>%
+    </div> 
+    <div style="background-color:<%= statusColor('Not Interested') %>"> 
+      Not Interested &ndash; <%=@notInterested %> <br>
+      <%= getPercentage(@notInterested,@total) %>%
+    </div> 
+    <div style="background-color:<%= statusColor('dnc') %>"> 
+      DNC &ndash; <%=@dnc %><br>
+      <%= getPercentage(@dnc,@total) %>%
+    </div> 
+    <div style="background-color:<%= statusColor('Unknown/New') %>"> 
+      Unknown/New &ndash; <%=@unknown %><br>
+      <%= getPercentage(@unknown,@total) %>%
+    </div> 
+  </div>
+</p>
+<br><br>
+<br>
+<br><br>
+<h1>Percentage of Families in the Ward who have been visited</h1>
+<p>
+  <div class='forceWidth'>
+    <div>
+      This Month &ndash; <%= this = familiesVisited(0) %> <br>
+      <%= getPercentage(this,@total) %>%
+    </div>
+    <div>
+      Last Month &ndash; <%= last = familiesVisited(1) %> <br>
+      <%= getPercentage(last,@total) %>%
+    </div>
+    <div>
+      Last 3 Months &ndash; <%= month3= familiesVisited(3) %> <br>
+      <%= getPercentage(month3,@total) %>%
+    </div>
+    <div>
+      Last 6 Months &ndash; <%= month6= familiesVisited(6) %> <br>
+      <%= getPercentage(month6,@total) %>%
+    </div>
+    <div>
+      Last Year &ndash; <%= year = familiesVisited(12) %> <br>
+      <%= getPercentage(year,@total) %>%
+    </div>
+  </div>
+  <br><br><br>
 </p>
 <br><br><br>
 <br><br><br>
 <br><br><br>
 <br><br><br>
-<br><br><br>
-</div>
