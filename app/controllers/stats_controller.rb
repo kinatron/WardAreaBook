@@ -1,5 +1,5 @@
 class StatsController < ApplicationController
-  caches_action :index
+  caches_action :index, :layout => false
 
   def index 
     @total         = Family.find_all_by_current(true, :conditions => "status != 'moved'").count
