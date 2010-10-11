@@ -54,7 +54,7 @@ module FamiliesHelper
       ["Missionary Find" , "Missionary Find"],
       ["Member Referral" , "Member Referral"],
       ["Self Referral"   , "Self Referral"],
-      ["Part Member" , "Part Member"],
+      ["Part Member"     , "Part Member"],
       ["Request Records" , "Request Records"]
     ]
   end
@@ -63,7 +63,6 @@ module FamiliesHelper
       ["active"          , "active"], 
       ["less active"     , "less active"], 
       ["moved"           , "moved"], 
-      ["moved - recorded", "moved - recorded"], 
       ["not interested"  , "not interested"],
       ["dnc"             , "dnc" ]
     ]
