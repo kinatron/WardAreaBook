@@ -8,6 +8,14 @@ class Family < ActiveRecord::Base
     [s.name + ", " + s.head_of_house_hold, s.id]
   end
 
+  def hasHomeTeacher(person_id)
+    self.teaching_routes.each do |route|
+      return true if route.person_id == person_id 
+    end
+    return false
+  rescue
+    return false
+  end
 
   def mergeTo(familyRecord)
     begin

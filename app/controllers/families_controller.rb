@@ -13,7 +13,11 @@ class FamiliesController < ApplicationController
   def checkAccess
     @hasFullAccess = hasAccess(2)
     # Everybody has access to these methods
-    if action_name == 'members' or action_name == 'show' or hasAccess(2)
+    if hasAccess(2) or 
+       action_name == 'members' or 
+       action_name == 'show' or 
+       (action_name == 'edit' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) or 
+       (action_name == 'update' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) 
       true
     else 
       deny_access
@@ -80,9 +84,7 @@ class FamiliesController < ApplicationController
     @families = getFamilyMapping
     @fellowShippers = getMapping
 
-    if @hasFullAccess or 
-       @family.teaching_routes[0].person_id == session[:user_id] or
-       @family.teaching_routes[1].person_id == session[:user_id]
+    if @hasFullAccess or @family.hasHomeTeacher(session[:user_id])
       respond_to do |format|
         format.html # show.html.erb
         format.xml  { render :xml => @family }
