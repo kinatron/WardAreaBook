@@ -3,9 +3,13 @@ class Family < ActiveRecord::Base
   has_many :people 
   has_many :teaching_routes  # really it only has two 
   has_one :teaching_record
+  validates_presence_of :name, :head_of_house_hold
   
   ALL = self.find_all_by_member_and_current(true,true, :order=>'name').map do |s|
+    begin
     [s.name + ", " + s.head_of_house_hold, s.id]
+    rescue
+    end
   end
 
   def hasHomeTeacher(person_id)
