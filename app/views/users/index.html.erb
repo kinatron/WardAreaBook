@@ -4,14 +4,25 @@
   <tr>
     <th>Email Address</th>
     <th>Access Level</th>
+    <th>Last Login</th>
+    <th>&nbsp;</th>
   </tr>
 
 <% @users.each do |user| %>
+  <%  
+    access_level = 0
+    person = Person.find_by_current_and_email(true, user.name)
+    unless person == nil
+      calling = Calling.find_by_person_id(person.id) 
+    end
+    unless calling == nil
+      access_level = calling.access_level
+    end 
+  %>
   <tr>
     <td><%=h user.name %></td>
-    <td><%=h user.access_level %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%=h access_level %></td>
+    <td><%=h user.last_login %></td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

@@ -20,13 +20,12 @@ TODO's
     - combine the getLeadership and updateDatabase into one script 
     - make the contents of updateLog available through the site
     - minor todo's
+    - Create a  page to show the nightly Ward list updates.  
+    - When members change their names create an option to transfer any options to the new person
+    - to show the daily updates
 
 4. email challenge for password
 
-5. Three main layouts - break the layout into a series of partials
-    - areabook
-    - admin
-    - login
 
 6. Tests
     - Creating users
@@ -36,8 +35,6 @@ TODO's
 7. Admin to add non-member users and escalting user privs
 
 ========================================================================
-
-1. Lock out the events index page.
 
 3. Create Tests
 

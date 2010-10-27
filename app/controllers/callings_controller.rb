@@ -1,4 +1,5 @@
 class CallingsController < ApplicationController
+  layout 'admin'
 
   def checkAccess
     if hasAccess(3)

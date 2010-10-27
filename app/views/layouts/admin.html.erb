@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Burien Ward Area Book</title>
+    <!-- START:stylesheet -->
+    <%= stylesheet_link_tag "areabook", :media => "all" %>
+    <%= stylesheet_link_tag "sortable", :media => "all" %>
+    <!-- <label id="code.slt"/> -->
+      <%= javascript_include_tag :defaults %>
+      <%= javascript_include_tag "tablekit"%>
+      <!-- END:stylesheet -->
+  </head>
+  <body id="store">
+    <div id="banner">
+      <%= @page_title || "Burien Ward Area Book" %>
+      <div>
+        <%= session[:user_name] %><br>
+        <%= link_to "logout", :controller => 'login', :action => 'logout' %> 
+      </div>
+    </div>
+
+
+
+    <div id="columns">
+      <div id="side">
+        <br> <br> 
+        <p>
+          <%= link_to 'Users', :controller => 'users' %><br /><br>
+          <%= link_to 'User Access', :controller => 'callings' %><br /><br>
+          <%= link_to 'People', :controller => 'people' %><br /><br>
+          <%= link_to 'Events', :controller => 'events' %><br /><br>
+          <br><br><br>
+          <br><br><br>
+          <br><br><br>
+          <%= link_to 'Main Menu', :controller => 'families' %><br />
+      </div>
+
+
+
+
+
+      <div id="main">
+        <!-- START:flash -->
+        <% if flash[:notice] -%>
+          <div id="notice"> <%=flash[:notice] %> </div>
+        <% end -%>
+        <!-- END:flash -->
+        <%= yield :layout %><!-- <label id="code.depot.e.include"/> -->
+      </div> <!-- main -->
+    </div> <!-- columns -->
+  </body>
+</html>

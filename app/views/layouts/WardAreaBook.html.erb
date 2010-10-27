@@ -50,12 +50,12 @@
       <%= link_to 'Stats', :controller => 'stats' %><br />
 <% end %>
 
-<% if Person.find(session[:user_id]).teachingRoutes.size %>
-  <br><br><br>
-  <% # TODO work out caching %>
-  <% link_to 'My Families', :controller => 'reports', :action => 'myFamilies'  %><br />
+<% if session[:access_level] >=3 %>
+  <br><br><br><br>
+  <%= link_to "Admin", :controller => 'users', :action => 'index' %><br />
+  <br>
+  <br>
 <% end %>
-
   </div>
     <div id="main">
       <!-- START:flash -->

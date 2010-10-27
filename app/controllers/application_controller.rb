@@ -32,6 +32,12 @@ class ApplicationController < ActionController::Base
     session[:first_name] = person.name
     session[:user_id] = person.id
     refresh_session
+
+
+    # record when the last login happened
+    user.last_login = Date.today
+    user.save
+
     # TODO Get this working
     #redirect_to(uri || {:controller => 'families'})
     if hasAccess(2)

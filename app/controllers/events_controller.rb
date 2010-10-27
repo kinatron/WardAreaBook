@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  layout 'admin'
   cache_sweeper :family_sweeper, :only => [:create_new_family_event, :remove, :update]
 
   def checkAccess
@@ -7,11 +8,15 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    @events = Event.all
+    if hasAccess(3)
+      @events = Event.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @events }
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @events }
+      end
+    else
+      deny_access
     end
   end
 

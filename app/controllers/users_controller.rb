@@ -1,23 +1,17 @@
 class UsersController < ApplicationController
   layout 'login'
 
-
   # GET /users
   # GET /users.xml
   def index
     @users = User.find(:all, :order => :name)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @users }
-    end
+    render :layout => 'admin'
   end
 
   # GET /users/1
   # GET /users/1.xml
   def show
     @user = User.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user }
@@ -28,7 +22,6 @@ class UsersController < ApplicationController
   # GET /users/new.xml
   def new
     @user = User.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user }
@@ -44,12 +37,10 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
-
     # TODO Make access level an attribute of the person class
     # and update priv's according to the leadership page on the 
     # church website.
     @user.access_level = 2
-
     if @user.save
       load_session(@user)
     else
@@ -61,7 +52,6 @@ class UsersController < ApplicationController
   # PUT /users/1.xml
   def update
     @user = User.find(params[:id])
-
     respond_to do |format|
       if @user.update_attributes(params[:user])
         flash[:notice] = "User #{@user.name} was successfully updated."
@@ -79,7 +69,6 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
