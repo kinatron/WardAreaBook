@@ -9,12 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101027044104) do
+ActiveRecord::Schema.define(:version => 20101027174217) do
 
   create_table "callings", :force => true do |t|
     t.string   "job"
     t.integer  "person_id"
     t.integer  "access_level", :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "comments", :force => true do |t|
+    t.integer  "family_id"
+    t.integer  "person_id"
+    t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

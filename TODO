@@ -4,7 +4,7 @@ TODO's
 
 1. - Add a comment field to the family record
         Create a new comment table
-        family_id | author_id | text | udpated_at
+        family_id | author_id | text | updated_at
         Authors can update the comment
         Users can add their own comments.
         Display the updated_at and owner name when displaying the comments
