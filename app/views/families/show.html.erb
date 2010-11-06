@@ -1,3 +1,10 @@
+<script type="text/javascript">
+function toggleDisplay(divId) {
+  var div = document.getElementById(divId);
+  div.style.display = "none";
+}
+</script>
+
 <% form_remote_tag :url => {:controller => 'events', :action => 'new_family_event', 
                             :family_id => @family.id } do %>
 <h1><%=h @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp;
@@ -54,9 +61,16 @@
 
         <p>
           <b>Information:</b> <br />
-            <%= simple_format(@family.information) %>
+          <div id="comments">
+            <%= render(:partial => "comment", :collection => @family.comments) %>
+          </div>
         </p>
         <br>
+        
+        <div id="new comment">
+            <%= render(:partial => "submit_button") %>
+        </div>
+
       <%= link_to 'Edit family details', edit_family_path(@family) %> 
       <br><br><br>
       <% unless @family.member %>

@@ -1,6 +1,7 @@
 class Family < ActiveRecord::Base
   has_many :events, :order => 'date DESC'
   has_many :people 
+  has_many :comments 
   has_many :teaching_routes  # really it only has two 
   has_one :teaching_record
   validates_presence_of :name, :head_of_house_hold

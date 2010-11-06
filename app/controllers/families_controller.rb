@@ -1,4 +1,5 @@
 class FamiliesController < ApplicationController
+  in_place_edit_for :comment, :text
   before_filter :store_return_point, :only => [:show]
   caches_action :index, :layout => false
   caches_action :members, :layout => false
@@ -42,6 +43,15 @@ class FamiliesController < ApplicationController
       format.html # investigators.html.erb
       format.xml  { render :xml => @families }
     end
+  end
+
+  def new_comment
+    @fam = Family.find(params[:id])
+    @comment = Comment.create(:family_id => @fam.id)
+    respond_to do |format|
+      format.js
+    end
+
   end
 
   def investigators

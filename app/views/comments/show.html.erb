@@ -1,0 +1,18 @@
+<p>
+  <b>Family:</b>
+  <%=h @comment.family_id %>
+</p>
+
+<p>
+  <b>Person:</b>
+  <%=h @comment.person_id %>
+</p>
+
+<p>
+  <b>Text:</b>
+  <%=h @comment.text %>
+</p>
+
+
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>

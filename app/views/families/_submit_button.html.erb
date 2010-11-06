@@ -1,0 +1,5 @@
+<% form_remote_tag :url => {:controller => :comments, 
+                            :action => 'new', 
+                            :id => @family.id } do %>
+  <%= submit_tag "new comment" %>
+<% end %>

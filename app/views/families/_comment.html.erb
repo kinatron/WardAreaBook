@@ -1,0 +1,12 @@
+<% @comment = comment %>
+<%= in_place_editor_field :comment, 'text', {}, {:rows => 3, :col => 50} %>
+<% simple_format(comment.text) %>
+<% unless comment.person == nil %>
+  <br>
+  &mdash;<%= comment.person.name + " " + 
+             comment.person.family.name + " " + 
+             comment.updated_at.strftime("%b %d, %y") %>
+             <br>
+<% end %>
+<br>
+  

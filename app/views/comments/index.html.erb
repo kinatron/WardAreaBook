@@ -1,0 +1,24 @@
+<h1>Listing comments</h1>
+
+<table>
+  <tr>
+    <th>Family</th>
+    <th>Person</th>
+    <th>Text</th>
+  </tr>
+
+<% @comments.each do |comment| %>
+  <tr>
+    <td><%=h comment.family_id %></td>
+    <td><%=h comment.person_id %></td>
+    <td><%=h comment.text %></td>
+    <td><%= link_to 'Show', comment %></td>
+    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+    <td><%= link_to 'Destroy', comment, :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New comment', new_comment_path %>

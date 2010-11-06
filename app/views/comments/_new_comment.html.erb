@@ -1,0 +1,17 @@
+<div id="myToggleDiv">
+  <% remote_form_for(@comment) do |f| %>
+    <%= f.error_messages %>
+
+    <%= f.hidden_field :family_id %>
+    <%= f.hidden_field :person_id %>
+    <p>
+      Comment:<br />
+      <%= f.text_area :text, :cols => 40, :rows => 3 %>
+    </p>
+    <p>
+      <%= f.submit 'Create', :onclick => "toggleDisplay('myToggleDiv');return true"%>
+    </p>
+  <% end %>
+
+  <%= link_to 'Cancel', comments_path %>
+</div>

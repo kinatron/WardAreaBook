@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :comments
+
   map.resources :callings
 
   map.connect '/callings/updateAccessLevels/', :controller => 'callings', 
@@ -31,6 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
   map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'
   map.connect '/families/mergeRecords/', :controller => 'families', :action => 'mergeRecords'
+  map.connect '/families/new_comment/', :controller => 'families', :action => 'new_comment'
 
   map.resources :families
   # The priority is based upon order of creation: first created -> highest priority.
