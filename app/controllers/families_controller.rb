@@ -1,5 +1,4 @@
 class FamiliesController < ApplicationController
-  in_place_edit_for :comment, :text
   before_filter :store_return_point, :only => [:show]
   caches_action :index, :layout => false
   caches_action :members, :layout => false
@@ -17,6 +16,7 @@ class FamiliesController < ApplicationController
     if hasAccess(2) or 
        action_name == 'members' or 
        action_name == 'show' or 
+       action_name == 'edit_status' or 
        (action_name == 'edit' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) or 
        (action_name == 'update' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) 
       true
@@ -49,7 +49,11 @@ class FamiliesController < ApplicationController
     @fam = Family.find(params[:id])
     @comment = Comment.create(:family_id => @fam.id)
     respond_to do |format|
-      format.js
+      format.js {
+        render :update do |page|
+          page.replace_html("new comment", :partial => "new_comment", :object => @comment)
+        end
+      }
     end
 
   end
@@ -61,6 +65,18 @@ class FamiliesController < ApplicationController
       format.xml  { render :xml => @families }
     end
   end
+
+  def edit_status
+    @family = Family.find(params[:id])
+
+    render :update do |page|
+      page.replace_html("family_status", 
+                        :partial => "family_status", 
+                        :object => @family,
+                        :locals => {:update => true})
+    end
+  end
+
 
   def mergeRecords
     @family = Family.find(params[:family])
@@ -141,12 +157,29 @@ class FamiliesController < ApplicationController
   # PUT /families/1.xml
   def update
     @family = Family.find(params[:id])
-
+    begin
+      if params[:family][:status] != @family.status
+        @family.events.create(:date => Date.today, 
+                              :person_id => session[:user_id],
+                              :comment => "Changed status from #{@family.status} 
+                                           to #{params[:family][:status]}")
+      end
+    rescue
+      logger.info("Caught an Exception")
+    end
     respond_to do |format|
       if @family.update_attributes(params[:family])
         expire_action :action => "index"
         expire_action :action => "show", :id => @family
         #flash[:notice] = 'Family was successfully updated.'
+        format.js {
+          render :update do |page|
+          page.replace_html("family_status", 
+                            :partial => "family_status", 
+                            :object => @family,
+                            :locals => {:update => nil})
+          end
+        }
         format.html { redirect_to(@family) }
         format.xml  { head :ok }
       else

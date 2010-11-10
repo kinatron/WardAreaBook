@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   layout 'admin'
   cache_sweeper :family_sweeper, :only => [:create_new_family_event, :remove, :update]
 
+# TOOD probably want to make this more restrictive
   def checkAccess
   end
 

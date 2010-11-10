@@ -2,20 +2,7 @@
 TODO's 
 =====================================================================================
 
-1. - Add a comment field to the family record
-        Create a new comment table
-        family_id | author_id | text | updated_at
-        Authors can update the comment
-        Users can add their own comments.
-        Display the updated_at and owner name when displaying the comments
-        create a script that creates comment based on the information field
-        have "information now reference comments
-        
-
-2. Create events for status changes
-     "other" - date - owner - changed from <status> to <status>
-
-3. update scripts
+2. update scripts
     - Move lds.org password into the database
     - combine the getLeadership and updateDatabase into one script 
     - make the contents of updateLog available through the site
@@ -24,7 +11,6 @@ TODO's
     - When members change their names create an option to transfer any options to the new person
     - to show the daily updates
 
-4. email challenge for password
 
 
 6. Tests
@@ -35,6 +21,15 @@ TODO's
 7. Admin to add non-member users and escalting user privs
 
 ========================================================================
+
+1. Why isn't brother Clarks access level updated?
+    -if someones name is in the callings sheet twice then they need to be both checked
+
+1. Make events editable like comments
+
+3. email challenge for password
+
+2. When a new comment is created I would like he focus window to go onto it.
 
 3. Create Tests
 
@@ -96,3 +91,5 @@ TODO's
 10. Create a partial to limit the events to the within the last 10 events with a link to see more.
 
 11. Add dynamic content to the reports page (don't generate all of the data unless they need it.
+
+12. have a cancel button on the status changes. (like the comments)

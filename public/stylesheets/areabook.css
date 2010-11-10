@@ -61,7 +61,14 @@ h1 {
   color: #433;
 }
 
+.editable_comment a {
+  text-decoration: none;
+  color:black; 
+}
 
+.editable_comment a:hover { 
+  background-color: #bdb;
+}
 
 /* Styles for products/index */
 
@@ -143,6 +150,7 @@ h1 {
 .list-line-even:hover {
   color:   red;
   background-color:   #bdb;
+  cursor: pointer;
 }
 
 .list-line-odd {
@@ -151,10 +159,12 @@ h1 {
 .list-line-odd:hover {
   color:   red;
   background-color:   #bdb;
+  cursor: pointer;
 }
 
 .cell:hover {
   background-color:   #bdb;
+  cursor: pointer;
 }
 
 

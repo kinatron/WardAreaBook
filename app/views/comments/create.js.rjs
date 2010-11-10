@@ -1,4 +1,0 @@
-page.replace_html("comments", :partial => "families/comment", 
-                               :collection => @comment.family.comments)
-
-page.replace_html("new comment", :partial => "families/submit_button")

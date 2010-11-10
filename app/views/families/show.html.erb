@@ -51,12 +51,13 @@ function toggleDisplay(divId) {
             </td>
           </tr>
         </table>
-
         <p>
           <b>Status:</b>
-          <span style='background-color: <%= statusColor(@family.status) -%>'>
-            &nbsp;<%=h @family.status %>&nbsp;
-          </span>
+          <div id='family_status' class='editable_comment'>
+            <%= render(:partial => "family_status", 
+                       :object => @family, 
+                       :locals => {:update => nil}) %>
+          </div>
         </p>
 
         <p>
@@ -71,8 +72,7 @@ function toggleDisplay(divId) {
             <%= render(:partial => "submit_button") %>
         </div>
 
-      <%= link_to 'Edit family details', edit_family_path(@family) %> 
-      <br><br><br>
+      <br><br>
       <% unless @family.member %>
 
         <%= link_to 'Merge records', :controller => 'families', 

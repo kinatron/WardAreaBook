@@ -1,12 +1,24 @@
-<% @comment = comment %>
-<%= in_place_editor_field :comment, 'text', {}, {:rows => 3, :col => 50} %>
-<% simple_format(comment.text) %>
+<% # TODO DRY fix with the access_level %>
+<% if comment.person == nil or session[:access_level] >= 3 or 
+      comment.person.id == session[:user_id] %>
+      <div id='comment_<%=comment.id%>' class='editable_comment'>
+      <%= link_to_remote simple_format(comment.text)[3..-5], 
+        :url => {:controller => "comments", :action=> 'edit_remotely', :id => comment }%>
+      </div>
+<% else %>
+  <%= simple_format(comment.text)[3..-5] %>
+<% end %>
 <% unless comment.person == nil %>
-  <br>
   &mdash;<%= comment.person.name + " " + 
              comment.person.family.name + " " + 
              comment.updated_at.strftime("%b %d, %y") %>
-             <br>
+
+<% end %>
+<% if comment.person == nil or session[:access_level] >= 3 or 
+      comment.person.id == session[:user_id] %>
+  &nbsp;
+  <%= link_to_remote 'delete', 
+         :url => {:controller => 'comments', :action => 'remove', :id=> comment} %>
 <% end %>
 <br>
-  
+<br>
