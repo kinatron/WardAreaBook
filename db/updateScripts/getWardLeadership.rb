@@ -8,7 +8,7 @@ require 'vpim/vcard'
   # load the rails environment
   require File.dirname(__FILE__) + "/../../config/environment"
 
-  agent = Mechanize.new
+  agent = WWW::Mechanize.new
   puts "accessing http://lds.org"
   agent.get('http://lds.org/') do |page|
     # TODO find out if there is way to search for the links 
@@ -21,8 +21,9 @@ require 'vpim/vcard'
     end
     form = page.form('loginForm')
     # TODO grab this from the database
-    form.username = ""
-    form.password = ""
+    root_admin = RootAdmin.find(:first)
+    form.username = root.lds_user_name
+    form.password = root.lds_password
     page = agent.submit(form)
     puts "Just logged in"
     page.links.each do |link|
@@ -78,5 +79,4 @@ require 'vpim/vcard'
         Calling.create(:job => calling, :person_id => Person.find_by_full_name(person).id)
       end
     end
-
   end

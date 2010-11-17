@@ -2,16 +2,9 @@
 TODO's 
 =====================================================================================
 
-2. update scripts
-    - Move lds.org password into the database
-    - combine the getLeadership and updateDatabase into one script 
-    - make the contents of updateLog available through the site
-    - minor todo's
-    - Create a  page to show the nightly Ward list updates.  
-    - When members change their names create an option to transfer any options to the new person
-    - to show the daily updates
+1. RELEASE!!
 
-
+2. Get the daily updates working.
 
 6. Tests
     - Creating users
@@ -21,6 +14,11 @@ TODO's
 7. Admin to add non-member users and escalting user privs
 
 ========================================================================
+
+1. update scripts
+    - minor todo's
+    - When members change their names create an option to transfer any options to the new person
+       (Brother Jorgensen issue)
 
 1. Why isn't brother Clarks access level updated?
     -if someones name is in the callings sheet twice then they need to be both checked

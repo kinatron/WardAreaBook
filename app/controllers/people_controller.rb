@@ -83,4 +83,9 @@ class PeopleController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def WardListUpdates
+    @fileContents = IO.read("#{RAILS_ROOT}/public/WardListImport.log")
+  end
+
 end

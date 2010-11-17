@@ -21,6 +21,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users
 
+  map.connect '/WardListUpdates', :controller => 'people', :action => 'WardListUpdates'
+
   map.resources :people
 
   map.resources :events

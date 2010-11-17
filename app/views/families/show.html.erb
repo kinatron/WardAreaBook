@@ -74,6 +74,8 @@ function toggleDisplay(divId) {
 
       <br><br>
       <% unless @family.member %>
+        <%= link_to 'Edit family details', edit_family_path(@family) %>
+        <br><br>
 
         <%= link_to 'Merge records', :controller => 'families', 
                                      :action => 'mergeRecords', 

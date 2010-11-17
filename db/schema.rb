@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101027174217) do
+ActiveRecord::Schema.define(:version => 20101110041029) do
 
   create_table "callings", :force => true do |t|
     t.string   "job"
@@ -84,6 +84,14 @@ ActiveRecord::Schema.define(:version => 20101027174217) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "current",    :default => true
+  end
+
+  create_table "root_admins", :force => true do |t|
+    t.integer  "person_id"
+    t.string   "lds_user_name"
+    t.string   "lds_password"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sessions", :force => true do |t|
