@@ -137,17 +137,7 @@ function toggleDisplay(divId) {
         <% @family.events.each do |event| %>
           <li>
             <%=h event.date %> &#151;  
-            <!-- TODO HACK!! I thnk there's a better rails way of doing this -->
-            <% if event.person_id == 1 %>
-              <%= "The Hopes" %>
-            <% else %>
-              <% person = Person.find(event.person_id) %>
-              <% if person.name == "Elder and Sister" %>
-                <%= person.name + " " + person.family.name %>
-              <% else %>
-                <%= person.name.split(" ")[0] %>&nbsp;<%= person.family.name %>
-              <% end %> 
-            <% end %>
+            <%=h event.printPerson() %>
             &#151;  
             <%=h event.category %>
             &#151;  

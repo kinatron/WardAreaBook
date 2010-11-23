@@ -38,7 +38,7 @@ def getFamilyMembers cardData
 end
 
 def downLoadNewList
-  agent = WWW::Mechanize.new
+  agent = Mechanize::Mechanize.new
   puts "accessing http://lds.org"
   agent.get('http://lds.org/') do |page|
     # TODO find out if there is way to search for the links 
@@ -279,6 +279,7 @@ begin
       family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
                              :phone => phone, :address => address, :status => "new", 
                              :uid => uid, :current => 1)
+      family.events.create(:date => Date.today, :comment => "Received new records from SLC")
       updateMade = true
 
       #create people records from family members

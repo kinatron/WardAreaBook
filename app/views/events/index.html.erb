@@ -16,14 +16,8 @@
 <% @events.each do |event| %>
   <tr>
     <td><%=h event.date %></td>
-    <td><%=h Family.find(event.family_id).name %></td>
-    <% if event.person_id == 1 %>
-      <td>The Hopes</td>
-    <% elsif event.person_id == 2 %>
-      <td>The Elders</td>
-    <% else %>
-      <td><%=h getWardRepresentative(event.person_id) %></td>
-    <% end %>
+    <td><%=h event.family.name %></td>
+    <td><%=h event.printPerson %></td>
     <td><%=h event.comment %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
