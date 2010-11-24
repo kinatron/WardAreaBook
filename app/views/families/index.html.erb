@@ -1,33 +1,39 @@
-<h1>Listing families</h1>
+<h1>Listing families 
 
-<table class = 'sortable resizable'>
+<div style = "float:right;float:top"> 
+  <form>
+    Quick Search &mdash;
+    <input name="quickSearch" onkeyup="filterTable(this, 'filterable', 0,3)" type="text">
+  </form>
+</div></h1>
+
+<table id = 'filterable' class='sortable resizable'>
   <thead>
-  <tr align="left">
-    <th>Name**</th>
-    <th class='nosort'>Phone</th>
-    <th class='nosort'>Address</th>
-    <th>Status**</th>
-    <th padding='10px'>Last&nbsp;Visit**</th>
-    <th class='nosort'>Comment</th>
-  </tr>
-</thead>
-<tbody>
+    <tr align="left">
+      <th>Name**</th>
+      <th class='nosort'>Phone</th>
+      <th class='nosort'>Address</th>
+      <th>Status**</th>
+      <th padding='10px'>Last&nbsp;Visit**</th>
+      <th class='nosort'>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
 
-<% @families.each do |family| %>
-  <tr class="<%=cycle('list-line-odd','list-line-even')%>" 
-    onClick = "window.location.href='<%= family_path(family) %>'" >
-    <td><%=h family.name %>, <%=h family.head_of_house_hold %></td>
-    <td><%=h family.phone %></td>
-    <td><%=h family.address %></td>
-    <td bgcolor=<%=statusColor(family.status)%>><%=h family.status %></td>
-    <td sorttable_customkey="<%=getLastVisitDateSortable(family)%>">
-        <%= getLastVisitDate(family) %></td>
-    <td><%= getLastVisitComment(family) %></td>
-  </tr>
-<% end %>
-</tbody>
+    <% @families.each do |family| %>
+      <tr class="<%=cycle('list-line-odd','list-line-even')%>" 
+        onClick = "window.location.href='<%= family_path(family) %>'" >
+        <td><%=h family.name %>, <%=h family.head_of_house_hold %></td>
+        <td><%=h family.phone %></td>
+        <td><%=h family.address %></td>
+        <td bgcolor=<%=statusColor(family.status)%>><%=h family.status %></td>
+        <td sorttable_customkey="<%=getLastVisitDateSortable(family)%>">
+          <%= getLastVisitDate(family) %></td>
+        <td><%= getLastVisitComment(family) %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-
 <br />
 <br />
 <br />

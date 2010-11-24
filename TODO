@@ -3,15 +3,19 @@ TODO's
 =====================================================================================
 
 1. quick search at the top of the family page.
+   Go with the quick one. - No highlighting
 
 3. In the hopes page I need to make the cursor move over the family pages so that a user knows to click.  I should update the background on all clickable text.
+
+4. Release
 
 3. Teaching pool should be updated.
 
 6. Tests
+    - Accessing all of the pages.
+    - Form generation
     - Creating users
     - Access control 
-    - Accessing all of the pages.
 
 7. Admin to add non-member users and escalting user privs
 
