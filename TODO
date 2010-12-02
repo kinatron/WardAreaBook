@@ -2,14 +2,11 @@
 TODO's 
 =====================================================================================
 
-1. quick search at the top of the family page.
-   Go with the quick one. - No highlighting
-
-3. In the hopes page I need to make the cursor move over the family pages so that a user knows to click.  I should update the background on all clickable text.
-
-4. Release
+2. Release
 
 3. Teaching pool should be updated.
+
+Family  |  Type  |  Lesson Taught  | Last Contact |  Action Item | 
 
 6. Tests
     - Accessing all of the pages.
@@ -18,6 +15,36 @@ TODO's
     - Access control 
 
 7. Admin to add non-member users and escalting user privs
+
+========================================================================
+Opening up to Paul
+
+1. Get WardAreaBook.com
+2. Create a project for paul.
+3. Replace "Burien Ward" with a database entry
+4. Create a ward creation page for Paul
+    Main page at WardAreaBook.com
+    Please select the ward?
+       Pleasant Grove
+       Burien
+
+       Create a new ward.
+            
+            In order to create a ward areabook project you need
+              1. an lds.org account 
+              2. must be included in the ward leadership
+              3. No existing ward areabook
+    
+    Remove the Hopes... 
+    automate the bishop
+    Let the admin add non-members to the wardlist (missionaries)
+    All reports should be generic and then allow to filter by user
+
+       Ward Weekly Report       everybody
+    
+    Weekly report should just report the last 4 weeks with options for older stuff
+
+    Maybe have a graph to show monthly trends
 
 ========================================================================
 
