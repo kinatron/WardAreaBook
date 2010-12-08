@@ -39,23 +39,18 @@ end
 
 def downLoadNewList
   agent = Mechanize::Mechanize.new
-  puts "accessing http://lds.org"
-  agent.get('http://lds.org/') do |page|
-    # TODO find out if there is way to search for the links 
-    # based on a regex instead of having to cycle through the links
-    page.links.each do |link|
-      if link.text =~ /Stake and Ward/
-        page = link.click
-        break
-      end
-    end
+  site = "https://secure.lds.org/units"
+  puts "accessing #{site}"
+  agent.get(site) do |page|
     form = page.form('loginForm')
-    # TODO grab this from the database
+    # TODO What happens when you have multiple wards and admins?
     root = RootAdmin.find(:first)
     form.username = root.lds_user_name
     form.password = root.lds_password 
     page = agent.submit(form)
     puts "Just logged in"
+    # TODO find out if there is way to search for the links 
+    # based on a regex instead of having to cycle through the links
     page.links.each do |link|
       if link.text =~ /Membership Directory/i
         page = link.click
@@ -279,7 +274,7 @@ begin
       family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
                              :phone => phone, :address => address, :status => "new", 
                              :uid => uid, :current => 1)
-      family.events.create(:date => Date.today, :comment => "Received new records from SLC")
+      family.events.create(:date => Date.today, :comment => "Received records from SLC")
       updateMade = true
 
       #create people records from family members
