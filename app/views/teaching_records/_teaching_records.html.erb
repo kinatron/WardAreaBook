@@ -1,0 +1,57 @@
+<% archivedList ||= false %>
+<table class = 'sortable resizable'>
+  <thead>
+  <tr align="left">
+    <th width="150">Family</th>
+    <th width="10">Type</th>
+    <th width="10">Lessons taught</th>
+    <th width="10">Last lesson</th>
+    <th width="10">Next lesson</th>
+    <th width="500">Fellowshipper</th>
+    <th width="200">Next Milestone</th>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+<% teaching_records.each do |teaching_record| %>
+  <tr class="<%=cycle('list-line-odd','list-line-even')%>" > 
+  <% # TODO create associations %>
+  <% if teaching_record.family_id == nil or teaching_record.family_id ==0 %>
+    <td><%= "" %></td>
+  <% else %>
+    <% family = Family.find(teaching_record.family_id) %> 
+    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
+      <%=h family.name + ", " + family.head_of_house_hold  %> </td>
+  <% end %>
+  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'">
+    <%=h family.status %> </td>
+  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.lessons_taught %></td>
+  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
+    <%=h getLastVisitDate(teaching_record.family) %></td>
+  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
+    <%=h teaching_record.next_lesson %></td>
+<% if teaching_record.person_id == nil or teaching_record.person_id ==0 %>
+  <td><%= "" %></td>
+<% else %>
+  <% fellowshipper = Person.find(teaching_record.person_id) %>
+  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
+    <%=h fellowshipper.name + " " + fellowshipper.family.name %></td>
+<% end %>
+  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
+    <%=h teaching_record.membership_milestone %> 
+    <% if teaching_record.milestone_date_goal != nil %>
+      (<%=h teaching_record.milestone_date_goal %>) 
+    <% end %>
+  </td>
+<% if archivedList %>
+  <td> <%= link_to 'restore', :controller => 'teaching_records', 
+                              :action => "archive", :id => teaching_record, 
+                              :restore => 'true' %></td>
+<% else %>
+  <td> <%= link_to 'drop',    :controller => 'teaching_records', 
+                              :action => "archive", 
+                              :id => teaching_record %></td>
+<% end %>
+  </tr>
+<% end %>
+</table>

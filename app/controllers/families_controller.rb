@@ -59,7 +59,7 @@ class FamiliesController < ApplicationController
   end
 
   def investigators
-    @families = Family.find_all_by_member(false, :order => :name)
+    @families = Family.find_all_by_member_and_current(false, true, :order => :name)
     respond_to do |format|
       format.html # investigators.html.erb
       format.xml  { render :xml => @families }
@@ -77,6 +77,14 @@ class FamiliesController < ApplicationController
     end
   end
 
+  def listArchived
+    @families = Family.find_all_by_member_and_current(false, false, :order => :name)
+    render :update do |page|
+      page.replace_html("archived-families",
+                   :partial => "droppedFamilies",
+                   :object => @families)
+    end
+  end
 
   def mergeRecords
     @family = Family.find(params[:family])
@@ -201,4 +209,25 @@ class FamiliesController < ApplicationController
     end
   end
 
+  def archive 
+    @family = Family.find(params[:id])
+    if params[:restore] == 'true'
+      @family.current = true
+      if @family.teaching_record 
+        @family.teaching_record.current = true
+        @family.teaching_record.save
+      end
+    else
+      @family.current = false
+      if @family.teaching_record 
+        @family.teaching_record.current = false
+        @family.teaching_record.save
+      end
+    end
+    @family.save
+    respond_to do |format|
+      format.html { redirect_to(:action => 'investigators') }
+      format.xml  { head :ok }
+    end
+  end
 end

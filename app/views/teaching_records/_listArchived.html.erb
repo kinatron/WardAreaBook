@@ -1,0 +1,9 @@
+<a href='#' onclick="Effect.toggle('dropped-families', 'blind'); return false;">Dropped Families</a> 
+<br><br>
+<div id='dropped-families'>
+  <fieldset class="depot-form">
+    <legend>Dropped Records</legend>
+      <%= render(:partial => 'teaching_records',
+               :locals => {:archivedList => true}) %>
+  </fieldset>
+</div>

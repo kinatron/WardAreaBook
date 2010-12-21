@@ -1,0 +1,6 @@
+<a href='#' onclick="Effect.toggle('dropped-families', 'blind'); return false;">Dropped Families</a> 
+
+<div id = 'dropped-families'>
+  <h1>Dropped Families</h1>
+  <%= render(:partial => 'list_families', :object => @families, :locals => {:dropped => true}) %> 
+</div>

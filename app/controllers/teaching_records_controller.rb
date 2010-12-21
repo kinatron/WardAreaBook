@@ -13,10 +13,18 @@ class TeachingRecordsController < ApplicationController
   # GET /teaching_records
   # GET /teaching_records.xml
   def index
-    @teaching_records = TeachingRecord.all
+    @records = TeachingRecord.find_all_by_current(true, :order => "organization DESC").group_by {|record| record.organization} 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @teaching_records }
+    end
+  end
+
+  def listArchived
+    @teaching_records = TeachingRecord.find_all_by_current(false)
+    render :update do |page|
+      page.replace_html("archived-records",
+                        :partial => "listArchived")
     end
   end
 
@@ -103,6 +111,32 @@ class TeachingRecordsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(teaching_records_url) }
       format.xml  { head :ok }
+    end
+  end
+
+  def archive
+    @teaching_record = TeachingRecord.find(params[:id])
+    if params[:restore] == 'true'
+      @teaching_record.current = true
+      # TODO I think this kind of logic belongs in the model not a controller.
+                                    # can't drop members
+      if @teaching_record.family and not @teaching_record.family.member
+        @teaching_record.family.current = true
+        @teaching_record.family.save
+      end
+    else
+      @teaching_record.current = false
+      if @teaching_record.family and not @teaching_record.family.member
+        @teaching_record.family.current = false
+        @teaching_record.family.save
+      end
+    end
+    respond_to do |format|
+      if @teaching_record.save
+        format.html { redirect_to(teaching_records_url) }
+      else
+        format.html { redirect_to(families_records_url) }
+      end
     end
   end
 end

@@ -1,46 +1,18 @@
 <h1>Teaching Pool</h1>
+<p>
+  <%= link_to 'New teaching_record', new_teaching_record_path %>
+</p>
 
-<table class = 'sortable resizable'>
-  <thead>
-  <tr align="left">
-    <th>Family</th>
-    <th>Category</th>
-    <th>Lessons taught</th>
-    <th>Last lesson</th>
-    <th>Next lesson</th>
-    <th>Fellowshipper</th>
-    <th>Next Milestone</th>
-    <th>Milestone goal</th>
-  </tr>
-</thead>
-<tbody>
-
-<% @teaching_records.each do |teaching_record| %>
-  <tr class="<%=cycle('list-line-odd','list-line-even')%>" > 
-    <% # TODO create associations %>
-    <% if teaching_record.family_id == nil or teaching_record.family_id ==0 %>
-      <td><%= "" %></td>
-    <% else %>
-      <% family = Family.find(teaching_record.family_id) %> 
-      <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h family.name + "," + family.head_of_house_hold  %></td>
-    <% end %>
-    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h family.status %></td>
-    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.lessons_taught %></td>
-    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h getLastVisitDate(teaching_record.family) %></td>
-    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.next_lesson %></td>
-    <% if teaching_record.person_id == nil or teaching_record.person_id ==0 %>
-      <td><%= "" %></td>
-    <% else %>
-      <% fellowshipper = Person.find(teaching_record.person_id) %>
-      <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h fellowshipper.name + " " + fellowshipper.family.name %></td>
-    <% end %>
-    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.membership_milestone %></td>
-    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.milestone_date_goal %></td>
-    <td><%= link_to 'Remove', teaching_record, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% @records.each do |organization| %>
+  <fieldset class="depot-form">
+    <legend><%= organization[0] %></legend>
+    <div id = <%= organization[0] %> >
+      <%= render(:partial => 'teaching_records', :object => organization[1]) %>
+    </div>
+  </fieldset>
+  <br>
 <% end %>
-</table>
-
 <br />
-
-<%= link_to 'New teaching_record', new_teaching_record_path %>
+<div id='archived-records'>
+  <%= link_to_remote "Dropped Records", :url => {:controller => "teaching_records",  :action => 'listArchived'} %>
+</div>

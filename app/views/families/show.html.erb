@@ -87,7 +87,7 @@ function toggleDisplay(divId) {
     </div>
   </li>
   <!-- Teaching Record -->
-  <% if @family.teaching_record != nil %>
+  <% if @family.teaching_record != nil and @family.teaching_record.current %>
     <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
         return false;">Teaching Record </a> 
       <div id="teaching-record" style = 'display:none'>
@@ -95,11 +95,13 @@ function toggleDisplay(divId) {
           <ul>
             <% form_for(@family.teaching_record) do |f| %>
               <%= f.error_messages %>
-
+              <p>
+                Responsible Organization:
+                <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> <br />
+              </p>
               <p>
                 <%= f.label :fellowshipper %>
                 <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
-
               </p>
               <p>
                 Lessons Taught:

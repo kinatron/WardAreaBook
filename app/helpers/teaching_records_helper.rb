@@ -1,5 +1,26 @@
 module TeachingRecordsHelper
 
+  def wardOrganizations
+    [
+      ["Ward Mission"  , "Ward Mission"], 
+      ["Elders Quorum" , "Elders Quorum"], 
+      ["High Priests"  , "High Priests"], 
+      ["Young Mens" , "Young Mens"], 
+      ["Relief Society" , "Relief Society"],
+    ]
+  end
+
+  def teachingRecordStatus
+    [
+      ["Investigator"  , "Investigator"], 
+      ["Recent Convert", "Recent Convert"], 
+      ["Less Active"   , "Less Active"], 
+      ["Active"        , "Active"], 
+      ["Part Member"   , "Part Member"], 
+      ["Focus Family"  , "Focus Family"],
+    ]
+  end
+
   def memberMilestoneCategories  
     [
       ["Baptism" , "Baptism"],

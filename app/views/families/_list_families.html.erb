@@ -1,0 +1,31 @@
+<% dropped ||= false %> 
+<table class = 'sortable resizable'>
+  <thead>
+    <tr align="left">
+      <th>Name**</th>
+      <th class='nosort'>Phone</th>
+      <th class='nosort'>Address</th>
+      <th>Type</th>
+      <th padding='10px'>Last&nbsp;Visit**</th>
+      <th class='nosort'>Comment</th>
+      <th class='nosort'></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @families.each do |family| %>
+      <tr class="<%=cycle('list-line-odd','list-line-even')%>">
+        <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.name %>, <%=h family.head_of_house_hold %></td>
+        <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.phone %></td>
+        <td onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.address %></td>
+        <td bgcolor=<%=statusColor(family.status)%> onClick = "window.location.href='<%= family_path(family) %>'" ><%=h family.status %></td>
+        <td onClick = "window.location.href='<%= family_path(family) %>'" sorttable_customkey="<%=getLastVisitDateSortable(family)%>"> <%= getLastVisitDate(family) %></td>
+        <td onClick = "window.location.href='<%= family_path(family) %>'" ><%= getLastVisitComment(family) %></td>
+        <% if dropped %>
+          <td><%= link_to 'Restore', :controller=>'families', :action => 'archive', :id => family, :restore => 'true'%> </td>
+        <% else %>
+          <td><%= link_to 'Drop', :controller=>'families', :action => 'archive', :id => family %> </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

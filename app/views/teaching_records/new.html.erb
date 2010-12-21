@@ -8,8 +8,18 @@
     <%= f.select :family_id, @families, :include_blank => true %> <br />
   </p>
   <p>
-    <% #TODO Make this a series of check boxes %>
-    <%= f.label :lessons_taught %><br />
+    Responsible Organization:
+    <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> <br />
+  </p>
+  <p>
+    Missionary Lessons Taught <br>
+    <% # TODO Make this a series of check boxes 
+    # | | Message of the Restoration   | | (After Baptism)
+    # | | Plan of Salvation            | | (After Baptism)
+    # | | Gospel of Jesus Christ       | | (After Baptism)
+    # | | Commandments                 | | (After Baptism)
+    # | | Laws and Ordinancs           | | (After Baptism)
+  %>
     <%= f.text_field :lessons_taught %>
   </p>
   <!--
