@@ -38,7 +38,7 @@ def getFamilyMembers cardData
 end
 
 def downLoadNewList
-  agent = Mechanize::Mechanize.new
+  agent = WWW::Mechanize.new
   site = "https://secure.lds.org/units"
   puts "accessing #{site}"
   agent.get(site) do |page|
@@ -146,8 +146,12 @@ begin
   # Extract the data from the cvs file
   # familyname,  phone,   addr1,   addr2,  addr3,   addr4,   name1,   name2,  name3,   name4
   ########################################################################
-  # set all records to non current
-  Family.update_all("current == 0")
+  # set all records to 'member records' to non current
+  Family.find_all_by_member(true).each do |member|
+    member.current = false;
+    #TODO does one really need to save this for the scope of this script?
+    member.save
+  end
 
   # Find the Hopes and Elders make them current because 
   # they won't show up in the new  ward list
