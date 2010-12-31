@@ -1,0 +1,17 @@
+<% option_for_more ||= false %>
+<% #TODO I need to find some globals %>
+<% listLimit ||= 5 %>
+<% action_items.each do |action| %>
+  <li id='nodot'>
+    <%= render(:partial => 'action_items/action_item', :object => action) %>
+  </li>
+<% end %>
+<% if option_for_more and @family.closed_action_items[listLimit] %>
+  <li id = 'nodot'>
+    <%= link_to_remote "more action items...", 
+                        :url => {:controller => 'action_items',
+                                 :action => 'all_closed_family_action_items',
+                                 :id => @family} %>
+    <br>
+  </li>
+<% end %>

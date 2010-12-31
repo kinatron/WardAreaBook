@@ -6,6 +6,14 @@ class EventsController < ApplicationController
   def checkAccess
   end
 
+
+  def all_family_events
+    @family = Family.find(params[:id])
+    render :update do |page|
+      page.replace_html('family-events', :partial => "events/list_events", :object => @family.events)
+    end
+  end
+
   # GET /events
   # GET /events.xml
   def index
@@ -48,10 +56,8 @@ class EventsController < ApplicationController
     @event = Event.new
     @event.family_id = params[:family_id]
     @family = Family.find(@event.family_id)
-    respond_to do |format|
-      format.js
-      #format.html # new.html.erb
-      #format.xml  { render :xml => @event }
+    render :update do |page|
+      page.replace_html('new-action', :partial => "new_event")
     end
   end
 

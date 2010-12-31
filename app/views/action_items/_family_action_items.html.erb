@@ -1,0 +1,24 @@
+<% unless @family.action_items().empty? %>
+  <% limit = 3 %>
+  <li> 
+    <a href='#' class='subtile-links' onclick="Effect.toggle('family-action-items', 'blind'); 
+      return false;">Action Items</a>
+    <div id="family-action-items">
+      <div>
+        <ul>
+          <div id='open-family-actions'>
+            <%= render(:partial => 'action_items/action_items', 
+                       :object => @family.open_action_items) %>
+          </div>
+          <br>
+          <div id='closed-family-actions'>
+            <%= render(:partial => 'action_items/action_items', 
+                       :object => @family.closed_action_items[0..limit-1], 
+                       :locals => {:option_for_more => true}) %>
+          </div>
+
+        </ul>
+      </div>
+    </div>
+  </li>
+<% end %>

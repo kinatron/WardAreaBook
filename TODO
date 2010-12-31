@@ -2,11 +2,42 @@
 TODO's 
 =====================================================================================
 
-2. Release
+1. Action Items
+
+   a) Teaching Pool - List all open action items for this person
+   b) Personal Items
+   c) Ward Items
+
 
 3. Teaching pool should be updated.
 
-Family  |  Type  |  Lesson Taught  | Last Contact |  Action Item | 
+  a) Get the category right.
+   
+Ward Mission
+Family | Type | Missionary Lessons | Last Lesson | Action Item | Next Milestone (include date)| 
+
+     | | Message of the Restoration   | | (After Baptism)
+     | | Plan of Salvation            | | (After Baptism)
+     | | Gospel of Jesus Christ       | | (After Baptism)
+     | | Commandments                 | | (After Baptism)
+     | | Laws and Ordinancs           | | (After Baptism)
+
+
+Lessons
+ID | Lesson 1    | Lesson 2    | Lesson 3    | Lesson 4    | Lesson 5 
+ID | NM_Lesson 1 | NM_Lesson 2 | NM_Lesson 3 | NM_Lesson 4 | NM_Lesson 5 
+
+
+Lessons
+TeachingRecordID | LessonName                   | Date      | Member Present | beforeBaptism
+        1         "Message of the Restoration"                  true/false       true/false
+        2         "Plan of Salvation"
+        3         "Gospel of Jesus Christ"
+        4         "Commandments"
+        5         "Laws and Ordinances"
+
+Elders Quorum 
+
 
 6. Tests
     - Accessing all of the pages.
@@ -48,6 +79,7 @@ Opening up to Paul
 
 ========================================================================
 
+1. Save action item as an event
 1. update scripts
     - minor todo's
     - When members change their names create an option to transfer any options to the new person

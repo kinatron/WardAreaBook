@@ -9,7 +9,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101219061928) do
+ActiveRecord::Schema.define(:version => 20101222055818) do
+
+  create_table "action_items", :force => true do |t|
+    t.integer  "family_id"
+    t.integer  "person_id"
+    t.integer  "issuer_id"
+    t.text     "action"
+    t.date     "due_date"
+    t.string   "status",     :default => "open"
+    t.text     "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "callings", :force => true do |t|
     t.string   "job"

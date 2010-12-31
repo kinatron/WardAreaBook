@@ -1,13 +1,11 @@
 <% form_for(@event, :url => {:action => 'create_new_family_event'})  do |f| %>
   
   <%= f.error_messages %>
-
   <p>
     <%= f.label :date %><br />
     <%= f.date_select :date %>
     <%= f.hidden_field :family_id %>
-    Visiting
-    <%= f.label :person_id %>
+    Visiting Person
     <%= f.select :person_id, @names, {:selected => session[:user_id]} %> <br />
   </p>
   <p>
@@ -27,4 +25,3 @@
     <%= f.submit 'Create' %>
   </p>
 <% end %>
-

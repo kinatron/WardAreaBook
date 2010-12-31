@@ -1,0 +1,38 @@
+<% display_committee_member ||=true %>
+<% editable ||=true %>
+<% @actionItem = action_item %>
+<% @action_item = action_item %>
+  <div id = 'action-item'>
+    <% if editable %>
+      <% form_remote_for (@actionItem, :url => {:controller => 'action_items', 
+                                                :action => 'save_family_action',
+                                                :id => action_item} ) do |f| %>
+        <%= f.check_box(:status, 
+                       {:onclick => "Element.toggle('action-item-edit-#{action_item.id}'); 
+                                     Element.show('submit-button'); return true;"}, 
+                      'closed', 'open') %>
+        <% if display_committee_member %>
+          <%= action_item.person.name %> &#151;
+        <% end %> 
+        <% if false %>
+          <%= in_place_editor_field :action_item, 'action' , {}, {:cols => action_item.action.size} %> 
+        <% else %>
+          <% if @actionItem.status == 'closed' %>
+            <strike> <%=h action_item.action %> </strike>
+          <% else %>
+            <%=h action_item.action %>
+          <% end %>
+        <% end %>
+        <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em'> 
+          <%= f.text_area(:comment, :rows=> 1) %>
+          <%= f.submit "save" %>
+        </div>
+      <% end %>
+
+    <% else %>   <!-- Not Editable --> 
+      <% if display_committee_member %>
+        <%= action_item.person.name %> &#151;
+      <% end %> 
+      <%=h action_item.action %>
+    <% end %>    <!-- if editable -->
+  </div>

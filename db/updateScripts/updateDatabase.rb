@@ -38,6 +38,7 @@ def getFamilyMembers cardData
 end
 
 def downLoadNewList
+  #TODO fix this warning
   agent = Mechanize::Mechanize.new
   site = "https://secure.lds.org/units"
   puts "accessing #{site}"

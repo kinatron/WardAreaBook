@@ -1,0 +1,20 @@
+<div id='event-list'>
+  <div>
+    <ul>
+      <% list_events.each do |event| %>
+        <li>
+          <%=h event.date %> &#151;  
+          <%=h event.printPerson() %>
+          &#151;  
+          <%=h event.category %>
+          &#151;  
+          <%=h event.comment %>
+          <% if event.author == session[:user_id] or event.person_id == session[:user_id] %>
+            <%= link_to 'Edit',   :controller => 'events', :action => 'edit', :id=> event %>
+            <%= link_to 'Delete', :controller => 'events', :action => 'remove', :id=> event %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

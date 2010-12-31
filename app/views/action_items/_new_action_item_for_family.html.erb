@@ -1,0 +1,21 @@
+<% form_for(@action_item, :url => {:controller => 'action_items', 
+            :action => 'create', :redirect => 'family'})  do |f| %>
+  <%= f.error_messages %>
+  <p>
+    Ward Representative 
+    <%= f.select :person_id, @names, {:selected => session[:user_id]} %> <br />
+  </p>
+  <p>
+    <%= f.hidden_field :family_id %>
+    Assignment <br />
+    <%= f.text_area :action, :cols => 75, :rows => 1%>
+  </p>
+  <p>
+    Due Date
+    <%= f.date_select :due_date, :default => 7.days.from_now %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+

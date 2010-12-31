@@ -1,4 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :action_items
+
+  map.resources :action_items
+
+  map.resources :action_items
+
   map.resources :comments
 
   map.resources :callings
