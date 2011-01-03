@@ -90,7 +90,6 @@ class EventsController < ApplicationController
         @event.family.teaching_record.save
       end
     end
-
     @event.author = session[:user_id]
     respond_to do |format|
       if @event.save
