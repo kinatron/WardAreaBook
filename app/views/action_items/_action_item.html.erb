@@ -1,9 +1,11 @@
 <% display_committee_member ||=true %>
-<% editable ||=true %>
+<% editable ||= true %>
+<% simple ||= false %>
 <% @actionItem = action_item %>
 <% @action_item = action_item %>
+<!--TODO this could use some cleanup -->
   <div id = 'action-item'>
-    <% if editable %>
+    <% unless simple %>
       <% form_remote_for (@actionItem, :url => {:controller => 'action_items', 
                                                 :action => 'save_family_action',
                                                 :id => action_item} ) do |f| %>
@@ -12,15 +14,20 @@
                                      Element.show('submit-button'); return true;"}, 
                       'closed', 'open') %>
         <% if display_committee_member %>
-          <%= action_item.person.name %> &#151;
+          <%=h action_item.person.name %> 
+          <%=h action_item.person.family.name %>  &#151;
         <% end %> 
         <% if false %>
           <%= in_place_editor_field :action_item, 'action' , {}, {:cols => action_item.action.size} %> 
         <% else %>
           <% if @actionItem.status == 'closed' %>
-            <strike> <%=h action_item.action %> </strike>
+            <strike> 
+              <%=h action_item.action %> 
+              (<%=h action_item.due_date %>)
+            </strike>
           <% else %>
             <%=h action_item.action %>
+            (<%=h action_item.due_date %>)
           <% end %>
         <% end %>
         <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em'> 
@@ -29,10 +36,13 @@
         </div>
       <% end %>
 
-    <% else %>   <!-- Not Editable --> 
+    <% else %>   <!-- Simple View --> 
       <% if display_committee_member %>
-        <%= action_item.person.name %> &#151;
+        <%=h action_item.person.name %>  
+        <%=h action_item.person.family.name %>  &#151;
       <% end %> 
       <%=h action_item.action %>
-    <% end %>    <!-- if editable -->
+      (<%=h action_item.due_date %>)
+
+    <% end %>    <!-- if simple -->
   </div>

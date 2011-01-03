@@ -1,9 +1,11 @@
 <% option_for_more ||= false %>
+<% simple ||= false %>
 <% #TODO I need to find some globals %>
 <% listLimit ||= 5 %>
 <% action_items.each do |action| %>
   <li id='nodot'>
-    <%= render(:partial => 'action_items/action_item', :object => action) %>
+    <%= render(:partial => 'action_items/action_item', :object => action,
+               :locals => {:simple => simple}) %>
   </li>
 <% end %>
 <% if option_for_more and @family.closed_action_items[listLimit] %>

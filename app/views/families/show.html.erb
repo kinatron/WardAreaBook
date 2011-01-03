@@ -25,7 +25,8 @@ function toggleDisplay(divId) {
     <%= render(:partial => "teaching_records/teaching_record") %>
     <%= render(:partial => "events/family_events") %>
     <div id="updated-action-list">
-      <%= render(:partial => "action_items/family_action_items") %>
+      <%= render(:partial => "action_items/family_action_items",
+                 :locals => {:option_for_more => true}) %>
     </div>
 </ul>
 <br> <br> <br> 

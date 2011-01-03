@@ -6,8 +6,7 @@
     <th width="10">Type</th>
     <th width="10">Lessons taught</th>
     <th width="10">Last lesson</th>
-    <th width="10">Next lesson</th>
-    <th width="500">Fellowshipper</th>
+    <th width="500">Action Items</th>
     <th width="200">Next Milestone</th>
     <th></th>
   </tr>
@@ -29,14 +28,9 @@
   <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
     <%=h getLastVisitDate(teaching_record.family) %></td>
   <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
-    <%=h teaching_record.next_lesson %></td>
-<% if teaching_record.person_id == nil or teaching_record.person_id ==0 %>
-  <td><%= "" %></td>
-<% else %>
-  <% fellowshipper = Person.find(teaching_record.person_id) %>
-  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
-    <%=h fellowshipper.name + " " + fellowshipper.family.name %></td>
-<% end %>
+      <%= render(:partial => 'action_items/action_item', :collection => family.open_action_items, 
+                 :locals => {:simple => true}) %>
+  </td>
   <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
     <%=h teaching_record.membership_milestone %> 
     <% if teaching_record.milestone_date_goal != nil %>

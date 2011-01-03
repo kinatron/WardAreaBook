@@ -1,1 +1,0 @@
-page.replace_html('new-action', :partial => "nothing_hack")

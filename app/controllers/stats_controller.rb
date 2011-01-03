@@ -1,15 +1,13 @@
 class StatsController < ApplicationController
   caches_action :index, :layout => false
-
   def index 
-    @total         = Family.find_all_by_current(true, :conditions => "status != 'moved'").length
-    @totalMembers  = Person.find_all_by_current(true).length
-    @active        = Family.find_all_by_current_and_status(true,'active').length
-    @lessActive    = Family.find_all_by_current_and_status(true,'less active').length
-    @notInterested = Family.find_all_by_current_and_status(true,'not interested').length
-    @dnc           = Family.find_all_by_current_and_status(true,'dnc').length
-    @unknown       = Family.find_all_by_current_and_status(true,'unknown').length + 
-                     Family.find_all_by_current_and_status(true,'new').length 
+    @totalMembers  = Person.find_all_by_current(true).count
+    @total         = Family.find_all_by_current_and_member(true,true, :conditions => "status != 'moved'").count
+    @active        = Family.find_all_by_current_and_member_and_status(true,true,'active').count
+    @lessActive    = Family.find_all_by_current_and_member_and_status(true,true,'less active').count
+    @notInterested = Family.find_all_by_current_and_member_and_status(true,true,'not interested').count
+    @dnc           = Family.find_all_by_current_and_member_and_status(true,true,'dnc').count
+    @unknown       = Family.find_all_by_current_and_member_and_status(true,true,'unknown').count + 
+                     Family.find_all_by_current_and_member_and_status(true,true,'new').count 
   end
-
 end
