@@ -3,6 +3,12 @@ TODO's
 =====================================================================================
 1. Generate quarterly report that captures the ward profile..
 
+WardProfile
+
+Quarter (date) | Total Families (int) | Active (int) | Less Active | Unknown | Not Interested | DNC | new | moved | Visited
+
+
+
 2. Manually update peoples email addresses.
 
 1. Action Items -Display

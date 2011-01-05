@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  quarter: 2011-01-04
+  total_families: 1
+  active: 1
+  less_active: 1
+  unkown: 1
+  not_interested: 1
+  dnc: 1
+  new: 1
+  moved: 1
+  visited: 1
+
+two:
+  quarter: 2011-01-04
+  total_families: 1
+  active: 1
+  less_active: 1
+  unkown: 1
+  not_interested: 1
+  dnc: 1
+  new: 1
+  moved: 1
+  visited: 1

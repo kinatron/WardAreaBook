@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101222055818) do
+ActiveRecord::Schema.define(:version => 20110104233630) do
 
   create_table "action_items", :force => true do |t|
     t.integer  "family_id"
@@ -145,6 +145,21 @@ ActiveRecord::Schema.define(:version => 20101222055818) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "last_login"
+  end
+
+  create_table "ward_profiles", :force => true do |t|
+    t.date     "quarter"
+    t.integer  "total_families"
+    t.integer  "active"
+    t.integer  "less_active"
+    t.integer  "unknown"
+    t.integer  "not_interested"
+    t.integer  "dnc"
+    t.integer  "new"
+    t.integer  "moved"
+    t.integer  "visited"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

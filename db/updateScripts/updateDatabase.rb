@@ -128,6 +128,44 @@ def downLoadNewList
   end
 end
 
+
+def quartlyReport
+  include StatsHelper
+  @totalMembers  = Person.find_all_by_current(true).length
+  @total         = Family.find_all_by_current_and_member(true,true, :conditions => "status != 'moved'").length
+  @active        = Family.find_all_by_current_and_member_and_status(true,true,'active').length
+  @lessActive    = Family.find_all_by_current_and_member_and_status(true,true,'less active').length
+  @notInterested = Family.find_all_by_current_and_member_and_status(true,true,'not interested').length
+  @dnc           = Family.find_all_by_current_and_member_and_status(true,true,'dnc').length
+  @unknown       = Family.find_all_by_current_and_member_and_status(true,true,'unknown').length + 
+                   Family.find_all_by_current_and_member_and_status(true,true,'new').length 
+  profile =  WardProfile.find_by_quarter(Time.now.at_beginning_of_quarter)  
+  if profile == nil
+    WardProfile.create(:quarter => Time.now.at_beginning_of_quarter,
+                       :total_families => @total,
+                       :active => @active,
+                       :less_active => @lessActive,
+                       :not_interested => @notInterested,
+                       :dnc => @dnc,
+                       :unknown => @unknown,
+                       :new => moveIns(3),
+                       :moved => moveOuts(3),
+                       :visited => familiesVisited(3))
+  else
+    profile.total_families = @total
+    profile.active = @active
+    profile.less_active = @lessActive
+    profile.not_interested = @notInterested
+    profile.dnc = @dnc
+    profile.unknown = @unknown
+    profile.new = moveIns(3)
+    profile.moved = moveOuts(3)
+    profile.visited = familiesVisited(3)
+    profile.save
+  end
+end
+
+
 begin
   # load the rails environment
   require File.dirname(__FILE__) + "/../../config/environment"
@@ -275,7 +313,9 @@ begin
       family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
                              :phone => phone, :address => address, :status => "new", 
                              :uid => uid, :current => 1)
-      family.events.create(:date => Date.today, :comment => "Received records from SLC")
+      family.events.create(:date => Date.today, 
+                           :category => "MoveIn",
+                           :comment => "Received records from SLC")
       updateMade = true
 
       #create people records from family members
@@ -324,6 +364,9 @@ begin
     if family.status != "Moved - Old Record"
       puts "\t\t" + family.name + "," + family.head_of_house_hold
       family.status = "Moved - Old Record"
+      family.events.create(:date => Date.today,
+                           :category => "MoveOut",
+                           :comment => "Records removed from the Ward")
       # make all of the family members not current
       Person.update_all("current == 0","family_id == #{family.id}")
       family.save
@@ -332,6 +375,8 @@ begin
   end
 
   puts "\n"
+
+  quartlyReport
 
 rescue Exception => e
   puts $!
