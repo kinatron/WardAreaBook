@@ -1,15 +1,15 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Generate quarterly report that captures the ward profile..
 
-WardProfile
-
-Quarter (date) | Total Families (int) | Active (int) | Less Active | Unknown | Not Interested | DNC | new | moved | Visited
-
+1. Fix the dates.  Family index and home teaching page needs to be sorted correctly
+2. Add a cancel button to merge.
+3. Where are the extra individuals.
 
 
 2. Manually update peoples email addresses.
+   Fix the people section - Mainly remove the non-current people from the list
+   Add a quick search 
 
 1. Action Items -Display
    b) Personal Items
