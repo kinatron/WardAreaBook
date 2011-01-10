@@ -9,13 +9,13 @@
   </tr>
 </table>
 <br>
-<table class = 'sortable resizable'>
+<table class = 'sorttable resizable'>
   <thead>
     <tr align="left">
       <th>Name**</th>
       <th>Status**</th>
       <th padding='10px'>Last&nbsp;Visit**</th>
-      <th class='nosort'>Comment</th>
+      <th class='sortable_nosort'>Comment</th>
     </tr>
   </thead>
   <tbody>
@@ -28,7 +28,8 @@
         <%=h family.name %>, <%=h family.head_of_house_hold %></td>
       <td>
         <%=h family.status %></td>
-      <td bgcolor="<%= getLastHomeTeacherVisitColor(lastVisit) %>">
+      <td sorttable_customkey="<%= getHomeTeachingVisitDateSortable(lastVisit)%>"
+        bgcolor="<%= getLastHomeTeacherVisitColor(lastVisit) %>">
         <%= lastVisit.date.to_s(:sortable) if lastVisit %></td>
       <td>
         <%= lastVisit.comment if lastVisit  %></td>

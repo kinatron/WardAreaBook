@@ -16,26 +16,29 @@
   </form>
 </div>
 <br>
-<table id = 'filterable' class = 'sortable resizable'>
+<table id = 'filterable' class='sorttable resizable'>
+  <thead>
   <tr>
     <th>Quorum</th>
     <th>Family</th>
     <th>Last Visit</th>
     <th>Home Teacher</th>
   </tr>
+  </thead>
 
 <% @teaching_routes.each do |route| %>
-  <tr>
+  <tr class="<%=cycle('list-line-odd','list-line-even')%>"> 
     <td><%=h route.category %></td>
     <td class='cell' onclick = "window.location.href='<%= family_path(route.family) %>'">
-      <div>
+      <div class='hide'>
         <%=h route.family.name + ", " + route.family.head_of_house_hold %>
       </div>
     </td>
     <% lastEvent = getLastHomeTeacherVisit(route.family) %>
-    <td bgcolor=<%= getLastHomeTeacherVisitColor(lastEvent) %> >
+    <td sorttable_customkey="<%= getHomeTeachingVisitDateSortable(lastEvent)%>"
+        bgcolor=<%= getLastHomeTeacherVisitColor(lastEvent) %> >
       <div>
-        <%= lastEvent.date.to_s(:sortable) if lastEvent %>
+        <%= getHomeTeachingVisitDate(lastEvent) %>
       </div>
     </td>
     <td class='cell' onClick = "window.location.href='<%= "/teaching_routes/teacherList?id=" + route.person.id.to_s %>'">
@@ -46,4 +49,3 @@
 </table>
 
 <br />
-

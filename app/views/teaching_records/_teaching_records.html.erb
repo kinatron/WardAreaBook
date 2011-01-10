@@ -1,5 +1,5 @@
 <% archivedList ||= false %>
-<table class = 'sortable resizable'>
+<table class = 'sorttable resizable'>
   <thead>
   <tr align="left">
     <th width="150">Family</th>
@@ -25,7 +25,8 @@
   <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'">
     <%=h family.status %> </td>
   <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.lessons_taught %></td>
-  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
+  <td sorttable_customkey="<%=h getLastVisitDateSortable(teaching_record.family)%>"
+    onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
     <%=h getLastVisitDate(teaching_record.family) %></td>
   <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
       <%= render(:partial => 'action_items/action_item', :collection => family.open_action_items, 
