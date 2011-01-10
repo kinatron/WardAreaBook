@@ -186,19 +186,31 @@ begin
   # familyname,  phone,   addr1,   addr2,  addr3,   addr4,   name1,   name2,  name3,   name4
   ########################################################################
   # set all records to non current
-  Family.update_all("current == 0")
+  Person.update_all("current == 0")
+  Family.find_all_by_member(true).each do |family|
+    family.current = false
+    family.save
+  end
+
+  
 
   # Find the Hopes and Elders make them current because 
   # they won't show up in the new  ward list
+  # TODO you need to better account for missionaries.
   #
   hopes = Family.find_by_name("Hope")
+  hopes.current=1
+  hopes.save
+  hopes = Person.find(1)
   hopes.current=1
   hopes.save
 
   elders = Family.find_by_name("Elders")
   elders.current=1
   elders.save
-
+  elders = Person.find(2)
+  elders.current=1
+  elders.save
 
   cards = Vpim::Vcard.decode(open("#{UPDATEDIR}/WardList.vcf"))
   cards.each do |card|
