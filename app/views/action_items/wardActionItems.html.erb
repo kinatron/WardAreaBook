@@ -1,0 +1,16 @@
+<h1>Ward Action Items</h1>
+<div id="updated-action-list">
+  <div id='open-actions'>
+    <%= render(:partial => "action_items/action_items",
+               :object => @open_action_items,
+               :locals => @actionItemOptions) %>
+  </div>
+  <br>
+  <div id='closed-actions'>
+    <%= render(:partial => 'action_items/action_items', 
+               :object => @closed_action_items,
+               :locals => @actionItemOptions) %>
+  </div>
+<br><br>
+<% link_to 'New action_item', new_action_item_path %>
+

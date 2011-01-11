@@ -3,7 +3,7 @@ TODO's
 =====================================================================================
 
 1. Action Items -Display
-   b) Personal Items
+   b) Personal Items - default at login (if action items exist)
    c) Ward Items
 
 3. Teaching pool should be updated.
@@ -76,8 +76,8 @@ Opening up to Paul
 
 ========================================================================
 
-3. Where are the extra individuals comming from in the Stats
 1. Save action item as an event
+
 1. update scripts
     - minor todo's
     - When members change their names create an option to transfer any options to the new person

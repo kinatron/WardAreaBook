@@ -1,48 +1,29 @@
-<% display_committee_member ||=true %>
-<% editable ||= true %>
-<% simple ||= false %>
-<% @actionItem = action_item %>
-<% @action_item = action_item %>
-<!--TODO this could use some cleanup -->
-  <div id = 'action-item'>
-    <% unless simple %>
-      <% form_remote_for (@actionItem, :url => {:controller => 'action_items', 
-                                                :action => 'save_family_action',
-                                                :id => action_item} ) do |f| %>
-        <%= f.check_box(:status, 
-                       {:onclick => "Element.toggle('action-item-edit-#{action_item.id}'); 
-                                     Element.show('submit-button'); return true;"}, 
-                      'closed', 'open') %>
-        <% if display_committee_member %>
-          <%=h action_item.person.name %> 
-          <%=h action_item.person.family.name %>  &#151;
-        <% end %> 
-        <% if false %>
-          <%= in_place_editor_field :action_item, 'action' , {}, {:cols => action_item.action.size} %> 
-        <% else %>
-          <% if @actionItem.status == 'closed' %>
-            <strike> 
-              <%=h action_item.action %> 
-              (<%=h action_item.due_date %>)
-            </strike>
-          <% else %>
-            <%=h action_item.action %>
-            (<%=h action_item.due_date %>)
-          <% end %>
-        <% end %>
-        <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em'> 
-          <%= f.text_area(:comment, :rows=> 1) %>
-          <%= f.submit "save" %>
-        </div>
-      <% end %>
-
-    <% else %>   <!-- Simple View --> 
-      <% if display_committee_member %>
-        <%=h action_item.person.name %>  
-        <%=h action_item.person.family.name %>  &#151;
-      <% end %> 
-      <%=h action_item.action %>
-      (<%=h action_item.due_date %>)
-
-    <% end %>    <!-- if simple -->
-  </div>
+<% checkbox ||= false %>
+<% ward_representative ||= false %>
+<% family ||=false %>
+<% form_action ||= "save_family_action" %>
+<div id = 'action-item'>
+  <% if checkbox %>
+    <% form_remote_for (action_item, :url => {:controller => 'action_items', 
+                        :action => form_action, :id => action_item}) do |f| %>
+      <%= f.check_box(:status, 
+                     {:onclick => "Element.toggle('action-item-edit-#{action_item.id}'); 
+                                   Element.toggle('action-item-comment-#{action_item.id}');
+                                   return true;"}, 
+                    'closed', 'open') %>
+      <%= render(:partial => 'action_items/action_details', 
+                 :object => action_item,
+                 :locals => {:ward_representative => ward_representative,
+                             :family => family}) %>
+      <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em'> 
+        <%= f.text_area(:comment, :rows=> 1) %>
+        <%= f.submit "save" %>
+      </div>
+    <% end %> <!-- end of the form above -->
+  <% else %>  <!-- if 'not' checkbox -->
+    <%= render(:partial => 'action_items/action_details', 
+               :object => action_item,
+               :locals => {:ward_representative => ward_representative,
+                           :family => family}) %>
+  <% end %>
+</div>

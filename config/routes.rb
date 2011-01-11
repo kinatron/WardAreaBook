@@ -1,8 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :action_items
-
-  map.resources :action_items
-
+  map.connect '/action_items/wardActionItems/', :controller => 'action_items', 
+                                               :action => 'wardActionItems'
   map.resources :action_items
 
   map.resources :comments

@@ -50,29 +50,74 @@ class ActionItemsController < ApplicationController
   def all_closed_family_action_items 
     @family = Family.find(params[:id])
     render :update do |page|
-      page.replace_html('closed-family-actions', 
+      page.replace_html('closed-actions', 
                         :partial => "action_items/action_items", 
                         :object => @family.closed_action_items)
     end
   end
 
+# Used in the next two actions  
+ACTION_ITEM_OPTIONS = {:checkbox => true,
+                       :ward_representative => true,
+                       :family => true,
+                       :comment => true,
+                       :form_action => "save_action"}
+  def wardActionItems 
+    @actionItemOptions = ACTION_ITEM_OPTIONS
+    @open_action_items   = ActionItem.find_all_by_status("open")
+    @closed_action_items = ActionItem.find_all_by_status("closed")
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @action_items }
+    end
+  end
+
+  def save_action
+    @actionItemOptions = ACTION_ITEM_OPTIONS
+    @action_item = ActionItem.find(params[:id])
+    #TODO error handling
+    if @action_item.update_attributes(params[:action_item])
+      #    @action_item.save
+      @open_action_items   = ActionItem.find_all_by_status("open")
+      @closed_action_items = ActionItem.find_all_by_status("closed")
+      render :update do |page|
+        page.replace_html("open-actions", 
+                          :partial => "action_items/action_items",
+                          :object => @open_action_items,
+                          :locals => @actionItemOptions )
+        page.replace_html("closed-actions", 
+                          :partial => 'action_items/action_items', 
+                          :object => @closed_action_items,
+                          :locals => @actionItemOptions )
+      end
+    else 
+      #TODO error handling!!
+      render :update do |page|
+        page.replace_html("updated-action-list", 
+                          :partial => "action_items/action_item")
+      end
+    end
+  end
+
   def save_family_action
     @action_item = ActionItem.find(params[:id])
-    #TODO Globals
-    listLimit = 3
     #TODO error handling
     if @action_item.update_attributes(params[:action_item])
       #    @action_item.save
       @family = @action_item.family
       render :update do |page|
-        page.replace_html("open-family-actions", 
+        page.replace_html("open-actions", 
                           :partial => "action_items/action_items",
-                          :object => @family.open_action_items)
+                          :object => @family.open_action_items,
+                          :locals => {:checkbox => true,
+                                      :ward_representative => true})
 
-        page.replace_html("closed-family-actions", 
+
+        page.replace_html("closed-actions", 
                           :partial => "action_items/action_items",
-                          :object => @family.closed_action_items[0..listLimit-1],
-                          :locals => {:option_for_more => true})
+                          :object => @family.closed_action_items,
+                          :locals => {:checkbox => true,
+                                      :ward_representative => true})
       end
     else 
       #TODO error handling!!

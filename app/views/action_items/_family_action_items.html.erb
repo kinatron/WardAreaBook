@@ -6,15 +6,19 @@
     <div id="family-action-items">
       <div>
         <ul>
-          <div id='open-family-actions'>
+          <div id='open-actions'>
             <%= render(:partial => 'action_items/action_items', 
-                       :object => @family.open_action_items) %>
+                       :object => @family.open_action_items, 
+                       :locals => {:ward_representative => true,
+                                   :checkbox => true} ) %>
           </div>
           <br>
-          <div id='closed-family-actions'>
+          <div id='closed-actions'>
             <%= render(:partial => 'action_items/action_items', 
                        :object => @family.closed_action_items[0..limit-1], 
-                       :locals => {:option_for_more => true}) %>
+                       :locals => {:ward_representative => true,
+                                   :checkbox => true,
+                                   :option_for_more => true}) %>
           </div>
 
         </ul>

@@ -30,7 +30,7 @@
     <%=h getLastVisitDate(teaching_record.family) %></td>
   <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
       <%= render(:partial => 'action_items/action_item', :collection => family.open_action_items, 
-                 :locals => {:simple => true}) %>
+                 :locals => {:ward_representative => true}) %>
   </td>
   <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
     <%=h teaching_record.membership_milestone %> 

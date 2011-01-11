@@ -1,0 +1,19 @@
+<% ward_representative ||= false %>
+<% family ||=false %>
+
+<% if ward_representative %>
+  <%=h action_details.person.name %> 
+  <%=h action_details.person.family.name %>  &#151;
+<% end %> 
+
+<% if family %>
+  <%=h action_details.family.head_of_house_hold %> 
+  <%=h action_details.family.name %>  &#151;
+<% end %> 
+
+<%=h action_details.action %> 
+(<%=h action_details.due_date %>)
+
+<div id = 'action-item-comment-<%= action_details.id %>' style='text-indent: 4.5em'> 
+  <%=h action_details.comment %>
+</div>

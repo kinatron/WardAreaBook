@@ -1,11 +1,17 @@
 <% option_for_more ||= false %>
-<% simple ||= false %>
+<% checkbox ||= false %>
+<% ward_representative ||= false %>
+<% family ||= false %>
+<% form_action ||= false %>
 <% #TODO I need to find some globals %>
 <% listLimit ||= 5 %>
 <% action_items.each do |action| %>
   <li id='nodot'>
     <%= render(:partial => 'action_items/action_item', :object => action,
-               :locals => {:simple => simple}) %>
+               :locals => {:checkbox => checkbox,
+                           :ward_representative => ward_representative,
+                           :family => family,
+                           :form_action => form_action}) %>
   </li>
 <% end %>
 <% if option_for_more and @family.closed_action_items[listLimit] %>
