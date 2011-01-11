@@ -2,9 +2,19 @@
 TODO's 
 =====================================================================================
 
-1. Action Items -Display
-   b) Personal Items - default at login (if action items exist)
-   c) Ward Items
+3. Release
+
+4. Make action items editable.
+
+2. Reports 
+   Only show 3 month windows.  With the option for more.
+   Jan  - 124 families visited.
+        High Priest Families    Elders Quorum Families   Unassigned Families.
+             
+
+   Dec
+
+   Nov
 
 3. Teaching pool should be updated.
 
@@ -44,37 +54,12 @@ Elders Quorum
 
 7. Admin to add non-member users and escalting user privs
 
-========================================================================
-Opening up to Paul
-
-1. Get WardAreaBook.com
-2. Create a project for paul.
-3. Replace "Burien Ward" with a database entry
-4. Create a ward creation page for Paul
-    Main page at WardAreaBook.com
-    Please select the ward?
-       Pleasant Grove
-       Burien
-
-       Create a new ward.
-            
-            In order to create a ward areabook project you need
-              1. an lds.org account 
-              2. must be included in the ward leadership
-              3. No existing ward areabook
-    
-    Remove the Hopes... 
-    automate the bishop
-    Let the admin add non-members to the wardlist (missionaries)
-    All reports should be generic and then allow to filter by user
-
-       Ward Weekly Report       everybody
-    
-    Weekly report should just report the last 4 weeks with options for older stuff
-
-    Maybe have a graph to show monthly trends
 
 ========================================================================
+
+0. Person needs to have a full name
+
+1. Personal Items - default at login (if action items exist)
 
 1. Save action item as an event
 
@@ -90,7 +75,7 @@ Opening up to Paul
 
 3. email challenge for password
 
-2. When a new comment is created I would like he focus window to go onto it.
+2. When a new comment is created I would like the focus window to go onto it.
 
 3. Create Tests
 
@@ -108,7 +93,6 @@ Opening up to Paul
    b) with a delete option
 
 3. Automatic form submission to change status
-
 
 2. When a LessonX event is removed or updated update the Teaching Record. 
 
@@ -154,3 +138,39 @@ Opening up to Paul
 11. Add dynamic content to the reports page (don't generate all of the data unless they need it.
 
 12. have a cancel button on the status changes. (like the comments)
+
+13. Add a baptism to the list of teaching record events.
+
+14. Add a feature request page.
+
+15. Last visit should not include attempts.
+
+========================================================================
+Opening up to Paul
+
+1. Get WardAreaBook.com
+2. Create a project for paul.
+3. Replace "Burien Ward" with a database entry
+4. Create a ward creation page for Paul
+    Main page at WardAreaBook.com
+    Please select the ward?
+       Pleasant Grove
+       Burien
+
+       Create a new ward.
+            
+            In order to create a ward areabook project you need
+              1. an lds.org account 
+              2. must be included in the ward leadership
+              3. No existing ward areabook
+    
+    Remove the Hopes... 
+    automate the bishop
+    Let the admin add non-members to the wardlist (missionaries)
+    All reports should be generic and then allow to filter by user
+
+       Ward Weekly Report       everybody
+    
+    Weekly report should just report the last 4 weeks with options for older stuff
+
+    Maybe have a graph to show monthly trends

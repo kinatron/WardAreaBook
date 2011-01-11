@@ -1,5 +1,9 @@
 <script type="text/javascript">
-function toggleDisplay(divId) {
+function showElement(divId) {
+  var div = document.getElementById(divId);
+  div.style.display = "inline";
+}
+function hideElement(divId) {
   var div = document.getElementById(divId);
   div.style.display = "none";
 }
@@ -7,19 +11,29 @@ function toggleDisplay(divId) {
 
 <h1><%=h @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp;
   <div style='display:inline' id='actionButtons' >
-    <%= button_to_remote("New Event", :url => {:controller => 'events', 
-                                             :action => 'new_family_event',
-                                             :family_id => @family.id},
-                                      :loading => "toggleDisplay('actionButtons')")%>
+    <%= button_to_function("New Event", "showElement('new-event');
+                                         hideElement('actionButtons');")%>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
-    <%= button_to_remote("New Action Item", :url => {:controller => 'action_items', 
-                                             :action => 'new_family_action_item',
-                                             :family_id => @family.id},
-                                      :loading => "toggleDisplay('actionButtons')")%>
+    <%= button_to_function("New Action Item", "showElement('new-action');
+                                               hideElement('actionButtons');")%>
   </div>
 </h1>
 
-<div id = 'new-action'> </div>
+<div id = 'new-event' style='display:none;'> 
+  <%= render(:partial => 'events/new_family_event',
+             :locals => {:peopleList => @names,
+                         :event => @event,
+                         :family => @family}) %>
+  <hr>
+</div>
+
+<div id = 'new-action' style='display:none;'> 
+  <%= render(:partial => 'action_items/new_family_action_item', 
+             :locals => {:peopleList => @names,
+                         :action_item => @action_item}) %>
+  <hr>
+</div>
+
 <ul>
     <%= render(:partial => "family_details") %>
     <%= render(:partial => "teaching_records/teaching_record") %>

@@ -114,11 +114,17 @@ class FamiliesController < ApplicationController
   # GET /families/1.xml
   def show
     @family = Family.find(params[:id])
-    @actionItem = ActionItem.new
+    @action_item = ActionItem.new
+    @action_item.family_id = @family.id
+
+    @names = getMapping
+    @families = getFamilyMapping
 
     @familyName = @family.name + "," + @family.head_of_house_hold;
-    @families = getFamilyMapping
     @fellowShippers = getMapping
+
+    @event =  Event.new
+    @event.family_id = @family.id
 
     if @hasFullAccess or @family.hasHomeTeacher(session[:user_id])
       respond_to do |format|

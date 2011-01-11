@@ -40,27 +40,6 @@ class EventsController < ApplicationController
     end
   end
 
-  def test_me
-    @names = getMapping
-    @event = Event.new
-    @event.family_id = 51
-    @family = Family.find(@event.family_id)
-    respond_to do |format|
-      format.html # new.html.erb
-      #format.xml  { render :xml => @event }
-    end
-  end
-
-  def new_family_event
-    @names = getMapping
-    @event = Event.new
-    @event.family_id = params[:family_id]
-    @family = Family.find(@event.family_id)
-    render :update do |page|
-      page.replace_html('new-action', :partial => "new_event")
-    end
-  end
-
   # GET /events/new
   # GET /events/new.xml
   def new

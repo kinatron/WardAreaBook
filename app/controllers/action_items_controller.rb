@@ -38,15 +38,6 @@ class ActionItemsController < ApplicationController
     end
   end
 
-  def new_family_action_item
-    @names = getMapping
-    @action_item = ActionItem.new
-    @action_item.family_id = params[:family_id]
-    render :update do |page|
-      page.replace_html('new-action', :partial => "new_action_item_for_family")
-    end
-  end
-
   def all_closed_family_action_items 
     @family = Family.find(params[:id])
     render :update do |page|
