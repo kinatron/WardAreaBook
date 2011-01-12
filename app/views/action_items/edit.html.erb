@@ -5,15 +5,15 @@
 
   <p>
     <%= f.label :family_id %><br />
-    <%= f.text_field :family_id %>
+    <%= f.select :family_id, @familyList%>
   </p>
   <p>
-    <%= f.label :person_id %><br />
-    <%= f.text_field :person_id %>
+    Assignee
+    <%= f.select :person_id, @personList %>
   </p>
   <p>
     <%= f.label :action %><br />
-    <%= f.text_area :action %>
+    <%= f.text_area  :action, :cols=>50, :rows=>2 %>
   </p>
   <p>
     <%= f.label :due_date %><br />
@@ -21,16 +21,19 @@
   </p>
   <p>
     <%= f.label :status %><br />
-    <%= f.text_field :status %>
+    <%= f.select :status, {'closed' => 'closed','open' => 'open'} %>
+  </p>
+  <p>
+    <%= f.label :comment %><br />
+    <%= f.text_area :comment, :cols=>50, :rows=>2 %>
   </p>
   <p>
     <%= f.label :issuer_id %><br />
-    <%= f.text_field :issuer_id %>
+    <%= Person.find(@action_item.issuer_id).name unless @action_item.issuer_id == nil%>
+    <%= Person.find(@action_item.issuer_id).family.name unless @action_item.issuer_id == nil%>
   </p>
   <p>
     <%= f.submit 'Update' %>
+    <%= link_to "Cancel", :back %>
   </p>
 <% end %>
-
-<%= link_to 'Show', @action_item %> |
-<%= link_to 'Back', action_items_path %>

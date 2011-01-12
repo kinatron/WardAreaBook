@@ -1,5 +1,6 @@
 class ActionItemsController < ApplicationController
   in_place_edit_for :action_item, :action
+  before_filter :store_return_point, :only =>[:wardActionItems]
   listLimit = 5
 
   def authorize
@@ -122,12 +123,15 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
   # GET /action_items/1/edit
   def edit
     @action_item = ActionItem.find(params[:id])
+    @familyList = getFamilyMapping 
+    @personList = getMapping 
   end
 
   # POST /action_items
   # POST /action_items.xml
   def create
     @action_item = ActionItem.new(params[:action_item])
+    @action_item.issuer_id = session[:user_id]
     respond_to do |format|
       if @action_item.save
         if params[:redirect] == 'family'
@@ -150,8 +154,8 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     @action_item = ActionItem.find(params[:id])
     respond_to do |format|
       if @action_item.update_attributes(params[:action_item])
-        flash[:notice] = 'ActionItem was successfully updated.'
-        format.html { redirect_to(@action_item) }
+        #flash[:notice] = 'ActionItem was successfully updated.'
+        format.html { redirect_back}
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
