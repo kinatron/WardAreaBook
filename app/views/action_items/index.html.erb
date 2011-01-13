@@ -1,0 +1,30 @@
+<h1>Listing action_items</h1>
+
+<table>
+  <tr>
+    <th>Person</th>
+    <th>Family</th>
+    <th>Action</th>
+    <th>Due date</th>
+    <th>Status</th>
+    <th>Issuer</th>
+  </tr>
+
+<% @action_items.each do |action_item| %>
+  <tr>
+    <td><%=h action_item.person_id %></td>
+    <td><%=h action_item.family_id %></td>
+    <td><%=h action_item.action %></td>
+    <td><%=h action_item.due_date %></td>
+    <td><%=h action_item.status %></td>
+    <td><%=h action_item.issuer_id %></td>
+    <td><%= link_to 'Show', action_item %></td>
+    <td><%= link_to 'Edit', edit_action_item_path(action_item) %></td>
+    <td><%= link_to 'Destroy', action_item, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New action_item', new_action_item_path %>

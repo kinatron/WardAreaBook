@@ -8,6 +8,7 @@
 <%= stylesheet_link_tag "sortable", :media => "all" %>
 <!-- <label id="code.slt"/> -->
   <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "sorttable"%>
   <%= javascript_include_tag "tablekit"%>
   <%= javascript_include_tag "filter"%>
 <!-- END:stylesheet -->
@@ -41,6 +42,10 @@
           %><br />
 
 <% if session[:access_level] >=2 %>
+      </p>
+      <br>
+      <p>
+        <%= link_to 'Assignments', :controller => 'action_items', :action => 'wardActionItems' %><br />
       </p>
       <br> <br> 
       <br> 

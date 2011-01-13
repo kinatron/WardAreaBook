@@ -47,16 +47,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # TODO hope hack
+  # I would also like to ensure that this only happens once since it happens 
+  # often.
   def getMapping
     @@names ||= Person.find_all_by_current(true, :order=>'name').map do |s|
-      if s.name == "Elder and Sister"
-        ["The Hopes", s.id]
-      else
-        if s.family
-          [s.name.split(" ")[0] + " " + s.family.name, s.id]
+      if s.family
+        if s.family.name == "Hope"
+          ["The Hopes", s.id]
         else
-          [s.name.split(" ")[0], s.id]
+          [s.name.split(" ")[0] + " " + s.family.name, s.id]
         end
+      else
+        [s.name.split(" ")[0], s.id]
       end
     end
   end
@@ -64,7 +67,7 @@ class ApplicationController < ActionController::Base
   
   def getFamilyMapping
     @families = Family.find(:all, :order => :member, 
-                            :conditions => "current=='t' or member=='f'").map do |s|
+                            :conditions => "current=='t'").map do |s|
       [s.name + "," + s.head_of_house_hold, s.id]
     end
   end

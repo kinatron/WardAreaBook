@@ -1,17 +1,19 @@
-<% form_for(@event, :url => {:action => 'create_new_family_event'})  do |f| %>
-  
-  <%= f.error_messages %>
+<% peopleList ||= nil %>
+<% event ||= nil %>
+<% family ||= nil %>
 
+<% form_for(event, :url => {:controller => 'events', 
+                            :action     => 'create_new_family_event'})  do |f| %>
+  <%= f.error_messages %>
   <p>
     <%= f.label :date %><br />
     <%= f.date_select :date %>
     <%= f.hidden_field :family_id %>
-    Visiting
-    <%= f.label :person_id %>
-    <%= f.select :person_id, @names, {:selected => session[:user_id]} %> <br />
+    Visiting Person
+    <%= f.select :person_id, peopleList, {:selected => session[:user_id]} %> <br />
   </p>
   <p>
-  <% if @family.teaching_record != nil %>
+  <% if family.teaching_record != nil %>
     <%= f.label :category %>
     <%= f.select :category, teachingRecordEvents %>
   <% else %>
@@ -25,6 +27,7 @@
   </p>
   <p>
     <%= f.submit 'Create' %>
+    &nbsp; &nbsp; 
+    <%= link_to 'Cancel', family_path(family) %>
   </p>
 <% end %>
-

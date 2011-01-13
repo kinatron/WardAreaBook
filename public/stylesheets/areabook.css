@@ -162,6 +162,11 @@ h1 {
   cursor: pointer;
 }
 
+.list-line-even div.hide {
+  visibility:hidden;
+}
+
+
 .cell:hover {
   background-color:   #bdb;
   cursor: pointer;

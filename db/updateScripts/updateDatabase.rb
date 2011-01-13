@@ -38,7 +38,8 @@ def getFamilyMembers cardData
 end
 
 def downLoadNewList
-  agent = WWW::Mechanize.new
+  #TODO fix this warning
+  agent = Mechanize::Mechanize.new
   site = "https://secure.lds.org/units"
   puts "accessing #{site}"
   agent.get(site) do |page|
@@ -127,6 +128,44 @@ def downLoadNewList
   end
 end
 
+
+def quartlyReport
+  include StatsHelper
+  @totalMembers  = Person.find_all_by_current(true).length
+  @total         = Family.find_all_by_current_and_member(true,true, :conditions => "status != 'moved'").length
+  @active        = Family.find_all_by_current_and_member_and_status(true,true,'active').length
+  @lessActive    = Family.find_all_by_current_and_member_and_status(true,true,'less active').length
+  @notInterested = Family.find_all_by_current_and_member_and_status(true,true,'not interested').length
+  @dnc           = Family.find_all_by_current_and_member_and_status(true,true,'dnc').length
+  @unknown       = Family.find_all_by_current_and_member_and_status(true,true,'unknown').length + 
+                   Family.find_all_by_current_and_member_and_status(true,true,'new').length 
+  profile =  WardProfile.find_by_quarter(Time.now.at_beginning_of_quarter)  
+  if profile == nil
+    WardProfile.create(:quarter => Time.now.at_beginning_of_quarter,
+                       :total_families => @total,
+                       :active => @active,
+                       :less_active => @lessActive,
+                       :not_interested => @notInterested,
+                       :dnc => @dnc,
+                       :unknown => @unknown,
+                       :new => moveIns(3),
+                       :moved => moveOuts(3),
+                       :visited => familiesVisited(3))
+  else
+    profile.total_families = @total
+    profile.active = @active
+    profile.less_active = @lessActive
+    profile.not_interested = @notInterested
+    profile.dnc = @dnc
+    profile.unknown = @unknown
+    profile.new = moveIns(3)
+    profile.moved = moveOuts(3)
+    profile.visited = familiesVisited(3)
+    profile.save
+  end
+end
+
+
 begin
   # load the rails environment
   require File.dirname(__FILE__) + "/../../config/environment"
@@ -146,24 +185,30 @@ begin
   # Extract the data from the cvs file
   # familyname,  phone,   addr1,   addr2,  addr3,   addr4,   name1,   name2,  name3,   name4
   ########################################################################
-  # set all records to 'member records' to non current
-  Family.find_all_by_member(true).each do |member|
-    member.current = false;
-    #TODO does one really need to save this for the scope of this script?
-    member.save
+  # set all records to non current
+  Person.update_all("current == 0")
+  Family.find_all_by_member(true).each do |family|
+    family.current = false
+    family.save
   end
 
   # Find the Hopes and Elders make them current because 
   # they won't show up in the new  ward list
+  # TODO you need to better account for missionaries.
   #
   hopes = Family.find_by_name("Hope")
+  hopes.current=1
+  hopes.save
+  hopes = Person.find(1)
   hopes.current=1
   hopes.save
 
   elders = Family.find_by_name("Elders")
   elders.current=1
   elders.save
-
+  elders = Person.find(2)
+  elders.current=1
+  elders.save
 
   cards = Vpim::Vcard.decode(open("#{UPDATEDIR}/WardList.vcf"))
   cards.each do |card|
@@ -278,7 +323,9 @@ begin
       family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
                              :phone => phone, :address => address, :status => "new", 
                              :uid => uid, :current => 1)
-      family.events.create(:date => Date.today, :comment => "Received records from SLC")
+      family.events.create(:date => Date.today, 
+                           :category => "MoveIn",
+                           :comment => "Received records from SLC")
       updateMade = true
 
       #create people records from family members
@@ -327,6 +374,9 @@ begin
     if family.status != "Moved - Old Record"
       puts "\t\t" + family.name + "," + family.head_of_house_hold
       family.status = "Moved - Old Record"
+      family.events.create(:date => Date.today,
+                           :category => "MoveOut",
+                           :comment => "Records removed from the Ward")
       # make all of the family members not current
       Person.update_all("current == 0","family_id == #{family.id}")
       family.save
@@ -335,6 +385,8 @@ begin
   end
 
   puts "\n"
+
+  quartlyReport
 
 rescue Exception => e
   puts $!

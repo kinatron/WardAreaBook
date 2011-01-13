@@ -1,0 +1,38 @@
+  <% if @family.teaching_record != nil and @family.teaching_record.current %>
+    <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
+        return false;">Teaching Record </a> 
+      <div id="teaching-record" style = 'display:none'>
+        <div>
+          <ul>
+            <% form_for(@family.teaching_record) do |f| %>
+              <%= f.error_messages %>
+              <p>
+                Responsible Organization:
+                <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> <br />
+              </p>
+              <p>
+                <%= f.label :fellowshipper %>
+                <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
+              </p>
+              <p>
+                Lessons Taught:
+                <%= @family.teaching_record.lessons_taught %>
+                &nbsp; &nbsp;
+                Last lesson 
+                <%=h getLastVisitDate(@family) %>
+              </p>
+              <p>
+                Next Milestone Goal
+                <%= f.select :membership_milestone, memberMilestoneCategories  %>
+                Goal Date:
+                <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
+              </p>
+              <p>
+                <%= f.submit 'Update' %>
+              </p>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </li>
+  <% end %>

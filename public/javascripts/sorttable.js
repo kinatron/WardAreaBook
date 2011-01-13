@@ -7,7 +7,7 @@
   Instructions:
   Download this file
   Add <script src="sorttable.js"></script> to your HTML
-  Add class="sortable" to any table you'd like to make sortable
+  Add class="sorttable" to any table you'd like to make sortable
   Click on the headers to sort
   
   Thanks to many, many people for contributions and suggestions.
@@ -32,7 +32,7 @@ sorttable = {
     sorttable.DATE_RE = /^(\d\d?)[\/\.-](\d\d?)[\/\.-]((\d\d)?\d\d)$/;
     
     forEach(document.getElementsByTagName('table'), function(table) {
-      if (table.className.search(/\bsortable\b/) != -1) {
+      if (table.className.search(/\bsorttable\b/) != -1) {
         sorttable.makeSortable(table);
       }
     });

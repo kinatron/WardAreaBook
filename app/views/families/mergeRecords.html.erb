@@ -19,5 +19,6 @@
   <p>
     <%= submit_tag 'Merge', :confirm => "This operation will remove record " + 
                                           @family.name + '   Are you sure?' %>
+    <%= link_to 'Cancel', family_path(@family) %>
   </p>
 <% end %>

@@ -6,6 +6,7 @@ class FamiliesController < ApplicationController
   #the family records.  So I instead I'm explicitly updating this.
   #the sweeper is working for the events_controller....
   cache_sweeper :family_sweeper, :only => [:update, :edit]
+  in_place_edit_for :action_item, :action
 
   @hasFullAccess = false
 
@@ -113,10 +114,17 @@ class FamiliesController < ApplicationController
   # GET /families/1.xml
   def show
     @family = Family.find(params[:id])
+    @action_item = ActionItem.new
+    @action_item.family_id = @family.id
+
+    @names = getMapping
+    @families = getFamilyMapping
 
     @familyName = @family.name + "," + @family.head_of_house_hold;
-    @families = getFamilyMapping
     @fellowShippers = getMapping
+
+    @event =  Event.new
+    @event.family_id = @family.id
 
     if @hasFullAccess or @family.hasHomeTeacher(session[:user_id])
       respond_to do |format|

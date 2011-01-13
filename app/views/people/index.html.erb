@@ -1,6 +1,14 @@
 <h1>Listing people</h1>
 
-<table class = 'sortable resizeable' >
+<div style = "font:85% sans-serif;" >
+  <form>
+    Quick Search &mdash;
+    <input name="quickSearch" onkeyup="filterTable(this, 'filterable', 0,1)" type="text">
+  </form>
+</div>
+<br>
+
+<table id = 'filterable' class='sortable resizable'>
   <thead>
   <tr>
     <th>Name</th>

@@ -1,0 +1,26 @@
+<% ward_representative ||= false %>
+<% family ||=false %>
+<% editable ||=true %>
+
+<% if ward_representative %>
+  <%=h action_details.person.name %> 
+  <%=h action_details.person.family.name %>  &#151;
+<% end %> 
+
+<% if family and action_details.family%>
+  <%=h action_details.family.head_of_house_hold %> 
+  <%=h action_details.family.name %>  &#151;
+<% end %> 
+
+<%=h action_details.action %> 
+(<%=h action_details.due_date %>)
+
+<% if editable and (action_details.issuer_id == session[:user_id] or 
+                    action_details.person_id == session[:user_id]) -%>
+  <%= link_to 'Edit',  :controller =>'action_items',:action => 'edit',  :id=> action_details %>
+  <%= link_to 'Delete',:controller =>'action_items',:action => 'remove',:id=> action_details %>
+<% end %>
+
+<div id = 'action-item-comment-<%= action_details.id %>' style='text-indent: 4.5em'> 
+  <%=h action_details.comment %>
+</div>

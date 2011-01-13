@@ -43,6 +43,24 @@ module TeachingRoutesHelper
     nil
   end
 
+
+  def getHomeTeachingVisitDate(event)
+    if event
+      event.date.strftime("%m/%d/%y")
+    else
+      ""
+    end
+  end
+
+  def getHomeTeachingVisitDateSortable(event)
+    if event
+      event.date.strftime("%Y%m%d")
+    else
+      ""
+    end
+  end
+
+
   def getLastHomeTeacherVisitColor(event)
     unless event == nil
       if event.date > Date.today.at_beginning_of_month

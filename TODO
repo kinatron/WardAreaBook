@@ -2,11 +2,48 @@
 TODO's 
 =====================================================================================
 
-2. Release
+1.  Display more for closed action items
+    Create new action items from the Assignments page.
+
+2. Reports 
+   Only show 3 month windows.  With the option for more.
+   Jan  - 124 families visited.
+        High Priest Families    Elders Quorum Families   Unassigned Families.
+             
+
+   Dec
+
+   Nov
 
 3. Teaching pool should be updated.
 
-Family  |  Type  |  Lesson Taught  | Last Contact |  Action Item | 
+  a) Get the category right.
+   
+Ward Mission
+Family | Type | Missionary Lessons | Last Lesson | Action Item | Next Milestone (include date)| 
+
+     | | Message of the Restoration   | | (After Baptism)
+     | | Plan of Salvation            | | (After Baptism)
+     | | Gospel of Jesus Christ       | | (After Baptism)
+     | | Commandments                 | | (After Baptism)
+     | | Laws and Ordinancs           | | (After Baptism)
+
+
+Lessons
+ID | Lesson 1    | Lesson 2    | Lesson 3    | Lesson 4    | Lesson 5 
+ID | NM_Lesson 1 | NM_Lesson 2 | NM_Lesson 3 | NM_Lesson 4 | NM_Lesson 5 
+
+
+Lessons
+TeachingRecordID | LessonName                   | Date      | Member Present | beforeBaptism
+        1         "Message of the Restoration"                  true/false       true/false
+        2         "Plan of Salvation"
+        3         "Gospel of Jesus Christ"
+        4         "Commandments"
+        5         "Laws and Ordinances"
+
+Elders Quorum 
+
 
 6. Tests
     - Accessing all of the pages.
@@ -16,37 +53,14 @@ Family  |  Type  |  Lesson Taught  | Last Contact |  Action Item |
 
 7. Admin to add non-member users and escalting user privs
 
-========================================================================
-Opening up to Paul
-
-1. Get WardAreaBook.com
-2. Create a project for paul.
-3. Replace "Burien Ward" with a database entry
-4. Create a ward creation page for Paul
-    Main page at WardAreaBook.com
-    Please select the ward?
-       Pleasant Grove
-       Burien
-
-       Create a new ward.
-            
-            In order to create a ward areabook project you need
-              1. an lds.org account 
-              2. must be included in the ward leadership
-              3. No existing ward areabook
-    
-    Remove the Hopes... 
-    automate the bishop
-    Let the admin add non-members to the wardlist (missionaries)
-    All reports should be generic and then allow to filter by user
-
-       Ward Weekly Report       everybody
-    
-    Weekly report should just report the last 4 weeks with options for older stuff
-
-    Maybe have a graph to show monthly trends
 
 ========================================================================
+
+0. Person needs to have a full name
+
+1. Personal Items - default at login (if action items exist)
+
+1. Save action item as an event
 
 1. update scripts
     - minor todo's
@@ -60,7 +74,7 @@ Opening up to Paul
 
 3. email challenge for password
 
-2. When a new comment is created I would like he focus window to go onto it.
+2. When a new comment is created I would like the focus window to go onto it.
 
 3. Create Tests
 
@@ -78,7 +92,6 @@ Opening up to Paul
    b) with a delete option
 
 3. Automatic form submission to change status
-
 
 2. When a LessonX event is removed or updated update the Teaching Record. 
 
@@ -124,3 +137,39 @@ Opening up to Paul
 11. Add dynamic content to the reports page (don't generate all of the data unless they need it.
 
 12. have a cancel button on the status changes. (like the comments)
+
+13. Add a baptism to the list of teaching record events.
+
+14. Add a feature request page.
+
+15. Last visit should not include attempts.
+
+========================================================================
+Opening up to Paul
+
+1. Get WardAreaBook.com
+2. Create a project for paul.
+3. Replace "Burien Ward" with a database entry
+4. Create a ward creation page for Paul
+    Main page at WardAreaBook.com
+    Please select the ward?
+       Pleasant Grove
+       Burien
+
+       Create a new ward.
+            
+            In order to create a ward areabook project you need
+              1. an lds.org account 
+              2. must be included in the ward leadership
+              3. No existing ward areabook
+    
+    Remove the Hopes... 
+    automate the bishop
+    Let the admin add non-members to the wardlist (missionaries)
+    All reports should be generic and then allow to filter by user
+
+       Ward Weekly Report       everybody
+    
+    Weekly report should just report the last 4 weeks with options for older stuff
+
+    Maybe have a graph to show monthly trends

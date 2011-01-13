@@ -1,165 +1,48 @@
 <script type="text/javascript">
-function toggleDisplay(divId) {
+function showElement(divId) {
+  var div = document.getElementById(divId);
+  div.style.display = "inline";
+}
+function hideElement(divId) {
   var div = document.getElementById(divId);
   div.style.display = "none";
 }
 </script>
 
-<% form_remote_tag :url => {:controller => 'events', :action => 'new_family_event', 
-                            :family_id => @family.id } do %>
 <h1><%=h @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp;
-  <div style='display:inline' id='shark'> <%= submit_tag "New Event" , {:style => 'padding:1px;',:onclick => "document.getElementById('shark').style.display='none';"} %></div>
+  <div style='display:inline' id='actionButtons' >
+    <%= button_to_function("New Event", "showElement('new-event');
+                                         hideElement('actionButtons');")%>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
+    <%= button_to_function("New Action Item", "showElement('new-action');
+                                               hideElement('actionButtons');")%>
+  </div>
 </h1>
-<% end %>
-<div id = 'new-action'> </div>
- 
+
+<div id = 'new-event' style='display:none;'> 
+  <%= render(:partial => 'events/new_family_event',
+             :locals => {:peopleList => @names,
+                         :event => @event,
+                         :family => @family}) %>
+  <hr>
+</div>
+
+<div id = 'new-action' style='display:none;'> 
+  <%= render(:partial => 'action_items/new_family_action_item', 
+             :locals => {:peopleList => @names,
+                         :action_item => @action_item}) %>
+  <hr>
+</div>
+
 <ul>
-  <!-- Family Details -->
-  <li> <a href='#' class = 'subtile-links' onclick="Effect.toggle('family-details', 'blind'); return false;">Family Details </a>
-    <div id="family-details" style = 'display:none'>
-      <div>
-        <table style='border:none'>
-          <tr>
-            <td style='border:none'>
-              <%= @family.head_of_house_hold %>
-              <ul id='nodot'>
-                <li>
-                  <% @family.people.each do |member| %>
-                    <% if member.current == true %>
-                      <%= member.name -%> 
-                      <% if member.email != nil %> 
-                        &mdash; <%= member.email %>
-                      <% end %>
-                      <br>
-                    <% end %>
-                  <% end %>
-                </li>
-              </ul>
-            </td>
-            <td style='border:none'>&nbsp;&nbsp;&nbsp;</td>
-            <td style='border:none'>
-                <%= @family.phone %><br>
-              <p>
-                <%= displayAddress(@family.address) %><br>
-              </p>
-            </td>
-            <td style='border:none'>&nbsp;&nbsp;&nbsp;</td>
-            <td style='border:none'> 
-              <% @family.teaching_routes.each do |teacher| %>
-                Home Teacher: <%= teacher.person.name + " " + teacher.person.family.name %> <br>
-              <% end %>
-            </td>
-          </tr>
-        </table>
-        <p>
-          <b>Status:</b>
-          <div id='family_status' class='editable_comment'>
-            <%= render(:partial => "family_status", 
-                       :object => @family, 
-                       :locals => {:update => nil}) %>
-          </div>
-        </p>
-
-        <p>
-          <b>Information:</b> <br />
-          <div id="comments">
-            <%= render(:partial => "comment", :collection => @family.comments) %>
-          </div>
-        </p>
-        <br>
-        
-        <div id="new comment">
-            <%= render(:partial => "submit_button") %>
-        </div>
-
-      <br><br>
-      <% unless @family.member %>
-        <%= link_to 'Edit family details', edit_family_path(@family) %>
-        <br><br>
-
-        <%= link_to 'Merge records', :controller => 'families', 
-                                     :action => 'mergeRecords', 
-                                     :family => @family %> 
-        <br><br><br>                                     
-
-      <% end %>
-      </div>
+    <%= render(:partial => "family_details") %>
+    <%= render(:partial => "teaching_records/teaching_record") %>
+    <%= render(:partial => "events/family_events") %>
+    <div id="updated-action-list">
+      <%= render(:partial => "action_items/family_action_items",
+                 :locals => {:option_for_more => true}) %>
     </div>
-  </li>
-  <!-- Teaching Record -->
-  <% if @family.teaching_record != nil and @family.teaching_record.current %>
-    <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
-        return false;">Teaching Record </a> 
-      <div id="teaching-record" style = 'display:none'>
-        <div>
-          <ul>
-            <% form_for(@family.teaching_record) do |f| %>
-              <%= f.error_messages %>
-              <p>
-                Responsible Organization:
-                <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> <br />
-              </p>
-              <p>
-                <%= f.label :fellowshipper %>
-                <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
-              </p>
-              <p>
-                Lessons Taught:
-                <%= @family.teaching_record.lessons_taught %>
-                &nbsp; &nbsp;
-                Last lesson 
-                <%=h getLastVisitDate(@family) %>
-                &nbsp; &nbsp; &nbsp; &nbsp; 
-                <%= f.label :next_lesson %>
-                <%= f.date_select :next_lesson, :include_blank => true, :discard_year => true %>
-              </p>
-              <p>
-                Next Milestone Goal
-                <%= f.select :membership_milestone, memberMilestoneCategories  %>
-                Goal Date:
-                <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
-              </p>
-              <p>
-                <%= f.submit 'Update' %>
-              </p>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    </li>
-  <% end %>
-
-  <!-- Events -->
-  <% unless @family.events().empty? %>
-    <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('family-events', 'blind');
-            return false;">Events </a> 
-    <div id='family-events'>
-      <div>
-        <ul>
-        <% @family.events.each do |event| %>
-          <li>
-            <%=h event.date %> &#151;  
-            <%=h event.printPerson() %>
-            &#151;  
-            <%=h event.category %>
-            &#151;  
-            <%=h event.comment %>
-            <% if event.author == session[:user_id] or event.person_id == session[:user_id] %>
-              <%= link_to 'Edit',   :controller => 'events', :action => 'edit', :id=> event %>
-              <%= link_to 'Delete', :controller => 'events', :action => 'remove', :id=> event %>
-            <% end %>
-          </li>
-        <% end %>
-        </ul>
-      </div>
-    </div>
-  </li>
-  <% end %>
-
 </ul>
-
-  <br> <br> <br> 
-  <br> <br> <br>
-  
-
-<% #link_to 'Back', families_path %>
+<br> <br> <br> 
+<br> <br> <br> 
+<br> <br> <br>

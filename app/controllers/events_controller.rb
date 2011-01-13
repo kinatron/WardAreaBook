@@ -6,6 +6,14 @@ class EventsController < ApplicationController
   def checkAccess
   end
 
+
+  def all_family_events
+    @family = Family.find(params[:id])
+    render :update do |page|
+      page.replace_html('family-events', :partial => "events/list_events", :object => @family.events)
+    end
+  end
+
   # GET /events
   # GET /events.xml
   def index
@@ -29,29 +37,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @event }
-    end
-  end
-
-  def test_me
-    @names = getMapping
-    @event = Event.new
-    @event.family_id = 51
-    @family = Family.find(@event.family_id)
-    respond_to do |format|
-      format.html # new.html.erb
-      #format.xml  { render :xml => @event }
-    end
-  end
-
-  def new_family_event
-    @names = getMapping
-    @event = Event.new
-    @event.family_id = params[:family_id]
-    @family = Family.find(@event.family_id)
-    respond_to do |format|
-      format.js
-      #format.html # new.html.erb
-      #format.xml  { render :xml => @event }
     end
   end
 
@@ -84,7 +69,6 @@ class EventsController < ApplicationController
         @event.family.teaching_record.save
       end
     end
-
     @event.author = session[:user_id]
     respond_to do |format|
       if @event.save
