@@ -1,6 +1,12 @@
 <% ward_representative ||= false %>
-<% family ||=false %>
-<% editable ||=true %>
+<% family   ||=false %>
+<% editable ||=false %>
+
+<% if action_details.status == 'closed' %>
+  <span class='closed-actions'> 
+<% else %>
+  <span class='open-actions'> 
+<% end %>
 
 <% if ward_representative %>
   <%=h action_details.person.name %> 
@@ -15,12 +21,15 @@
 <%=h action_details.action %> 
 (<%=h action_details.due_date %>)
 
+</span>
+
 <% if editable and (action_details.issuer_id == session[:user_id] or 
                     action_details.person_id == session[:user_id]) -%>
   <%= link_to 'Edit',  :controller =>'action_items',:action => 'edit',  :id=> action_details %>
+<% end %>
+<% if editable and action_details.issuer_id == session[:user_id] -%>
   <%= link_to 'Delete',:controller =>'action_items',:action => 'remove',:id=> action_details %>
 <% end %>
-
 <div id = 'action-item-comment-<%= action_details.id %>' style='text-indent: 4.5em'> 
   <%=h action_details.comment %>
 </div>

@@ -1,13 +1,16 @@
-<% form_for(@action_item, :url => {:controller => 'action_items', 
-            :action => 'create', :redirect => 'family'})  do |f| %>
+<% peopleList ||= nil %>
+<% familyList ||= nil %>
+<% redirect ||= 'family' %>
+<% form_for(@new_action_item, :url => {:controller => 'action_items', 
+            :action => 'create', :redirect => redirect})  do |f| %>
   <%= f.error_messages %>
   <p>
     Ward Representative 
-    <%= f.select :person_id, @names, {:selected => session[:user_id]} %> <br />
+    <%= f.select :person_id, peopleList, {:selected => session[:user_id]} %> <br />
   </p>
   <p>
     For Family 
-    <%= f.select :person_id, @names, {:selected => session[:user_id]} %> <br />
+    <%= f.select :family_id, familyList, {:include_blank => true} %> <br />
     Assignment <br />
     <%= f.text_area :action, :cols => 75, :rows => 1%>
   </p>
@@ -18,7 +21,6 @@
   <p>
     <%= f.submit 'Create' %>
     &nbsp;
-    <%= link_to 'Cancel', family_path(@action_item.family) %>
+    <%= link_to 'Cancel', :back %>
   </p>
 <% end %>
-

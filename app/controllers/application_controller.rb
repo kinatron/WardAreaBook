@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   # Minutes of inactivity before relogin
   INACTIVITY_PERIOD = 60
+  CLOSED_ACTION_LIMIT = 3
 
   def load_session(user)
     person = Person.find_by_current_and_email(true, user.name)

@@ -3,10 +3,16 @@ class ActionItemsController < ApplicationController
   before_filter :store_return_point, :only =>[:wardActionItems]
   listLimit = 5
 
-  def authorize
-  end
-
   def checkAccess
+    if (action_name == 'wardActionItems')
+      if hasAccess(2)
+        true
+      else
+        deny_access
+      end
+    else
+      true
+    end
   end
 
   # GET /action_items
@@ -39,12 +45,21 @@ class ActionItemsController < ApplicationController
     end
   end
 
-  def all_closed_family_action_items 
-    @family = Family.find(params[:id])
+  def list_closed_action_items 
+    condition = params[:conditions]
+    @closed_action_items = ActionItem.find_all_by_status("closed", 
+                                                         :conditions=>condition,
+                                                         :order => 'updated_at DESC')
     render :update do |page|
       page.replace_html('closed-actions', 
                         :partial => "action_items/action_items", 
-                        :object => @family.closed_action_items)
+                        :object => @closed_action_items,
+                        :locals => {:checkbox => true,
+                                    :editable => true,
+                                    # if condition is nil then this is for the ward action
+                                    # page and I do want to show the family
+                                    :family => (condition == nil),
+                                    :ward_representative => true})
     end
   end
 
@@ -52,12 +67,17 @@ class ActionItemsController < ApplicationController
 ACTION_ITEM_OPTIONS = {:checkbox => true,
                        :ward_representative => true,
                        :family => true,
-                       :comment => true,
+                       :editable => true,
                        :form_action => "save_action"}
+
   def wardActionItems 
     @actionItemOptions = ACTION_ITEM_OPTIONS
-    @open_action_items   = ActionItem.find_all_by_status("open")
-    @closed_action_items = ActionItem.find_all_by_status("closed")
+    @open_action_items   = ActionItem.find_all_by_status("open", :order => 'due_date ASC, updated_at DESC' )
+    @closed_action_items = ActionItem.find_all_by_status("closed", :order => 'updated_at DESC')
+    @new_action_item = ActionItem.new
+    @names = getMapping
+    @families = getFamilyMapping
+    @limit = CLOSED_ACTION_LIMIT
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @action_items }
@@ -70,8 +90,8 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     #TODO error handling
     if @action_item.update_attributes(params[:action_item])
       #    @action_item.save
-      @open_action_items   = ActionItem.find_all_by_status("open")
-      @closed_action_items = ActionItem.find_all_by_status("closed")
+      @open_action_items   = ActionItem.find_all_by_status("open", :order => 'due_date ASC, updated_at DESC' )
+      @closed_action_items = ActionItem.find_all_by_status("closed", :order => 'updated_at DESC')
       render :update do |page|
         page.replace_html("open-actions", 
                           :partial => "action_items/action_items",
@@ -102,6 +122,7 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
                           :partial => "action_items/action_items",
                           :object => @family.open_action_items,
                           :locals => {:checkbox => true,
+                                      :editable => true,
                                       :ward_representative => true})
 
 
@@ -109,6 +130,7 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
                           :partial => "action_items/action_items",
                           :object => @family.closed_action_items,
                           :locals => {:checkbox => true,
+                                      :editable => true,
                                       :ward_representative => true})
       end
     else 
@@ -134,13 +156,7 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     @action_item.issuer_id = session[:user_id]
     respond_to do |format|
       if @action_item.save
-        if params[:redirect] == 'family'
-          format.html { redirect_to(@action_item.family) }
-        else
-          flash[:notice] = 'ActionItem was successfully created.'
-          format.html { redirect_to(@action_item) }
-          format.xml  { render :xml => @action_item, :status => :created, :location => @action_item }
-        end
+        format.html { redirect_to(:back) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @action_item.errors, :status => :unprocessable_entity }
@@ -156,6 +172,7 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
       if @action_item.update_attributes(params[:action_item])
         #flash[:notice] = 'ActionItem was successfully updated.'
         format.html { redirect_back}
+        #format.html { redirect_to(family_path(@action_item.family))}
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -164,13 +181,18 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     end
   end
 
+  #TODO Hack!  There's got to be a more approprate way to do this.
+  def remove
+    destroy
+  end
+
   # DELETE /action_items/1
   # DELETE /action_items/1.xml
   def destroy
     @action_item = ActionItem.find(params[:id])
     @action_item.destroy
     respond_to do |format|
-      format.html { redirect_to(action_items_url) }
+      format.html { redirect_to(:back) }
       format.xml  { head :ok }
     end
   end

@@ -1,4 +1,31 @@
-<h1>Ward Action Items</h1>
+<script type="text/javascript">
+function showElement(divId) {
+  var div = document.getElementById(divId);
+  div.style.display = "inline";
+}
+function hideElement(divId) {
+  var div = document.getElementById(divId);
+  div.style.display = "none";
+}
+</script>
+
+<h1>Ward Action Items
+
+  <div style='display:inline' id='actionButtons' > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
+    <%= button_to_function("New Action Item", "showElement('new-action');
+                                               hideElement('actionButtons');")%>
+  </div>
+</h1>
+
+<div id = 'new-action' style='display:none;'> 
+  <%= render(:partial => 'action_items/new_action_item', 
+             :object => @new_action_item,
+             :locals => {:peopleList => @names,
+                         :redirect => 'ward',
+                         :familyList => @families}) %>
+  <hr>
+</div>
+
 <div id="updated-action-list">
   <div id='open-actions'>
     <%= render(:partial => "action_items/action_items",
@@ -8,9 +35,10 @@
   <br>
   <div id='closed-actions'>
     <%= render(:partial => 'action_items/action_items', 
-               :object => @closed_action_items,
-               :locals => @actionItemOptions) %>
+               :object => @closed_action_items[0..@limit-1],
+               :locals => @actionItemOptions.merge(:option_for_more => 
+               @closed_action_items[@limit] != nil)
+              ) %>
   </div>
 <br><br>
 <% link_to 'New action_item', new_action_item_path %>
-

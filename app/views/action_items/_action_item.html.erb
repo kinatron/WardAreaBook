@@ -1,8 +1,10 @@
 <% checkbox ||= false %>
-<% ward_representative ||= false %>
-<% family ||=false %>
-<% editable ||=true %>
 <% form_action ||= "save_family_action" %>
+
+<% ward_representative ||= false %>
+<% family   ||=false %>
+<% editable ||=false %>
+
 <div id = 'action-item'>
   <% if checkbox %>
     <% form_remote_for (action_item, :url => {:controller => 'action_items', 
@@ -15,7 +17,9 @@
       <%= render(:partial => 'action_items/action_details', 
                  :object => action_item,
                  :locals => {:ward_representative => ward_representative,
+                             :editable => editable,
                              :family => family}) -%>
+
       <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em'> 
         <%= f.text_area(:comment, :rows=> 1) %>
         <%= f.submit "save" %>
@@ -25,6 +29,7 @@
     <%= render(:partial => 'action_items/action_details', 
                :object => action_item,
                :locals => {:ward_representative => ward_representative,
+                           :editable => editable,
                            :family => family}) %>
   <% end %>
 </div>

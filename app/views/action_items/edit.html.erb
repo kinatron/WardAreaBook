@@ -5,11 +5,11 @@
 
   <p>
     <%= f.label :family_id %><br />
-    <%= f.select :family_id, @familyList%>
+    <%= f.select :family_id, @familyList, {:include_blank => true} %>
   </p>
   <p>
     Assignee
-    <%= f.select :person_id, @personList %>
+    <%= f.select :person_id, @personList%>
   </p>
   <p>
     <%= f.label :action %><br />

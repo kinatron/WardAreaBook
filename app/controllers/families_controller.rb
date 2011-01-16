@@ -126,6 +126,8 @@ class FamiliesController < ApplicationController
     @event =  Event.new
     @event.family_id = @family.id
 
+    @limit = CLOSED_ACTION_LIMIT
+
     if @hasFullAccess or @family.hasHomeTeacher(session[:user_id])
       respond_to do |format|
         format.html # show.html.erb

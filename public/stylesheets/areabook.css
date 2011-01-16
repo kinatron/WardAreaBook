@@ -5,8 +5,11 @@
 }
 
 #closed-actions {
-  text-decoration: line-through;
   list-style-type: none;
+}
+
+.closed-actions {
+  text-decoration: line-through;
 }
 
 #action-item-edit {

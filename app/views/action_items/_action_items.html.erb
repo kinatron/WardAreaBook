@@ -1,25 +1,30 @@
 <% option_for_more ||= false %>
+<% conditions ||= nil %>
+
 <% checkbox ||= false %>
+<% form_action ||= "" %>
 <% ward_representative ||= false %>
-<% family ||= false %>
-<% form_action ||= false %>
+<% family   ||=false %>
+<% editable ||=false %>
+
 <% #TODO I need to find some globals %>
 <% listLimit ||= 5 %>
 <% action_items.each do |action| %>
   <li id='nodot'>
     <%= render(:partial => 'action_items/action_item', :object => action,
                :locals => {:checkbox => checkbox,
+                           :form_action => form_action,
                            :ward_representative => ward_representative,
                            :family => family,
-                           :form_action => form_action}) %>
+                           :editable => editable}) %>
   </li>
 <% end %>
-<% if option_for_more and @family.closed_action_items[listLimit] %>
+<% if option_for_more %>
   <li id = 'nodot'>
     <%= link_to_remote "more action items...", 
                         :url => {:controller => 'action_items',
-                                 :action => 'all_closed_family_action_items',
-                                 :id => @family} %>
+                                 :action => 'list_closed_action_items',
+                                 :conditions => conditions} %>
     <br>
   </li>
 <% end %>

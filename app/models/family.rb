@@ -6,7 +6,7 @@ class Family < ActiveRecord::Base
   has_many :action_items, :order => 'date DESC', :dependent => :destroy
   has_many :open_action_items, :class_name => "ActionItem",
                                :conditions => "status == 'open'",
-                               :order => 'updated_at DESC'
+                               :order => 'due_date ASC, updated_at DESC'
   has_many :closed_action_items, :class_name => "ActionItem",
                                  :conditions => "status == 'closed'",
                                  :order => 'updated_at DESC'
