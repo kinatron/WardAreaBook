@@ -10,3 +10,7 @@
   </div>
   </ul>
 <% end %> 
+<br> <br> 
+<% if @event_months.keys.size <= 3 %>
+  <%= link_to "all reports...", "allMonthlyReports"%>
+<% end %>

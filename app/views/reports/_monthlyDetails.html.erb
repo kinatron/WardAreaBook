@@ -6,7 +6,7 @@
       <div id='<%= events[0].date.mon.to_s + family_id.to_s %>' style='display:none'>
         <ul>
           <%= link_to "family page...", family %>
-          <%= render(:partial => "event", :collection => events) %>
+          <%= render(:partial => "/events/event", :collection => events) %>
         </ul>
       </div>
       <br>
