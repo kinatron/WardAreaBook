@@ -23,6 +23,16 @@ class ReportsController < ApplicationController
                          :order => 'date DESC')
     @event_months = @events.group_by { |month| month.date.at_beginning_of_month }
   end
+  
+  def monthlyReport
+    range =  2.months.ago.at_beginning_of_month.to_date
+    @events = Event.find(:all, :conditions => ["(category == 'Visit' or category == 'Lesson') and 
+                                               (date > ?)", range],
+                         :order => 'date DESC')
+    @event_months = @events.group_by { |month| month.date.at_beginning_of_month }
+  end
+
+
   def print
     # TODO have the specific week sent to me
     @week = Date.parse(params[:date])

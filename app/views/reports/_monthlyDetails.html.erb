@@ -1,6 +1,4 @@
-<% visits = event_month.group_by { |event| event.family_id} %> 
-<% hp,elders,unAssigned = categorizeVisits(visits) %>
-<% visits.each do |family_id, events| %>
+<% monthlyDetails.each do |family_id, events| %>
   <% family = Family.find(family_id) %>
   <a href ='#' class = 'subtile-links' 
      onclick="Effect.toggle('<%= events[0].date.mon.to_s + family_id.to_s %>', 'blind'); 

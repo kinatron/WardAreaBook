@@ -1,4 +1,12 @@
 /* Global styles */
+.report table {
+  border: 0px solid red;
+}
+
+.report td {
+  border: 0px solid red;
+}
+
 
 #nodot {
   list-style-type: none;
