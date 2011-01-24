@@ -1,19 +1,12 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Reports 
-   Only show 3 month windows.  With the option for more.
-   Jan  - 124 families visited.
-        High Priest Families    Elders Quorum Families   Unassigned Families.
-             
 
-   Dec
-
-   Nov
+1. action items are not saving... :(
 
 3. Teaching pool should be updated.
+   a) break in the teaching record colors to diffentiate between the lessons and other things.
 
-  a) Get the category right.
    
 Ward Mission
 Family | Type | Missionary Lessons | Last Lesson | Action Item | Next Milestone (include date)| 
@@ -26,19 +19,17 @@ Family | Type | Missionary Lessons | Last Lesson | Action Item | Next Milestone 
 
 
 Lessons
-ID | Lesson 1    | Lesson 2    | Lesson 3    | Lesson 4    | Lesson 5 
-ID | NM_Lesson 1 | NM_Lesson 2 | NM_Lesson 3 | NM_Lesson 4 | NM_Lesson 5 
+TeachingRecord | Lesson 1    | Lesson 2    | Lesson 3    | Lesson 4    | Lesson 5 
+TeachingRecord | NM_Lesson 1 | NM_Lesson 2 | NM_Lesson 3 | NM_Lesson 4 | NM_Lesson 5 
 
 
 Lessons
-TeachingRecordID | LessonName                   | Date      | Member Present | beforeBaptism
+TeachingRecordID | LessonName                   | Date      | Member Present | asMember:
         1         "Message of the Restoration"                  true/false       true/false
         2         "Plan of Salvation"
         3         "Gospel of Jesus Christ"
         4         "Commandments"
         5         "Laws and Ordinances"
-
-Elders Quorum 
 
 
 6. Tests

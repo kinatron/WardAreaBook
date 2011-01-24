@@ -1,5 +1,13 @@
 module TeachingRecordsHelper
 
+  def getTeachingRecordStatus(teaching_record) 
+    if teaching_record.category == nil
+      return teaching_record.family.status
+    else
+      return teaching_record.category
+    end
+  end
+
   def wardOrganizations
     [
       ["Ward Mission"  , "Ward Mission"], 
@@ -27,7 +35,7 @@ module TeachingRecordsHelper
       ["Interview with the Bishop" , "Interview with the Bishop"],
       ["Priesthood Ordiniation" , "Priesthood Ordiniation"],
       ["Attending Gospel Prin" , "Attending Gospel Prin"],
-      ["Begun new memeber lessons" , "Begun new memeber lessons"],
+      ["Begin new memeber lessons" , "Begun new memeber lessons"],
       ["Has been given a calling" , "Has been given a calling"],
       ["Regular Sacrement Attendance" , "Regular Sacrement Attendance"],
       ["Started Family Group Sheet" , "Started Family Group Sheet"],

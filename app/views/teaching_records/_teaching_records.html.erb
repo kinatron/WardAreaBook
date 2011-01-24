@@ -1,4 +1,5 @@
 <% archivedList ||= false %>
+
 <table class = 'sorttable resizable'>
   <thead>
   <tr align="left">
@@ -13,40 +14,39 @@
 </thead>
 <tbody>
 <% teaching_records.each do |teaching_record| %>
+  <% clickToFam = "onClick = \"window.location.href='#{family_path(teaching_record.family)}'\"" %>
+  <% family = teaching_record.family %>
+  <% status = getTeachingRecordStatus(teaching_record) %>
+
   <tr class="<%=cycle('list-line-odd','list-line-even')%>" > 
-  <% # TODO create associations %>
-  <% if teaching_record.family_id == nil or teaching_record.family_id ==0 %>
-    <td><%= "" %></td>
-  <% else %>
-    <% family = Family.find(teaching_record.family_id) %> 
-    <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
+    <td <%= clickToFam %> >
       <%=h family.name + ", " + family.head_of_house_hold  %> </td>
+    <td <%= clickToFam %> bgcolor="<%= statusColor(status) %>">
+      <%=h status %> </td>
+    <td <%= clickToFam %> ><%=h teaching_record.lessons_taught %></td>
+    <td sorttable_customkey="<%=h getLastVisitDateSortable(teaching_record.family)%>"
+      <%= clickToFam %> >
+      <%=h getLastVisitDate(teaching_record.family) %></td>
+    <td <%= clickToFam %>>
+        <%= render(:partial => 'action_items/action_item', :collection => family.open_action_items, 
+                   :locals => {:ward_representative => true}) %>
+    </td>
+    <td <%= clickToFam %>>
+      <%=h teaching_record.membership_milestone %> 
+      <% if teaching_record.milestone_date_goal != nil %>
+        (<%=h teaching_record.milestone_date_goal %>) 
+      <% end %>
+    </td>
+
+  <% if archivedList %>
+    <td> <%= link_to 'restore', :controller => 'teaching_records', 
+                                :action => "archive", :id => teaching_record, 
+                                :restore => 'true' %></td>
+  <% else %>
+    <td> <%= link_to 'drop',    :controller => 'teaching_records', 
+                                :action => "archive", 
+                                :id => teaching_record %></td>
   <% end %>
-  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'">
-    <%=h family.status %> </td>
-  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" ><%=h teaching_record.lessons_taught %></td>
-  <td sorttable_customkey="<%=h getLastVisitDateSortable(teaching_record.family)%>"
-    onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
-    <%=h getLastVisitDate(teaching_record.family) %></td>
-  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
-      <%= render(:partial => 'action_items/action_item', :collection => family.open_action_items, 
-                 :locals => {:ward_representative => true}) %>
-  </td>
-  <td onClick = "window.location.href='<%= family_path(teaching_record.family) %>'" >
-    <%=h teaching_record.membership_milestone %> 
-    <% if teaching_record.milestone_date_goal != nil %>
-      (<%=h teaching_record.milestone_date_goal %>) 
-    <% end %>
-  </td>
-<% if archivedList %>
-  <td> <%= link_to 'restore', :controller => 'teaching_records', 
-                              :action => "archive", :id => teaching_record, 
-                              :restore => 'true' %></td>
-<% else %>
-  <td> <%= link_to 'drop',    :controller => 'teaching_records', 
-                              :action => "archive", 
-                              :id => teaching_record %></td>
-<% end %>
   </tr>
 <% end %>
 </table>

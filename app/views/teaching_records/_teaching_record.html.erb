@@ -8,18 +8,14 @@
               <%= f.error_messages %>
               <p>
                 Responsible Organization:
-                <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> <br />
+                <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> 
+                &nbsp; &nbsp; &nbsp; 
+                Category
+                <%= f.select :category, teachingRecordStatus, :include_blank => true %> <br />
               </p>
               <p>
                 <%= f.label :fellowshipper %>
                 <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
-              </p>
-              <p>
-                Lessons Taught:
-                <%= @family.teaching_record.lessons_taught %>
-                &nbsp; &nbsp;
-                Last lesson 
-                <%=h getLastVisitDate(@family) %>
               </p>
               <p>
                 Next Milestone Goal
@@ -31,6 +27,30 @@
                 <%= f.submit 'Update' %>
               </p>
             <% end %>
+            <br>
+            <p>
+              Last lesson 
+              <%=h getLastVisitDate(@family) %>
+            </p>
+            Lessons Taught
+            <hr>
+            <%= render(:partial =>'teaching_records/lesson', 
+                       :object => "lesson1",
+                       :locals => {:lessonName => "Message of the Restoration"}) %>
+            <%= render(:partial =>'teaching_records/lesson', 
+                       :object => "lesson2",
+                       :locals => {:lessonName => "Plan of Salvation"}) %>
+            <%= render(:partial =>'teaching_records/lesson', 
+                       :object => "lesson3",
+                       :locals => {:lessonName => "Gospel of Jesus Christ"}) %>
+            <%= render(:partial =>'teaching_records/lesson', 
+                       :object => "lesson4",
+                       :locals => {:lessonName => "Commandments"}) %>
+            <%= render(:partial =>'teaching_records/lesson', 
+                       :object => "lesson5",
+                       :locals => {:lessonName => "Laws and Ordinances"}) %>
+            <hr>
+            <br>
           </ul>
         </div>
       </div>

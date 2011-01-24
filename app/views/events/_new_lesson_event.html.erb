@@ -1,0 +1,25 @@
+<% peopleList ||= nil %>
+<% event ||= nil %>
+<% family ||= nil %>
+
+<% form_for(event, :url => {:controller => 'events', 
+                            :action     => 'create_new_family_event'})  do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :date %><br />
+    <%= f.date_select :date %>
+    <%= f.hidden_field :family_id %>
+    <%= f.hidden_field :category %>
+    Taught by
+    <%= f.select :person_id, peopleList, {:selected => session[:user_id]} %> <br />
+  </p>
+  <p>
+    Comments, committments given, fellowshipppers present?
+    <%= f.text_area :comment, :cols => 55, :rows => 2%>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+    &nbsp; &nbsp; 
+    <%= link_to 'Cancel', family_path(family) %>
+  </p>
+<% end %>

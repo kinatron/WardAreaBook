@@ -1,0 +1,27 @@
+<% boolValue = @family.events.find_all_by_category(lesson.capitalize).size > 0 %>
+<%= check_box_tag lesson.capitalize, value = 'true', 
+  checked = boolValue,
+  {:onclick => "Element.toggle('#{lesson}');return true;",
+   :disabled => boolValue} %>
+  <% if boolValue == true %>
+    <% event = @family.events.find_by_category(lesson.capitalize) %>
+    <span onclick="Element.toggle('<%= lesson %>');return true;"> 
+      <%= lessonName %>
+    </span> 
+    (<%= event.date.strftime("%m/%d") -%>)<br>
+    <div id ='<%= lesson %>' style='display:none; text-indent: 3.5em'>
+      <%= render(:partial => 'events/lesson_event',
+                 :object => event) %>
+    </div>
+  <% else %>
+    <%= lessonName %>
+    <% @event.category = lesson.capitalize %>
+    <br>
+    <div id ='<%= lesson %>' style='display:none; text-indent: 1.5em'>
+      <%= render(:partial => 'events/new_lesson_event',
+                 :locals => {:peopleList => @names,
+                   :event => @event,
+                   :family => @family}) %>
+                   <hr>
+    </div>
+  <% end %>

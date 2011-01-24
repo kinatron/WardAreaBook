@@ -7,6 +7,11 @@
   border: 0px solid red;
 }
 
+#teaching-record {
+  width: 900px;
+  background-color: #20f0f0;
+
+}
 
 #nodot {
   list-style-type: none;

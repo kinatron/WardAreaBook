@@ -11,6 +11,8 @@ module FamiliesHelper
       when /moved/i          ; "red"
       when /returned/i       ; "red"
       when /request/i       ; "red"
+      when /investigator/i  ; "yellow"
+      when /recent convert/i       ; "yellow"
       else ; "yellow"
     end
   end

@@ -18,7 +18,9 @@ module EventsHelper
       ["Lesson3" , "Lesson3"], 
       ["Lesson4" , "Lesson4"], 
       ["Lesson5" , "Lesson5"], 
-      ["Attend Church" , "Attend Church"]
+      ["Attend Church" , "Attend Church"],
+      ["Baptized" , "Baptized"],
+      ["Other", "Other"]
     ]
   end
 end
