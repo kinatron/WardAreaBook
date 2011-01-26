@@ -1,0 +1,54 @@
+<% # Local Variables %>
+<% showBeforeBaptism ||= false %>
+<% eventType   = teaching_record_events[0] %>
+<% eventName   = teaching_record_events[1] %>
+<% isMileStone = memberMilestones.include?(teaching_record_events) %>
+<% isChecked   = @family.events.find_all_by_category(eventType).size > 0 %>
+<% eventID     = teaching_record_events[0].downcase %>
+
+<% # If the family has a baptism date by default I want to only display %> 
+<% # lessons AFTER (These are new member lessons) the baptismal date. %>
+<% if not isMileStone %>
+  <% baptismEvent = @family.events.find_by_category("Baptized") %>
+  <% if baptismEvent %>
+    <% baptismDate = baptismEvent.date %>
+    <% if showBeforeBaptism %>
+      <% isChecked = @family.events.find_all_by_category(eventType, 
+                      :conditions => ["date <= ?", baptismDate]).size > 0 %>
+      <% eventID  = teaching_record_events[0].downcase  + "_beforeBaptism"%>
+    <% else %>
+      <% isChecked = @family.events.find_all_by_category(eventType, 
+                     :conditions => ["date >= ?", baptismDate]).size > 0 %>
+    <% end %>
+  <% elsif showBeforeBaptism %>
+    <% return %>
+  <% end %>
+<% end %>
+
+<%= check_box_tag eventID.upcase, value = 'true', checked = isChecked,
+                  {:onclick => "Element.toggle('#{eventID}');return true;",
+                   :disabled => isChecked} %>
+<% if isChecked == true %>
+  <% event = @family.events.find_by_category(eventType) %>
+  <span class='hoverme' onclick="Element.toggle('<%= eventID%>');return true;"> 
+    <%= eventName %> (<%= event.date.strftime("%m/%d") -%>)<br>
+  </span> 
+  <div id ='<%= eventID %>' style='display:none;'>
+    <ul>
+      <%= render(:partial => 'events/lesson_event',
+                 :object => event,
+                 :locals => { :mileStoneEvent => isMileStone }) %>
+    </ul>
+  </div>
+<% else %>
+  <%= eventName %>
+  <% @event.category = eventName %>
+  <br>
+  <div id ='<%= eventID %>' style='display:none;'>
+    <%= render(:partial => 'events/new_lesson_event',
+               :locals => {:peopleList => @names,
+                           :event => @event,
+                           :mileStoneEvent => isMileStone,
+                           :family => @family}) %>
+  </div>
+<% end %>

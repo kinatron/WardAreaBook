@@ -1,58 +1,64 @@
-  <% if @family.teaching_record != nil and @family.teaching_record.current %>
-    <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
-        return false;">Teaching Record </a> 
-      <div id="teaching-record" style = 'display:none'>
-        <div>
-          <ul>
-            <% form_for(@family.teaching_record) do |f| %>
-              <%= f.error_messages %>
-              <p>
-                Responsible Organization:
-                <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> 
-                &nbsp; &nbsp; &nbsp; 
-                Category
-                <%= f.select :category, teachingRecordStatus, :include_blank => true %> <br />
-              </p>
-              <p>
-                <%= f.label :fellowshipper %>
-                <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
-              </p>
-              <p>
-                Next Milestone Goal
-                <%= f.select :membership_milestone, memberMilestoneCategories  %>
-                Goal Date:
-                <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
-              </p>
-              <p>
-                <%= f.submit 'Update' %>
-              </p>
-            <% end %>
-            <br>
-            <p>
-              Last lesson 
-              <%=h getLastVisitDate(@family) %>
-            </p>
-            Lessons Taught
-            <hr>
-            <%= render(:partial =>'teaching_records/lesson', 
-                       :object => "lesson1",
-                       :locals => {:lessonName => "Message of the Restoration"}) %>
-            <%= render(:partial =>'teaching_records/lesson', 
-                       :object => "lesson2",
-                       :locals => {:lessonName => "Plan of Salvation"}) %>
-            <%= render(:partial =>'teaching_records/lesson', 
-                       :object => "lesson3",
-                       :locals => {:lessonName => "Gospel of Jesus Christ"}) %>
-            <%= render(:partial =>'teaching_records/lesson', 
-                       :object => "lesson4",
-                       :locals => {:lessonName => "Commandments"}) %>
-            <%= render(:partial =>'teaching_records/lesson', 
-                       :object => "lesson5",
-                       :locals => {:lessonName => "Laws and Ordinances"}) %>
-            <hr>
-            <br>
-          </ul>
-        </div>
-      </div>
-    </li>
+<% @showTeachingRecord ||= "display:inline" %>
+<% if @family.teaching_record != nil and @family.teaching_record.current %>
+  <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
+      return false;">Teaching Record </a> 
+    <div id="teaching-record" class="teaching-record">
+      <div>
+
+<fieldset>
+  <legend>General Info</legend>
+  <% form_for(@family.teaching_record) do |f| %>
+    <%= f.error_messages %>
+    <p>
+      Responsible Organization:
+      <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> 
+      &nbsp; &nbsp; &nbsp; 
+      Category:
+      <%= f.select :category, teachingRecordStatus, :include_blank => true %> <br />
+    </p>
+    <p>
+      Fellowshipper:
+      <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
+    </p>
+    <p>
+      Next Milestone Goal:
+      <%= f.select :membership_milestone, memberMilestones  %>
+      Goal Date:
+      <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
+    </p>
+    <p>
+      <%= f.submit 'Update' %>
+    </p>
   <% end %>
+</fieldset>
+<br>
+<fieldset>
+  <legend>Missionary Lessons</legend>
+  <%= render(:partial =>'teaching_records/teaching_record_events', 
+             :collection => lessons) %>
+
+<% if @family.events.find_by_category("Baptized") %>
+  <br>
+  <span class='hoverme' onclick="Element.toggle('before_baptism');return true;">
+    Lessons Before Baptism:
+  </span>
+  <br>
+  <div id='before_baptism' style='display:none'>
+    <%= render(:partial =>'teaching_records/teaching_record_events', 
+               :collection => lessons,
+               :locals => {:showBeforeBaptism => true}) %>
+  </div>
+<% end %>
+</fieldset>
+<br>
+<fieldset>
+  <legend>Member Milestones</legend>
+  <%= render(:partial =>'teaching_records/teaching_record_events', 
+             :collection => memberMilestones) %>
+</fieldset>
+<br>
+
+      </div>
+    </div>
+  </li>
+<% end %> 

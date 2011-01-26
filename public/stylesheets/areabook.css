@@ -7,10 +7,28 @@
   border: 0px solid red;
 }
 
-#teaching-record {
-  width: 900px;
-  background-color: #20f0f0;
+.teaching-record {
+  width: 800px;
+  background: #feb;
+  padding: 10px 20px;
+}
 
+.teaching-record fieldset {
+  background: #ffd;
+  border-color:gray;
+}
+
+.teaching-record legend {
+  color: black;
+  background: #9c9;
+  border-color:black;
+  font-family: sans-serif;
+  padding: 0.2em 1em;
+}
+
+.hoverme:hover {
+  background-color:   #bdb;
+  cursor: pointer;
 }
 
 #nodot {

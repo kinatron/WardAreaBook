@@ -1,6 +1,7 @@
 <% peopleList ||= nil %>
 <% event ||= nil %>
 <% family ||= nil %>
+<% mileStoneEvent ||= false %>
 
 <% form_for(event, :url => {:controller => 'events', 
                             :action     => 'create_new_family_event'})  do |f| %>
@@ -10,11 +11,17 @@
     <%= f.date_select :date %>
     <%= f.hidden_field :family_id %>
     <%= f.hidden_field :category %>
-    Taught by
-    <%= f.select :person_id, peopleList, {:selected => session[:user_id]} %> <br />
+    <% unless mileStoneEvent %>
+      Taught by
+      <%= f.select :person_id, peopleList, {:selected => session[:user_id]} %> <br />
+    <% end %>
   </p>
   <p>
-    Comments, committments given, fellowshipppers present?
+    <% if mileStoneEvent %>
+      Comments: <br>
+    <% else %>
+      Comments, committments given, fellowshipppers present? <br>
+    <% end %>
     <%= f.text_area :comment, :cols => 55, :rows => 2%>
   </p>
   <p>

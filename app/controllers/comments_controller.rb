@@ -32,7 +32,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          page.replace_html("comments", :partial => "families/comment", 
+          page.replace_html("comments", :partial => "comments/comment", 
                                         :collection => @comment.family.comments)
         end
       }
@@ -86,7 +86,7 @@ class CommentsController < ApplicationController
       if @comment.save
         format.js {
           render :update do |page|
-            page.replace_html("comments", :partial => "families/comment", 
+            page.replace_html("comments", :partial => "comments/comment", 
                                           :collection => @comment.family.comments)
             page.replace_html("new comment", :partial => "families/submit_button")
           end
@@ -104,7 +104,7 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
 
     render :update do |page|
-      page.replace_html("comments", :partial => "families/comment", 
+      page.replace_html("comments", :partial => "comments/comment", 
                         :collection => @comment.family.comments)
     end
     rescue
@@ -123,7 +123,7 @@ class CommentsController < ApplicationController
       if @comment.update_attributes(params[:comment])
         format.js {
           render :update do |page|
-            page.replace_html("comments", :partial => "families/comment", 
+            page.replace_html("comments", :partial => "comments/comment", 
                                           :collection => @comment.family.comments)
           end
         }
@@ -145,7 +145,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.js {
         render :update do |page|
-          page.replace_html("comments", :partial => "families/comment", 
+          page.replace_html("comments", :partial => "comments/comment", 
                                         :collection => @comment.family.comments)
         end
       }

@@ -54,24 +54,32 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     @event = Event.find(params[:id])
+    render :layout => 'WardAreaBook'
   end
+
+  
 
   def create_new_family_event
     @event = Event.new(params[:event])
-    if (@event.family.teaching_record) and (@event.category =~ /lesson\d/i)
-      lessonNum = @event.category.match(/\d/)[0]
-      unless @event.family.teaching_record.lessons_taught.include? lessonNum
-        if @event.family.teaching_record.lessons_taught.empty? 
-          @event.family.teaching_record.lessons_taught = lessonNum
-        else
-          @event.family.teaching_record.lessons_taught << "," + lessonNum
-        end
-        @event.family.teaching_record.save
-      end
-    end
     @event.author = session[:user_id]
+
+    logger.info(@template.memberMilestones)
+    logger.info(@event.category)
+    
     respond_to do |format|
       if @event.save
+        #Advance the next milestone if: 
+        #    the event is a memberMilestone 
+        #    user has a teaching record
+        #    this event is the current milestone
+        if @template.memberMilestones.include?([@event.category,@event.category]) and 
+            @event.family.teaching_record and 
+            @event.category == @event.family.teaching_record.membership_milestone
+          nextMileStone = @template.getNextMileStone(@event.family)
+          @event.family.teaching_record.membership_milestone = nextMileStone[0]
+          logger.info(nextMileStone)
+          @event.family.teaching_record.save!
+        end
         #flash[:notice] = 'Event was successfully created.'
         format.html { redirect_to(:controller => 'families', 
                                   :action => 'show', :id => @event.family_id)}

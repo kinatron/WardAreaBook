@@ -1,8 +1,17 @@
+<% mileStoneEvent ||= false %>
+
 <li id='nodot'>
-  Taught by:
-  <%=h lesson_event.person.name%>&nbsp;
-  <%=h lesson_event.person.family.name%>&#151;
+  <% unless mileStoneEvent %>
+    Taught by:
+    <%=h lesson_event.person.name%>&nbsp;
+    <%=h lesson_event.person.family.name%>&#151;
+  <% end %>
   <%=h lesson_event.comment %>
+  <% if mileStoneEvent %>
+    &mdash;
+    <%=h Person.find(lesson_event.author).name%>&nbsp;
+    <%=h Person.find(lesson_event.author).family.name%>&#151;
+  <% end %>
   <% if lesson_event.author == session[:user_id] or lesson_event.person_id == session[:user_id] %>
     <%= link_to 'Edit',   :controller => 'events', :action => 'edit', :id=> lesson_event %>
     <%= link_to 'Delete', :controller => 'events', :action => 'remove', :id=> lesson_event %>

@@ -23,7 +23,7 @@
       <%=h family.name + ", " + family.head_of_house_hold  %> </td>
     <td <%= clickToFam %> bgcolor="<%= statusColor(status) %>">
       <%=h status %> </td>
-    <td <%= clickToFam %> ><%=h teaching_record.lessons_taught %></td>
+    <td <%= clickToFam %> ><%=h getLessonsTaught(teaching_record.family) %></td>
     <td sorttable_customkey="<%=h getLastVisitDateSortable(teaching_record.family)%>"
       <%= clickToFam %> >
       <%=h getLastVisitDate(teaching_record.family) %></td>

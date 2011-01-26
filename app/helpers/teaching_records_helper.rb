@@ -1,5 +1,17 @@
 module TeachingRecordsHelper
 
+  def getLessonsTaught(family)
+    lessons = Array.new
+    family.events.each do |event| 
+      type = event.category
+      if type =~ /Lesson\d/
+        lessons << type.match(/\d/)[0]
+      end
+    end
+    lessons.sort.to_sentence(:two_words_connector => ", ",
+                             :last_word_connector => ", ")
+  end
+
   def getTeachingRecordStatus(teaching_record) 
     if teaching_record.category == nil
       return teaching_record.family.status
@@ -29,18 +41,43 @@ module TeachingRecordsHelper
     ]
   end
 
-  def memberMilestoneCategories  
+  def lessons
     [
-      ["Baptism" , "Baptism"],
+      ['Lesson1', 'Message of the Restoration'],
+      ['Lesson2', 'Plan of Salvation'],
+      ['Lesson3', 'Gospel of Jesus Christ'],
+      ['Lesson4', 'Commandments'],
+      ['Lesson5', 'Laws and Ordinances'],
+    ]
+  end
+
+  def teachingRecordEvents 
+    [ 
+      ["Visit" , "Visit"],
+      ["Attempt" , "Attempt"],
+      ["Lesson"  , "Lesson"],
+      ["Lesson1" , "Lesson1"], 
+      ["Lesson2" , "Lesson2"], 
+      ["Lesson3" , "Lesson3"], 
+      ["Lesson4" , "Lesson4"], 
+      ["Lesson5" , "Lesson5"], 
+      ["Attend Church" , "Attend Church"],
+      ["Other", "Other"],
+    ]
+  end
+
+  def memberMilestones  
+    [
+      ["Baptized" , "Baptized"],
       ["Interview with the Bishop" , "Interview with the Bishop"],
       ["Priesthood Ordiniation" , "Priesthood Ordiniation"],
       ["Attending Gospel Prin" , "Attending Gospel Prin"],
-      ["Begin new memeber lessons" , "Begun new memeber lessons"],
+      ["Begin new member lessons" , "Begin new member lessons"],
       ["Has been given a calling" , "Has been given a calling"],
-      ["Regular Sacrement Attendance" , "Regular Sacrement Attendance"],
+      ["Regular Sacrament Attendance" , "Regular Sacrament Attendance"],
       ["Started Family Group Sheet" , "Started Family Group Sheet"],
       ["Melchizedek Priesthood" , "Melchizedek Priesthood"],
-      ["Temple Baptism" , "Temple Baptism"],
+      ["Temple Baptism Trip" , "Temple Baptism Trip"],
       ["Temple Prep Class" , "Temple Prep Class"],
       ["Endowed" , "Endowed"],
       ["Family Sealed in the Temple" , "Family Sealed in the Temple"]

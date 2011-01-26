@@ -15,7 +15,7 @@
   <p>
   <% if family.teaching_record != nil %>
     <%= f.label :category %>
-    <%= f.select :category, teachingRecordEvents %>
+    <%= f.select :category, teachingRecordEvents + memberMilestones %>
   <% else %>
     <%= f.label :category %>
     <%= f.select :category, eventCategories %>

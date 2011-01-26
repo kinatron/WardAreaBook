@@ -8,19 +8,14 @@ module EventsHelper
     ]
   end
 
-  def teachingRecordEvents 
-    [ 
-      ["Visit" , "Visit"],
-      ["Attempt" , "Attempt"],
-      ["Lesson"  , "Lesson"],
-      ["Lesson1" , "Lesson1"], 
-      ["Lesson2" , "Lesson2"], 
-      ["Lesson3" , "Lesson3"], 
-      ["Lesson4" , "Lesson4"], 
-      ["Lesson5" , "Lesson5"], 
-      ["Attend Church" , "Attend Church"],
-      ["Baptized" , "Baptized"],
-      ["Other", "Other"]
-    ]
+  def getNextMileStone(family)
+    memberMilestones.each do |milestone|
+      if family.events.find_by_category(milestone[0])
+        next
+      else
+        return milestone
+      end
+    end
   end
+
 end
