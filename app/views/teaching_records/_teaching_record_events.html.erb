@@ -42,7 +42,7 @@
   </div>
 <% else %>
   <%= eventName %>
-  <% @event.category = eventName %>
+  <% @event.category = eventType %>
   <br>
   <div id ='<%= eventID %>' style='display:none;'>
     <%= render(:partial => 'events/new_lesson_event',
