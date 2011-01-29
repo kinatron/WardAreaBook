@@ -13,7 +13,7 @@ module TeachingRecordsHelper
   end
 
   def getTeachingRecordStatus(teaching_record) 
-    if teaching_record.category == nil
+    if teaching_record.category == nil or teaching_record.category == ""
       return teaching_record.family.status
     else
       return teaching_record.category

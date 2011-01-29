@@ -8,8 +8,8 @@
 
 <% # If the family has a baptism date by default I want to only display %> 
 <% # lessons AFTER (These are new member lessons) the baptismal date. %>
+<% baptismEvent = @family.events.find_by_category("Baptized") %>
 <% if not isMileStone %>
-  <% baptismEvent = @family.events.find_by_category("Baptized") %>
   <% if baptismEvent %>
     <% baptismDate = baptismEvent.date %>
     <% if showBeforeBaptism %>
@@ -23,6 +23,12 @@
   <% elsif showBeforeBaptism %>
     <% return %>
   <% end %>
+<% end %>
+
+<% #I don't want the Baptism event if the family is a member with no baptism date.%>
+<% if not baptismEvent and eventType == "Baptized" and @family.member %>
+  shark
+  <% return %>
 <% end %>
 
 <%= check_box_tag eventID.upcase, value = 'true', checked = isChecked,
