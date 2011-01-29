@@ -93,7 +93,7 @@ class TeachingRecordsController < ApplicationController
     respond_to do |format|
       if @teaching_record.update_attributes(params[:teaching_record])
         #flash[:notice] = 'TeachingRecord was successfully updated.'
-        format.html { redirect_to(:back) }
+        format.html { redirect_to(teaching_records_path) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
