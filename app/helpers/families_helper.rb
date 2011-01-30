@@ -27,7 +27,9 @@ module FamiliesHelper
   end
 
   def getLastVisitDateSortable(family)
-    if family.events.first != nil
+    if family.events.first(:conditions => "category != 'Attempt' and
+                                           category != 'Other' and 
+                                           category is not NULL") != nil
       date = family.events.first.date 
       date.strftime("%Y%m%d")
     else
@@ -36,7 +38,9 @@ module FamiliesHelper
   end
 
   def getLastVisitDate(family)
-    if family.events.first != nil
+    if family.events.first(:conditions => "category != 'Attempt' and
+                                           category != 'Other' and 
+                                           category is not NULL") != nil
       family.events.first.date.to_s(:sortable) 
     else
       ""

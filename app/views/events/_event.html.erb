@@ -1,8 +1,13 @@
 <li>
   <%=h event.date.strftime("%m/%d") %>&#151;
-  <!-- TODO use associations -->
   <%=h event.category %>&#151;
-  <%=h event.person.name%>&nbsp;
-  <%=h event.person.family.name%>&#151;
+  <% if event.person %>
+    <%=h event.person.name%>&nbsp;
+    <% if event.person.family.name == "Hope" %>
+      Hopes&#151;
+    <% else %>
+      <%=h event.person.family.name%>&#151;
+    <% end %>
+  <% end %>
   <%=h event.comment %>
 </li>

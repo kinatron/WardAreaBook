@@ -3,8 +3,7 @@ module StatsHelper
   def familiesVisited(monthsAgo)
     targetDate = Date.today.months_ago(monthsAgo).at_beginning_of_month
     events = Event.find(:all, 
-                        :conditions => ["(category == 'Visit' or category == 'Lesson') 
-                                          and date >=?", targetDate])
+                        :conditions => ["(category != 'Attempt' and category != 'Other' and category is not NULL) and date >=?", targetDate])
 
     events.delete_if {|x| x.family.current==false or x.family.status=='moved'}
     families = events.group_by { |family| family.family_id}

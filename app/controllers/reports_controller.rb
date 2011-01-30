@@ -27,7 +27,9 @@ class ReportsController < ApplicationController
   end
 
   def allMonthlyReports
-    @events = Event.find(:all, :conditions => "category == 'Visit' or category == 'Lesson'", 
+    @events = Event.find(:all, :conditions => "category != 'Attempt' and 
+                                               category != 'Other' and
+                                               category is not NULL", 
                          :order => 'date DESC')
     @event_months = @events.group_by { |month| month.date.at_beginning_of_month }
     render :monthlyReport
@@ -35,8 +37,9 @@ class ReportsController < ApplicationController
   
   def monthlyReport
     range =  2.months.ago.at_beginning_of_month.to_date
-    @events = Event.find(:all, :conditions => ["(category == 'Visit' or category == 'Lesson') and 
-                                               (date > ?)", range],
+    @events = Event.find(:all, :conditions => ["(category != 'Attempt' and 
+                                                 category != 'Other' and  
+                                                 category is not NULL) and (date > ?)", range],
                          :order => 'date DESC')
     @event_months = @events.group_by { |month| month.date.at_beginning_of_month }
   end
