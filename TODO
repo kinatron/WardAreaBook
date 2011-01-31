@@ -2,10 +2,6 @@
 TODO's 
 =====================================================================================
 
-1. Teaching Record Updates. 
-    a) If the teaching record is for a member only include baptism on the list if baptism date is set
-    b) When teachng records get updated the category tends to get cleared out.
-
 6. Tests
     - Accessing all of the pages.
     - Form generation
@@ -14,11 +10,9 @@ TODO's
 
 7. Admin to add non-member users and escalting user privs
 
-
 ========================================================================
 
 1. Teaching Record Updates. 
-    a) Seperate new member and investigator lessons.
     c) Create action items if fellowshipper, or milestone dates are not set.
 
 0. Person needs to have a full name
@@ -41,8 +35,6 @@ TODO's
 
 2. When a new comment is created I would like the focus window to go onto it.
 
-3. Create Tests
-
 4. Create a nice mechanism to edit events.  To clean up past events
 
 1. Access controll  - Isn't quite there Jen still has access to the people page.
@@ -57,14 +49,6 @@ TODO's
    b) with a delete option
 
 3. Automatic form submission to change status
-
-2. When a LessonX event is removed or updated update the Teaching Record. 
-
-    c) Get rid of the test_me page and make sure everything still works.
-    b) improve teaching record section in the family view page.
-
-
-5. Split out the month report into HP and Elder Families.
 
 1. Remove the dots and line up the columns
    Afa, James and Tamara

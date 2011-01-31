@@ -31,7 +31,7 @@
   <% return %>
 <% end %>
 
-<%= check_box_tag eventID.upcase, value = 'true', checked = isChecked,
+<%= check_box_tag eventID.upcase + "_check_box", value = 'true', checked = isChecked,
                   {:onclick => "Element.toggle('#{eventID}');return true;",
                    :disabled => isChecked} %>
 <% if isChecked == true %>
