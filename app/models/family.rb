@@ -3,7 +3,7 @@ class Family < ActiveRecord::Base
   has_many :people 
   has_many :comments 
   has_many :teaching_routes  # really it only has two 
-  has_many :action_items, :order => 'date DESC', :dependent => :destroy
+  has_many :action_items, :order => 'due_date DESC', :dependent => :destroy
   has_many :open_action_items, :class_name => "ActionItem",
                                :conditions => "status == 'open'",
                                :order => 'due_date ASC, updated_at DESC'

@@ -5,7 +5,7 @@ one:
   total_families: 1
   active: 1
   less_active: 1
-  unkown: 1
+  unknown: 1
   not_interested: 1
   dnc: 1
   new: 1
@@ -17,7 +17,7 @@ two:
   total_families: 1
   active: 1
   less_active: 1
-  unkown: 1
+  unknown: 1
   not_interested: 1
   dnc: 1
   new: 1

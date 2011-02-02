@@ -3,11 +3,15 @@
 one:
   date: 2010-06-07
   family_id: 1
-  member: MyString
+  person_id: 1
+  author: 1
+  category: MyString
   comment: MyText
 
 two:
   date: 2010-06-07
   family_id: 1
-  member: MyString
+  person_id: 1
+  author: 1
+  category: MyString
   comment: MyText

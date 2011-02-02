@@ -6,7 +6,7 @@ one:
   lessons_taught: MyString
   last_lesson: 2010-08-07
   next_lesson: 2010-08-07
-  fellowshipper: 1
+  person_id: 1
   membership_milestone: MyString
   milestone_date_goal: 2010-08-07
 
@@ -16,6 +16,6 @@ two:
   lessons_taught: MyString
   last_lesson: 2010-08-07
   next_lesson: 2010-08-07
-  fellowshipper: 1
+  person_id: 1
   membership_milestone: MyString
   milestone_date_goal: 2010-08-07
