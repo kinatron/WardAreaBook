@@ -16,6 +16,10 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def full_name
+    "#{name} #{family.name}"
+  end
+
   def self.find_by_full_name(fullName)
     lastName, firstName = fullName.split(",").collect! {|x| x.strip}
     fam = Family.find_all_by_name(lastName)

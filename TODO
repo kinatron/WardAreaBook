@@ -1,23 +1,32 @@
 =====================================================================================
 TODO's 
 =====================================================================================
+1. Why isn't the new teaching record showing up
 
-1. Prioritize the TODO list.
+1. Make events editable like comments
+2. When a new comment is created I would like the focus window to go onto it.
+4. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
+12. have a cancel button on the status changes. (like the comments)
+1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 
-7. Admin to add non-member users and escalting user privs
-
-========================================================================
+=====================================================================================
+CSS and Presentation
+========================
 
 1. Fix the hover issues with IE
+1. Remove the dots and line up the columns
+   Afa, James and Tamara
+       July 22 - Visit - Taught the Word of Wisdom. Brother xxx is really
+                         Struggline with smoking right now.  I need to add
+                         some additional text right here
+       July 24 - Attempt - Tried to follup
 
+
+=====================================================================================
+Reports
+================
 1. Teaching Record Updates. 
     c) Create action items if fellowshipper, or milestone dates are not set.
-
-0. Person needs to have a full name
-
-1. Personal Items - default at login (if action items exist)
-
-1. Save action item as an event
 
 1. update scripts
     - minor todo's
@@ -27,47 +36,15 @@ TODO's
 1. Why isn't brother Clarks access level updated?
     -if someones name is in the callings sheet twice then they need to be both checked
 
-1. Make events editable like comments
-
-3. email challenge for password
-
-2. When a new comment is created I would like the focus window to go onto it.
-
-4. Create a nice mechanism to edit events.  To clean up past events
-
-1. Access controll  - Isn't quite there Jen still has access to the people page.
-  c) Each controller/action has an acccess level
-      - Levels of access
-         1 - General Access  - TODO I think there is a cleaner way to do this
-         2 - PEC - They can access everything on the menues
-         3 - admin - can access events, users, and other hidden items
-
-2. in_place_edit 
-   a) based on author or admin
-   b) with a delete option
-
-3. Automatic form submission to change status
-
-1. Remove the dots and line up the columns
-   Afa, James and Tamara
-       July 22 - Visit - Taught the Word of Wisdom. Brother xxx is really
-                         Struggline with smoking right now.  I need to add
-                         some additional text right here
-       July 24 - Attempt - Tried to follup
-
-1. Add caching
-     b) The Select box names
-        - For some reason I can't cache the query that creates the select box.
-
-
-* Caching TODO sweepers wasn't working for the families controller.  I instead used explict action_expire commands
-
-6. Display family members int the families/show page 
-    b) show any cellphones
-
-4. FIX HACK!!!!
-
 1. Create a reports page that lists visits by month.
+
+    All reports should be generic and then allow to filter by user
+
+       Ward Weekly Report       everybody
+    
+    Weekly report should just report the last 4 weeks with options for older stuff
+
+    Maybe have a graph to show monthly trends
 
                     |
             |       | 
@@ -75,24 +52,41 @@ TODO's
     |       |       |
    Feb    March   April
 
+=====================================================================================
+Performance
+================
+1.  The Select box names
+     Verify if this list is getting cached? 
+1. Caching for the monthly and hope reports.  I need to clear the cache on updates.
+* Caching TODO sweepers wasn't working for the families controller.  I instead used explict action_expire commands
+
+=====================================================================================
+Other
+================
+1. Personal Items - default at login (if action items exist)
+3. email challenge for password
+1. Save action item as an event
+1. Access controll  - Isn't quite there Jen still has access to the people page.
+  c) Each controller/action has an acccess level
+      - Levels of access
+         1 - General Access  - TODO I think there is a cleaner way to do this
+         2 - PEC - They can access everything on the menues
+         3 - admin - can access events, users, and other hidden items
+3. Automatic form submission to change status
 5. Find a way to do dynamic selection lists
-
 8. Validate all input able data.
-
-10. Create a partial to limit the events to the within the last 10 events with a link to see more.
-
-11. Add dynamic content to the reports page (don't generate all of the data unless they need it.
-
-12. have a cancel button on the status changes. (like the comments)
-
-13. Add a baptism to the list of teaching record events.
-
 14. Add a feature request page.
-
-15. Last visit should not include attempts.
+1. Tests
+    - Accessing all of the pages.
+    - Form generation
+    - Creating users
+    - Access control 
+    - Basic Unit Tests
+    - Helper Tests
 
 ========================================================================
 Opening up to Paul
+========================================================================
 
 1. Get WardAreaBook.com
 2. Create a project for paul.
@@ -112,19 +106,3 @@ Opening up to Paul
     
     Remove the Hopes... 
     automate the bishop
-    Let the admin add non-members to the wardlist (missionaries)
-    All reports should be generic and then allow to filter by user
-
-       Ward Weekly Report       everybody
-    
-    Weekly report should just report the last 4 weeks with options for older stuff
-
-    Maybe have a graph to show monthly trends
-
-1. Tests
-    - Accessing all of the pages.
-    - Form generation
-    - Creating users
-    - Access control 
-    - Basic Unit Tests
-    - Helper Tests

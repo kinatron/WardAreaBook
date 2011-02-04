@@ -26,32 +26,43 @@ module FamiliesHelper
     end
   end
 
-  def getLastVisitDateSortable(family)
-    if family.events.first(:conditions => "category != 'Attempt' and
-                                           category != 'Other' and 
-                                           category is not NULL") != nil
-      date = family.events.first.date 
-      date.strftime("%Y%m%d")
+  def getLastVisit(family)
+    lastVisit = family.events.first(:conditions => 
+                                    "category != 'Attempt' and
+                                     category != 'Other' and 
+                                     category is not NULL")
+    end
+                                     
+  def getLastVisitDate(family)
+    lastVisit = getLastVisit(family)
+    if lastVisit != nil
+      lastVisit.date.to_s(:sortable)
     else
       ""
     end
   end
 
-  def getLastVisitDate(family)
-    if family.events.first(:conditions => "category != 'Attempt' and
-                                           category != 'Other' and 
-                                           category is not NULL") != nil
-      family.events.first.date.to_s(:sortable) 
+  def getLastVisitDateSortable(family)
+    lastVisit = getLastVisit(family)
+    if lastVisit != nil
+      lastVisit.date.strftime("%Y%m%d")
     else
       ""
     end
   end
+    
 
   def getLastVisitComment(family)
-    if family.events.first != nil
-      truncate(family.events.first.comment, :length => 100) 
+    lastVisit = getLastVisit(family)
+    if lastVisit != nil
+      truncate(lastVisit.comment, :length => 100) 
     else
-      ""
+      lastContact = family.events.first
+      if lastContact != nil
+        truncate(lastContact.comment, :length => 100) 
+      else
+        ""
+      end
     end
   end
 
