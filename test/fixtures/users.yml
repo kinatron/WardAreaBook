@@ -5,7 +5,7 @@ dave:
   hashed_password: <%= User.encrypted_password('secret', 'NaCl') %>
   salt: NaCl
 
-two:
+one:
   name: MyString
   hashed_password: MyString
   salt: MyString

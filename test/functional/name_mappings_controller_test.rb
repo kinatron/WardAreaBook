@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class NameMappingsControllerTest < ActionController::TestCase
+  def setup
+    #TODO this seems a little silly, there's got to be a better way
+    get :index, {}, { :user_id => users(:dave).id, 
+                      :user_email => 'kinateder@gmail.com', 
+                      :expiration => 1.minutes.from_now,
+                      :access_level => 3 }
+  end
   test "should get index" do
     get :index
     assert_response :success

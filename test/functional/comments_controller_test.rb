@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class CommentsControllerTest < ActionController::TestCase
+  def setup
+    #TODO this seems a little silly, there's got to be a better way
+    get :index, {}, { :user_id => users(:dave).id, 
+                      :user_email => 'kinateder@gmail.com', 
+                      :expiration => 1.minutes.from_now,
+                      :access_level => 3 }
+  end
+
   test "should get index" do
     get :index
     assert_response :success
@@ -14,10 +22,11 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should create comment" do
     assert_difference('Comment.count') do
-      post :create, :comment => { }
+      post :create, :comment => {:family_id => 1 }
     end
 
-    assert_redirected_to comment_path(assigns(:comment))
+    assert_response :success
+    #assert_redirected_to comment_path(assigns(:comment))
   end
 
   test "should show comment" do
@@ -32,7 +41,9 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should update comment" do
     put :update, :id => comments(:one).to_param, :comment => { }
-    assert_redirected_to comment_path(assigns(:comment))
+
+    assert_response :success
+    #assert_redirected_to comment_path(assigns(:comment))
   end
 
   test "should destroy comment" do
@@ -40,6 +51,7 @@ class CommentsControllerTest < ActionController::TestCase
       delete :destroy, :id => comments(:one).to_param
     end
 
-    assert_redirected_to comments_path
+    assert_response :success
+    #assert_redirected_to comments_path
   end
 end

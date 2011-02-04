@@ -2,15 +2,13 @@
 TODO's 
 =====================================================================================
 
-6. Tests
-    - Accessing all of the pages.
-    - Form generation
-    - Creating users
-    - Access control 
+1. Prioritize the TODO list.
 
 7. Admin to add non-member users and escalting user privs
 
 ========================================================================
+
+1. Fix the hover issues with IE
 
 1. Teaching Record Updates. 
     c) Create action items if fellowshipper, or milestone dates are not set.
@@ -122,3 +120,11 @@ Opening up to Paul
     Weekly report should just report the last 4 weeks with options for older stuff
 
     Maybe have a graph to show monthly trends
+
+1. Tests
+    - Accessing all of the pages.
+    - Form generation
+    - Creating users
+    - Access control 
+    - Basic Unit Tests
+    - Helper Tests

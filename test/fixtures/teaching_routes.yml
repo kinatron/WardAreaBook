@@ -1,7 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-# one:
-#   column: value
-#
-# two:
-#   column: value
+ one:
+   family_id: 1
+   person_id: 1
+   category: Elders
+
+ two:
+   family_id: 1
+   person_id: 1
+   category: Elders

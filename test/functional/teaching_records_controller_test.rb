@@ -1,10 +1,18 @@
 require 'test_helper'
 
 class TeachingRecordsControllerTest < ActionController::TestCase
+  def setup
+    #TODO this seems a little silly, there's got to be a better way
+    get :index, {}, { :user_id => users(:dave).id, 
+                      :user_email => 'kinateder@gmail.com', 
+                      :expiration => 1.minutes.from_now,
+                      :access_level => 3 }
+  end
+
   test "should get index" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:teaching_records)
+    assert_not_nil assigns(:records)
   end
 
   test "should get new" do
@@ -17,7 +25,7 @@ class TeachingRecordsControllerTest < ActionController::TestCase
       post :create, :teaching_record => { }
     end
 
-    assert_redirected_to teaching_record_path(assigns(:teaching_record))
+    assert_redirected_to teaching_records_path
   end
 
   test "should show teaching_record" do
@@ -25,14 +33,9 @@ class TeachingRecordsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, :id => teaching_records(:one).to_param
-    assert_response :success
-  end
-
   test "should update teaching_record" do
     put :update, :id => teaching_records(:one).to_param, :teaching_record => { }
-    assert_redirected_to teaching_record_path(assigns(:teaching_record))
+    assert_redirected_to teaching_records_path
   end
 
   test "should destroy teaching_record" do
