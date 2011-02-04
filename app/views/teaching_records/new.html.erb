@@ -1,53 +1,37 @@
 <h1>New Teaching Record</h1>
 
-<% form_for(@teaching_record) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :family_id %><br />
-    <%= f.select :family_id, @families, :include_blank => true %> <br />
-  </p>
-  <p>
-    Responsible Organization:
-    <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> <br />
-  </p>
-  <p>
-    Missionary Lessons Taught <br>
-    <% # TODO Make this a series of check boxes 
-    # | | Message of the Restoration   | | (After Baptism)
-    # | | Plan of Salvation            | | (After Baptism)
-    # | | Gospel of Jesus Christ       | | (After Baptism)
-    # | | Commandments                 | | (After Baptism)
-    # | | Laws and Ordinancs           | | (After Baptism)
-  %>
-    <%= f.text_field :lessons_taught %>
-  </p>
-  <!--
-  <p>
-    <%= f.label :last_lesson %><br />
-    <%= f.date_select :last_lesson, :include_blank => true, :discard_year => true %>
-  </p>
-  -->
-  <p>
-    <%= f.label :next_lesson %><br />
-    <%= f.date_select :next_lesson, :include_blank => true, :discard_year => true %>
-  </p>
-  <p>
-    <%= f.label :fellowshipper %><br />
-    <% #TODO hack to default the hopes as a fellowshippers %>
-    <%= f.select :person_id, @fellowShippers, {:include_blank => true} %> <br />
-  </p>
-  <p>
-    <%= f.label :membership_milestone %><br />
-    <%= f.select :membership_milestone, memberMilestones, {:selected => "Baptized"} %>
-  </p>
-  <p>
-    <%= f.label :milestone_date_goal %><br />
-    <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
-  </p>
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', teaching_records_path %>
+<div class='teaching-record'>
+<fieldset>
+  <legend>General Info</legend>
+  <% form_for(@teaching_record) do |f| %>
+    <%= f.error_messages %>
+    <p>
+      <%= f.label :family_id %><br />
+      <%= f.select :family_id, @families, :include_blank => true %> <br />
+    </p>
+    <p>
+      Responsible Organization:
+      <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> 
+      &nbsp; &nbsp; &nbsp; 
+      Category:
+      <%= f.select :category, teachingRecordStatus, :include_blank => true %> <br />
+    </p>
+    <p>
+      Fellowshipper:
+      <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
+    </p>
+    <p>
+      Next Milestone Goal:
+      <%= f.select :membership_milestone, memberMilestones  %>
+      Goal Date:
+      <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
+    </p>
+    <p>
+      <%= f.submit 'Create' %>
+    </p>
+  <% end %>
+</fieldset>
+<br>
+<br>
+</div>
+<%= link_to 'Cancel', teaching_records_path %>

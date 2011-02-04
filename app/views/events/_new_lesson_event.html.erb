@@ -27,6 +27,12 @@
   <p>
     <%= f.submit 'Create' %>
     &nbsp; &nbsp; 
-    <%= link_to 'Cancel', family_path(family) %>
+    <% #TODO IT would be better to just collapse the window instead of reloading the page.  Other changes might get lost. %>
+    <% if family.name == nil %>
+      <% linkTo = "" %>
+    <% else %>
+      <% linkTo = family_path(family) %>
+    <% end %>
+    <%= link_to 'Cancel', linkTo %>
   </p>
 <% end %>

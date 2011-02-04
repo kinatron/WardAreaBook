@@ -36,7 +36,9 @@ function hideElement(divId) {
 
 <ul>
     <%= render(:partial => "family_details") %>
-    <%= render(:partial => "teaching_records/teaching_record") %>
+    <%= render(:partial => "teaching_records/teaching_record",
+               :object => @family.teaching_record,
+               :locals => {:events => @family.events}) %>
     <%= render(:partial => "events/family_events") %>
     <div id="updated-action-list">
       <%= render(:partial => "action_items/family_action_items",

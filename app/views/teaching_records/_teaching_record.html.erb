@@ -1,5 +1,5 @@
-<% @showTeachingRecord ||= "display:inline" %>
-<% if @family.teaching_record != nil and @family.teaching_record.current %>
+<% events ||= Array.new %>
+<% if teaching_record != nil %>
   <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
       return false;">Teaching Record </a> 
     <div id="teaching-record" class="teaching-record">
@@ -7,8 +7,19 @@
 
 <fieldset>
   <legend>General Info</legend>
-  <% form_for(@family.teaching_record) do |f| %>
+  <% form_for(teaching_record) do |f| %>
     <%= f.error_messages %>
+
+    <% if !teaching_record.current %>
+      <b>
+      This record has been dropped and is no longer part of the ward teaching pool.<br>
+      If you would like to restore it please check the box and press update
+      <br> <br>
+      <%= f.check_box :current  %> Restore
+      </b>
+      <br> <br>
+
+    <% end %> 
     <p>
       Responsible Organization:
       <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> 
@@ -37,7 +48,7 @@
   <%= render(:partial =>'teaching_records/teaching_record_events', 
              :collection => lessons) %>
 
-<% if @family.events.find_by_category("Baptized") %>
+<% if events.find_by_category("Baptized") %>
   <br>
   <span class='hoverme' onclick="Element.toggle('before_baptism');return true;">
     Lessons Before Baptism:

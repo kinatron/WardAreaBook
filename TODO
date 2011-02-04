@@ -1,12 +1,12 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Why isn't the new teaching record showing up
+2. Make events editable like comments
+3. When a new comment is created I would like the focus window to go onto it.
+4. have a cancel button on the status changes. (like the comments)
 
-1. Make events editable like comments
-2. When a new comment is created I would like the focus window to go onto it.
-4. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
-12. have a cancel button on the status changes. (like the comments)
+5. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
+
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 
 =====================================================================================
@@ -27,15 +27,12 @@ Reports
 ================
 1. Teaching Record Updates. 
     c) Create action items if fellowshipper, or milestone dates are not set.
-
 1. update scripts
     - minor todo's
     - When members change their names create an option to transfer any options to the new person
        (Brother Jorgensen issue)
-
 1. Why isn't brother Clarks access level updated?
     -if someones name is in the callings sheet twice then they need to be both checked
-
 1. Create a reports page that lists visits by month.
 
     All reports should be generic and then allow to filter by user
@@ -45,7 +42,6 @@ Reports
     Weekly report should just report the last 4 weeks with options for older stuff
 
     Maybe have a graph to show monthly trends
-
                     |
             |       | 
     |       |       |
@@ -87,7 +83,6 @@ Other
 ========================================================================
 Opening up to Paul
 ========================================================================
-
 1. Get WardAreaBook.com
 2. Create a project for paul.
 3. Replace "Burien Ward" with a database entry

@@ -47,6 +47,7 @@ class TeachingRecordsController < ApplicationController
     @teaching_record = TeachingRecord.new
     @families = getFamilyMapping
     @fellowShippers = getMapping
+    @names = getMapping
 
     respond_to do |format|
       format.html # new.html.erb
@@ -73,16 +74,29 @@ class TeachingRecordsController < ApplicationController
   def create
     @teaching_record = TeachingRecord.new(params[:teaching_record])
     @teaching_record.current = true
-    if @teaching_record.family.member and @teaching_record.membership_milestone == "Baptized"
-      @teaching_record.membership_milestone = "Interview with the Bishop"
+
+    #If they try and create a teaching record for a family that's already 
+    #forward them to that family page.
+    if TeachingRecord.find_by_family_id(@teaching_record.family)
+        flash[:notice] = "A Teaching Record already exists 
+                          for the #{@teaching_record.family.name} family"
+        redirect_to(family_path(@teaching_record.family)) 
+        return
     end
 
     respond_to do |format|
       if @teaching_record.save
+        if @teaching_record.family.member and @teaching_record.membership_milestone == "Baptized"
+          @teaching_record.membership_milestone = "Interview with the Bishop"
+          @teaching_record.save
+        end
         #flash[:notice] = 'TeachingRecord was successfully created.'
-        format.html { redirect_to(:action => "index") }
+        format.html { redirect_to(family_path(@teaching_record.family)) }
         format.xml  { render :xml => @teaching_record, :status => :created, :location => @teaching_record }
       else
+        @families = getFamilyMapping
+        @fellowShippers = getMapping
+        @names = getMapping
         format.html { render :action => "new" }
         format.xml  { render :xml => @teaching_record.errors, :status => :unprocessable_entity }
       end
@@ -139,7 +153,7 @@ class TeachingRecordsController < ApplicationController
       if @teaching_record.save
         format.html { redirect_to(teaching_records_url) }
       else
-        format.html { redirect_to(families_records_url) }
+        format.html { redirect_to(teaching_records_path) }
       end
     end
   end
