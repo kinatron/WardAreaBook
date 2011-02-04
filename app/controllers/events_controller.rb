@@ -63,9 +63,6 @@ class EventsController < ApplicationController
     @event = Event.new(params[:event])
     @event.author = session[:user_id]
 
-    logger.info(@template.memberMilestones)
-    logger.info(@event.category)
-    
     respond_to do |format|
       if @event.save
         #Advance the next milestone if: 
@@ -77,7 +74,6 @@ class EventsController < ApplicationController
             @event.category == @event.family.teaching_record.membership_milestone
           nextMileStone = @template.getNextMileStone(@event.family)
           @event.family.teaching_record.membership_milestone = nextMileStone[0]
-          logger.info(nextMileStone)
           @event.family.teaching_record.save!
         end
         #flash[:notice] = 'Event was successfully created.'

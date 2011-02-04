@@ -72,6 +72,10 @@ class TeachingRecordsController < ApplicationController
   # POST /teaching_records.xml
   def create
     @teaching_record = TeachingRecord.new(params[:teaching_record])
+    @teaching_record.current = true
+    if @teaching_record.family.member and @teaching_record.membership_milestone == "Baptized"
+      @teaching_record.membership_milestone = "Interview with the Bishop"
+    end
 
     respond_to do |format|
       if @teaching_record.save

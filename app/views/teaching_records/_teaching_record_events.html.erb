@@ -25,9 +25,8 @@
   <% end %>
 <% end %>
 
-<% #I don't want the Baptism event if the family is a member with no baptism date.%>
+<% #I don't want the Baptism event, if the family is a member with no baptism date.%>
 <% if not baptismEvent and eventType == "Baptized" and @family.member %>
-  shark
   <% return %>
 <% end %>
 

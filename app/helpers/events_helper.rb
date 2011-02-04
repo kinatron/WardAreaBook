@@ -13,7 +13,7 @@ module EventsHelper
       if family.events.find_by_category(milestone[0])
         next
       else
-        return milestone
+        return milestone unless milestone[0] == "Baptized" and family.member
       end
     end
   end
