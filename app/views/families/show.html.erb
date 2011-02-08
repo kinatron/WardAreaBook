@@ -10,7 +10,7 @@ function hideElement(divId) {
 </script>
 
 <h1><%=h @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp;
-  <div style='display:inline' id='actionButtons' >
+  <div id='actionButtons' >
     <%= button_to_function("New Event", "showElement('new-event');
                                          hideElement('actionButtons');")%>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
@@ -45,6 +45,3 @@ function hideElement(divId) {
                  :locals => {:option_for_more => true}) %>
     </div>
 </ul>
-<br> <br> <br> 
-<br> <br> <br> 
-<br> <br> <br>

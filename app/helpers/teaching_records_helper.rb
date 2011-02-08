@@ -27,6 +27,8 @@ module TeachingRecordsHelper
       ["High Priests"  , "High Priests"], 
       ["Young Mens" , "Young Mens"], 
       ["Relief Society" , "Relief Society"],
+      ["Young Womens" , "Young Womens"],
+      ["Primary" , "Primary"]
     ]
   end
 

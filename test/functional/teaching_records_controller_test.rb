@@ -22,10 +22,10 @@ class TeachingRecordsControllerTest < ActionController::TestCase
 
   test "should create teaching_record" do
     assert_difference('TeachingRecord.count') do
-      post :create, :teaching_record => { }
+      post :create, :teaching_record => {:family_id => 3 }
     end
 
-    assert_redirected_to teaching_records_path
+    assert_redirected_to family_path(3)
   end
 
   test "should show teaching_record" do
@@ -35,7 +35,7 @@ class TeachingRecordsControllerTest < ActionController::TestCase
 
   test "should update teaching_record" do
     put :update, :id => teaching_records(:one).to_param, :teaching_record => { }
-    assert_redirected_to teaching_records_path
+    assert_redirected_to family_path(1)
   end
 
   test "should destroy teaching_record" do

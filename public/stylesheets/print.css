@@ -26,6 +26,10 @@
   padding: 0.2em 1em;
 }
 
+.teaching-record select {
+  font: 12px serif;
+}
+
 .hoverme:hover {
   background-color:   #bdb;
   cursor: pointer;
@@ -54,7 +58,7 @@
 
 .forceWidth div {
   font:  110% sans-serif;
-  padding: 10px;
+  padding: 0px;
   float: left;
   text-align: center;
   margin-right: 30px;
@@ -236,27 +240,28 @@ h1 {
 }
 
 #main {
-  margin-left: 11em;
-  padding-top: 2em;
-  padding-left: 3em;
+  margin-left: 0em;
+  padding-top: 0em;
+  padding-left: 0em;
   background: #ffd;
+  font:  12px serif;
 }
 
 #actionButtons {
-  display:inline;
+  display:none;
 }
+
+.noPrint {
+  display:none;
+}
+
 
 #updateButton {
   display:none;
 }
 
 #side {
-  float: left;
-  padding-top: 1em;
-  padding-left: 1em;
-  padding-bottom: 1em;
-  width: 10em;
-  background: #feb;
+  display:none;
 }
 
 #side a {
@@ -308,7 +313,7 @@ h1 {
 #store .entry  .price {
   color: #44a;
   font-weight: bold;
-  margin-right: 2em;
+  margin-right: 0em;
 }
 
 /* START:inline */
@@ -364,7 +369,7 @@ h1 {
 }
 
 .depot-form label {
-  width: 5em;
+  width: 0em;
   float: left;
   text-align: right;
   padding-top: 0.2em;

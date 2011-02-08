@@ -107,11 +107,14 @@ class TeachingRecordsController < ApplicationController
   # PUT /teaching_records/1.xml
   def update
     @teaching_record = TeachingRecord.find(params[:id])
+    if params[:drop]
+      @teaching_record.current = false
+    end
 
     respond_to do |format|
       if @teaching_record.update_attributes(params[:teaching_record])
         #flash[:notice] = 'TeachingRecord was successfully updated.'
-        format.html { redirect_to(teaching_records_path) }
+        format.html { redirect_to(family_path(@teaching_record.family)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

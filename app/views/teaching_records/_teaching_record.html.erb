@@ -1,7 +1,7 @@
 <% events ||= Array.new %>
 <% if teaching_record != nil %>
   <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('teaching-record', 'blind');
-      return false;">Teaching Record </a> 
+      return false;">Teaching Record </a>  
     <div id="teaching-record" class="teaching-record">
       <div>
 
@@ -9,36 +9,47 @@
   <legend>General Info</legend>
   <% form_for(teaching_record) do |f| %>
     <%= f.error_messages %>
-
-    <% if !teaching_record.current %>
-      <b>
-      This record has been dropped and is no longer part of the ward teaching pool.<br>
-      If you would like to restore it please check the box and press update
-      <br> <br>
-      <%= f.check_box :current  %> Restore
-      </b>
-      <br> <br>
-
-    <% end %> 
+    <div class='noPrint'>
+      <% if teaching_record.current %>
+        <%= check_box_tag 'drop', true, false, 
+          {:onchange => "showElement('updateButton')"} %>
+          Drop Record
+        <% else %>
+          <b>
+            This record has been dropped and is no longer part of the ward teaching pool.<br>
+            If you would like to restore it please check the box and press update
+            <br> <br>
+            <%= f.check_box :current, :onchange => "showElement('updateButton')" %> Restore
+            </b> &nbsp; &nbsp; &nbsp; &nbsp; 
+            <%= link_to 'Permanently Delete', teaching_record, 
+                                              :confirm => 'Are you sure?', 
+                                              :method => :delete %>
+            <br> 
+          <% end %> 
+        </div>
     <p>
       Responsible Organization:
-      <%= f.select :organization, wardOrganizations, :default => "Ward Mission" %> 
+      <%= f.select :organization, wardOrganizations, {:default => "Ward Mission"}, {:onchange => "showElement('updateButton')"} %> 
       &nbsp; &nbsp; &nbsp; 
       Category:
-      <%= f.select :category, teachingRecordStatus, :include_blank => true %> <br />
+      <%= f.select :category, teachingRecordStatus, {:include_blank => true}, {:onchange => "showElement('updateButton')"} %><br />
     </p>
     <p>
       Fellowshipper:
-      <%= f.select :person_id, @fellowShippers, :include_blank => true %> <br />
+      <%= f.select :person_id, @fellowShippers, {:include_blank => true}, {:onchange => "showElement('updateButton')"} %> <br />
     </p>
     <p>
       Next Milestone Goal:
-      <%= f.select :membership_milestone, memberMilestones  %>
+      <%= f.select :membership_milestone, memberMilestones, {}, {:onchange => "showElement('updateButton')"} %>
       Goal Date:
-      <%= f.date_select :milestone_date_goal, :include_blank => true, :discard_year => true %>
+      <%= f.date_select :milestone_date_goal, {:include_blank => true, :discard_year => true}, 
+                                              { :onchange => "showElement('updateButton')"}  %>
     </p>
     <p>
-      <%= f.submit 'Update' %>
+      <div id='updateButton'>
+        <%= f.submit 'Update' %>
+        <%= link_to "Cancel", "" %>
+      </div>
     </p>
   <% end %>
 </fieldset>

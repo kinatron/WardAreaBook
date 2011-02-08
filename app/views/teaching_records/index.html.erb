@@ -1,8 +1,8 @@
-<h1>Teaching Pool</h1>
-<p>
-  <%= link_to 'New teaching_record', new_teaching_record_path %>
-</p>
-
+<h1>Teaching Pool &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+  <div id='actionButtons'>
+    <%= button_to_function 'New Teaching Record', "location.href='#{new_teaching_record_path}'" %>
+  </div>
+</h1>
 <% @records.each do |organization| %>
   <fieldset class="depot-form">
     <legend><%= organization[0] %></legend>

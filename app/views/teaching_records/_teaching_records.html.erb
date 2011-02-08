@@ -9,7 +9,6 @@
     <th width="70">Last lesson</th>
     <th width="340">Action Items</th>
     <th width="200">Next Milestone</th>
-    <th width="50"> </th>
   </tr>
 </thead>
 <tbody>
@@ -42,10 +41,6 @@
     <td> <%= link_to 'restore', :controller => 'teaching_records', 
                                 :action => "archive", :id => teaching_record, 
                                 :restore => 'true' %></td>
-  <% else %>
-    <td> <%= link_to 'drop',    :controller => 'teaching_records', 
-                                :action => "archive", 
-                                :id => teaching_record %></td>
   <% end %>
   </tr>
 <% end %>
