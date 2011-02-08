@@ -8,9 +8,9 @@
 }
 
 .teaching-record {
-  width: 800px;
+  width: 650px;
   background: #feb;
-  padding: 10px 20px;
+  padding: 5px 10px;
 }
 
 .teaching-record fieldset {
@@ -23,11 +23,11 @@
   background: #9c9;
   border-color:black;
   font-family: sans-serif;
-  padding: 0.2em 1em;
+  padding: 0px 10px;
 }
 
 .teaching-record select {
-  font: 12px serif;
+  font: 90% serif;
 }
 
 .hoverme:hover {
@@ -215,23 +215,15 @@ h1 {
 /* Styles for main page */
 
 #banner {
-  background: #9c9;
-  padding-top: 10px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid;
-  font: small-caps 40px/40px "Times New Roman", serif;
-  color: #000;
-  text-align: center;
+  display:none;
+  height:0px
 }
 
 #banner img {
   float: left;
 }
 #banner div {
-  width: 110px;
-  padding-right: 10px;
-  font: small-caps 15px/15px "Times New Roman", serif;
-  float: right;
+  display:none;
 }
 
 
