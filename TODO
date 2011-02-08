@@ -1,11 +1,11 @@
 =====================================================================================
 TODO's 
 =====================================================================================
+0. Nice landing pages.
+
 1. Make events editable like comments
 2. When a new comment is created I would like the focus window to go onto it.
 3. have a cancel button on the status changes. (like the comments)
-
-4. Nice landing pages.
 
 5. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
 
@@ -14,15 +14,15 @@ TODO's
 =====================================================================================
 CSS and Presentation
 ========================
-
-1. Fix the hover issues with IE
-1. Remove the dots and line up the columns
+1. Style sheet clean up!!!
+2. Remove the dots and line up the columns. Events and Assigments
    Afa, James and Tamara
        July 22 - Visit - Taught the Word of Wisdom. Brother xxx is really
                          Struggline with smoking right now.  I need to add
                          some additional text right here
        July 24 - Attempt - Tried to follup
 
+1. Fix the hover issues with IE
 
 =====================================================================================
 Reports
