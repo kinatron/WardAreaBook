@@ -1,12 +1,16 @@
 <h1>Listing users</h1>
 
-<table>
-  <tr>
-    <th>Email Address</th>
-    <th>Access Level</th>
-    <th>Last Login</th>
-    <th>&nbsp;</th>
-  </tr>
+<table class='sorttable'>
+  <thead>
+    <tr>
+      <th>Email Address</th>
+      <th>Access Level</th>
+      <th>Last Login</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+
+
 
 <% @users.each do |user| %>
   <%  
@@ -22,7 +26,13 @@
   <tr>
     <td><%=h user.name %></td>
     <td><%=h access_level %></td>
-    <td><%=h user.last_login %></td>
+    <% if user.last_login %>
+      <td sorttable_customkey="<%=h user.last_login.strftime('%Y/%m/%d') %>">
+        <%= user.last_login %>
+      </td>
+    <% else %>
+      <td><%=h "" %></td>
+    <% end %>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

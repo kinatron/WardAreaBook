@@ -35,38 +35,35 @@
           </td>
         </tr>
       </table>
-      <p>
         <b>Status:</b>
-        <div id='family_status' class='editable_comment'>
+        <span id='family_status' class='editable_comment'>
           <%= render(:partial => "family_status", 
                      :object => @family, 
                      :locals => {:update => nil}) %>
-                   </div>
-                 </p>
+        </span>
+      <p>
+        <b>Information:</b> 
+        <div id="comments">
+          <%= render(:partial => "comments/comment", :collection => @family.comments) %>
+        </div>
+      </p>
+      <br>
 
-                 <p>
-                   <b>Information:</b> <br />
-                   <div id="comments">
-                     <%= render(:partial => "comments/comment", :collection => @family.comments) %>
-                   </div>
-                 </p>
-                 <br>
+      <div id="new comment" class ="noPrint">
+        <%= render(:partial => "submit_button") %>
+      </div>
 
-                 <div id="new comment" class ="noPrint">
-                   <%= render(:partial => "submit_button") %>
-                 </div>
+      <br><br>
+      <% unless @family.member %>
+        <%= link_to 'Edit family details', edit_family_path(@family) %>
+        <br><br>
 
-                 <br><br>
-                 <% unless @family.member %>
-                   <%= link_to 'Edit family details', edit_family_path(@family) %>
-                   <br><br>
-
-                   <%= link_to 'Merge records', :controller => 'families', 
+        <%= link_to 'Merge records', :controller => 'families', 
                      :action => 'mergeRecords', 
                      :family => @family %> 
-                     <br><br><br>                                     
+        <br><br><br>                                     
 
-                   <% end %>
-                 </div>
-               </div>
-             </li>
+      <% end %>
+    </div>
+  </div>
+</li>

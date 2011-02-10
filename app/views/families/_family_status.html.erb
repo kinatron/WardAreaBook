@@ -1,7 +1,6 @@
 <% if update %>
   <% remote_form_for @family do |f| %>
     <%= f.error_messages %>
-    <p>
       <% if @family.member == false %>
         <%= f.select :status, nonmemberType %>
       <% else %> 
@@ -9,7 +8,7 @@
       <% end %>
       &nbsp;
       <%= f.submit 'Update' %>
-    </p>
+      <%= link_to 'cancel', "", {:style=>'text-decoration:underline'}%>
   <% end %>
 <% else %>
   <span style='background-color: <%= statusColor(@family.status) -%>'>
