@@ -1,8 +1,9 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-2. Remove the dots and line up the columns. Events and Assigments
-   Afa, James and Tamara
+2. Landing page might not be working on the main site.
+2. Remove the dots and line up the columns. Events, Assigments, Hope Report, Monthly Report
+   Afani, Rod and Susan
        July 22 - Visit   - Taught the Word of Wisdom. Brother xxx is really
                            Struggline with smoking right now.  I need to add
                            some additional text right here
@@ -45,12 +46,12 @@ Performance
 ================
 1.  The Select box names
      Verify if this list is getting cached? 
-1. Caching for the monthly and hope reports.  I need to clear the cache on updates.
-* Caching TODO sweepers wasn't working for the families controller.  I instead used explict action_expire commands
+2. Caching TODO sweepers wasn't working for the families controller.  I instead used explict action_expire commands
 
 =====================================================================================
 Other
 ================
+1. Mailings
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 2. When a new comment is created I would like the focus window to go onto it.
 1. Make events editable like comments - Comments is sort of like an inplace editor
