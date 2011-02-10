@@ -23,6 +23,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :teaching_records
 
+  map.connect '/', :controller => 'users', :action => 'home'
+  map.connect '/home', :controller => 'users', :action => 'home'
   map.resources :users
 
   map.connect '/WardListUpdates', :controller => 'people', :action => 'WardListUpdates'

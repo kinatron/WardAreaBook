@@ -111,6 +111,43 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     end
   end
 
+  # TODO DRY
+  def save_personal_action
+    @limit = 3
+    @action_item = ActionItem.find(params[:id])
+    #TODO error handling
+    if @action_item.update_attributes(params[:action_item])
+      #    @action_item.save
+      @person = @action_item.person
+      render :update do |page|
+        page.replace_html("open-actions", 
+                          :partial => "action_items/action_items",
+                          :object => @person.open_action_items,
+                          :locals => {:checkbox => true,
+                            :ward_representative => false,
+                            :form_action => "save_personal_action",
+                            :editable => true} ) 
+
+        page.replace_html("closed-actions", 
+                          :partial => "action_items/action_items",
+                          :object => @person.closed_action_items,
+                          :locals => {:checkbox => true,
+                            :editable => true,
+                            :ward_representative => false,
+                            :form_action => "save_personal_action",
+                            :listLimit => @limit,
+                            :option_for_more => (@person.closed_action_items[@limit] != nil),
+                            :conditions => "person_id==#{@person.id}"}) 
+      end
+    else 
+      #TODO error handling!!
+      render :update do |page|
+        page.replace_html("updated-action-list", 
+                          :partial => "action_items/action_item")
+      end
+    end
+  end
+
   def save_family_action
     @action_item = ActionItem.find(params[:id])
     #TODO error handling

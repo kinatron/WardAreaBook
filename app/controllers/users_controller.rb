@@ -8,6 +8,14 @@ class UsersController < ApplicationController
     render :layout => 'admin'
   end
 
+  def home
+    @limit = 3
+    @person = Person.find(session[:user_id])
+    @openActionItems   = @person.open_action_items
+    @closedActionItems = @person.closed_action_items
+    render :layout => 'WardAreaBook'
+  end
+
   # GET /users/1
   # GET /users/1.xml
   def show
@@ -80,13 +88,13 @@ protected
 # TODO you've given access for anyone to create modify or delete users.
 
   def authorize
-    unless params[:action] == 'new' || params[:action] == 'create'
+    unless params[:action] == 'new' || params[:action] == 'create' || params[:action] == 'home'
       super
     end
   end
 
   def checkAccess
-    unless action_name == "new" or action_name == "create"   
+    unless action_name == "new" or action_name == "create" or action_name == "home"  
       if hasAccess(3)
         true
       else

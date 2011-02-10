@@ -1,9 +1,9 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
+include RedirectBack
 class ApplicationController < ActionController::Base
   before_filter :authorize, :checkAccess, :except => :login
-  include RedirectBack
   helper :all # include all helpers, all the time
 
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
@@ -39,12 +39,28 @@ class ApplicationController < ActionController::Base
     user.last_login = Date.today
     user.save
 
-    # TODO Get this working
-    #redirect_to(uri || {:controller => 'families'})
-    if hasAccess(2)
-      redirect_to(:controller => 'families')
+    # Landing page
+    # if they are trying to refrence a page 
+    #    goto page unless it's
+    # elsif they have open action items 
+    #   goto home
+    # else
+    #   goto family page
+    hasActions = person.open_action_items.size > 0
+    if uri =~ /login/i
+      if hasActions
+        redirect_to(:controller => 'users', :action => 'home')
+      else
+        redirect_to(:controller => 'families')
+      end
+    elsif uri == nil
+      if hasActions
+        redirect_to(:controller => 'users', :action => 'home')
+      else
+        redirect_to(:controller => 'families')
+      end
     else
-      redirect_to(:controller => 'families', :action => 'members')
+      redirect_to(uri)
     end
   end
 
@@ -111,19 +127,13 @@ protected
   end
 
   def deny_access
-      flash[:notice] = "User '#{session[:user_name]}' does not have access to that page"
-      if request.env["HTTP_REFERER"]  
-        (redirect_to :back)  
-      else
-        #redirect_to session[:home_url]
-        #TODO this should go back to the page they just came from
-        if hasAccess(2)
-          redirect_to(:controller => 'families')
-        else
-          redirect_to(:controller => 'families', :action => 'members')
-        end
-      end
-      return false
+    flash[:notice] = "User '#{session[:user_name]}' does not have access to that page"
+    if request.env["HTTP_REFERER"] and !request.env["HTTP_REFERER"].include?("login")
+      redirect_to :back  
+    else
+      redirect_to "/home"  
+    end
+    return false
   end
 
   # Scrub sensitive parameters from your log

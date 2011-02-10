@@ -2,12 +2,14 @@
 TODO's 
 =====================================================================================
 0. Nice landing pages.
-
+1. Personal Items - default at login (if action items exist)
+   The update for when we complete an action item needs work
+   
 1. Make events editable like comments
 2. When a new comment is created I would like the focus window to go onto it.
 3. have a cancel button on the status changes. (like the comments)
 
-5. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
+6. As well as make the last login sortable.
 
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 
@@ -17,9 +19,9 @@ CSS and Presentation
 1. Style sheet clean up!!!
 2. Remove the dots and line up the columns. Events and Assigments
    Afa, James and Tamara
-       July 22 - Visit - Taught the Word of Wisdom. Brother xxx is really
-                         Struggline with smoking right now.  I need to add
-                         some additional text right here
+       July 22 - Visit   - Taught the Word of Wisdom. Brother xxx is really
+                           Struggline with smoking right now.  I need to add
+                           some additional text right here
        July 24 - Attempt - Tried to follup
 
 1. Fix the hover issues with IE
@@ -61,7 +63,6 @@ Performance
 =====================================================================================
 Other
 ================
-1. Personal Items - default at login (if action items exist)
 3. email challenge for password
 1. Save action item as an event
 1. Access controll  - Isn't quite there Jen still has access to the people page.
@@ -73,6 +74,7 @@ Other
 3. Automatic form submission to change status
 5. Find a way to do dynamic selection lists
 8. Validate all input able data.
+5. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
 14. Add a feature request page.
 1. Tests
     - Accessing all of the pages.

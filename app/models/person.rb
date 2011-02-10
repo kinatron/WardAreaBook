@@ -3,6 +3,12 @@ class Person < ActiveRecord::Base
   has_many :teachingRoutes 
   has_many :action_items 
   has_many :events
+  has_many :open_action_items, :class_name => "ActionItem",
+                               :conditions => "status == 'open'",
+                               :order => 'due_date ASC, updated_at DESC'
+  has_many :closed_action_items, :class_name => "ActionItem",
+                                 :conditions => "status == 'closed'",
+                                 :order => 'updated_at DESC'
 
   ALL = self.find(:all, :order=>'name').map do |s|
     if s.name == "Elder and Sister"
