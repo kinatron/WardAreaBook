@@ -8,6 +8,7 @@
                :object => @openActionItems, 
                :locals => {:checkbox => true,
                  :ward_representative => false,
+                 :family => true,
                  :form_action => "save_personal_action",
                  :editable => true} ) %>
   <% end %>
@@ -20,6 +21,7 @@
                :object => @closedActionItems[0..@limit-1], 
                :locals => {:checkbox => true,
                  :editable => true,
+                 :family => true,
                  :ward_representative => false,
                  :form_action => "save_personal_action",
                  :listLimit => @limit,
