@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     render :layout => 'admin'
   end
 
-  def home
+  def todo
     @limit = 3
     @person = Person.find(session[:user_id])
     @openActionItems   = @person.open_action_items
@@ -88,13 +88,13 @@ protected
 # TODO you've given access for anyone to create modify or delete users.
 
   def authorize
-    unless params[:action] == 'new' || params[:action] == 'create' || params[:action] == 'home'
+    unless params[:action] == 'new' || params[:action] == 'create' || params[:action] == 'todo'
       super
     end
   end
 
   def checkAccess
-    unless action_name == "new" or action_name == "create" or action_name == "home"  
+    unless action_name == "new" or action_name == "create" or action_name == "todo"  
       if hasAccess(3)
         true
       else

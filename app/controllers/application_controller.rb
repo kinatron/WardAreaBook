@@ -40,27 +40,16 @@ class ApplicationController < ActionController::Base
     user.save
 
     # Landing page
-    # if they are trying to refrence a page 
-    #    goto page unless it's
-    # elsif they have open action items 
-    #   goto home
-    # else
-    #   goto family page
+    # first go to the todo page if they have any outstanding action items
+    # then go to any uri that they may have been trying to access
+    # if not go to the wardlist
     hasActions = person.open_action_items.size > 0
-    if uri =~ /login/i
-      if hasActions
-        redirect_to(:controller => 'users', :action => 'home')
-      else
-        redirect_to(:controller => 'families')
-      end
-    elsif uri == nil
-      if hasActions
-        redirect_to(:controller => 'users', :action => 'home')
-      else
-        redirect_to(:controller => 'families')
-      end
+    if hasActions
+        redirect_to(:controller => 'users', :action => 'todo')
+    elsif (uri != nil) and (uri =~ /login/i) == nil
+        redirect_to(uri)
     else
-      redirect_to(uri)
+        redirect_to(:controller => 'families')
     end
   end
 
@@ -91,6 +80,7 @@ class ApplicationController < ActionController::Base
 
 protected 
   def authorize
+    logger.info("-->#{session[:user_email]}<--")
     if session[:user_email] == nil
       flash[:notice] = "Please log in.  Or click on the 'Create a new Account' link to the left"
       session[:requested_uri] = request.request_uri
@@ -104,7 +94,6 @@ protected
       redirect_to :controller => 'login', :action => 'login'
       return
     end
-
     # Refresh the activity period
     refresh_session
   end
@@ -131,11 +120,11 @@ protected
     if request.env["HTTP_REFERER"] and !request.env["HTTP_REFERER"].include?("login")
       redirect_to :back  
     else
-      redirect_to "/home"  
+      redirect_to "/todo"  
     end
     return false
   end
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging :password
 end

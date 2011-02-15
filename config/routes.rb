@@ -23,8 +23,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :teaching_records
 
-  map.connect '/', :controller => 'users', :action => 'home'
-  map.connect '/home', :controller => 'users', :action => 'home'
+  map.connect '/todo', :controller => 'users', :action => 'todo'
   map.resources :users
 
   map.connect '/WardListUpdates', :controller => 'people', :action => 'WardListUpdates'
@@ -36,7 +35,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :roster
 
 
-#  map.connect '/login', :controller => 'families', :action => 'index'
+  map.connect '/login', :controller => 'login', :action => 'login'
+  map.connect '/login/login', :controller => 'login', :action => 'login'
   map.connect '/families/members/', :controller => 'families', :action => 'members'
   map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
   map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'

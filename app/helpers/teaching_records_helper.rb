@@ -80,6 +80,7 @@ module TeachingRecordsHelper
       ["Started Family Group Sheet" , "Started Family Group Sheet"],
       ["Melchizedek Priesthood" , "Melchizedek Priesthood"],
       ["Temple Baptism Trip" , "Temple Baptism Trip"],
+      ["Patriarchal Blessing" , "Patriarchal Blessing"],
       ["Temple Prep Class" , "Temple Prep Class"],
       ["Endowed" , "Endowed"],
       ["Family Sealed in the Temple" , "Family Sealed in the Temple"]

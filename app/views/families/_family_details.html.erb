@@ -29,8 +29,13 @@
           </td>
           <td style='border:none'>&nbsp;&nbsp;&nbsp;</td>
           <td style='border:none'> 
-            <% @family.teaching_routes.each do |teacher| %>
-              Home Teacher: <%= teacher.person.name + " " + teacher.person.family.name %> <br>
+            <% if @family.teaching_routes.size == 0 %>
+              <b>No Home Teachers have been <br>
+                 assigned to this family</b>
+            <% else %>
+              <% @family.teaching_routes.each do |teacher| %>
+                Home Teacher: <%= teacher.person.name + " " + teacher.person.family.name %> <br>
+              <% end %>
             <% end %>
           </td>
         </tr>
@@ -52,8 +57,6 @@
       <div id="new comment" class ="noPrint">
         <%= render(:partial => "submit_button") %>
       </div>
-
-      <br><br>
       <% unless @family.member %>
         <%= link_to 'Edit family details', edit_family_path(@family) %>
         <br><br>
