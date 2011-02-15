@@ -72,8 +72,10 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
 
   def wardActionItems 
     @actionItemOptions = ACTION_ITEM_OPTIONS
-    @open_action_items   = ActionItem.find_all_by_status("open", :order => 'due_date ASC, updated_at DESC' )
+    @open_action_items   = ActionItem.find_all_by_status("open", :order => 'person_id, due_date ASC, updated_at DESC' )
+
     @closed_action_items = ActionItem.find_all_by_status("closed", :order => 'updated_at DESC')
+
     @new_action_item = ActionItem.new
     @names = getMapping
     @families = getFamilyMapping
