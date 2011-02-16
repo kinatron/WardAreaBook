@@ -23,7 +23,11 @@ class Person < ActiveRecord::Base
   end
 
   def full_name
-    "#{name} #{family.name}"
+    if family.name == "Hope"
+      "The Hopes"
+    else
+      "#{name} #{family.name}"
+    end
   end
 
   def self.find_by_full_name(fullName)
