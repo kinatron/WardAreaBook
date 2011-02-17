@@ -1,19 +1,7 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-0. How about link to used records on the ward action page.
-1. I would like assignment page like the old mission
-   Ryan Mossier (link to Ryan's page)
-        | | Take out the trash
-        | | Call sister Peterson
-
-   Jake Alder 
-        | | Griffins - Set up appointment with the Griffins
-        | | Bluth - Recommend a calling to Bishop for sister Bluth
-
-   When an assignment gets completed only show the top 3 completed events.     
-
-2. Remove the "edit, delete" tags for printing.        
+1. Make Actions and events editable like comments - Comments is sort of like an inplace editor
 
 3. Mailings
 
@@ -70,7 +58,6 @@ Other
 ================
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 2. When a new comment is created I would like the focus window to go onto it.
-1. Make events editable like comments - Comments is sort of like an inplace editor
 1. Access control and redirects could use some more work.  Redirect to home page if there are action items
 3. email challenge for password
 1. Save action item as an event
