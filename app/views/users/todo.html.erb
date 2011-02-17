@@ -1,4 +1,4 @@
-<h1> Hello <%= session[:user_name] %></h1>
+<h1> <%= @person.full_name %></h1>
 
 <h3>Assigned Action Items:</h3>
 
@@ -18,14 +18,12 @@
 <div id='closed-actions'>
   <% if @closedActionItems.size > 0 %>
     <%= render(:partial => 'action_items/action_items', 
-               :object => @closedActionItems[0..@limit-1], 
+               :object => @closedActionItems, 
                :locals => {:checkbox => true,
                  :editable => true,
                  :family => true,
                  :ward_representative => false,
                  :form_action => "save_personal_action",
-                 :listLimit => @limit,
-                 :option_for_more => (@closedActionItems[@limit] != nil),
                  :conditions => "person_id==#{@person.id}"}) %>
 
   <% end %>

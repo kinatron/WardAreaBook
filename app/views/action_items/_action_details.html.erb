@@ -1,6 +1,6 @@
 <% ward_representative ||= false %>
 <% family   ||=false %>
-<% editable ||=false %>
+<% editable =false %>
 
 <% if action_details.status == 'closed' %>
   <span class='closed-actions'> 
@@ -9,12 +9,16 @@
 <% end %>
 
 <% if ward_representative %>
-  <%=h action_details.person.full_name %>  &#151;
+  <%= link_to "#{action_details.person.full_name}", 
+              {:controller =>'users', :action => 'todo', :id => action_details.person.id}, 
+              :class=>"subtile-links" %>
+  &#151;
 <% end %> 
 
 <% if family and action_details.family%>
-  <%=h action_details.family.head_of_house_hold %> 
-  <%=h action_details.family.name %>  &#151;
+  <%= link_to "#{action_details.family.head_of_house_hold} #{action_details.family.name}",
+      family_path(action_details.family), :class=>"subtile-links" %>
+  &#151;
 <% end %> 
 
 <%=h action_details.action %> 

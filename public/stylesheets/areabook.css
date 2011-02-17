@@ -31,6 +31,10 @@
   cursor: pointer;
 }
 
+#square {
+  list-style-type: square;
+}
+
 #nodot {
   list-style-type: none;
 }
@@ -110,6 +114,12 @@ h1 {
   text-decoration: none;
   color: black;
 }
+
+.subtile-links:hover {
+  background-color:   #bdb;
+  cursor: pointer;
+}
+
 
 #action-list table {
   border-collapse: collapse; 

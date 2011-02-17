@@ -34,6 +34,10 @@
   cursor: pointer;
 }
 
+#square {
+  list-style-type: square;
+}
+
 #nodot {
   list-style-type: none;
 }

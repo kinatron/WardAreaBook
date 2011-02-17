@@ -26,19 +26,37 @@ function hideElement(divId) {
   <hr>
 </div>
 
-<div id="updated-action-list">
-  <div id='open-actions'>
-    <%= render(:partial => "action_items/action_items",
-               :object => @open_action_items,
-               :locals => @actionItemOptions) %>
-  </div>
+<ul>
+  <% @person_actions.each do |assignee, tasks| %>
+    <li> 
+        <%= link_to(assignee.full_name, {:controller => 'users', 
+                                         :action => 'todo', 
+                                         :id => assignee.id },
+                                         :class => 'subtile-links') %>
+      <ul>
+        <div id="updated-action-list">
+          <div id='open-actions'>
+            <%= render(:partial => "action_items/action_items",
+                       :object => tasks,
+                       :locals => {:family => true,
+                                   :style => "id='square'",
+                                   :editable => true, }) %>
+          </div>
+        </div>
+      </ul>
+      <br>
+    </li>
+  <% end %>
+</ul>
   <br>
   <div id='closed-actions'>
     <%= render(:partial => 'action_items/action_items', 
-               :object => @closed_action_items[0..@limit-1],
-               :locals => @actionItemOptions.merge(:option_for_more => 
-               @closed_action_items[@limit] != nil)
+               :object => @closed_action_items,
+               :locals => {:ward_representative => true,
+                       :family => true,
+                       :editable => true,
+                       :style => "id='square'"}
+    
               ) %>
   </div>
 <br><br>
-<% link_to 'New action_item', new_action_item_path %>

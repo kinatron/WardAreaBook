@@ -6,11 +6,12 @@
 <% ward_representative ||= false %>
 <% family   ||=false %>
 <% editable ||=false %>
+<% style ||="id='nodot'" %>
 
 <% #TODO I need to find some globals %>
 <% listLimit ||= 5 %>
 <% action_items.each do |action| %>
-  <li id='nodot'>
+  <li <%=style%>>
     <%= render(:partial => 'action_items/action_item', :object => action,
                :locals => {:checkbox => checkbox,
                            :form_action => form_action,
@@ -20,7 +21,7 @@
   </li>
 <% end %>
 <% if option_for_more %>
-  <li id = 'nodot'>
+  <li id='nodot'>
     <%= link_to_remote "more action items...", 
                         :url => {:controller => 'action_items',
                                  :action => 'list_closed_action_items',

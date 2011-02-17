@@ -73,8 +73,12 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
   def wardActionItems 
     @actionItemOptions = ACTION_ITEM_OPTIONS
     @open_action_items   = ActionItem.find_all_by_status("open", :order => 'person_id, due_date ASC, updated_at DESC' )
+    @person_actions = @open_action_items.group_by { |assignee| assignee.person } 
+    
 
-    @closed_action_items = ActionItem.find_all_by_status("closed", :order => 'updated_at DESC')
+    @closed_action_items = ActionItem.find_all_by_status("closed", 
+                                                         :conditions => ['updated_at > ?',1.week.ago], 
+                                                         :order => 'updated_at DESC')
 
     @new_action_item = ActionItem.new
     @names = getMapping
@@ -133,13 +137,12 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
         page.replace_html("closed-actions", 
                           :partial => "action_items/action_items",
                           :object => @person.closed_action_items,
-                          :locals => {:checkbox => true,
-                            :editable => true,
-                            :ward_representative => false,
-                            :form_action => "save_personal_action",
-                            :listLimit => @limit,
-                            :option_for_more => (@person.closed_action_items[@limit] != nil),
-                            :conditions => "person_id==#{@person.id}"}) 
+                         :locals => {:checkbox => true,
+                           :editable => true,
+                           :family => true,
+                           :ward_representative => false,
+                           :form_action => "save_personal_action",
+                           :conditions => "person_id==#{@person.id}"}) 
       end
     else 
       #TODO error handling!!

@@ -10,7 +10,11 @@ class UsersController < ApplicationController
 
   def todo
     @limit = 3
-    @person = Person.find(session[:user_id])
+    if (params[:id])
+      @person = Person.find(params[:id])
+    else 
+      @person = Person.find(session[:user_id])
+    end
     @openActionItems   = @person.open_action_items
     @closedActionItems = @person.closed_action_items
     render :layout => 'WardAreaBook'

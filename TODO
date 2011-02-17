@@ -1,17 +1,34 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-2. Landing page might not be working on the main site.
-2. Remove the dots and line up the columns. Events, Assigments, Hope Report, Monthly Report
-   Afani, Rod and Susan
-       July 22 - Visit   - Taught the Word of Wisdom. Brother xxx is really
-                           Struggline with smoking right now.  I need to add
-                           some additional text right here
-       July 24 - Attempt - Tried to follup
+0. How about link to used records on the ward action page.
+1. I would like assignment page like the old mission
+   Ryan Mossier (link to Ryan's page)
+        | | Take out the trash
+        | | Call sister Peterson
+
+   Jake Alder 
+        | | Griffins - Set up appointment with the Griffins
+        | | Bluth - Recommend a calling to Bishop for sister Bluth
+
+   When an assignment gets completed only show the top 3 completed events.     
+
+2. Remove the "edit, delete" tags for printing.        
+
+3. Mailings
 
 =====================================================================================
 CSS and Presentation
 ========================
+
+1. Remove the dots and line up the columns. Assignments, Events, Hope Report, Monthly Report
+
+   Afani, Rod and Susan
+       Feb 22 - Visit   - Taught the Word of Wisdom. Brother xxx is really
+                           Struggline with smoking right now.  I need to add
+                           some additional text right here
+       Jul 24 - Attempt - Tried to follup
+
 1. Style sheet clean up!!!
 1. Fix the hover issues with IE
 
@@ -51,7 +68,6 @@ Performance
 =====================================================================================
 Other
 ================
-1. Mailings
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 2. When a new comment is created I would like the focus window to go onto it.
 1. Make events editable like comments - Comments is sort of like an inplace editor
