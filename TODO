@@ -58,14 +58,13 @@ Other
 ================
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 2. When a new comment is created I would like the focus window to go onto it.
-1. Access control and redirects could use some more work.  Redirect to home page if there are action items
 3. email challenge for password
 1. Save action item as an event
 1. Access controll  - Isn't quite there Jen still has access to the people page.
   c) Each controller/action has an acccess level
       - Levels of access
          1 - General Access  - TODO I think there is a cleaner way to do this
-         2 - PEC - They can access everything on the menues
+         2 - Ward Council - They can access everything on the menues
          3 - admin - can access events, users, and other hidden items
 3. Automatic form submission to change status
 5. Find a way to do dynamic selection lists
