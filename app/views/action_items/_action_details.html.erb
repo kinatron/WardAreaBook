@@ -2,6 +2,15 @@
 <% family   ||=false %>
 <% editable =false %>
 
+<% # add a touch of color %>
+<% if action_details.due_date < Date.today and action_details.status == 'open' %>
+  <% color = 'red' %>
+<% else %>
+  <% color = '' %>
+<% end %>
+
+<div style="color:<%=color%>;display:inline;">
+
 <% if action_details.status == 'closed' %>
   <span class='closed-actions'> 
 <% else %>
@@ -33,6 +42,9 @@
 <% if editable and action_details.issuer_id == session[:user_id] -%>
   <%= link_to 'Delete',:controller =>'action_items',:action => 'remove',:id=> action_details %>
 <% end %>
-<div id = 'action-item-comment-<%= action_details.id %>' style='text-indent: 4.5em'> 
-  <%=h action_details.comment %>
+<div id = 'action-item-comment-<%= action_details.id %>' style='display:inline'> 
+  <% if action_details.comment && action_details.comment.size > 0 %>
+    &nbsp;&nbsp;(<%=h action_details.comment %>)
+  <% end %>
+</div>
 </div>
