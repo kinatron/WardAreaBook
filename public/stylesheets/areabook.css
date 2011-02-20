@@ -99,6 +99,51 @@ h1 {
   color: #433;
 }
 
+.editable_action {
+  display:inline;
+}
+
+
+.action_item {
+  color:black; 
+  display:inline;
+}
+
+.action_item .comment{
+  display:block;
+}
+
+.action_item div{
+  display:inline;
+}
+
+.editable-action {
+  display:inline;
+}
+
+.editable-action a {
+  text-decoration: none;
+  color:black; 
+}
+
+.editable-action:hover { 
+  background-color: #fe0;
+}
+
+.editable-action .late a {
+  text-decoration: none;
+  color:red; 
+}
+
+.late {
+  display:inline;
+  color:red; 
+}
+.late a {
+  display:inline;
+  color:red; 
+}
+
 .editable_comment a {
   text-decoration: none;
   color:black; 

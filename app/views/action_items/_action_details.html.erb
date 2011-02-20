@@ -1,50 +1,59 @@
+
+<% #=================== Set Up ============================  -%>
 <% ward_representative ||= false %>
 <% family   ||=false %>
 <% editable =false %>
+<% hasAccessToEdit =false %>
+<% isEditable = "" %>
+<% isLate = "" %>
+<% isClosed = "open-actions" %>
 
-<% # add a touch of color %>
-<% if action_details.due_date < Date.today and action_details.status == 'open' %>
-  <% color = 'red' %>
-<% else %>
-  <% color = '' %>
-<% end %>
+<% # Can the user edit this action?  -%>
+<% if (action_details.issuer_id == session[:user_id] or 
+       action_details.person_id == session[:user_id]) 
+       isEditable = "editable-action"
+       hasAccessToEdit = true;
+end %>
 
-<div style="color:<%=color%>;display:inline;">
+<% # Is the action late? %>
+<% if (action_details.due_date < Date.today and 
+       action_details.status == 'open')
+       isLate = "late" 
+end %>
 
-<% if action_details.status == 'closed' %>
-  <span class='closed-actions'> 
-<% else %>
-  <span class='open-actions'> 
-<% end %>
+<% # Is the action completed? %>
+<% if action_details.status == 'closed'
+  isClosed = "closed-actions" 
+end %>
+
+<% #=================== Code Content ============================  -%>
 
 <% if ward_representative %>
   <%= link_to "#{action_details.person.full_name}", 
               {:controller =>'users', :action => 'todo', :id => action_details.person.id}, 
-              :class=>"subtile-links" %>
-  &#151;
+              :class=>"subtile-links" %> &#151;
 <% end %> 
 
-<% if family and action_details.family%>
-  <%= link_to "#{action_details.family.head_of_house_hold} #{action_details.family.name}",
-      family_path(action_details.family), :class=>"subtile-links" %>
-  &#151;
-<% end %> 
+<div class = '<%= isClosed %> <%= isLate %>'>
+  <% if family and action_details.family%>
+    <%= link_to "#{action_details.family.head_of_house_hold} #{action_details.family.name}",
+        family_path(action_details.family), :class=>"subtile-links" %> &#151;
+  <% end %> 
 
-<%=h action_details.action %> 
-(<%=h action_details.due_date %>)
+  <div class='<%=isEditable%>' >
+    <% if hasAccessToEdit %>
+      <%= link_to_remote "#{action_details.action} (#{action_details.due_date})",
+                          :url => {:controller => 'action_items', 
+                                   :action => 'edit_remotely', 
+                                   :id => action_details.id } %>
+    <% else %>
+      <%=h "#{action_details.action} (#{action_details.due_date})" %>
+    <% end %>
+  </div> <!-- IsEditable hover effects-->
+</div> <!-- IsClosed (strike through) isLate (red)-->
 
-</span>
-
-<% if editable and (action_details.issuer_id == session[:user_id] or 
-                    action_details.person_id == session[:user_id]) -%>
-  <%= link_to 'Edit',  :controller =>'action_items',:action => 'edit',  :id=> action_details %>
-<% end %>
-<% if editable and action_details.issuer_id == session[:user_id] -%>
-  <%= link_to 'Delete',:controller =>'action_items',:action => 'remove',:id=> action_details %>
-<% end %>
-<div id = 'action-item-comment-<%= action_details.id %>' style='display:inline'> 
+<div id = 'action-item-comment-<%= action_details.id %>'> 
   <% if action_details.comment && action_details.comment.size > 0 %>
     &nbsp;&nbsp;(<%=h action_details.comment %>)
   <% end %>
-</div>
-</div>
+</div> <!-- Action Comment -->

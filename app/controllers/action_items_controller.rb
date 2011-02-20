@@ -184,6 +184,24 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     end
   end
 
+  def edit_remotely
+    @action_item = ActionItem.find(params[:id])
+    @names = getMapping
+    @families = getFamilyMapping
+    respond_to do |format|
+      format.js {
+        render :update do |page|
+          page.replace_html("action_#{@action_item.id}", 
+                            :partial => 'edit_action_item',
+                            :object => @action_item,
+                            :locals => {:peopleList => @names,
+                                        :redirect => 'ward',
+                                        :familyList => @families})
+        end
+      }
+    end
+  end
+
   # GET /action_items/1/edit
   def edit
     @action_item = ActionItem.find(params[:id])

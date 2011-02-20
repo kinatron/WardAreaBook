@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :store_return_point, :only =>[:todo]
   layout 'login'
 
   # GET /users

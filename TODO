@@ -1,7 +1,9 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Make Actions and events editable like comments - Comments is sort of like an inplace editor
+0. Verify the the action items work for Wardpage, personal  & family.
+1. Ajax the saving of an action item
+2. Events editable like comments - Comments is sort of like an inplace editor
 
 3. Mailings
 
