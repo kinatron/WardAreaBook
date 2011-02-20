@@ -7,6 +7,7 @@
 <% isEditable = "" %>
 <% isLate = "" %>
 <% isClosed = "open-actions" %>
+<% showDate = action_details.due_date %>
 
 <% # Can the user edit this action?  -%>
 <% if (action_details.issuer_id == session[:user_id] or 
@@ -24,6 +25,7 @@ end %>
 <% # Is the action completed? %>
 <% if action_details.status == 'closed'
   isClosed = "closed-actions" 
+  showDate = action_details.updated_at.strftime("%b %d")
 end %>
 
 <% #=================== Code Content ============================  -%>
@@ -42,7 +44,7 @@ end %>
 
   <div class='<%=isEditable%>' >
     <% if hasAccessToEdit %>
-      <%= link_to_remote "#{action_details.action} (#{action_details.due_date})",
+      <%= link_to_remote "#{action_details.action} (#{showDate})",
                           :url => {:controller => 'action_items', 
                                    :action => 'edit_remotely', 
                                    :id => action_details.id } %>
