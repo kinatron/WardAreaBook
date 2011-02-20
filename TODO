@@ -1,9 +1,11 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-0. Verify the the action items work for Wardpage, personal  & family.
-1. Ajax the saving of an action item
+1. Why isn't Ruth Mortons name showing up in the family list.
 2. Events editable like comments - Comments is sort of like an inplace editor
+
+1. Teaching Record Updates. 
+    c) Create action items if fellowshipper, or milestone dates are not set.
 
 3. Mailings
 
@@ -25,8 +27,6 @@ CSS and Presentation
 =====================================================================================
 Reports
 ================
-1. Teaching Record Updates. 
-    c) Create action items if fellowshipper, or milestone dates are not set.
 1. update scripts
     - minor todo's
     - When members change their names create an option to transfer any options to the new person
@@ -58,6 +58,8 @@ Performance
 =====================================================================================
 Other
 ================
+1. When an action time is done I would like the completion date inserted instead. (Right now it's just doing the "updated_at" date.
+1. Ajax the saving of an action item. DRY you're already doing this in other places.
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 2. When a new comment is created I would like the focus window to go onto it.
 3. email challenge for password

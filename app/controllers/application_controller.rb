@@ -80,7 +80,6 @@ class ApplicationController < ActionController::Base
 
 protected 
   def authorize
-    logger.info("-->#{session[:user_email]}<--")
     if session[:user_email] == nil
       flash[:notice] = "Please log in.  Or click on the 'Create a new Account' link to the left"
       session[:requested_uri] = request.request_uri
