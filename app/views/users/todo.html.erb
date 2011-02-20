@@ -1,4 +1,30 @@
-<h1> <%= @person.full_name %></h1>
+<script type="text/javascript">
+function showElement(divId) {
+  var div = document.getElementById(divId);
+  div.style.display = "inline";
+}
+function hideElement(divId) {
+  var div = document.getElementById(divId);
+  div.style.display = "none";
+}
+</script>
+
+<h1> <%= @person.full_name %>
+  <div id='actionButtons' > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
+    <%= button_to_function("New Action Item", "showElement('new-action');
+                                               hideElement('actionButtons');")%>
+  </div>
+</h1>
+
+<div id = 'new-action' style='display:none;'> 
+  <%= render(:partial => 'action_items/new_action_item', 
+             :object => @new_action_item,
+             :locals => {:peopleList => @names,
+                         :assignee => @person,
+                         :redirect => 'ward',
+                         :familyList => @families}) %>
+  <hr>
+</div>
 
 <h3>Assigned Action Items:</h3>
 

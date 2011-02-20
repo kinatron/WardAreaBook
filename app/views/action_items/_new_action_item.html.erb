@@ -1,12 +1,17 @@
 <% peopleList ||= nil %>
 <% familyList ||= nil %>
 <% redirect ||= 'family' %>
+<% assignee ||= nil %>
 <% form_for(@new_action_item, :url => {:controller => 'action_items', 
             :action => 'create', :redirect => redirect})  do |f| %>
   <%= f.error_messages %>
   <p>
     Ward Representative 
-    <%= f.select :person_id, peopleList, {:selected => session[:user_id]} %> <br />
+    <% if assignee != nil %>
+      <%= f.select :person_id, peopleList, {:selected => assignee.id} %> <br />
+    <% else %>
+      <%= f.select :person_id, peopleList, {:selected => session[:user_id]} %> <br />
+    <% end %>
   </p>
   <p>
     For Family 

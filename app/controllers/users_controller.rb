@@ -18,6 +18,9 @@ class UsersController < ApplicationController
     end
     @openActionItems   = @person.open_action_items
     @closedActionItems = @person.closed_action_items
+    @new_action_item = ActionItem.new
+    @names = getMapping
+    @families = getFamilyMapping
     render :layout => 'WardAreaBook'
   end
 
