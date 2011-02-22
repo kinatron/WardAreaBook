@@ -3,6 +3,7 @@
 
 include RedirectBack
 class ApplicationController < ActionController::Base
+  before_filter :contruction
   before_filter :authorize, :checkAccess, :except => :login
   helper :all # include all helpers, all the time
 
@@ -12,6 +13,10 @@ class ApplicationController < ActionController::Base
   # Minutes of inactivity before relogin
   INACTIVITY_PERIOD = 60
   CLOSED_ACTION_LIMIT = 3
+
+  def contruction
+    redirect_to("/construction.html")
+  end
 
   def load_session(user)
     person = Person.find_by_current_and_email(true, user.name)
