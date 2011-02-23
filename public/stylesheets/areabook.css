@@ -16,6 +16,7 @@
 .teaching-record fieldset {
   background: #ffd;
   border-color:gray;
+  width:600px;
 }
 
 .teaching-record legend {
@@ -409,6 +410,7 @@ h1 {
 
 .depot-form fieldset {
   background: #efe;
+  width:600px;
 }
 
 .depot-form legend {

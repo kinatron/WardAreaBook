@@ -72,7 +72,7 @@ module TeachingRecordsHelper
     [
       ["Baptized" , "Baptized"],
       ["Interview with the Bishop" , "Interview with the Bishop"],
-      ["Priesthood Ordiniation" , "Priesthood Ordiniation"],
+      ["Priesthood Ordination" , "Priesthood Ordination"],
       ["Attending Gospel Prin" , "Attending Gospel Prin"],
       ["Begin new member lessons" , "Begin new member lessons"],
       ["Has been given a calling" , "Has been given a calling"],

@@ -131,6 +131,7 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
                           :object => @person.open_action_items,
                           :locals => {:checkbox => true,
                             :ward_representative => false,
+                            :family => true,
                             :form_action => "save_personal_action",
                             :editable => true} ) 
 
@@ -153,6 +154,7 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     end
   end
 
+  #TODO DRY
   def save_family_action
     @action_item = ActionItem.find(params[:id])
     #TODO error handling

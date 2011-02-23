@@ -2,7 +2,7 @@
 <% #=================== Set Up ============================  -%>
 <% ward_representative ||= false %>
 <% family   ||=false %>
-<% editable =false %>
+<% editable ||=false %>
 <% hasAccessToEdit =false %>
 <% isEditable = "" %>
 <% isLate = "" %>
@@ -10,7 +10,7 @@
 <% showDate = action_details.due_date %>
 
 <% # Can the user edit this action?  -%>
-<% if (action_details.issuer_id == session[:user_id] or 
+<% if editable and (action_details.issuer_id == session[:user_id] or 
        action_details.person_id == session[:user_id]) 
        isEditable = "editable-action"
        hasAccessToEdit = true;

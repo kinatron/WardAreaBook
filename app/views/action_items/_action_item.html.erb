@@ -22,7 +22,9 @@
 
       <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em' class = 'comment'> 
         <%= f.text_area(:comment, :rows=> 1) %>
-        <%= f.submit "save" %>
+        <%= f.submit "save" %> &nbsp;&nbsp;
+        <%= link_to 'Cancel' %>
+
       </div>
     <% end %> <!-- end of the form above -->
   <% else %>  <!-- if 'not' checkbox -->

@@ -1,13 +1,13 @@
 <% peopleList ||= nil %>
 <% familyList ||= nil %>
 <% redirect ||= 'family' %>
+<fieldset class='teaching-record'>
+  <legend> Edit Action Item </legend>
 <% form_for(edit_action_item, :url => {:controller => 'action_items', 
             :action => 'update', :id => edit_action_item.id })  do |f| %>
   <%= f.error_messages %>
     <%= f.select :person_id, peopleList %>
-    <% if edit_action_item.family %>
-      <%= f.select :family_id, familyList, {:include_blank => true} %> 
-    <% end %>    
+    <%= f.select :family_id, familyList, {:include_blank => true} %> 
     <br>
     <%= f.text_area :action, :cols => 80, :rows => 1%>
   <p>
@@ -20,8 +20,7 @@
     </p>
     
   <p>
-    <%= f.submit 'update' %>
-    &nbsp;
+    <%= f.submit 'update' %> &nbsp; &nbsp;
     <%= link_to 'Cancel', :back %>
     <% if edit_action_item.issuer_id == session[:user_id] %>
       <%= link_to 'Delete',:controller =>'action_items',
@@ -30,3 +29,4 @@
     <% end %>
   </p>
 <% end %>
+</fieldset>

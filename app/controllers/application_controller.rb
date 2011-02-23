@@ -3,7 +3,6 @@
 
 include RedirectBack
 class ApplicationController < ActionController::Base
-  before_filter :contruction
   before_filter :authorize, :checkAccess, :except => :login
   helper :all # include all helpers, all the time
 
