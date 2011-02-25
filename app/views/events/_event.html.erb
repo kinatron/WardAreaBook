@@ -1,13 +1,39 @@
-<li>
-  <%=h event.date.strftime("%m/%d") %>&#151;
-  <%=h event.category %>&#151;
-  <% if event.person %>
-    <%=h event.person.name%>&nbsp;
-    <% if event.person.family.name == "Hope" %>
-      Hopes&#151;
+<% #=================== Set Up ============================  -%>
+<% editable ||= true %>
+<% hasAccessToEdit =false %>
+<% isEditable = "" %>
+
+<% # Can the user edit this action?  -%>
+<% if editable and (event.author == session[:user_id] or 
+                    event.person_id == session[:user_id]) 
+  isEditable = "editable-action"
+  hasAccessToEdit = true;
+end %>
+
+<% # TODO there's got to be a better way -%>
+<%  
+if event.person 
+  wardRep = event.person.full_name + " &#151"
+else
+  wardRep = ""
+end
+%>
+  
+<% #=================== Partial Content ============================  -%>
+<div id = "event_<%=event.id%>"> 
+  <div class='<%=isEditable%>' >
+    <% if hasAccessToEdit %>
+      <%= link_to_remote "#{event.date} &#151; #{wardRep} 
+                          #{event.category} &#151; #{event.comment}",
+          :url => {:controller => 'events', 
+          :action => 'edit_remotely', 
+          :id => event.id } %>
+
     <% else %>
-      <%=h event.person.family.name%>&#151;
+      <%=h event.date %> &#151;
+      <%= wardRep %> 
+      <%=h event.category %> &#151;
+      <%=h event.comment %>
     <% end %>
-  <% end %>
-  <%=h event.comment %>
-</li>
+  </div>
+</div>

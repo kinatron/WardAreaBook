@@ -1,15 +1,11 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Events editable like comments - Comments is sort of like an inplace editor
-
-2. For the Home teaching show a last updated date on the main home teaching page.
-
+1. Why are there 3 entries for Vil Tupou
 3. Reports
     c) Create action items if fellowshipper, or milestone dates are not set.
 
 4. Mailings
-
 =====================================================================================
 CSS and Presentation
 ========================
@@ -76,6 +72,7 @@ Other
 8. Validate all input able data.
 5. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
 14. Add a feature request page.
+15. DRY combine comments, events, and action items.
 1. Tests
     - Accessing all of the pages.
     - Form generation

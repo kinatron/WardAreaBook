@@ -76,8 +76,7 @@ class ApplicationController < ActionController::Base
 
   
   def getFamilyMapping
-    @families = Family.find(:all, :order => :member, 
-                            :conditions => "current=='t'").map do |s|
+    @families = Family.find_all_by_current(true, :order => 'name').map do |s| 
       [s.name + "," + s.head_of_house_hold, s.id]
     end
   end

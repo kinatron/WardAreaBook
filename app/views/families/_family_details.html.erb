@@ -56,6 +56,7 @@
 
       <div id="new comment" class ="noPrint">
         <%= render(:partial => "submit_button") %>
+        <br>
       </div>
       <% unless @family.member %>
         <%= link_to 'Edit family details', edit_family_path(@family) %>

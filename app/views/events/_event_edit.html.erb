@@ -1,0 +1,38 @@
+<% peopleList ||= nil %>
+<% familyList ||= nil %>
+<% showFamily ||= false %>
+
+<fieldset class='teaching-record'>
+  <legend> Edit Event Item </legend>
+  <% form_for(event_edit, :url => {:controller => 'events', 
+              :action => 'update_remotely', :id => event_edit.id })  do |f| %>
+    <%= f.error_messages %>
+    <p>
+    Date: <%= f.date_select :date %>
+    </p>
+    <p>
+      Ward Rep: <%= f.select :person_id, Person::ALL, :include_black => "true" %> 
+      <% if showFamily %>
+        <p>
+          Family: <%= f.select :family_id, getFamilyMapping %> <br>
+        </p>
+      <% end %>
+    </p>
+    <p>
+      Category: <%= f.select :category, getEvents(event_edit.family) %> <br>
+    </p>
+    
+  <p>
+    <%= f.label :comment %><br />
+    <%= f.text_area :comment, :cols=>60,:rows=>2 %>
+  </p>
+  Author:<%= Person.find(@event.author).full_name %><br>
+    <%= f.submit "update" %> &nbsp; &nbsp;
+    <%= link_to "Cancel", "" %>
+    <% if event_edit.author == session[:user_id] %>
+      <%= link_to 'Delete',:controller =>'events',
+                           :action => 'remove',
+                           :id=> event_edit %>
+    <% end %>
+  <% end %>
+</fieldset>

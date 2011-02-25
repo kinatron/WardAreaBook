@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110104233630) do
+ActiveRecord::Schema.define(:version => 20110224214429) do
 
   create_table "action_items", :force => true do |t|
     t.integer  "family_id"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(:version => 20110104233630) do
     t.integer "family_id"
     t.integer "person_id"
     t.string  "category"
+    t.date    "last_update", :default => '2011-02-24'
   end
 
   create_table "users", :force => true do |t|

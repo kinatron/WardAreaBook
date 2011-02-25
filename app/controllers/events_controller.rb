@@ -10,7 +10,33 @@ class EventsController < ApplicationController
   def all_family_events
     @family = Family.find(params[:id])
     render :update do |page|
-      page.replace_html('family-events', :partial => "events/list_events", :object => @family.events)
+      page.replace_html('family-events', 
+                        :partial => "events/list_events", 
+                        :object => @family.events)
+    end
+  end
+
+  def edit_remotely
+    @event = Event.find(params[:id])
+    render :update do |page|
+      page.replace_html("event_#{@event.id}", 
+                        :partial => "events/event_edit", 
+                        :object => @event)
+    end
+  end
+
+  def update_remotely
+    @event = Event.find(params[:id])
+
+    respond_to do |format|
+      if @event.update_attributes(params[:event])
+        #flash[:notice] = 'Event was successfully updated.'
+        format.html { redirect_back }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
+      end
     end
   end
 

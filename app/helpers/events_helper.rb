@@ -18,4 +18,12 @@ module EventsHelper
     end
   end
 
+  def getEvents(family)
+    if family.teaching_record and family.teaching_record.current
+      teachingRecordEvents + memberMilestones
+    else
+      eventCategories
+    end
+  end
+
 end

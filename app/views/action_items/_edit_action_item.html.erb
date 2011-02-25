@@ -18,6 +18,9 @@
       Other Comments:<br>
       <%= f.text_area :comment, :cols => 60, :rows => 1%>
     </p>
+    <p>
+      Requested by: <%= Person.find(edit_action_item.issuer_id).full_name %>
+    </p>
     
   <p>
     <%= f.submit 'update' %> &nbsp; &nbsp;
