@@ -1,0 +1,31 @@
+<% #=================== Set Up ============================  -%>
+<% editable ||= true %>
+<% hasAccessToEdit =false %>
+<% isEditable = "" %>
+
+<% # Can the user edit this action?  -%>
+<% if editable and (event_table.author == session[:user_id] or 
+                    event_table.person_id == session[:user_id]) 
+  isEditable = "editable"
+  hasAccessToEdit = true;
+end %>
+
+<% options = {:url => {:controller => 'events',
+                      :action => 'edit_remotely',
+                      :id => event_table.id }} %>
+
+<% #=================== Partial Content ============================  -%>
+<div id="event_<%=event_table.id%>" >
+<% if hasAccessToEdit %>
+  <tr class="<%=isEditable%>" onclick="<%= remote_function(options) %>">
+<% else %>
+  <tr>
+<% end %>
+  <td> <%=h event_table.date %> </td>
+  <td>&mdash;</td>
+  <td> <%= event_table.getCategory %> </td>
+  <td class='comment'>
+    <%= event_table.getComment %>
+  </td>
+</tr>
+</div>

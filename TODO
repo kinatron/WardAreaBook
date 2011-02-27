@@ -1,31 +1,16 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Why are there 3 entries for Vil Tupou
-3. Reports
-    c) Create action items if fellowshipper, or milestone dates are not set.
-
 4. Mailings
-=====================================================================================
-CSS and Presentation
-========================
 
-1. Remove the dots and line up the columns. Assignments, Events, Hope Report, Monthly Report
 
-   Afani, Rod and Susan
-       Feb 22 - Visit   - Taught the Word of Wisdom. Brother xxx is really
-                           Struggline with smoking right now.  I need to add
-                           some additional text right here
-       Jul 24 - Attempt - Tried to follup
-
-1. Style sheet clean up!!!
-1. Fix the hover issues with IE
 
 =====================================================================================
 Reports
 ================
+0. Create action items if fellowshipper, or milestone dates are not set.
 1. update scripts
-    - minor todo's
+    - minor todo's Remove warning on the server
     - When members change their names create an option to transfer any options to the new person
        (Brother Jorgensen issue)
 1. Why isn't brother Clarks access level updated?
@@ -102,3 +87,17 @@ Opening up to Paul
     
     Remove the Hopes... 
     automate the bishop
+
+=====================================================================================
+CSS and Presentation
+========================
+1. Remove the dots and line up the columns. Assignments, Events, Hope Report, Monthly Report
+   Afani, Rod and Susan
+       Feb 22 - Visit     - Ryan Kinateder - Taught the Word of Wisdom. Brother xxx is really
+                            Struggline with smoking right now.  I need to add
+                            some additional text right here
+
+       Jul 24 - Milestone - Tried to follup
+
+1. Style sheet clean up!!!
+1. Fix the hover issues with IE

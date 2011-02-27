@@ -100,6 +100,30 @@ h1 {
   color: #433;
 }
 
+
+.events {
+  border:0px none;
+  margin-left: 2em;
+}
+
+.events td {
+  border:0px solid;
+  table-layout:auto;
+  padding: 7px 2px;
+  vertical-align: top;
+  text-align: left;
+  color: black;
+}
+
+.events .comment {
+  width:600px;
+}
+
+.events .editable:hover {
+  background-color: #fe0;
+  cursor: pointer;
+}
+
 .editable_action {
   display:inline;
 }
@@ -129,6 +153,7 @@ h1 {
 
 .editable-action:hover { 
   background-color: #fe0;
+  cursor: pointer;
 }
 
 .editable-action .late a {
@@ -152,6 +177,7 @@ h1 {
 
 .editable_comment a:hover { 
   background-color: #bdb;
+  cursor: pointer;
 }
 
 /* Styles for products/index */
