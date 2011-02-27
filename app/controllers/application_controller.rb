@@ -62,15 +62,7 @@ class ApplicationController < ActionController::Base
   # often.
   def getMapping
     @@names ||= Person.find_all_by_current(true, :order=>'name').map do |s|
-      if s.family
-        if s.family.name == "Hope"
-          ["The Hopes", s.id]
-        else
-          [s.name.split(" ")[0] + " " + s.family.name, s.id]
-        end
-      else
-        [s.name.split(" ")[0], s.id]
-      end
+      [s.full_name, s.id]
     end
   end
 

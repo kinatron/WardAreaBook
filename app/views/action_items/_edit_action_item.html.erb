@@ -6,21 +6,34 @@
 <% form_for(edit_action_item, :url => {:controller => 'action_items', 
             :action => 'update', :id => edit_action_item.id })  do |f| %>
   <%= f.error_messages %>
-    <%= f.select :person_id, peopleList %>
-    <%= f.select :family_id, familyList, {:include_blank => true} %> 
-    <br>
+  <p>
+    <div style='float:left'>
+      Ward Representative:<br>
+      <%= f.select :person_id, peopleList %>
+    </div>
+    <div style='float:right'>
+      Family:<br>
+      <%= f.select :family_id, familyList, {:include_blank => true} %> 
+    </div>
+  </p>
+  <p>
+    <br> <br> 
+  </p>
+  <p>
+    Assignment:<br>
     <%= f.text_area :action, :cols => 80, :rows => 1%>
+  </p>
   <p>
     Due Date
     <%= f.date_select :due_date, :default => 7.days.from_now %>
   </p>
-    <p>
-      Other Comments:<br>
-      <%= f.text_area :comment, :cols => 60, :rows => 1%>
-    </p>
-    <p>
-      Requested by: <%= Person.find(edit_action_item.issuer_id).full_name %>
-    </p>
+  <p>
+    Other Comments:<br>
+    <%= f.text_area :comment, :cols => 60, :rows => 1%>
+  </p>
+  <p>
+    Requested by: <%= Person.find(edit_action_item.issuer_id).full_name %>
+  </p>
     
   <p>
     <%= f.submit 'update' %> &nbsp; &nbsp;
