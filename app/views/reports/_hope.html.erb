@@ -1,10 +1,10 @@
 <% visits = hope.group_by { |event| event.family_id} %> 
 <% visits.each do |family_id, events| %>
   <% family = Family.find(family_id) %>
-  <div onClick = "window.location.href='<%= family_path(family) %>'" style = "cursor:pointer" >
-    <%= family.name %>,&nbsp;<%= family.head_of_house_hold %>
-  </div>
-<ul>
-  <%= render(:partial => "hope_event", :collection => events) %>
-</ul>
+  <%= link_to "#{family.name}, #{family.head_of_house_hold}", 
+              family_path(family), :class=> 'subtile-links' %>
+  <ul>
+    <%= render(:partial => "hope_event", :collection => events) %>
+    <br>
+  </ul>
 <% end %>

@@ -180,6 +180,10 @@ h1 {
   cursor: pointer;
 }
 
+.justPrint {
+  display:none;
+}
+
 /* Styles for products/index */
 
 .subtile-links {
