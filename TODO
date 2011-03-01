@@ -1,12 +1,16 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-4. Mailings
+1. Fix the login case sensitivity (determine if this is an issue)
+2. Assign Auxilary heads to people
+3. on the stats page show the families that are active or not.
+4. Create action items if fellowshipper, or milestone dates are not set.
+
+5. Mailings
 
 =====================================================================================
 Reports
 ================
-0. Create action items if fellowshipper, or milestone dates are not set.
 1. update scripts
     - minor todo's Remove warning on the server
     - When members change their names create an option to transfer any options to the new person
@@ -67,7 +71,6 @@ Other
 ========================================================================
 Opening up to Paul
 ========================================================================
-1. Get WardAreaBook.com
 2. Create a project for paul.
 3. Replace "Burien Ward" with a database entry
 4. Create a ward creation page for Paul
