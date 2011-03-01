@@ -1,12 +1,10 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Fix the login case sensitivity (determine if this is an issue)
-2. Assign Auxilary heads to people
-3. on the stats page show the families that are active or not.
+1. On the assignments page have everthing link to the user todo list.
+2. on the stats page show the families that are active or not.
+3. Mailings for overdue action items.
 4. Create action items if fellowshipper, or milestone dates are not set.
-
-5. Mailings
 
 =====================================================================================
 Reports

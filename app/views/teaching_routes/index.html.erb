@@ -32,7 +32,9 @@
   <tr class="<%=cycle('list-line-odd','list-line-even')%>"> 
     <td><%=h route.category %></td>
     <td class='cell' onclick = "window.location.href='<%= family_path(route.family) %>'">
-      <%=h route.family.name + ", " + route.family.head_of_house_hold %>
+      <div class='hidexxx'>
+        <%=h route.family.name + ", " + route.family.head_of_house_hold %>
+      </div>
     </td>
     <% lastEvent = getLastHomeTeacherVisit(route.family) %>
     <td sorttable_customkey="<%= getHomeTeachingVisitDateSortable(lastEvent)%>"
@@ -47,5 +49,4 @@
   </tr>
 <% end %>
 </table>
-
 <br />

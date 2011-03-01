@@ -5,7 +5,7 @@
 </h1>
 <% @records.each do |organization| %>
   <fieldset class="depot-form">
-    <legend><%= organization[0] %></legend>
+    <legend><%= organization[0] %>  (<%= organization[1][0].getLeaderName %>) </legend>
     <div id = <%= organization[0] %> >
       <%= render(:partial => 'teaching_records', :object => organization[1]) %>
     </div>

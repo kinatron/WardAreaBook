@@ -20,6 +20,32 @@ module TeachingRecordsHelper
     end
   end
 
+  def leaders
+    {
+      "Ward Mission"  => "Ward Mission Leader", 
+      "Elders Quorum" => "Elders Quorum President", 
+      "High Priests"  => "High Priest Group Leader", 
+      "Young Mens"    => "Young Men President", 
+      "Relief Society" => "Relief Society President",
+      "Young Womens"  => "Young Women President",
+      "Primary"       => "Primary President",
+      "Bishopric"     => "Bishop"
+    }
+  end
+
+  def getLeader(org)
+    calling = leaders[org]
+    calling = Calling.find_by_job(calling)
+    if calling and calling.person
+      return calling.person.full_name
+    else
+      "unassigned"
+    end
+  end
+
+
+
+
   def wardOrganizations
     [
       ["Ward Mission"  , "Ward Mission"], 
@@ -28,7 +54,8 @@ module TeachingRecordsHelper
       ["Young Mens" , "Young Mens"], 
       ["Relief Society" , "Relief Society"],
       ["Young Womens" , "Young Womens"],
-      ["Primary" , "Primary"]
+      ["Primary" , "Primary"],
+      ["Bishopric" , "Bishopric"]
     ]
   end
 
