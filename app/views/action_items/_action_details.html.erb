@@ -1,5 +1,6 @@
 <% #=================== Set Up ============================  -%>
 <% ward_representative ||= false %>
+<% noLinks ||= false %>
 <% family   ||=false %>
 <% editable ||=false %>
 <% hasAccessToEdit =false %>
@@ -30,15 +31,23 @@ end %>
 <% #=================== Code Content ============================  -%>
 
 <% if ward_representative %>
-  <%= link_to "#{action_details.person.full_name}", 
+  <% if noLinks %>
+    <%= "#{action_details.person.full_name}" %> &#151; 
+  <% else %>
+    <%= link_to "#{action_details.person.full_name}", 
               {:controller =>'users', :action => 'todo', :id => action_details.person.id}, 
               :class=>"subtile-links" %> &#151;
+  <% end %>
 <% end %> 
 
 <div class = '<%= isClosed %> <%= isLate %>'>
   <% if family and action_details.family%>
-    <%= link_to "#{action_details.family.head_of_house_hold} #{action_details.family.name}",
+    <% if noLinks %>
+      <%= "#{action_details.family.head_of_house_hold} #{action_details.family.name}" %> &#151; 
+    <% else %>
+      <%= link_to "#{action_details.family.head_of_house_hold} #{action_details.family.name}",
         family_path(action_details.family), :class=>"subtile-links" %> &#151;
+    <% end %> 
   <% end %> 
 
   <div class='<%=isEditable%>' >

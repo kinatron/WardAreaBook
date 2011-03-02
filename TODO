@@ -1,10 +1,9 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. On the assignments page have everthing link to the user todo list.
+1. Mailings for overdue action items.
+
 2. on the stats page show the families that are active or not.
-3. Mailings for overdue action items.
-4. Create action items if fellowshipper, or milestone dates are not set.
 
 =====================================================================================
 Reports
@@ -40,14 +39,14 @@ Performance
 =====================================================================================
 Other
 ================
+0. Create action items if fellowshipper, or milestone dates are not set.
 1. When an action time is done I would like the completion date inserted instead. (Right now it's just doing the "updated_at" date.
 1. Ajax the saving of an action item. DRY you're already doing this in other places.
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 2. When a new comment is created I would like the focus window to go onto it.
-3. email challenge for password
 1. Save action item as an event
-1. Access controll  - Isn't quite there Jen still has access to the people page.
-  c) Each controller/action has an acccess level
+1. Authentication - AuthLogic
+2. Authorization - CanCan / or Authorization Plugin
       - Levels of access
          1 - General Access  - TODO I think there is a cleaner way to do this
          2 - Ward Council - They can access everything on the menues
@@ -90,6 +89,7 @@ Opening up to Paul
 =====================================================================================
 CSS and Presentation
 ========================
+0. Add a top level menu and reduce the stuff on the right had side.  
 1. Remove the dots and line up the columns. Assignments, Events, Hope Report, Monthly Report
    Afani, Rod and Susan
        Feb 22 - Visit     - Ryan Kinateder - Taught the Word of Wisdom. Brother xxx is really

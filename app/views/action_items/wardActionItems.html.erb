@@ -29,21 +29,21 @@ function hideElement(divId) {
 <ul>
   <% @person_actions.each do |assignee, tasks| %>
     <li> 
-        <%= link_to(assignee.full_name, {:controller => 'users', 
-                                         :action => 'todo', 
-                                         :id => assignee.id },
-                                         :class => 'subtile-links') %>
-      <ul>
-        <div id="updated-action-list">
-          <div id='open-actions'>
-            <%= render(:partial => "action_items/action_items",
-                       :object => tasks,
-                       :locals => {:family => true,
-                                   :style => "id='square'",
-                                   :editable => false, }) %>
-          </div>
-        </div>
-      </ul>
+      <div id='open-actions' 
+           class = "cell"
+           onclick="window.location.href='<%= url_for(:controller => 'users',
+                                                      :action => 'todo',
+                                                      :id => assignee.id ) %>'" >
+        <%= assignee.full_name %>
+        <ul>
+          <%= render(:partial => "action_items/action_items",
+                     :object => tasks,
+                     :locals => {:family => true,
+                                 :style => "id='square'",
+                                 :noLinks => true}
+                    ) %>
+        </ul>
+      </div>
       <br>
     </li>
   <% end %>

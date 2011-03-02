@@ -10,6 +10,10 @@ class UsersController < ApplicationController
   end
 
   def todo
+    unless hasAccess(2)
+      redirect_to families_path
+      return
+    end
     @limit = 3
     if (params[:id])
       @person = Person.find(params[:id])
@@ -96,7 +100,7 @@ protected
 # TODO you've given access for anyone to create modify or delete users.
 
   def authorize
-    unless params[:action] == 'new' || params[:action] == 'create' || params[:action] == 'todo'
+    unless params[:action] == 'new' || params[:action] == 'create' 
       super
     end
   end

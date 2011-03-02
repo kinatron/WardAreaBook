@@ -4,7 +4,7 @@
 <% ward_representative ||= false %>
 <% family   ||=false %>
 <% editable ||=false %>
-
+<% noLinks  ||=false %>
 <div id = 'action_<%= action_item.id %>' class = 'action_item'>
   <% if checkbox %>
     <% form_remote_for action_item, :url => {:controller => 'action_items', 
@@ -18,6 +18,7 @@
                  :object => action_item,
                  :locals => {:ward_representative => ward_representative,
                              :editable => editable,
+                             :noLinks => noLinks,
                              :family => family}) -%>
 
       <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em' class = 'comment'> 
@@ -32,6 +33,7 @@
                :object => action_item,
                :locals => {:ward_representative => ward_representative,
                            :editable => editable,
+                           :noLinks => noLinks,
                            :family => family}) %>
   <% end %>
 </div>

@@ -5,11 +5,13 @@
 <% form_action ||= false %>
 <% ward_representative ||= false %>
 <% family   ||=false %>
+<% noLinks  ||=false %>
 <% editable ||=false %>
 <% style ||="id='nodot'" %>
 
-<% #TODO I need to find some globals %>
+<% #TODO I need to define some globals %>
 <% listLimit ||= 5 %>
+
 <% action_items.each do |action| %>
   <li <%=style%>>
     <%= render(:partial => 'action_items/action_item', :object => action,
@@ -17,6 +19,7 @@
                            :form_action => form_action,
                            :ward_representative => ward_representative,
                            :family => family,
+                           :noLinks => noLinks,
                            :editable => editable}) %>
   </li>
 <% end %>
