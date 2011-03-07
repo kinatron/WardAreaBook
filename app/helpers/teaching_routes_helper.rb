@@ -63,11 +63,11 @@ module TeachingRoutesHelper
 
   def getLastHomeTeacherVisitColor(event)
     unless event == nil
-      if event.date > Date.today.at_beginning_of_month
+      if event.date >= Date.today.at_beginning_of_month
         return "#00ff00"
-      elsif event.date > Date.today.months_ago(1).at_beginning_of_month
+      elsif event.date >= Date.today.months_ago(1).at_beginning_of_month
         return "cyan"
-      elsif event.date > Date.today.months_ago(2).at_beginning_of_month 
+      elsif event.date >= Date.today.months_ago(2).at_beginning_of_month 
         return "yellow"
       end
     end

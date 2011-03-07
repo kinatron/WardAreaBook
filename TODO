@@ -3,11 +3,12 @@ TODO's
 =====================================================================================
 1. Mailings for overdue action items.
 
-2. on the stats page show the families that are active or not.
+2. on the stats page show the families my their different categories. 
 
 =====================================================================================
 Reports
 ================
+0. Create action items if fellowshipper, or milestone dates are not set.
 1. update scripts
     - minor todo's Remove warning on the server
     - When members change their names create an option to transfer any options to the new person
@@ -39,7 +40,6 @@ Performance
 =====================================================================================
 Other
 ================
-0. Create action items if fellowshipper, or milestone dates are not set.
 1. When an action time is done I would like the completion date inserted instead. (Right now it's just doing the "updated_at" date.
 1. Ajax the saving of an action item. DRY you're already doing this in other places.
 1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
@@ -53,7 +53,7 @@ Other
          3 - admin - can access events, users, and other hidden items
 3. Automatic form submission to change status
 5. Find a way to do dynamic selection lists
-8. Validate all input able data.
+8. Validate all input data.
 5. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
 14. Add a feature request page.
 15. DRY combine comments, events, and action items.
