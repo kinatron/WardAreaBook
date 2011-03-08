@@ -208,6 +208,7 @@ begin
   elders.save
   elders = Person.find(2)
   elders.current=1
+  elders.member=0
   elders.save
 
   cards = Vpim::Vcard.decode(open("#{UPDATEDIR}/WardList.vcf"))
