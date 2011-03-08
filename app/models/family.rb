@@ -29,7 +29,14 @@ class Family < ActiveRecord::Base
     return false
   end
 
+  def lastVisit
+    self.events.first(:conditions => "category != 'Attempt' and 
+                                      category != 'Other' and 
+                                      category is not NULL")
+  end
+
   def mergeTo(familyRecord)
+    #TODO append action items
     begin
       # Copy over the events
       self.events.each do |event|
@@ -58,4 +65,17 @@ class Family < ActiveRecord::Base
       self.delete
     end
   end
+
+
+  def self.visitedWithinTheLastMonths(monthsAgo)
+    targetDate = Date.today.months_ago(monthsAgo).at_beginning_of_month
+    events = Event.find(:all, 
+                        :conditions => ["(category != 'Attempt' and category != 'Other' and category is not NULL) and date >=?", targetDate])
+
+    events.delete_if { |x| x.family.current==false or 
+                           x.family.status=='moved' or x.family.member == false}
+    families = events.group_by { |family| family.family_id}
+    return families
+  end
+
 end

@@ -19,6 +19,22 @@
 var stIsIE = /*@cc_on!@*/false;
 
 sorttable = {
+  reload: function() {
+    // kill the timer
+    if (_timer) clearInterval(_timer);
+    
+    if (!document.createElement || !document.getElementsByTagName) return;
+    
+    sorttable.DATE_RE = /^(\d\d?)[\/\.-](\d\d?)[\/\.-]((\d\d)?\d\d)$/;
+    
+    forEach(document.getElementsByTagName('table'), function(table) {
+      if (table.className.search(/\bsorttable\b/) != -1) {
+        sorttable.makeSortable(table);
+      }
+    });
+    
+  },
+
   init: function() {
     // quit if this function has already been called
     if (arguments.callee.done) return;

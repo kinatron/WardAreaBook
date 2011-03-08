@@ -1,58 +1,92 @@
 <h1>Ward Profile &mdash; <%= @total %> Families (<%= @totalMembers %> Individuals)</h1>
 <p>
   <div class='forceWidth'>
-    <div style="background-color:<%= statusColor('active') %>"> 
+    <div style="background-color:<%= statusColor('active') %>" 
+      onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showActive' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       Active &ndash; <%= @active %> <br>
       <%= getPercentage(@active,@total) %>%
     </div> 
-    <div style="background-color:<%= statusColor('less active') %>"> 
+    <div style="background-color:<%= statusColor('less active') %>" 
+      onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showLessActive' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       Less Active &ndash; <%= @lessActive %>  <br>
       <%= getPercentage(@lessActive,@total) %>%
     </div> 
-    <div style="background-color:<%= statusColor('Not Interested') %>"> 
+    <div style="background-color:<%= statusColor('Not Interested') %>" 
+      onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showNotInterested' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       Not Interested &ndash; <%=@notInterested %> <br>
       <%= getPercentage(@notInterested,@total) %>%
     </div> 
-    <div style="background-color:<%= statusColor('dnc') %>"> 
+    <div style="background-color:<%= statusColor('dnc') %>" 
+      onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showDNC' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       DNC &ndash; <%=@dnc %><br>
       <%= getPercentage(@dnc,@total) %>%
     </div> 
-    <div style="background-color:<%= statusColor('Unknown/New') %>"> 
+    <div style="background-color:<%= statusColor('Unknown/New') %>" 
+      onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showUnknown' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       Unknown/New &ndash; <%=@unknown %><br>
       <%= getPercentage(@unknown,@total) %>%
     </div> 
   </div>
 </p>
 <br><br>
-<br>
 <br><br>
 <h1>Percentage of Families in the Ward who have been visited</h1>
 <p>
   <div class='forceWidth'>
-    <div>
+    <div onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showThisMonth' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       This Month &ndash; <%= this = familiesVisited(0) %> <br>
       <%= getPercentage(this,@total) %>%
     </div>
-    <div>
+    <div onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showTwoMonths' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       Last Month &ndash; <%= last = familiesVisited(1) %> <br>
       <%= getPercentage(last,@total) %>%
     </div>
-    <div>
+    <div onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showThreeMonths' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       Last 3 Months &ndash; <%= month3= familiesVisited(3) %> <br>
       <%= getPercentage(month3,@total) %>%
     </div>
-    <div>
+    <div onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showSixMonths' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       Last 6 Months &ndash; <%= month6= familiesVisited(6) %> <br>
       <%= getPercentage(month6,@total) %>%
     </div>
-    <div>
+    <div onclick="<%= remote_function(:url => {:controller => 'stats', 
+                                     :action => 'showYear' },
+                                     :complete => 'sorttable.reload()'
+                                  ) %>" > 
       Last Year &ndash; <%= year = familiesVisited(12) %> <br>
       <%= getPercentage(year,@total) %>%
     </div>
   </div>
   <br><br><br>
 </p>
-<br><br><br>
-<br><br><br>
-<br><br><br>
-<br><br><br>
+<hr>
+<div id = show_stuff>
+  <%= render :partial => "families/list_families", :object => @activeFamilies %>
+</div>

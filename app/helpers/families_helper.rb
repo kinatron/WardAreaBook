@@ -26,15 +26,8 @@ module FamiliesHelper
     end
   end
 
-  def getLastVisit(family)
-    lastVisit = family.events.first(:conditions => 
-                                    "category != 'Attempt' and
-                                     category != 'Other' and 
-                                     category is not NULL")
-    end
-                                     
   def getLastVisitDate(family)
-    lastVisit = getLastVisit(family)
+    lastVisit = family.lastVisit
     if lastVisit != nil
       lastVisit.date.to_s(:sortable)
     else
@@ -43,7 +36,7 @@ module FamiliesHelper
   end
 
   def getLastVisitDateSortable(family)
-    lastVisit = getLastVisit(family)
+    lastVisit = family.lastVisit
     if lastVisit != nil
       lastVisit.date.strftime("%Y%m%d")
     else
@@ -53,7 +46,7 @@ module FamiliesHelper
     
 
   def getLastVisitComment(family)
-    lastVisit = getLastVisit(family)
+    lastVisit = family.lastVisit
     if lastVisit != nil
       truncate(lastVisit.comment, :length => 100) 
     else

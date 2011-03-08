@@ -28,7 +28,7 @@
 }
 
 .hoverme:hover {
-  background-color:   #bdb;
+  background-color: #bdb;
   cursor: pointer;
 }
 
@@ -63,6 +63,10 @@
   float: left;
   text-align: center;
   margin-right: 30px;
+}
+.forceWidth div:hover {
+  background-color: #bdb;
+  cursor: pointer;
 }
 
 /* START:notice */
@@ -192,7 +196,7 @@ h1 {
 }
 
 .subtile-links:hover {
-  background-color:   #bdb;
+  background-color: #bdb;
   cursor: pointer;
 }
 
@@ -269,7 +273,7 @@ h1 {
 }
 .list-line-even:hover {
   color:   red;
-  background-color:   #bdb;
+  background-color: #bdb;
   cursor: pointer;
 }
 
@@ -277,8 +281,7 @@ h1 {
   background:   #ffd;
 }
 .list-line-odd:hover {
-  color:   red;
-  background-color:   #bdb;
+  background-color: #bdb;
   cursor: pointer;
 }
 

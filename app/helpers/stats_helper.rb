@@ -1,13 +1,7 @@
 module StatsHelper
   #TODO refactor these three methods
   def familiesVisited(monthsAgo)
-    targetDate = Date.today.months_ago(monthsAgo).at_beginning_of_month
-    events = Event.find(:all, 
-                        :conditions => ["(category != 'Attempt' and category != 'Other' and category is not NULL) and date >=?", targetDate])
-
-    events.delete_if {|x| x.family.current==false or x.family.status=='moved'}
-    families = events.group_by { |family| family.family_id}
-    families.keys.size
+    Family.visitedWithinTheLastMonths(monthsAgo).size
   end
 
   def moveOuts(periodInMonths)

@@ -3,8 +3,6 @@ TODO's
 =====================================================================================
 1. Mailings for overdue action items.
 
-2. on the stats page show the families my their different categories. 
-
 =====================================================================================
 Reports
 ================
@@ -40,24 +38,27 @@ Performance
 =====================================================================================
 Other
 ================
-1. When an action time is done I would like the completion date inserted instead. (Right now it's just doing the "updated_at" date.
-1. Ajax the saving of an action item. DRY you're already doing this in other places.
-1. Let the admin add non-members to the wardlist (missionaries) and escalate privs
-2. When a new comment is created I would like the focus window to go onto it.
-1. Save action item as an event
-1. Authentication - AuthLogic
-2. Authorization - CanCan / or Authorization Plugin
-      - Levels of access
+1. Fatten your models.  Event.find_by_etc should be in the models as a method.
+1. List requested by in the todo action items list.
+2. When an action time is done I would like the completion date inserted instead. (Right now it's just doing the "updated_at" date.
+3. Ajax the saving of an action item. DRY you're already doing this in other places.
+4. Let the admin add non-members to the wardlist (missionaries) and escalate privs
+5. When a new comment is created I would like the focus window to go onto it.
+6. Save action item as an event
+7. Authentication - AuthLogic
+8. Authorization - CanCan / or Authorization Plugin
+     - Levels of access
          1 - General Access  - TODO I think there is a cleaner way to do this
          2 - Ward Council - They can access everything on the menues
          3 - admin - can access events, users, and other hidden items
-3. Automatic form submission to change status
-5. Find a way to do dynamic selection lists
-8. Validate all input data.
-5. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
-14. Add a feature request page.
-15. DRY combine comments, events, and action items.
-1. Tests
+9. Automatic form submission to change status
+10. Find a way to do dynamic selection lists
+11. Validate all input data.
+12. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
+13. Add a feature request page.
+14. DRY combine comments, events, and action items.
+15. Add a profile page - Levels of spam.  Action Items, when assigned, weekly reminder
+15. Tests
     - Accessing all of the pages.
     - Form generation
     - Creating users
