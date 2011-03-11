@@ -1,7 +1,15 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Mailings for overdue action items.
+1. Mailings    
+    - Remove passwords and submit
+
+2. Authentication - AuthLogic
+3. Authorization - CanCan / or Authorization Plugin
+     - Levels of access
+         1 - General Access  - TODO I think there is a cleaner way to do this
+         2 - Ward Council - They can access everything on the menues
+         3 - admin - can access events, users, and other hidden items
 
 =====================================================================================
 Reports
@@ -38,6 +46,13 @@ Performance
 =====================================================================================
 Other
 ================
+3. Allow Head of an Organization to assign new heads.   
+0. Mailings    
+    - Newly assigned action items.
+    - recently complelted (where I am the requestor)
+    - Events for my families
+    - Events for my teaching pool visits for my families
+1. Clean up the html  There are a lot of spaces and carriage returns
 1. Fatten your models.  Event.find_by_etc should be in the models as a method.
 1. List requested by in the todo action items list.
 2. When an action time is done I would like the completion date inserted instead. (Right now it's just doing the "updated_at" date.
@@ -45,12 +60,6 @@ Other
 4. Let the admin add non-members to the wardlist (missionaries) and escalate privs
 5. When a new comment is created I would like the focus window to go onto it.
 6. Save action item as an event
-7. Authentication - AuthLogic
-8. Authorization - CanCan / or Authorization Plugin
-     - Levels of access
-         1 - General Access  - TODO I think there is a cleaner way to do this
-         2 - Ward Council - They can access everything on the menues
-         3 - admin - can access events, users, and other hidden items
 9. Automatic form submission to change status
 10. Find a way to do dynamic selection lists
 11. Validate all input data.

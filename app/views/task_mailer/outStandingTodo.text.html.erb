@@ -1,0 +1,26 @@
+<p>
+  Hello <%= @person.name %> 
+</p>
+<p>
+You have the following open action items: <br>
+</p>
+<p>
+  <ul>
+    <% @actionItems.each do |action| %>
+      <li>
+        <% if action.family %>
+          <%= "#{action.family.head_of_house_hold} #{action.family.name}" %> &mdash;
+        <% end %>
+        <%= action.action %>
+      </li>
+    <% end %>
+  </ul> 
+</p>
+<p>
+  Please log onto the <%= link_to "AreaBook","BurienWardMission.com/todo" %> and update the progress of any of these action items.
+</p>
+
+<p>
+Thanks,<br>
+The AreaBook :)
+</p>

@@ -13,6 +13,30 @@ config.action_controller.consider_all_requests_local = true
 config.action_view.debug_rjs                         = true
 config.action_controller.perform_caching             = false
 
-# Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = false
+# Mail
+# config/environments/development.rb
+config.action_mailer.raise_delivery_errors = true
+
+# set delivery method to :smtp, :sendmail or :test
+config.action_mailer.delivery_method = :smtp
+
+config.action_mailer.smtp_settings = {
+  :address => "xxx",
+  :authentication => :login,
+  :user_name => "xxx",
+  :password => "xxx"
+}
+
+# these options are only needed if you choose smtp delivery
+=begin
+config.action_mailer.smtp_settings = {
+  :address => "smtp.gmail.com", 
+  :port => 587, 
+  :authentication => :plain, 
+  :enable_starttls_auto => true, 
+  :user_name => "xxxx", 
+  :password => "xxxx" 
+}
+=end
+
 ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/public/cache"

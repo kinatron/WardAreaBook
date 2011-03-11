@@ -27,4 +27,20 @@ class Event < ActiveRecord::Base
       "#{wardRep}" 
     end
   end
+
+  def getHomeTeachers
+    homeTeachers = Array.new
+    if self.family.teaching_routes.size == 0
+      # TODO get this more explicitly
+      
+      homeTeachers << Calling.find_by_job("Elders Quorum President")
+      homeTeachers << Calling.find_by_job("High Priest Group Leader")
+    else
+      self.family.teaching_routes.each do |route|
+        homeTeachers << route.person
+      end
+    end
+    homeTeachers
+  end
+
 end

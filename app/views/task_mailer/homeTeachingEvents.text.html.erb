@@ -1,0 +1,27 @@
+<p>
+  Hello <%= @hometeacher.name %> 
+</p>
+<p>
+  One of your Home Teaching families was just visted by the Missionaries<br>
+  Please contact Elder and Sister Hope (206-371-8210) or the full time Elders (206-898-4151) <br>
+  and see if there is anything you can do to help them followship your families.
+</p>
+<p>
+  <ul>
+    <% @events.each do |event| %>
+      <li>
+        <%= event.date%> &mdash; 
+        <%= event.family.full_name %> &mdash; 
+        <% if event.person %>
+        <%= event.person.full_name %> &mdash; 
+        <% end %>
+        <%= event.category %> &mdash; 
+        <%= event.comment %>
+      </li>
+    <% end %>
+  </ul> 
+  </p>
+  <p>
+    Thanks,<br>
+    The AreaBook :)
+  </p>

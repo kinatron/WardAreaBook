@@ -22,8 +22,31 @@ ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/public/cache"
 # Enable serving of images, stylesheets, and javascripts from an asset server
 # config.action_controller.asset_host = "http://assets.example.com"
 
+# Mail
 # Disable delivery errors, bad email addresses will be ignored
-# config.action_mailer.raise_delivery_errors = false
+config.action_mailer.raise_delivery_errors = false
+
+# set delivery method to :smtp, :sendmail or :test
+config.action_mailer.delivery_method = :smtp
+
+config.action_mailer.smtp_settings = {
+  :address => "xxx",
+  :authentication => :login,
+  :user_name => "xxx",
+  :password => "xxx"
+}
+
+# these options are only needed if you choose smtp delivery
+=begin
+config.action_mailer.smtp_settings = {
+  :address => "smtp.gmail.com", 
+  :port => 587, 
+  :authentication => :plain, 
+  :enable_starttls_auto => true, 
+  :user_name => "xxxx", 
+  :password => "xxxx" 
+}
+=end
 
 # Enable threaded mode
 # config.threadsafe!

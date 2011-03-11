@@ -78,4 +78,8 @@ class Family < ActiveRecord::Base
     return families
   end
 
+  def full_name
+    "#{self.head_of_house_hold} #{self.name}"
+  end
+
 end

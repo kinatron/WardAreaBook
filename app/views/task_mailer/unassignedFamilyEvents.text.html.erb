@@ -1,0 +1,33 @@
+<% if @quorumLeader.job == "Elders Quorum President" %>
+  <% other = "High Priest Group Leader" %>
+<% else %>
+  <% other = "Elders Quorum President" %>
+<% end %>
+
+<p>
+  Brother <%= @quorumLeader.person.family.name %> 
+</p>
+<p>
+  The following families, visited by the Missionaries, do not have Home Teachers assigned. <br>
+  Will you please work with the Ward Mission Leader and <%= other %> to assign <br>
+  the appropriate Home Teachers to help fellowship these families.
+</p>
+<p>
+  <ul>
+    <% @events.each do |event| %>
+      <li>
+        <%= event.date%> &mdash; 
+        <%= event.family.full_name %> &mdash; 
+        <% if event.person %>
+        <%= event.person.full_name %> &mdash; 
+        <% end %>
+        <%= event.category %> &mdash; 
+        <%= event.comment %>
+      </li>
+    <% end %>
+  </ul> 
+  </p>
+  <p>
+    Thanks,<br>
+    The AreaBook :)
+  </p>
