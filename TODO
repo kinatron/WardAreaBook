@@ -1,9 +1,7 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Mailings    
-    - Remove passwords and submit
-
+1. Mailings - Test for a week then update removing my email address.
 2. Authentication - AuthLogic
 3. Authorization - CanCan / or Authorization Plugin
      - Levels of access

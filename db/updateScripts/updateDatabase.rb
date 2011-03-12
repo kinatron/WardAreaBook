@@ -165,6 +165,44 @@ def quartlyReport
   end
 end
 
+def email_out_standing_todo()
+  p Date.today.wday
+  if Date.today.wday==2 or Date.today.wday==6
+    action_items = ActionItem.find_all_by_status("open")
+    people  = Array.new
+    action_items.each { |action| people << action.person}
+    people.uniq!
+    people.each do |person|
+      p person.full_name
+      TaskMailer.deliver_outStandingTodo(person)
+    end
+  end
+end
+  
+def email_home_teachers_daily_events()
+  hopes = Family.find_by_name("Hope").people[0]
+  elders = Family.find_by_name("Elders").people[0]
+  events = Event.find_all_by_date_and_person_id(Date.yesterday..Date.today,hopes)
+  events += Event.find_all_by_date_and_person_id(Date.yesterday..Date.today,elders)
+  # strip out non-members TODO for now...
+  events.delete_if {|event| event.family.member == false}
+
+  events = events.group_by {|event| event.getHomeTeachers}
+  events.each do |teachers, events|
+    #p "#{teachers}  ======>  #{events}"
+    teachers.each do | teacher|
+      if teacher.class == Person
+        p teacher.full_name
+        mail = TaskMailer.deliver_homeTeachingEvents(teacher,events)
+      else
+        p teacher.person.full_name
+        mail = TaskMailer.deliver_unassignedFamilyEvents(teacher,events)
+      end
+    end
+  end
+
+end
+
 
 begin
   # load the rails environment
@@ -389,13 +427,17 @@ begin
 
   quartlyReport
 
+  email_out_standing_todo
+  email_home_teachers_daily_events
+
+# Clear the cache if any updates are made.
+if updateMade
+  system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
+end
+
 rescue Exception => e
   puts $!
   p e.backtrace
   copy(BACKUP,DATABASE)
 end
 
-# Clear the cache if any updates are made.
-if updateMade
-  system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
-end

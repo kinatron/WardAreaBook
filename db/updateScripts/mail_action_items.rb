@@ -21,6 +21,9 @@ def email_home_teachers_daily_events()
   elders = Family.find_by_name("Elders").people[0]
   events = Event.find_all_by_date_and_person_id(Date.yesterday..Date.today,hopes)
   events += Event.find_all_by_date_and_person_id(Date.yesterday..Date.today,elders)
+  # strip out non-members TODO for now...
+  events.delete_if {|event| event.family.member == false}
+
   events = events.group_by {|event| event.getHomeTeachers}
   events.each do |teachers, events|
     #p "#{teachers}  ======>  #{events}"
@@ -28,11 +31,9 @@ def email_home_teachers_daily_events()
       if teacher.class == Person
         p teacher.full_name
         mail = TaskMailer.deliver_homeTeachingEvents(teacher,events)
-        p mail
       else
         p teacher.person.full_name
         mail = TaskMailer.deliver_unassignedFamilyEvents(teacher,events)
-        p mail
       end
     end
   end
