@@ -239,6 +239,7 @@ begin
   hopes.save
   hopes = Person.find(1)
   hopes.current=1
+  hopes.member=0
   hopes.save
 
   elders = Family.find_by_name("Elders")
