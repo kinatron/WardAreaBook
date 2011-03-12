@@ -25,9 +25,9 @@ module TeachingRecordsHelper
       "Ward Mission"  => "Ward Mission Leader", 
       "Elders Quorum" => "Elders Quorum President", 
       "High Priests"  => "High Priest Group Leader", 
-      "Young Mens"    => "Young Men President", 
+      "Young Men"    => "Young Men President", 
       "Relief Society" => "Relief Society President",
-      "Young Womens"  => "Young Women President",
+      "Young Women"  => "Young Women President",
       "Primary"       => "Primary President",
       "Bishopric"     => "Bishop"
     }
@@ -51,9 +51,9 @@ module TeachingRecordsHelper
       ["Ward Mission"  , "Ward Mission"], 
       ["Elders Quorum" , "Elders Quorum"], 
       ["High Priests"  , "High Priests"], 
-      ["Young Mens" , "Young Mens"], 
+      ["Young Men" , "Young Men"], 
       ["Relief Society" , "Relief Society"],
-      ["Young Womens" , "Young Womens"],
+      ["Young Women" , "Young Women"],
       ["Primary" , "Primary"],
       ["Bishopric" , "Bishopric"]
     ]

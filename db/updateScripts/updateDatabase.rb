@@ -39,7 +39,7 @@ end
 
 def downLoadNewList
   #TODO fix this warning
-  agent = Mechanize::Mechanize.new
+  agent = Mechanize.new
   site = "https://secure.lds.org/units"
   puts "accessing #{site}"
   agent.get(site) do |page|
@@ -115,7 +115,7 @@ def downLoadNewList
 
     callings.each do |calling,person|
       person.gsub!("Uaisele Kalingitoni","Bishop") 
-      puts calling + " <==> " + person
+      #puts calling + " <==> " + person
       cal = Calling.find_by_job(calling)
       if cal
         cal.person_id = Person.find_by_full_name(person).id
@@ -236,18 +236,18 @@ begin
   #
   hopes = Family.find_by_name("Hope")
   hopes.current=1
+  hopes.member=false
   hopes.save
-  hopes = Person.find(1)
+  hopes = hopes.people[0]
   hopes.current=1
-  hopes.member=0
   hopes.save
 
   elders = Family.find_by_name("Elders")
   elders.current=1
+  elders.member=false
   elders.save
-  elders = Person.find(2)
+  elders = elders.people[0]
   elders.current=1
-  elders.member=0
   elders.save
 
   cards = Vpim::Vcard.decode(open("#{UPDATEDIR}/WardList.vcf"))
@@ -406,7 +406,6 @@ begin
     end
   end
 
-
   if newMoveOuts 
     puts "\tFamilies moved out:"
   end
@@ -426,15 +425,16 @@ begin
 
   puts "\n"
 
-  quartlyReport
-
   email_out_standing_todo
   email_home_teachers_daily_events
 
-# Clear the cache if any updates are made.
-if updateMade
-  system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
-end
+  quartlyReport
+
+  # Clear the cache if any updates are made.
+  if updateMade
+    system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
+  end
+  remove(BACKUP)
 
 rescue Exception => e
   puts $!
