@@ -5,7 +5,7 @@ class TaskMailer < ActionMailer::Base
     actionItems = person.open_action_items
     subject    "Open Action Items [#{person.full_name}]"
     recipients "kinateder@gmail.com"
-    from       "WardAreaBook@WardAreaBook.org"
+    from       "info@burienwardmission.com"
     sent_on    Time.now
     body       :actionItems => actionItems,
                :person => person
@@ -18,7 +18,7 @@ class TaskMailer < ActionMailer::Base
   def homeTeachingEvents(hometeacher, events)
     subject    "Your Home Teaching Family was just visited [#{hometeacher.full_name}]"
     recipients "kinateder@gmail.com"
-    from       "WardAreaBook@WardAreaBook.org"
+    from       "info@burienwardmission.com"
     sent_on    Time.now
     body       :hometeacher => hometeacher,
                :events => events
@@ -30,7 +30,7 @@ class TaskMailer < ActionMailer::Base
   def unassignedFamilyEvents(quorumLeader, events)
     subject    "Unassigned Families [#{quorumLeader.person.full_name}]"
     recipients "kinateder@gmail.com"
-    from       "WardAreaBook@WardAreaBook.org"
+    from       "info@burienwardmission.com"
     sent_on    Time.now
     body       :quorumLeader => quorumLeader,
                :events => events
