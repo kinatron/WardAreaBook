@@ -11,6 +11,6 @@
   </ul>
 <% end %> 
 <br> <br> 
-<% if @event_months.keys.size <= 3 %>
-  <%= link_to "all reports...", "allMonthlyReports"%>
+<% unless @showAll %>
+  <%= link_to "all reports...", {:action => :monthlyReport, :all=> true}%>
 <% end %>

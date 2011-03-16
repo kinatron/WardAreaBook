@@ -257,6 +257,25 @@ h1 {
   display:none;
 }
 
+.editable-action .late a {
+  text-decoration: none;
+  color:red; 
+}
+
+.late {
+  display:inline;
+  color:red; 
+}
+
+.late div {
+  display:inline;
+}
+
+.late a {
+  display:inline;
+  color:red; 
+}
+
 #side {
   display:none;
 }

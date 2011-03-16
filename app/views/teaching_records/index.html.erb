@@ -13,6 +13,6 @@
   <br>
 <% end %>
 <br />
-<div id='archived-records'>
+<div id='archived-records' class = "noPrint">
   <%= link_to_remote "Dropped Records", :url => {:controller => "teaching_records",  :action => 'listArchived'} %>
 </div>

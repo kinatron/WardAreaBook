@@ -1,36 +1,44 @@
 <li> 
   <a href='#' class = 'subtile-links' onclick="Effect.toggle('family-details', 'blind'); return false;">Family Details </a>
-  <div id="family-details" style = 'display:none'>
+  <div id="family-details" class="family_details">
     <div>
-      <table style='border:none'>
+      <table>
         <tr>
-          <td style='border:none'>
+          <td >
+            <b>Status:</b>
+            <span id='family_status' class='editable_comment'>
+              <%= render(:partial => "family_status", 
+                         :object => @family, 
+                         :locals => {:update => nil}) %>
+            </span>
+          </td>
+          <td ></td>
+          <td ></td>
+       </tr>
+        <tr>
+          <td > 
             <%= @family.head_of_house_hold %>
-            <ul id='nodot'>
-              <li>
-                <% @family.people.each do |member| %>
-                  <% if member.current == true %>
-                    <%= member.name -%> 
-                    <% if member.email != nil %> 
-                      &mdash; <%= member.email %>
-                    <% end %>
-                    <br>
+            <ul class='nodot'> <li>
+              <% @family.people.each do |member| %>
+                <% if member.current == true %>
+                  <%= member.name -%> 
+                  <% if member.email != nil %> 
+                    &mdash; <%= member.email %>
                   <% end %>
+                  <br>
                 <% end %>
-              </li>
+              <% end %> </li> 
             </ul>
           </td>
-          <td style='border:none'>&nbsp;&nbsp;&nbsp;</td>
-          <td style='border:none'>
-            <%= @family.phone %><br>
-            <p>
-              <%= displayAddress(@family.address) %><br>
-            </p>
+          <td > 
+            <% if @family.phone != ""%>
+              <%= @family.phone %><br><br>
+            <% end %>
+              <%= displayAddress(@family.address) %>
           </td>
-          <td style='border:none'>&nbsp;&nbsp;&nbsp;</td>
-          <td style='border:none'> 
+          <td >
             <% if @family.teaching_routes.size == 0 %>
-              <b>No Home Teachers have been <br>
+              <b>Home Teachers have not been <br>
                  assigned to this family</b>
             <% else %>
               <% @family.teaching_routes.each do |teacher| %>
@@ -40,34 +48,22 @@
           </td>
         </tr>
       </table>
-        <b>Status:</b>
-        <span id='family_status' class='editable_comment'>
-          <%= render(:partial => "family_status", 
-                     :object => @family, 
-                     :locals => {:update => nil}) %>
-        </span>
-      <p>
-        <b>Information:</b> 
-        <div id="comments">
+        <b>General Information:</b> 
+        <span id="comments">
           <%= render(:partial => "comments/comment", :collection => @family.comments) %>
-        </div>
-      </p>
-      <br>
-
+        </span>
       <div id="new comment" class ="noPrint">
         <%= render(:partial => "submit_button") %>
         <br>
+        <% unless @family.member %>
+          <%= link_to 'Edit family details', edit_family_path(@family) %><br>
+          <br>
+          <%= link_to 'Merge records', :controller => 'families', 
+            :action => 'mergeRecords', 
+            :family => @family %><br>
+            <br><br>                                     
+        <% end %>
       </div>
-      <% unless @family.member %>
-        <%= link_to 'Edit family details', edit_family_path(@family) %>
-        <br><br>
-
-        <%= link_to 'Merge records', :controller => 'families', 
-                     :action => 'mergeRecords', 
-                     :family => @family %> 
-        <br><br><br>                                     
-
-      <% end %>
     </div>
   </div>
 </li>

@@ -19,7 +19,13 @@ class ReportsController < ApplicationController
   end
 
   def monthlyReport
-    range =  2.months.ago.at_beginning_of_month.to_date
+    @showAll = false
+    if params[:all]
+      @showAll = true
+      range = 0
+    else
+      range = 3.months.ago.at_beginning_of_month.to_date
+    end
     @events = Event.find(:all, :conditions => ["(category != 'Attempt' and 
                                                  category != 'Other' and  
                                                  category != 'MoveIn' and

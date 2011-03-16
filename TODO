@@ -1,7 +1,13 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Mailings - Test for a week then update removing my email address.
+2. Mailings - Test for a week then update removing my email address.
+ - Get forwarding to work
+ - Put in real email addresses
+ - Notify if an email is not sent.
+ - Add me as a bcc
+ - Go live.
+
 2. Authentication - AuthLogic
 3. Authorization - CanCan / or Authorization Plugin
      - Levels of access
@@ -44,6 +50,8 @@ Performance
 =====================================================================================
 Other
 ================
+1. Edit the other families by clicking on the text instead of going to another page.
+ - also allow a way to create children
 3. Allow Head of an Organization to assign new heads.   
 0. Mailings    
     - Newly assigned action items.

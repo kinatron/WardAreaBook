@@ -16,7 +16,7 @@
 .teaching-record fieldset {
   background: #ffd;
   border-color:gray;
-  width:600px;
+  width:700px;
 }
 
 .teaching-record legend {
@@ -36,6 +36,9 @@
   list-style-type: square;
 }
 
+.nodot {
+  list-style-type: none;
+}
 #nodot {
   list-style-type: none;
 }
@@ -102,6 +105,15 @@ h1 {
   font:  50% sans-serif;
   text-decoration:none;
   color: #433;
+}
+
+.family_details {}
+.family_details table {
+  border:none;
+  margin:0.4em;
+}
+.family_details td {
+  border:none;
 }
 
 
@@ -180,7 +192,12 @@ h1 {
 }
 
 .editable_comment a:hover { 
-  background-color: #bdb;
+  background-color: #fe0;
+  cursor: pointer;
+}
+
+.editable_comment td a:hover { 
+  background-color: #fe0;
   cursor: pointer;
 }
 

@@ -183,6 +183,7 @@ class FamiliesController < ApplicationController
       if params[:family][:status] != @family.status
         @family.events.create(:date => Date.today, 
                               :person_id => session[:user_id],
+                              :author => session[:user_id],
                               :comment => "Changed status from #{@family.status} 
                                            to #{params[:family][:status]}")
       end

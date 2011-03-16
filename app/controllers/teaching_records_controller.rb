@@ -111,6 +111,13 @@ class TeachingRecordsController < ApplicationController
       @teaching_record.current = false
     end
 
+    logger.info(params[:teaching_record])
+    if params[:teaching_record][:organization] != @teaching_record.organization
+      logger.info(session[:user_name] + " assigned " + 
+                  TeachingRecord.find(params[:id]).family.full_name + " to " +
+                  params[:teaching_record][:organization]) 
+    end
+
     respond_to do |format|
       if @teaching_record.update_attributes(params[:teaching_record])
         #flash[:notice] = 'TeachingRecord was successfully updated.'
