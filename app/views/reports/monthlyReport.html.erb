@@ -11,6 +11,6 @@
   </ul>
 <% end %> 
 <br> <br> 
-<% unless @showAll %>
-  <%= link_to "all reports...", {:action => :monthlyReport, :all=> true}%>
+<% if @showLink %>
+  <%= link_to "all reports...", {:action => :allReports}%>
 <% end %>

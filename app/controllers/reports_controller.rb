@@ -1,6 +1,6 @@
 class ReportsController < ApplicationController
   before_filter :store_return_point
-  caches_action :hope, :monthlyReport, :allMonthlyReports, :layout => false
+  caches_action :hope, :monthlyReport, :allReports, :layout => false
 
   # override the application accessLevel method
   def checkAccess
@@ -18,20 +18,27 @@ class ReportsController < ApplicationController
     @event_weeks = @events.group_by { |week| week.date.at_beginning_of_week }
   end
 
+  def allReports
+    @showLink = false
+    @event_months = getMonthlyEvents(0)
+    render :action=>"monthlyReport"
+  end
+
   def monthlyReport
-    @showAll = false
-    if params[:all]
-      @showAll = true
-      range = 0
-    else
-      range = 3.months.ago.at_beginning_of_month.to_date
-    end
-    @events = Event.find(:all, :conditions => ["(category != 'Attempt' and 
-                                                 category != 'Other' and  
-                                                 category != 'MoveIn' and
-                                                 category != 'MoveOut' and
-                                                 category is not NULL) and (date > ?)", range],
-                         :order => 'date DESC')
+    @showLink = true
+    range = 3.months.ago.at_beginning_of_month.to_date
+    @event_months = getMonthlyEvents(range)
+  end
+
+  def getMonthlyEvents(range)
+    @events = Event.find(:all, :conditions => 
+                          ["(category != 'Attempt' and 
+                             category != 'Other' and  
+                             category != 'MoveIn' and
+                             category != 'MoveOut' and
+                             category is not NULL) and (date > ?)", range
+                          ],
+                          :order => 'date DESC')
     @event_months = @events.group_by { |month| month.date.at_beginning_of_month }
   end
 end
