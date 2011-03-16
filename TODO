@@ -1,12 +1,7 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-2. Mailings - Test for a week then update removing my email address.
- - Get forwarding to work
- - Put in real email addresses
- - Notify if an email is not sent.
- - Add me as a bcc
- - Go live.
+2. Mailings - Move date back to 2
 
 2. Authentication - AuthLogic
 3. Authorization - CanCan / or Authorization Plugin

@@ -4,8 +4,9 @@ class TaskMailer < ActionMailer::Base
   def outStandingTodo(person)
     actionItems = person.open_action_items
     subject    "Open Action Items [#{person.full_name}]"
-    recipients "kinateder@gmail.com"
-    from       "info@burienwardmission.com"
+    recipients person.email 
+    bcc         "kinateder@gmail.com"
+    from       "wardareabook@burienwardmission.com"
     sent_on    Time.now
     body       :actionItems => actionItems,
                :person => person
@@ -16,9 +17,10 @@ class TaskMailer < ActionMailer::Base
   # Sends an email to the hometeacher if their home teacher is 
   # taught or visited by someone other than the home teacher.
   def homeTeachingEvents(hometeacher, events)
-    subject    "Your Home Teaching Family was just visited [#{hometeacher.full_name}]"
-    recipients "kinateder@gmail.com"
-    from       "info@burienwardmission.com"
+    subject    "Home Teaching Family - Missionary Visit [#{hometeacher.full_name}]"
+    recipients hometeacher.email
+    bcc        "kinateder@gmail.com"
+    from       "wardareabook@burienwardmission.com"
     sent_on    Time.now
     body       :hometeacher => hometeacher,
                :events => events
@@ -29,8 +31,9 @@ class TaskMailer < ActionMailer::Base
   # that don't have HT assigned
   def unassignedFamilyEvents(quorumLeader, events)
     subject    "Unassigned Families [#{quorumLeader.person.full_name}]"
-    recipients "kinateder@gmail.com"
-    from       "info@burienwardmission.com"
+    recipients quorumLeader.person.email
+    bcc        "kinateder@gmail.com"
+    from       "wardareabook@burienwardmission.com"
     sent_on    Time.now
     body       :quorumLeader => quorumLeader,
                :events => events

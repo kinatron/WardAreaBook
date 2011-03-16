@@ -166,15 +166,20 @@ def quartlyReport
 end
 
 def email_out_standing_todo()
-  p Date.today.wday
-  if Date.today.wday==2 or Date.today.wday==6
+  #TODO change to 2
+  if Date.today.wday==3 or Date.today.wday==6
     action_items = ActionItem.find_all_by_status("open")
     people  = Array.new
     action_items.each { |action| people << action.person}
     people.uniq!
     people.each do |person|
-      p person.full_name
-      TaskMailer.deliver_outStandingTodo(person)
+      mail = TaskMailer.create_outStandingTodo(person)
+      if mail.to == nil
+        puts "Unable to deliver todo's to #{person.full_name}"
+      else
+        TaskMailer.deliver(mail)
+        puts "Just sent message [#{mail.subject}] to #{mail.to}"
+      end
     end
   end
 end
@@ -192,15 +197,24 @@ def email_home_teachers_daily_events()
     #p "#{teachers}  ======>  #{events}"
     teachers.each do | teacher|
       if teacher.class == Person
-        p teacher.full_name
-        mail = TaskMailer.deliver_homeTeachingEvents(teacher,events)
+        mail = TaskMailer.create_homeTeachingEvents(teacher,events)
+        if mail.to == nil
+          puts "Unable to deliver home [#{mail.subject}] to #{teacher.full_name}"
+        else
+          TaskMailer.deliver(mail)
+          puts "Just sent message [#{mail.subject}] to #{mail.to}"
+        end
       else
-        p teacher.person.full_name
-        mail = TaskMailer.deliver_unassignedFamilyEvents(teacher,events)
+        mail = TaskMailer.create_unassignedFamilyEvents(teacher,events)
+        if mail.to == nil
+          puts "Unable to deliver home [#{mail.subject}] to #{teacher.person.full_name}"
+        else
+          TaskMailer.deliver(mail)
+          puts "Just sent message [#{mail.subject}] to #{mail.to}"
+        end
       end
     end
   end
-
 end
 
 
@@ -216,7 +230,7 @@ begin
 
   downLoadNewList 
 
-  $stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
+  #$stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
   puts Time.now.strftime("%a %b %d %Y - %I:%M %p")
 
   ########################################################################
