@@ -166,8 +166,7 @@ def quartlyReport
 end
 
 def email_out_standing_todo()
-  #TODO change to 2
-  if Date.today.wday==3 or Date.today.wday==6
+  if Date.today.wday==2 or Date.today.wday==5
     action_items = ActionItem.find_all_by_status("open")
     people  = Array.new
     action_items.each { |action| people << action.person}
@@ -230,7 +229,7 @@ begin
 
   downLoadNewList 
 
-  #$stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
+  $stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
   puts Time.now.strftime("%a %b %d %Y - %I:%M %p")
 
   ########################################################################
