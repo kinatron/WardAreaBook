@@ -1,22 +1,24 @@
 class UsersController < ApplicationController
   before_filter :store_return_point, :only =>[:todo]
+  skip_before_filter :authorize, :only => [:new, :create]
+  skip_before_filter :checkAccess, :only => [:new, :create, :todo]
   layout 'login'
 
   # GET /users
   # GET /users.xml
   def index
-    @users = User.find(:all, :order => :name)
+    @users = User.find(:all, :order => :email)
     render :layout => 'admin'
   end
 
   def todo
-    unless hasAccess(2)
-      redirect_to families_path
-      return
-    end
     @limit = 3
     if (params[:id])
       @person = Person.find(params[:id])
+      unless hasAccess(2)
+        redirect_to families_path
+        return
+      end
     else 
       @person = Person.find(session[:user_id])
     end
@@ -41,6 +43,7 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.xml
   def new
+
     @user = User.new
     respond_to do |format|
       format.html # new.html.erb
@@ -56,13 +59,20 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.xml
   def create
+
+    # If there is another user logged on at the time. Delete their session
+    @user_session = UserSession.find  
+    if @user_session
+      @user_session.destroy 
+      reset_session
+    end
+
     @user = User.new(params[:user])
-    # TODO Make access level an attribute of the person class
-    # and update priv's according to the leadership page on the 
-    # church website.
-    @user.access_level = 2
-    if @user.save
-      load_session(@user)
+    person = Person.find_by_email(@user.email)
+    @user.person = person
+    @user.logged_in_now = true
+    if person && @user.save
+      load_session()
     else
        render :action => "new" 
     end
@@ -74,7 +84,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        flash[:notice] = "User #{@user.name} was successfully updated."
+        flash[:notice] = "User #{@user.email} was successfully updated."
         format.html { redirect_to(:action=>'index') }
         format.xml  { head :ok }
       else
@@ -92,26 +102,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
-    end
-  end
-  
-protected
-
-# TODO you've given access for anyone to create modify or delete users.
-
-  def authorize
-    unless params[:action] == 'new' || params[:action] == 'create' 
-      super
-    end
-  end
-
-  def checkAccess
-    unless action_name == "new" or action_name == "create" or action_name == "todo"  
-      if hasAccess(3)
-        true
-      else
-        deny_access
-      end
     end
   end
 end

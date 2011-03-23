@@ -1,8 +1,28 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
-  validates_presence_of      :name
-  validates_uniqueness_of    :name
+  belongs_to :person;
+  validate :valid_email
+
+
+  acts_as_authentic do |c|
+    c.transition_from_crypto_providers(MyCryptoProvider)
+    c.logged_in_timeout = 60.minutes
+  end  
+
+
+  def valid_email
+    if Person.find_all_by_email(email).empty? 
+      errors.add(:email, " - You must be a member of this ward
+                             and have an email registered with lds.org
+                             Please contact Brother Kinateder for more information")
+    end
+  end
+
+=begin
+  # code before authlogic
+  #validates_presence_of      :email
+  #validates_uniqueness_of    :email
 
   attr_accessor :password_confirmation
   validates_confirmation_of :password
@@ -10,11 +30,11 @@ class User < ActiveRecord::Base
   validate :password_non_blank, :valid_email
 
   def before_save
-    self.name.downcase!
+    #self.email.downcase!
   end
 
-  def self.authenticate(name, password)
-    user = self.find_by_name(name.downcase)
+  def self.authenticate(email, password)
+    user = self.find_by_name(email.downcase)
     if user
       expected_password = encrypted_password(password, user.salt)
       if user.hashed_password != expected_password
@@ -41,7 +61,7 @@ class User < ActiveRecord::Base
 private 
 
   def valid_email
-    if Person.find_all_by_email(name).empty? 
+    if Person.find_all_by_email(email).empty? 
       errors.add(:email, " - You must be a member of this ward
                              and have an email registered with lds.org
                              Please contact Brother Kinateder for more information")
@@ -61,5 +81,6 @@ private
     self.salt = self.object_id.to_s + rand.to_s
   end
 
+=end
 
 end

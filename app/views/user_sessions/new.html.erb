@@ -1,0 +1,18 @@
+<div class="depot-form">
+  <% form_for @user_session  do |form| %>
+    <fieldset>
+      <legend>Please Login In</legend>
+      <div>
+        <%= form.label :email, "Email" %>  
+        <%= form.text_field :email %>  
+      </div>
+      <div>
+        <%= form.label :password, "Password" %>  
+        <%= form.password_field :password %>  
+      </div>
+      <div>
+        <%= form.submit "Submit" %>  
+      </div>
+    </fieldset>
+  <% end %>
+</div>

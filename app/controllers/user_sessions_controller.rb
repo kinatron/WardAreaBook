@@ -1,0 +1,29 @@
+class UserSessionsController < ApplicationController
+  skip_before_filter :authorize, :checkAccess
+  layout "login"
+
+  def new
+    @user_session = UserSession.new
+  end
+
+  def create  
+    @user_session = UserSession.new(params[:user_session])  
+    if @user_session.save  
+      @user_session.user.update_attributes(:logged_in_now => true)
+      load_session
+    else  
+      render :action => 'new'  
+    end  
+  end 
+
+  def destroy  
+    @user_session = UserSession.find  
+    @user_session.user.update_attributes(:logged_in_now => false)
+    @user_session.destroy  
+    name = session[:user_name]
+    reset_session
+    flash[:notice] = name, " successfully logged out."
+    redirect_to login_url  
+  end  
+
+end

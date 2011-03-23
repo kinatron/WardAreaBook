@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/action_items/wardActionItems/', :controller => 'action_items', 
                                                :action => 'wardActionItems'
   map.resources :action_items
+  map.resources :auth_users
 
   map.resources :comments
 
@@ -34,9 +35,10 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :roster
 
+  map.login 'login', :controller => 'user_sessions', :action => 'new'  
+  map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'  
+  map.resources :user_sessions  
 
-  map.connect '/login', :controller => 'login', :action => 'login'
-  map.connect '/login/login', :controller => 'login', :action => 'login'
   map.connect '/families/members/', :controller => 'families', :action => 'members'
   map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
   map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'

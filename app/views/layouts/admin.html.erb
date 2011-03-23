@@ -18,7 +18,7 @@
       <%= @page_title || "Burien Ward Area Book" %>
       <div>
         <%= session[:user_name] %><br>
-        <%= link_to "logout", :controller => 'login', :action => 'logout' %> 
+        <%= link_to "logout", logout_path %>
       </div>
     </div>
 

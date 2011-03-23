@@ -3,36 +3,50 @@
 <table class='sorttable'>
   <thead>
     <tr>
+      <th>Name</th>
       <th>Email Address</th>
       <th>Access Level</th>
       <th>Last Login</th>
+      <th>Login Count</th>
       <th>&nbsp;</th>
     </tr>
   </thead>
 
-
-
 <% @users.each do |user| %>
   <%  
     access_level = 0
-    person = Person.find_by_current_and_email(true, user.name)
+    person = Person.find_by_current_and_email(true, user.email)
     unless person == nil
       calling = Calling.find_by_person_id(person.id) 
     end
     unless calling == nil
       access_level = calling.access_level
     end 
+ #   if User.find(user, :conditions => ["last_request_at > ?", 60.minutes.ago])
+    if user.last_request_at && user.logged_in_now
+      user.last_request_at > User.logged_in_timeout.seconds.ago
+      style = "background-color:#6f3"
+    else
+      style = ""
+    end
+      
   %>
-  <tr>
-    <td><%=h user.name %></td>
+  <tr style="<%=style %>">
+    <% if user.person %>
+      <td> <%=h user.person.full_name %> </td>
+    <% else %>
+      <td></td>
+    <% end %>
+    <td><%=h user.email %></td>
     <td><%=h access_level %></td>
-    <% if user.last_login %>
-      <td sorttable_customkey="<%=h user.last_login.strftime('%Y/%m/%d') %>">
-        <%= user.last_login %>
+    <% if user.last_login_at %>
+      <td sorttable_customkey="<%=h user.last_login_at.strftime('%Y/%m/%d') %>">
+        <%= user.last_login_at.strftime("%b %d") %>
       </td>
     <% else %>
       <td><%=h "" %></td>
     <% end %>
+    <td> <%=user.login_count %> </td>
     <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

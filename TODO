@@ -1,9 +1,26 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. The other monthly reports are not getting loaded because of caching.  I need to create a new action.
-2. Authentication - AuthLogic
-3. Authorization - CanCan / or Authorization Plugin
+1. Authentication - AuthLogic
+  prune
+  Decided how your going to authenticate.  Authlogic or your own.
+  Add a logged_in field for the database.
+  Verify that everything works
+  Commit
+
+2. List "requested by:" in the todo action items list.
+
+3. Update the leadership directories. verify why Brother Linville is not listed as the Sunday school president 
+
+4. Release
+
+5. Authentication
+   Email confirmation for set up.
+   password reset 
+   Develope tests
+   Release
+
+6. Authorization - CanCan / or Authorization Plugin
      - Levels of access
          1 - General Access  - TODO I think there is a cleaner way to do this
          2 - Ward Council - They can access everything on the menues
@@ -46,28 +63,27 @@ Other
 ================
 1. Edit the other families by clicking on the text instead of going to another page.
  - also allow a way to create children
-3. Allow Head of an Organization to assign new heads.   
-0. Mailings    
+2. Allow Head of an Organization to assign new heads.   
+3. Mailings    
     - Newly assigned action items.
     - recently complelted (where I am the requestor)
     - Events for my families
     - Events for my teaching pool visits for my families
-1. Clean up the html  There are a lot of spaces and carriage returns
-1. Fatten your models.  Event.find_by_etc should be in the models as a method.
-1. List requested by in the todo action items list.
-2. When an action time is done I would like the completion date inserted instead. (Right now it's just doing the "updated_at" date.
-3. Ajax the saving of an action item. DRY you're already doing this in other places.
-4. Let the admin add non-members to the wardlist (missionaries) and escalate privs
-5. When a new comment is created I would like the focus window to go onto it.
-6. Save action item as an event
-9. Automatic form submission to change status
-10. Find a way to do dynamic selection lists
-11. Validate all input data.
-12. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
-13. Add a feature request page.
-14. DRY combine comments, events, and action items.
-15. Add a profile page - Levels of spam.  Action Items, when assigned, weekly reminder
-15. Tests
+4. Clean up the html  There are a lot of spaces and carriage returns
+5. Fatten your models.  Event.find_by_etc should be in the models as a method.
+7. When an action time is done I would like the completion date inserted instead. (Right now it's just doing the "updated_at" date.
+8. Ajax the saving of an action item. DRY you're already doing this in other places.
+9. Let the admin add non-members to the wardlist (missionaries) and escalate privs
+10. When a new comment is created I would like the focus window to go onto it.
+11. Save action item as an event
+12. Automatic form submission to change status
+13. Find a way to do dynamic selection lists
+14. Validate all input data.
+15. Create a nice mechanism to edit events(General Events (sortable table).  To clean up past events
+16. Add a feature request page.
+17. DRY combine comments, events, and action items.
+18. Add a profile page - Levels of spam.  Action Items, when assigned, weekly reminder
+19. Tests
     - Accessing all of the pages.
     - Form generation
     - Creating users
