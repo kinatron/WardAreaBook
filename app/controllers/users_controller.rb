@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     person = Person.find_by_email(@user.email)
     @user.person = person
     @user.logged_in_now = true
-    if person && @user.save
+    if @user.save
       load_session()
     else
        render :action => "new" 

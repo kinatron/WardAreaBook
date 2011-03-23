@@ -12,10 +12,13 @@ class User < ActiveRecord::Base
 
 
   def valid_email
-    if Person.find_all_by_email(email).empty? 
+    person = Person.find_by_email(email)
+    if person.nil?
       errors.add(:email, " - You must be a member of this ward
                              and have an email registered with lds.org
                              Please contact Brother Kinateder for more information")
+    else
+      self.person = person
     end
   end
 

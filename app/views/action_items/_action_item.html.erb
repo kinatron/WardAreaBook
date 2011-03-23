@@ -5,6 +5,7 @@
 <% family   ||=false %>
 <% editable ||=false %>
 <% noLinks  ||=false %>
+<% showRequestor ||=false %>
 <div id = 'action_<%= action_item.id %>' class = 'action_item'>
   <% if checkbox %>
     <% form_remote_for action_item, :url => {:controller => 'action_items', 
@@ -18,6 +19,7 @@
                  :object => action_item,
                  :locals => {:ward_representative => ward_representative,
                              :editable => editable,
+                             :showRequestor => showRequestor,
                              :noLinks => noLinks,
                              :family => family}) -%>
 
@@ -33,6 +35,7 @@
                :object => action_item,
                :locals => {:ward_representative => ward_representative,
                            :editable => editable,
+                           :showRequestor => showRequestor,
                            :noLinks => noLinks,
                            :family => family}) %>
   <% end %>

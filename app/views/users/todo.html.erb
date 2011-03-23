@@ -35,6 +35,7 @@ function hideElement(divId) {
                :locals => {:checkbox => true,
                  :ward_representative => false,
                  :family => true,
+                 :showRequestor => true,
                  :form_action => "save_personal_action",
                  :editable => true} ) %>
   <% end %>
@@ -48,6 +49,7 @@ function hideElement(divId) {
                :locals => {:checkbox => true,
                  :editable => true,
                  :family => true,
+                 :showRequestor => true,
                  :ward_representative => false,
                  :form_action => "save_personal_action",
                  :conditions => "person_id==#{@person.id}"}) %>

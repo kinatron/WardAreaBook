@@ -3,6 +3,7 @@
 <% noLinks ||= false %>
 <% family   ||=false %>
 <% editable ||=false %>
+<% showRequestor ||=false %>
 <% hasAccessToEdit =false %>
 <% isEditable = "" %>
 <% isLate = "" %>
@@ -58,6 +59,9 @@ end %>
                                    :id => action_details.id } %>
     <% else %>
       <%=h "#{action_details.action} (#{action_details.due_date})" %>
+    <% end %>
+    <% if showRequestor %>
+      &ndash; requested by: <%= action_details.author %>
     <% end %>
   </div> <!-- IsEditable hover effects-->
 </div> <!-- IsClosed (strike through) isLate (red)-->
