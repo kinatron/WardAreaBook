@@ -18,8 +18,10 @@ class UserSessionsController < ApplicationController
 
   def destroy  
     @user_session = UserSession.find  
-    @user_session.user.update_attributes(:logged_in_now => false)
-    @user_session.destroy  
+    if defined?(@user_session)
+      @user_session.user.update_attributes(:logged_in_now => false)
+      @user_session.destroy  
+    end
     name = session[:user_name]
     reset_session
     flash[:notice] = name, " successfully logged out."
