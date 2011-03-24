@@ -31,7 +31,6 @@ def getFamilyMembers cardData
       person.name = individual.strip
       person.email = nil
     end
-    person.name.gsub!("Uaisele Kalingitoni","Bishop") 
     familyMembers << person
   end
   return familyMembers
@@ -87,14 +86,14 @@ def downLoadNewList
     end
 
     @doc = agent.get(leaders)
-    #@doc = Nokogiri::HTML(File.open("leader.html"))
+    #@doc = Nokogiri::HTML(File.open("Burien Ward Leadership.html"))
 
     callings = Array.new
     record = false
     calling = ""
 
     @doc.parser.css(".eventsource").each do |row|
-      #@doc.css(".eventsource").each do |row|
+    #@doc.css(".eventsource").each do |row|
       token = row.text.strip
       if calling != ""
         callings << [calling,token]
@@ -114,7 +113,6 @@ def downLoadNewList
     end
 
     callings.each do |calling,person|
-      person.gsub!("Uaisele Kalingitoni","Bishop") 
       #puts calling + " <==> " + person
       cal = Calling.find_by_job(calling)
       if cal
@@ -274,12 +272,6 @@ begin
     address = (card.address.street + " " + card.address.locality + " " + card.address.region).strip
     address ||= "" 
     uid = card.value("UID")
-
-    # Hack TODO - I think there is more elegant solution but for now take 
-    # Bishops name from the ward list and replace it with Bishop
-    if lastName == "Puloka"
-      headOfHouseHold.gsub!("Uaisele Kalingitoni","Bishop") 
-    end
 
     family = Family.find_by_uid(uid)
 
@@ -454,4 +446,3 @@ rescue Exception => e
   p e.backtrace
   copy(BACKUP,DATABASE)
 end
-

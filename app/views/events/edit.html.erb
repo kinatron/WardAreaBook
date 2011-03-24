@@ -16,7 +16,7 @@
   </p>
   <p>
     <%= f.label :person_id %><br />
-    <%= f.select :person_id, Person::ALL, 
+    <%= f.select :person_id, Person.selectionList,
                  :prompt => "Select Who visited" %>
     
   </p>

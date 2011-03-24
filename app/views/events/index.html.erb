@@ -17,7 +17,11 @@
   <tr>
     <td><%=h event.date %></td>
     <td><%=h event.family.name %></td>
-    <td><%=h event.printPerson %></td>
+    <% if event.person %>
+      <td><%=h event.person.full_name %></td>
+    <% else %>
+      <td></td>
+    <% end %>
     <td><%=h event.comment %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>

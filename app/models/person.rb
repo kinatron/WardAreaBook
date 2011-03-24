@@ -10,28 +10,28 @@ class Person < ActiveRecord::Base
                                  :conditions => "status == 'closed'",
                                  :order => 'updated_at DESC'
 
-  ALL = self.find(:all, :order=>'name').map do |s|
-    if s.name == "Elder and Sister"
-      ["The Hopes", s.id]
-    else
-      if s.family
-        [s.name.split(" ")[0] + " " + s.family.name, s.id]
-      else
-        [s.name.split(" ")[0], s.id]
-      end
-    end
-  end
-
   def full_name
     if family.name == "Hope"
       "The Hopes"
     elsif family.name == "Elders"
       "The Elders"
+    elsif Calling.find_by_job("Bishop").person_id == id
+      "Bishop #{family.name}"
     else
       "#{name} #{family.name}"
     end
   rescue 
     ""
+  end
+
+  # TODO this is a very costly operation.  
+  # Find out how to cache this in rails. (Maybe it already is??)
+  def self.selectionList(current=true)
+    return @@names if defined?(@@names)
+    names = self.find_all_by_current(true).collect do |person|
+      [person.full_name, person.id]
+    end
+    @@names = names.sort_by{|x| x[0]}
   end
 
   def self.find_by_full_name(fullName)
@@ -45,22 +45,6 @@ class Person < ActiveRecord::Base
       end
     end
     nil
-  end
-
-  def Person.get_first_and_last_names
-
-    # TODO this is a very costly operation.  Find out how to cache this.
-    @@names ||= self.find(:all, :order=>'name', :limit => '10').map do |s|
-      if s.name == "Elder and Sister"
-        ["The Hopes", s.id]
-      else
-        if s.family
-          [s.name.split(" ")[0] + " " + s.family.name, s.id]
-        else
-          [s.name.split(" ")[0], s.id]
-        end
-      end
-    end
   end
 
 end

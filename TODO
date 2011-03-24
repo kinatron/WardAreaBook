@@ -1,16 +1,8 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Authentication - AuthLogic
-  prune
-  Decided how your going to authenticate.  Authlogic or your own.
-  Add a logged_in field for the database.
-  Verify that everything works
-  Commit
-
-2. List "requested by:" in the todo action items list.
-
-3. Update the leadership directories. verify why Brother Linville is not listed as the Sunday school president 
+1. Bishop information should come from the ward list 
+   Get the select working 
 
 4. Release
 

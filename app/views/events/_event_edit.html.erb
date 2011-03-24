@@ -11,7 +11,7 @@
     Date: <%= f.date_select :date %>
     </p>
     <p>
-      Ward Rep: <%= f.select :person_id, Person::ALL, :include_blank => true %> 
+      Ward Rep: <%= f.select :person_id, Person.selectionList, :include_blank => true %> 
       <% if showFamily %>
         <p>
           Family: <%= f.select :family_id, getFamilyMapping %> <br>

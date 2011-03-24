@@ -113,9 +113,7 @@ class ApplicationController < ActionController::Base
   # often.
   # TODO move this into the Person class
   def getMapping
-    @@names ||= Person.find_all_by_current(true, :order=>'name').map do |s|
-      [s.full_name, s.id]
-    end
+    Person.selectionList
   end
 
   # move this into the Family class. 
