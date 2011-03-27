@@ -188,6 +188,10 @@ def email_home_teachers_daily_events()
   events += Event.find_all_by_date_and_person_id(Date.yesterday..Date.today,elders)
   # strip out non-members TODO for now...
   events.delete_if {|event| event.family.member == false}
+  # strip out "attempts" or "other" events
+  events.delete_if {|event| event.category == "Attempt"}
+  events.delete_if {|event| event.category == "Other"}
+
 
   events = events.group_by {|event| event.getHomeTeachers}
   events.each do |teachers, events|
@@ -201,13 +205,13 @@ def email_home_teachers_daily_events()
           TaskMailer.deliver(mail)
           puts "Just sent message [#{mail.subject}] to #{mail.to}"
         end
-      else
+      else # Unassigned families
         mail = TaskMailer.create_unassignedFamilyEvents(teacher,events)
         if mail.to == nil
           puts "Unable to deliver home [#{mail.subject}] to #{teacher.person.full_name}"
         else
           TaskMailer.deliver(mail)
-          puts "Just sent message [#{mail.subject}] to #{mail.to}"
+          puts "Just sent message [#{mail.subject}] to #{mail.to}" 
         end
       end
     end
