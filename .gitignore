@@ -7,3 +7,4 @@ db/*.sqlite3
 /db/updateScripts/WardList.vcf
 /db/updateScripts/leader.html
 /db/backup.db
+/db/updateScripts/Burien Ward Leadership.html

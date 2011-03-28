@@ -1,22 +1,11 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Bishop information should come from the ward list 
-   Get the select working 
-
-4. Release
-
-5. Authentication
+1. Authlogic
    Email confirmation for set up.
-   password reset 
    Develope tests
-   Release
 
-6. Authorization - CanCan / or Authorization Plugin
-     - Levels of access
-         1 - General Access  - TODO I think there is a cleaner way to do this
-         2 - Ward Council - They can access everything on the menues
-         3 - admin - can access events, users, and other hidden items
+2 . Transition to the new LDS api for ward information
 
 =====================================================================================
 Reports
@@ -46,8 +35,7 @@ Reports
 =====================================================================================
 Performance
 ================
-1.  The Select box names
-     Verify if this list is getting cached? 
+1. The Select box names Verify if this list is getting cached? 
 2. Caching TODO sweepers wasn't working for the families controller.  I instead used explict action_expire commands
 
 =====================================================================================
@@ -82,6 +70,11 @@ Other
     - Access control 
     - Basic Unit Tests
     - Helper Tests
+20. Authorization - CanCan / or Authorization Plugin
+     - Levels of access
+         1 - General Access  - TODO I think there is a cleaner way to do this
+         2 - Ward Council - They can access everything on the menues
+         3 - admin - can access events, users, and other hidden items
 
 ========================================================================
 Opening up to Paul
@@ -110,7 +103,7 @@ CSS and Presentation
 0. Add a top level menu and reduce the stuff on the right had side.  
 1. Remove the dots and line up the columns. Assignments, Events, Hope Report, Monthly Report
    Afani, Rod and Susan
-       Feb 22 - Visit     - Ryan Kinateder - Taught the Word of Wisdom. Brother xxx is really
+       Feb 22 - Visit     - Ryan Jones - Taught the Word of Wisdom. Brother xxx is really
                             Struggline with smoking right now.  I need to add
                             some additional text right here
 

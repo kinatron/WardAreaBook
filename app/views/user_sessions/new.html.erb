@@ -17,3 +17,13 @@
     </fieldset>
   <% end %>
 </div>
+<div>
+  <% if @user_session.attempted_record && @user_session.attempted_record.failed_login_count > 1 %>
+    <% form_tag password_resets_path do %>
+      <%= hidden_field_tag 'email', @user_session.attempted_record.email %><br />
+      Opps did you forget your password? <br><br>
+      <%= submit_tag "Reset my password" %>
+    <% end %>
+    <br> <br> <br>
+  <% end %>
+</div>

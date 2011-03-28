@@ -10,6 +10,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])  
     if @user_session.save  
       @user_session.user.update_attributes(:logged_in_now => true)
+      @user_session.user.update_attributes(:failed_login_count => 0)
       load_session
     else  
       render :action => 'new'  
