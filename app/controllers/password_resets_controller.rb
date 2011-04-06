@@ -1,10 +1,18 @@
 class PasswordResetsController < ApplicationController
-  before_filter :load_user_using_perishable_token, :only => [:edit, :update]  
+  before_filter :load_user_using_perishable_token, :only => [:edit, :update, :activate]  
   skip_before_filter :authorize, :checkAccess
   layout 'login'
 
   def new
     render
+  end
+
+  def activate
+    if @user
+      @user.verify!
+      flash[:notice] = "Thank you for verifying your account. You may now login."
+    end
+      redirect_to login_url
   end
 
   def create  
@@ -42,8 +50,9 @@ class PasswordResetsController < ApplicationController
       flash[:notice] = "We're sorry, but we could not locate your account. " +  
         "If you are having issues try copying and pasting the URL " +  
         "from your email into your browser or restarting the " +  
-        "reset password process."  
-      render :action => :create  
+        "reset password process." 
+      # TODO do a redirect to remove the flash notice.
+      render "shared/blank"
     end  
   end
 

@@ -2,8 +2,9 @@
 TODO's 
 =====================================================================================
 1. Authlogic
-   Email confirmation for set up.
    Develope tests
+
+2. Home teaching report update date is not getting updated.   
 
 2 . Transition to the new LDS api for ward information
 
@@ -111,3 +112,4 @@ CSS and Presentation
 
 1. Style sheet clean up!!!
 1. Fix the hover issues with IE
+2. Check out tpopes git plugin

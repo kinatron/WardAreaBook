@@ -70,6 +70,7 @@ class ApplicationController < ActionController::Base
 
   def load_session()
     user = current_user
+    user.logged_in_now = true
     if user.person == nil
       user.person = Person.find_by_email(user.email)
       user.save!

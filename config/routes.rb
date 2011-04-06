@@ -47,6 +47,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/families/mergeRecords/', :controller => 'families', :action => 'mergeRecords'
   map.connect '/families/new_comment/', :controller => 'families', :action => 'new_comment'
 
+  map.activation "/activate/:id", :controller => 'password_resets', :action => 'activate'
+
   map.resources :families
   # The priority is based upon order of creation: first created -> highest priority.
 

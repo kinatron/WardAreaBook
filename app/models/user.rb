@@ -26,6 +26,19 @@ class User < ActiveRecord::Base
     reset_perishable_token!  
     AuthMailer.deliver_password_reset_instructions(self)  
   end  
+
+  def deliver_verification_instructions!  
+    reset_perishable_token!  
+    AuthMailer.deliver_verification_instructions(self)
+  end
+
+  def verify!
+    self.verified = true
+    self.save
+  end
+
+
+
 =begin
   # code before authlogic
   #validates_presence_of      :email

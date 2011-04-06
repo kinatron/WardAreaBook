@@ -68,11 +68,13 @@ class UsersController < ApplicationController
     end
 
     @user = User.new(params[:user])
-    person = Person.find_by_email(@user.email)
-    @user.person = person
-    @user.logged_in_now = true
+
     if @user.save
-      load_session()
+      flash[:notice] = "Thanks for signing up, we've delivered an email to you with instructions on how to complete your registration!"
+      @user.deliver_verification_instructions!
+
+      render "shared/blank" 
+
     else
        render :action => "new" 
     end

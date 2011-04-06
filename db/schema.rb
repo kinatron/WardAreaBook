@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110317044625) do
+ActiveRecord::Schema.define(:version => 20110404043937) do
 
   create_table "action_items", :force => true do |t|
     t.integer  "family_id"
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(:version => 20110317044625) do
     t.datetime "last_request_at"
     t.datetime "current_login_at"
     t.datetime "last_login_at"
+    t.boolean  "verified",            :default => false
   end
 
   create_table "ward_profiles", :force => true do |t|
