@@ -1,12 +1,14 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Authlogic
-   Develope tests
+1. Transition to the new LDS api for ward information
+  Download the json file automatically
 
-2. Home teaching report update date is not getting updated.   
 
-2 . Transition to the new LDS api for ward information
+
+
+1. Home teaching report update date is not getting updated.   
+
 
 =====================================================================================
 Reports
@@ -42,6 +44,7 @@ Performance
 =====================================================================================
 Other
 ================
+1. authlogic tests
 1. Edit the other families by clicking on the text instead of going to another page.
  - also allow a way to create children
 2. Allow Head of an Organization to assign new heads.   

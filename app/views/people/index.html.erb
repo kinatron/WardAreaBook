@@ -21,7 +21,11 @@
 <% @people.each do |person| %>
   <tr>
     <td><%=h person.name %></td>
-    <td><%=h person.family.name %></td>
+    <% if person.family==nil %>
+      <td>nil family</td>
+    <% else %>
+      <td><%=h person.family.name %></td>
+    <% end %>
     <td><%=h person.email %></td>
     <td><%= link_to 'Edit', edit_person_path(person) %></td>
   </tr>
