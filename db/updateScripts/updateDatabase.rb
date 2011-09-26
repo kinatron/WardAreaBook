@@ -42,6 +42,109 @@ def getFamilyMembers family
   return familyMembers
 end
 
+def downLoadNewList
+  #TODO fix this warning
+  agent = Mechanize.new
+  site = "https://lds.org/SSOSignIn/"
+  puts "accessing #{site}"
+  agent.get(site) do |page|
+    #TODO brittle....
+    form = page.forms[0]
+    # TODO What happens when you have multiple wards and admins?
+    root = RootAdmin.find(:first)
+    form.username = "kinateder"
+    form.password = "Ilovejenjen100%"
+#    form.username = root.lds_user_name
+#    form.password = root.lds_password 
+    page = agent.submit(form)
+    puts "Just logged in"
+    # TODO find out if there is way to search for the links 
+    # based on a regex instead of having to cycle through the links
+=begin
+    page.links.each do |link|
+      if link.text =~ /Membership Directory/i
+        page = link.click
+        break
+      end
+    end
+    vcardHref = ""
+    page.links.each do |link| 
+      if link.text =~ /vcard/i
+        line = link.href.match(/\'.*\'/)
+        vcardHref = line.to_s[1..(line.to_s.length-2)]
+        break
+      end
+    end
+    puts "Downloading the ward list"
+    agent.get(vcardHref).save_as("#{UPDATEDIR}/WardList.vcf")
+    puts "Done"
+=end
+  agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/31089").save_as("#{UPDATEDIR}/WardList.json")
+  puts "just retrieved the list"
+
+=begin
+    puts "Getting leadership information"
+    page.links.each do |link|
+      if link.text =~ /Leadership Directory/i
+        page = link.click
+        break
+      end
+    end
+    leaders = ""
+    page.links.each do |link| 
+      if link.text =~ /Abbreviated/i
+        line = link.href.match(/\'.*\'/)
+        leaders = line.to_s[1..(line.to_s.length-2)]
+        break
+      end
+    end
+
+    @doc = agent.get(leaders)
+    #@doc = Nokogiri::HTML(File.open("Burien Ward Leadership.html"))
+
+    callings = Array.new
+    record = false
+    calling = ""
+
+    @doc.parser.css(".eventsource").each do |row|
+    #@doc.css(".eventsource").each do |row|
+      token = row.text.strip
+      if calling != ""
+        callings << [calling,token]
+        calling = ""
+      else 
+        if token =~ /:/
+          calling = token.chomp(":")
+        end
+      end
+    end
+
+    # Hope hack
+    missionary = "Fulltime Missionaries"
+    fullTime = Calling.find_by_job(missionary)
+    if fullTime == nil
+      Calling.create(:job => missionary, :person_id =>1, :access_level => 2)
+    end
+
+    callings.each do |calling,person|
+      #puts calling + " <==> " + person
+      cal = Calling.find_by_job(calling)
+      if cal
+        cal.person_id = Person.find_by_full_name(person).id
+        cal.save!
+      else
+        Calling.create(:job => calling, :person_id => Person.find_by_full_name(person).id)
+      end
+    end
+
+=end
+  end
+end
+
+
+
+
+
 
 begin
   # load the rails environment
@@ -53,7 +156,8 @@ begin
   BACKUP = "#{UPDATEDIR}/bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
   copy(DATABASE,BACKUP)
 
- # downLoadNewList 
+  downLoadNewList 
+
 
   $stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
   puts Time.now.strftime("%a %b %d %Y - %I:%M %p")
@@ -89,7 +193,7 @@ begin
   elders.current=1
   elders.save
 
-  jsonString = File.open("./31089", "r").read
+  jsonString = File.open("#{UPDATEDIR}/WardList.json", "r").read
   ward = JSON.parse(jsonString)
   ward.each do |jsonEntry|
     uid   = jsonEntry['headOfHouseIndividualId']
@@ -271,7 +375,8 @@ begin
   if updateMade
     system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
   end
-  remove(BACKUP)
+  #remove(BACKUP)
+
 
 rescue Exception => e
   puts $!
