@@ -1,10 +1,19 @@
 =====================================================================================
 TODO's 
 =====================================================================================
-1. Authlogic
-   Develope tests
 
-2. Home teaching report update date is not getting updated.   
+1. Break things out into new wards
+    Add a ward field to families and People and users
+
+
+2. Create a new Ward (Lake Lucerne)
+
+3. Authenticate to the LDS.org account.
+
+
+
+
+1. Home teaching report update date is not getting updated.   
 
 2 . Transition to the new LDS api for ward information
 
@@ -42,6 +51,7 @@ Performance
 =====================================================================================
 Other
 ================
+1. authlogic tests
 1. Edit the other families by clicking on the text instead of going to another page.
  - also allow a way to create children
 2. Allow Head of an Organization to assign new heads.   
