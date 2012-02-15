@@ -3,64 +3,54 @@ require 'rubygems'
 require 'mechanize'
 require 'date'
 require 'rake'
-require 'json'
+require 'vpim/vcard'
 
 # This is a flag to determine if I need to clear the cache or not for the ward 
 # list index page.
 updateMade = false
 
-class JsonPerson
-  attr_accessor :name, :email, :uid, :lastName
-  def initialize(person)
-    @name,@uid,@email = person['preferredName'],person['individualId'],person['email']
-    @lastName, @name = @name.split(/,/)
-    @name.strip!
-    @email.strip!
-    if @email.empty? 
-      @email = nil 
-    else
-      @email.downcase!
-    end
-    #@uid.strip!
-    @lastName.strip!
-    #puts "\t#{name} \t#{id} \t#{email}"
-  end
+class VcardPerson
+  attr_accessor :name, :email
 end
 
 # TODO better log file so that all family updates happen together
-def getFamilyMembers family
+def getFamilyMembers cardData
+  #create people records from family members
+  # Sample vard data  ---> Household members:=0D=0A=Ryan <todd@grail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
+  #
   familyMembers = []
-  head = family['headOfHouse']
-  familyMembers << JsonPerson.new(head)
-  spouse = family['spouse']
-  familyMembers << JsonPerson.new(spouse) if spouse
-  children = family['children']
-  children.each do |child|
-    familyMembers << JsonPerson.new(child)
+  personList = cardData.split(/=0D=0A=/);
+  personList.shift
+  personList.each do |individual| 
+    person = VcardPerson.new
+    foundEmail = individual.match(/<.*>/)
+    if foundEmail
+      person.email = foundEmail.to_s[1..(foundEmail.to_s.length-2)].downcase
+      person.name = foundEmail.pre_match.strip
+    else
+      person.name = individual.strip
+      person.email = nil
+    end
+    familyMembers << person
   end
-
   return familyMembers
 end
 
 def downLoadNewList
   #TODO fix this warning
   agent = Mechanize.new
-  site = "https://lds.org/SSOSignIn/"
+  site = "https://secure.lds.org/units"
   puts "accessing #{site}"
   agent.get(site) do |page|
-    #TODO brittle....
-    form = page.forms[0]
+    form = page.form('loginForm')
     # TODO What happens when you have multiple wards and admins?
     root = RootAdmin.find(:first)
-    form.username = "kinateder"
-    form.password = "Ilovejenjen100%"
-#    form.username = root.lds_user_name
-#    form.password = root.lds_password 
+    form.username = root.lds_user_name
+    form.password = root.lds_password 
     page = agent.submit(form)
     puts "Just logged in"
     # TODO find out if there is way to search for the links 
     # based on a regex instead of having to cycle through the links
-=begin
     page.links.each do |link|
       if link.text =~ /Membership Directory/i
         page = link.click
@@ -78,11 +68,7 @@ def downLoadNewList
     puts "Downloading the ward list"
     agent.get(vcardHref).save_as("#{UPDATEDIR}/WardList.vcf")
     puts "Done"
-=end
-  agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/31089").save_as("#{UPDATEDIR}/WardList.json")
-  puts "just retrieved the list"
 
-=begin
     puts "Getting leadership information"
     page.links.each do |link|
       if link.text =~ /Leadership Directory/i
@@ -137,13 +123,100 @@ def downLoadNewList
       end
     end
 
-=end
   end
 end
 
 
+def quartlyReport
+  include StatsHelper
+  @totalMembers  = Person.find_all_by_current(true).length
+  @total         = Family.find_all_by_current_and_member(true,true, :conditions => "status != 'moved'").length
+  @active        = Family.find_all_by_current_and_member_and_status(true,true,'active').length
+  @lessActive    = Family.find_all_by_current_and_member_and_status(true,true,'less active').length
+  @notInterested = Family.find_all_by_current_and_member_and_status(true,true,'not interested').length
+  @dnc           = Family.find_all_by_current_and_member_and_status(true,true,'dnc').length
+  @unknown       = Family.find_all_by_current_and_member_and_status(true,true,'unknown').length + 
+                   Family.find_all_by_current_and_member_and_status(true,true,'new').length 
+  profile =  WardProfile.find_by_quarter(Time.now.at_beginning_of_quarter)  
+  if profile == nil
+    WardProfile.create(:quarter => Time.now.at_beginning_of_quarter,
+                       :total_families => @total,
+                       :active => @active,
+                       :less_active => @lessActive,
+                       :not_interested => @notInterested,
+                       :dnc => @dnc,
+                       :unknown => @unknown,
+                       :new => moveIns(3),
+                       :moved => moveOuts(3),
+                       :visited => familiesVisited(3))
+  else
+    profile.total_families = @total
+    profile.active = @active
+    profile.less_active = @lessActive
+    profile.not_interested = @notInterested
+    profile.dnc = @dnc
+    profile.unknown = @unknown
+    profile.new = moveIns(3)
+    profile.moved = moveOuts(3)
+    profile.visited = familiesVisited(3)
+    profile.save
+  end
+end
+
+def email_out_standing_todo()
+  if Date.today.wday==2 or Date.today.wday==5
+    action_items = ActionItem.find_all_by_status("open")
+    people  = Array.new
+    action_items.each { |action| people << action.person}
+    people.uniq!
+    people.each do |person|
+      mail = TaskMailer.create_outStandingTodo(person)
+      if mail.to == nil
+        puts "Unable to deliver todo's to #{person.full_name}"
+      else
+        TaskMailer.deliver(mail)
+        puts "Just sent message [#{mail.subject}] to #{mail.to}"
+      end
+    end
+  end
+end
+  
+def email_home_teachers_daily_events()
+  hopes = Family.find_by_name("Hope").people[0]
+  elders = Family.find_by_name("Elders").people[0]
+  events = Event.find_all_by_date_and_person_id(Date.yesterday..Date.today,hopes)
+  events += Event.find_all_by_date_and_person_id(Date.yesterday..Date.today,elders)
+  # strip out non-members TODO for now...
+  events.delete_if {|event| event.family.member == false}
+  # strip out "attempts" or "other" events
+  events.delete_if {|event| event.category == "Attempt"}
+  events.delete_if {|event| event.category == "Other"}
 
 
+  events = events.group_by {|event| event.getHomeTeachers}
+  events.each do |teachers, events|
+    #p "#{teachers}  ======>  #{events}"
+    teachers.each do | teacher|
+      if teacher.class == Person
+        mail = TaskMailer.create_homeTeachingEvents(teacher,events)
+        if mail.to == nil
+          puts "Unable to deliver home [#{mail.subject}] to #{teacher.full_name}"
+        else
+          TaskMailer.deliver(mail)
+          puts "Just sent message [#{mail.subject}] to #{mail.to}"
+        end
+      else # Unassigned families
+        mail = TaskMailer.create_unassignedFamilyEvents(teacher,events)
+        if mail.to == nil
+          puts "Unable to deliver home [#{mail.subject}] to #{teacher.person.full_name}"
+        else
+          TaskMailer.deliver(mail)
+          puts "Just sent message [#{mail.subject}] to #{mail.to}" 
+        end
+      end
+    end
+  end
+end
 
 
 begin
@@ -157,7 +230,6 @@ begin
   copy(DATABASE,BACKUP)
 
   downLoadNewList 
-
 
   $stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
   puts Time.now.strftime("%a %b %d %Y - %I:%M %p")
@@ -193,26 +265,23 @@ begin
   elders.current=1
   elders.save
 
-  jsonString = File.open("#{UPDATEDIR}/WardList.json", "r").read
-  ward = JSON.parse(jsonString)
-  ward.each do |jsonEntry|
-    uid   = jsonEntry['headOfHouseIndividualId']
-    coupleName = jsonEntry['coupleName']
-    lastName, headOfHouseHold = coupleName.split(/,/)
-    lastName.strip!
-    headOfHouseHold.strip!
-    headOfHouseHold.gsub!("&", "and")
-    address    = jsonEntry['desc1'] + " " + jsonEntry['desc2']
-    phone      = jsonEntry['phone']
+  cards = Vpim::Vcard.decode(open("#{UPDATEDIR}/WardList.vcf"))
+  cards.each do |card|
+    lastName = card.name.family.strip
     lastName ||= "" 
+    headOfHouseHold = card.name.given.strip
     headOfHouseHold ||= "" 
+    phone = card.telephone
     phone ||= "" 
+    address = (card.address.street + " " + card.address.locality + " " + card.address.region).strip
     address ||= "" 
+    uid = card.value("UID")
 
     family = Family.find_by_uid(uid)
 
     # If the uid exists check for any updates
     if family
+
       # update family info
       # if there is a change update and log it
       if family.name != lastName or family.head_of_house_hold != headOfHouseHold or
@@ -247,20 +316,20 @@ begin
       alreadyRemoved = Person.find_all_by_family_id_and_current(family.id,0)
       Person.update_all("current == 0","family_id == #{family.id}")
 
-      familyMembers = getFamilyMembers jsonEntry
-      familyMembers.each { |new| 
+      vcardMembers = getFamilyMembers card.note
+      vcardMembers.each { |new| 
         person = Person.find_by_name_and_family_id(new.name,family)
         # if the person exists make them current and then verify the email address
         if person
-          if (person.email != new.email) 
-            puts "\t  updating email: (#{person.email}) --> (#{new.email}) for " + new.name + " " + family.name
+          if new.email && person.email != new.email 
+            puts "\t  updating email <" + new.email + "> for " + new.name + " " + family.name
             person.email = new.email
           end
           person.current = true
           person.save
           # otherwise create new person
         else
-          unless new.email == nil
+          if new.email 
             puts "\t  Creating person :" + new.name + " with email :" + new.email 
           else
             puts "\t  Creating person :" + new.name 
@@ -286,7 +355,6 @@ begin
 
       # label the family as current
       family.current=1
-      family.member=1
       family.save
 
       # Create a new family record
@@ -313,8 +381,8 @@ begin
       # Sample vard data  ---> Household members:=0D=0A=Ryan <todd@grail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
       #
 
-      familyMembers = getFamilyMembers jsonEntry
-      familyMembers.each { |person| 
+      vcardMembers = getFamilyMembers card.note
+      vcardMembers.each { |person| 
         print "\t  Creating person :" + person.name
         unless person.email == nil or person.email == "" 
           print " with email :" + person.email 
@@ -366,17 +434,16 @@ begin
 
   puts "\n"
 
-  #email_out_standing_todo
-  #email_home_teachers_daily_events
+  email_out_standing_todo
+  email_home_teachers_daily_events
 
-  #quartlyReport
+  quartlyReport
 
   # Clear the cache if any updates are made.
   if updateMade
     system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
   end
-  #remove(BACKUP)
-
+  remove(BACKUP)
 
 rescue Exception => e
   puts $!
