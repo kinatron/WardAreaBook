@@ -52,10 +52,8 @@ def downLoadNewList
     form = page.forms[0]
     # TODO What happens when you have multiple wards and admins?
     root = RootAdmin.find(:first)
-    form.username = "kinateder"
-    form.password = "Ilovejenjen100%"
-#    form.username = root.lds_user_name
-#    form.password = root.lds_password 
+    form.username = root.lds_user_name
+    form.password = root.lds_password 
     page = agent.submit(form)
     puts "Just logged in"
     # TODO find out if there is way to search for the links 
