@@ -13,7 +13,7 @@ require File.dirname(__FILE__) + "/../../config/environment"
 # Create a copy of the database
 # TODO Get the database name from the environment
 #copy("production.sqlite3","bak/"+Time.now.to_s+"  - production.sqlite3")
-#copy("development.sqlite3","bak/"+Time.now.to_s+"  - development.sqlite3")
+copy("../development.sqlite3","bak/"+Time.now.to_s+"  - development.sqlite3")
 
 # Append to the running log
 #$stdout = File.open("WardListImport.log",'a')
@@ -25,6 +25,7 @@ require File.dirname(__FILE__) + "/../../config/environment"
 # familyname,  phone,   addr1,   addr2,  addr3,   addr4,   name1,   name2,  name3,   name4
 ########################################################################
 # set all records to non current
+# TODO
 Family.update_all("current == 0")
 
 # Find the Hopes and Elders make them current because 
@@ -38,53 +39,77 @@ elders = Family.find_by_name("Elders")
 elders.current=1
 elders.save
 
+# unfortunate hacks :(
+hack = Family.find(308)
+hack.head_of_house_hold = "Craig William"
+hack.save
+
+hack = Family.find(128)
+hack.head_of_house_hold = "Harvey Kay and Veletta Mae"
+hack.save
+
+hack = Family.find(43)
+hack.head_of_house_hold = "Mark Alan and Melanie Rose Clark"
+hack.save
+
+hack = Family.find(44)
+hack.head_of_house_hold = "Sheri"
+hack.save
+
+hack = Family.find(208)
+hack.head_of_house_hold = "Viliami Sisi Toutai and Lili"
+hack.save
+
+hack = Family.find(390)
+hack.head_of_house_hold = "Viliami Po'uli Kae'eva and Lynn"
+hack.save
+
+hack = Family.find(252)
+hack.head_of_house_hold = "Shirley Dianna"
+hack.save
+
+hack = Family.find(286)
+hack.head_of_house_hold = "Tammy"
+hack.save
 
 CSV.open('WardList.csv', 'r') do |row|
 
   # Don't want the first or last values
   unless row[0] == nil or row[0]=='Family Name'
     familyname = row[0]
-    puts familyname
 
     lastName, headOfHouseHold =   row[1].split(/,/)
+    headOfHouseHold.gsub!("&", "and")
 
     lastName.strip!
     headOfHouseHold.strip!
 
-
-    # Hack TODO - I think there is more elegant solution but for now take 
-    # Bishops name from the ward list and replace it with Bishop
-    if lastName == "Puloka"
-      headOfHouseHold.gsub!("Uaisele Kalingitoni","Bishop") 
-    end
-
-
-    #Glaefke hack
-    if lastName == "Glaefke"
-      headOfHouseHold.gsub!("Jack Warren Perry","Jack Warren P.")
-    end
-
     # Get phone
-    phone = row[1]
+    phone = row[2]
     phone ||= "";
 
     # Get the address
     row[2] ||= "";
     row[3] ||= "";
-    address = (row[2] + " " + row[3] + " " + row[4] + " " + row[5]).strip
+    address = (row[4]).strip
 
     # Find out if this is a new family. 
+    # Check for variations on the head of house hold names
+    # Check for existing phone numbers 
+    # Check for existing addresses.
 
     family = Family.find(:first, 
                          :conditions => ["UPPER(name)= ? and UPPER(head_of_house_hold) = ?", 
                                           lastName.upcase, headOfHouseHold.upcase])
-    # New family
-    if (family == nil) 
+
+    if (family == nil and  # hack some exceptions
+       (lastName.downcase != "conn" and lastName.downcase != "linville" and
+        lastName.downcase != "tupou" ))
+
       # Users may update their preferred name, so check for slight variations
-      
       familyList =  Family.find_all_by_name(lastName)
 
-      # if there is a common name between the new headOfHousHold and the 
+      # if there is a common name between the new headOfHouseHold and the 
       # existing one then the head of household names have changed and it 
       # will not be interpreted as a new family
       # Jeff --> Jeff and Tanya
@@ -93,27 +118,46 @@ CSV.open('WardList.csv', 'r') do |row|
       newFamily = true
       familyId = 0
       familyList.each  do | fam | 
-        currentNames = fam.head_of_house_hold.upcase.split.to_set.delete("AND")
-        newNames = headOfHouseHold.upcase.split.to_set.delete("AND")
+        currentNames = fam.head_of_house_hold.upcase.split.to_set
+        currentNames.delete("AND")
+        currentNames.delete("&")
+        newNames = headOfHouseHold.upcase.split.to_set
+        newNames.delete("AND")
+        newNames.delete("&")
         result = currentNames & newNames
-       
         if result.size > 0 
           newFamily = false
           familyId = fam.id;
           break
         end
+
+        # Check for existing phone numbers 
+        if fam.phone == phone and phone != ""
+          newFamily = false
+          familyId = fam.id;
+          break
+        end
+
+        # Check for existing addresses.
+        if fam.address == address and address != ""
+          newFamily = false
+          familyId = fam.id;
+          break
+        end
       end
+
       if newFamily
         puts "  *** New Family *** ";
         puts "  \t" + lastName  + "," + headOfHouseHold
         puts "  \t" + phone;
         puts "  \t" + address;
+        puts "\n"
         # Create the new family
         # Set status 
         # label them as current
 
         family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
-                               :phone => phone, :address => address, :status => "New")
+                               :phone => phone, :address => address, :status => "new")
 
         # Create people records from person columns 
         # "Ryan <kinateder@gmail.com>", "Jennifer Jones"
@@ -175,6 +219,7 @@ CSV.open('WardList.csv', 'r') do |row|
 
     # label them as current
     family.current=1
+    # TODO
     family.save
   end # skip past the first, or any empty rows
 end # iterate through the ward list
@@ -189,7 +234,7 @@ end # iterate through the ward list
 # having some booleans use 0,1 and others use true, false
 moved = Family.find_all_by_current_and_member(0,true)
 
-# TODO gotta be amore elegant way to determine if we need to print
+# TODO gotta be a more elegant way to determine if we need to print
 # "Familes moved out.  --- Database query
 newMoveOuts = false;
 moved.each do |family|

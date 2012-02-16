@@ -18,25 +18,25 @@ config.action_controller.perform_caching             = false
 config.action_mailer.raise_delivery_errors = true
 
 # set delivery method to :smtp, :sendmail or :test
-config.action_mailer.delivery_method = :test
+config.action_mailer.delivery_method = :smtp
 
+=begin
 config.action_mailer.smtp_settings = {
   :address => "xxx",
   :authentication => :login,
   :user_name => "xxx",
   :password => "xxx"
 }
+=end
 
 # these options are only needed if you choose smtp delivery
-=begin
 config.action_mailer.smtp_settings = {
   :address => "smtp.gmail.com", 
   :port => 587, 
   :authentication => :plain, 
   :enable_starttls_auto => true, 
-  :user_name => "xxxx", 
-  :password => "xxxx" 
+  :user_name => "kinateder@gmail.com", 
+  :password => "Reno55Kinatron!@#" 
 }
-=end
 
 ActionController::Base.cache_store = :file_store, "#{RAILS_ROOT}/public/cache"
