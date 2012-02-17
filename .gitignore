@@ -8,3 +8,8 @@ db/*.sqlite3
 /db/updateScripts/leader.html
 /db/backup.db
 /db/updateScripts/Burien Ward Leadership.html
+/db/development.pg
+/db/sqlite3Dump
+/db/updateScripts/31089
+/db/updateScripts/testdump
+/db/updateScripts/WardList.json

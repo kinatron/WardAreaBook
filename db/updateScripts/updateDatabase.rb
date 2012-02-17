@@ -154,7 +154,7 @@ begin
   BACKUP = "#{UPDATEDIR}/bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
   copy(DATABASE,BACKUP)
 
-  downLoadNewList 
+#  downLoadNewList 
 
 
   $stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
@@ -165,7 +165,7 @@ begin
   # familyname,  phone,   addr1,   addr2,  addr3,   addr4,   name1,   name2,  name3,   name4
   ########################################################################
   # set all records to non current
-  Person.update_all("current == 0")
+  Person.update_all(:current => false)
   Family.find_all_by_member(true).each do |family|
     family.current = false
     family.save
@@ -176,19 +176,19 @@ begin
   # TODO you need to better account for missionaries.
   #
   hopes = Family.find_by_name("Hope")
-  hopes.current=1
+  hopes.current=true
   hopes.member=false
   hopes.save
   hopes = hopes.people[0]
-  hopes.current=1
+  hopes.current=true
   hopes.save
 
   elders = Family.find_by_name("Elders")
-  elders.current=1
+  elders.current=true
   elders.member=false
   elders.save
   elders = elders.people[0]
-  elders.current=1
+  elders.current=true
   elders.save
 
   jsonString = File.open("#{UPDATEDIR}/WardList.json", "r").read
@@ -243,7 +243,7 @@ begin
       # current if they appear in new ward list.
       # For my report I want a list of those people already removed
       alreadyRemoved = Person.find_all_by_family_id_and_current(family.id,0)
-      Person.update_all("current == 0","family_id == #{family.id}")
+      Person.update_all(:current => false, :family_id => family.id)
 
       familyMembers = getFamilyMembers jsonEntry
       familyMembers.each { |new| 
@@ -268,7 +268,7 @@ begin
         end
       }
 
-      removed = Person.find_all_by_family_id_and_current(family.id, 0) - alreadyRemoved
+      removed = Person.find_all_by_family_id_and_current(family.id, false) - alreadyRemoved
       removed.each { |person| 
         #eventually delete these people if they are not tied to an event
         puts "\t  #{person.name} #{family.name} is no longer current"
@@ -283,8 +283,8 @@ begin
       end
 
       # label the family as current
-      family.current=1
-      family.member=1
+      family.current=true
+      family.member=true
       family.save
 
       # Create a new family record
@@ -301,7 +301,7 @@ begin
 
       family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
                              :phone => phone, :address => address, :status => "new", 
-                             :uid => uid, :current => 1)
+                             :uid => uid, :current => true)
       family.events.create(:date => Date.today, 
                            :category => "MoveIn",
                            :comment => "Received records from SLC")
@@ -331,9 +331,7 @@ begin
   # change status of those families to   "Moved - Old Record"
   #
 
-  # TODO this seems like a really bad flaw with rails and the sqlite database
-  # having some booleans use 0,1 and others use true, false
-  moved = Family.find_all_by_current_and_member(0,true)
+  moved = Family.find_all_by_current_and_member(false,true)
 
   # TODO gotta be amore elegant way to determine if we need to print
   # "Familes moved out.  --- Database query
@@ -356,7 +354,7 @@ begin
                            :category => "MoveOut",
                            :comment => "Records removed from the Ward")
       # make all of the family members not current
-      Person.update_all("current == 0","family_id == #{family.id}")
+      Person.update_all(:current => false, :family_id => family.id)
       family.save
       updateMade = true
     end
