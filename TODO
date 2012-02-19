@@ -2,8 +2,19 @@
 TODO's 
 =====================================================================================
 
-1. Break things out into new wards
-    Add a ward field to families and People and users
+1. Get the current site up and running on hosting rails.
+     a) Fix cron job. I need to get Sister Probst or Vils password
+     b) Get the cron job working.
+     b) Fix home teaching
+
+
+2. Move to Heroku
+     a) move to heroku
+     b) observe performance
+     c) make sure the cron jobs all work
+
+3. Break things out into new wards
+    Add a ward field to: Families, People and Users
 
 
 2. Create a new Ward (Lake Lucerne)
