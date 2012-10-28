@@ -39,14 +39,6 @@ ActiveRecord::Schema.define(:version => 20110404043937) do
     t.datetime "updated_at"
   end
 
-  create_table "companionships", :force => true do |t|
-    t.string   "type"
-    t.integer  "person1"
-    t.integer  "person2"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "events", :force => true do |t|
     t.date     "date"
     t.integer  "family_id"
@@ -135,7 +127,7 @@ ActiveRecord::Schema.define(:version => 20110404043937) do
     t.integer "family_id"
     t.integer "person_id"
     t.string  "category"
-    t.date    "last_update", :default => '2011-02-24'
+    t.date    "last_update", :default => '2012-10-28'
   end
 
   create_table "users", :force => true do |t|

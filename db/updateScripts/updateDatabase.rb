@@ -49,7 +49,7 @@ def downLoadNewList
   puts "accessing #{site}"
   agent.get(site) do |page|
     #TODO brittle....
-    form = page.forms[0]
+    form = page.forms.find { |form| form.fields.length > 1 }
     # TODO What happens when you have multiple wards and admins?
     root = RootAdmin.find(:first)
     form.username = root.lds_user_name
@@ -77,7 +77,9 @@ def downLoadNewList
     agent.get(vcardHref).save_as("#{UPDATEDIR}/WardList.vcf")
     puts "Done"
 =end
-  agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/31089").save_as("#{UPDATEDIR}/WardList.json")
+  list_location = "#{UPDATEDIR}/WardList.json"
+  FileUtils.mv(list_location, list_location + ".old") if File.exists? list_location
+  agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/25542").save_as(list_location)
   puts "just retrieved the list"
 
 =begin
@@ -154,7 +156,7 @@ begin
   BACKUP = "#{UPDATEDIR}/bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
   copy(DATABASE,BACKUP)
 
-#  downLoadNewList 
+  downLoadNewList 
 
 
   $stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
@@ -170,26 +172,6 @@ begin
     family.current = false
     family.save
   end
-
-  # Find the Hopes and Elders make them current because 
-  # they won't show up in the new  ward list
-  # TODO you need to better account for missionaries.
-  #
-  hopes = Family.find_by_name("Hope")
-  hopes.current=true
-  hopes.member=false
-  hopes.save
-  hopes = hopes.people[0]
-  hopes.current=true
-  hopes.save
-
-  elders = Family.find_by_name("Elders")
-  elders.current=true
-  elders.member=false
-  elders.save
-  elders = elders.people[0]
-  elders.current=true
-  elders.save
 
   jsonString = File.open("#{UPDATEDIR}/WardList.json", "r").read
   ward = JSON.parse(jsonString)
