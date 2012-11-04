@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
     if person.nil?
       errors.add(:email, " - You must be a member of this ward
                              and have an email registered with lds.org
-                             Please contact Brother Kinateder for more information")
+                             Please contact Brother Boushley for more information")
     else
       self.person = person
     end
@@ -84,7 +84,7 @@ private
     if Person.find_all_by_email(email).empty? 
       errors.add(:email, " - You must be a member of this ward
                              and have an email registered with lds.org
-                             Please contact Brother Kinateder for more information")
+                             Please contact Brother Boushley for more information")
     end
   end
 
