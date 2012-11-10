@@ -80,14 +80,7 @@
     },
 
     "AWSRegionArch2AMI" : {
-      // UBUNTU AMI IN US_WEST_2: ami-8e109ebe
-      "us-east-1"      : { "32" : "ami-31814f58", "64" : "ami-1b814f72", "64HVM" : "ami-0da96764" },
-      "us-west-2"      : { "32" : "ami-38fe7308", "64" : "ami-30fe7300", "64HVM" : "NOT_YET_SUPPORTED" },
-      "us-west-1"      : { "32" : "ami-11d68a54", "64" : "ami-1bd68a5e", "64HVM" : "NOT_YET_SUPPORTED" },
-      "eu-west-1"      : { "32" : "ami-973b06e3", "64" : "ami-953b06e1", "64HVM" : "NOT_YET_SUPPORTED" },
-      "ap-southeast-1" : { "32" : "ami-b4b0cae6", "64" : "ami-beb0caec", "64HVM" : "NOT_YET_SUPPORTED" },
-      "ap-northeast-1" : { "32" : "ami-0644f007", "64" : "ami-0a44f00b", "64HVM" : "NOT_YET_SUPPORTED" },
-      "sa-east-1"      : { "32" : "ami-3e3be423", "64" : "ami-3c3be421", "64HVM" : "NOT_YET_SUPPORTED" }
+      "us-west-2" :      { "32" : "ami-8c109ebc", "64" : "ami-8e109ebe" }
     }
   },
     
@@ -121,24 +114,8 @@
         "AWS::CloudFormation::Init" : {
           "config" : {
             "packages" : {
-              "yum" : {
-                "nginx"        : [],
-                "ruby19"       : [],
-                "rubygems"     : [],
-                "mysql"        : [],
-
-                ?
-                "make"         : [],
-                "gcc"          : [],
-                "gcc-c++"      : [],
-                ?
-
-                "mysql-server" : [],
-                "mysql-devel"  : [],
-                "mysql-libs"   : []
-              },
               "apt" : {
-                "mysql-server" : [],
+                "mysql-server-5.5" : [],
                 "nginx"        : [],
                 "rubygems"     : [],
                 "ruby1.9.3"    : []
@@ -167,7 +144,7 @@
             },
             "services" : {
               "sysvinit" : {  
-                "httpd"    : { "enabled" : "true", "ensureRunning" : "true" },
+                "nginx"    : { "enabled" : "true", "ensureRunning" : "true" },
                 "mysqld"   : { "enabled" : "true", "ensureRunning" : "true" },
                 "sendmail" : { "enabled" : "false", "ensureRunning" : "false" }
               }
@@ -183,27 +160,28 @@
         "KeyName"        : { "Ref" : "KeyName" },
         "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
           "#!/bin/bash -v\n",
-          "yum update -y aws-cfn-bootstrap\n",
 
-          "# Helper function\n",
           "function error_exit\n",
           "{\n",
-          "  /opt/aws/bin/cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
+          "  cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
           "  exit 1\n",
           "}\n",
 
-          "# Install Nginx Web Server, MySQL, PHP and WordPress\n",
-          "/opt/aws/bin/cfn-init -s ", { "Ref" : "AWS::StackName" }, " -r WebServer ",
-          "    --access-key ",  { "Ref" : "HostKeys" },
-          "    --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]},
-          "    --region ", { "Ref" : "AWS::Region" }, " || error_exit 'Failed to run cfn-init'\n",
+          "sudo apt-get -y update\n",
+          "sudo apt-get -y install python-setuptools\n",
+          "sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password ", { "Ref" : "DBRootPassword" }, "'\n",
+          "sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password ", { "Ref" : "DBRootPassword" }, "'\n",
+          "sudo easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-1.0-6.tar.gz\n",
+          "sudo cfn-init --region ", { "Ref" : "AWS::Region" },
+          "    -s ", { "Ref" : "AWS::StackName" }, " -r WebServer --verbose",
+          "         --access-key ", { "Ref" : "HostKeys" },
+          "         --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]}, " || error_exit 'Failed to run cfn-init'\n",
 
           "# Setup MySQL root password and create a user\n",
-          "mysqladmin -u root password '", { "Ref" : "DBRootPassword" }, "' || error_exit 'Failed to initialize root password'\n",
           "mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n",
 
           "# Setup correct file ownership\n",
-          "chown -R nginx:nginx /var/app/wardareabook\n",
+          "sudo chown -R nginx:nginx /var/app/wardareabook\n",
 
           "# All is well so signal success\n",
           "/opt/aws/bin/cfn-signal -e 0 -r \"WebServer setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
