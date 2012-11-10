@@ -115,13 +115,20 @@
           "config" : {
             "packages" : {
               "apt" : {
-                "mysql-server-5.5" : [],
-                "nginx"        : [],
-                "rubygems"     : [],
-                "ruby1.9.3"    : []
+                "mysql-server-5.5"     : [],
+                "rubygems"             : [],
+                "ruby1.9.3"            : [],
+                "libcurl4-openssl-dev" : [],
+                "libssl-dev"           : [],
+                "zlib1g-dev"           : [],
+                "build-essential"      : [],
+                "libxml2-dev"          : [],
+                "libxslt1-dev"         : [],
+                "sqlite3"              : []
               },
               "rubygems" : {
-                  "passenger"  : []
+                  "passenger"  : [],
+                  "bundler"    : []
               }
             },
 
@@ -147,6 +154,16 @@
                 "nginx"    : { "enabled" : "true", "ensureRunning" : "true" },
                 "mysql"    : { "enabled" : "true", "ensureRunning" : "true" }
               }
+            },
+            "commands" : {
+                "install-nginx" : {
+                    "command" : "passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx",
+                    "ignoreErrors" : "false"
+                },
+                "install-app-dependencies" : {
+                    "command" : "bundle install",
+                    "cwd" : "/var/app/wardareabook"
+                }
             }
           }
         }
@@ -170,7 +187,7 @@
           "sudo apt-get -y install python-setuptools\n",
           "sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password ", { "Ref" : "DBRootPassword" }, "'\n",
           "sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password ", { "Ref" : "DBRootPassword" }, "'\n",
-          "sudo easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-1.0-6.tar.gz\n",
+          "sudo easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.g\n",
           "sudo cfn-init --region ", { "Ref" : "AWS::Region" },
           "    -s ", { "Ref" : "AWS::StackName" }, " -r WebServer --verbose",
           "         --access-key ", { "Ref" : "HostKeys" },
@@ -184,7 +201,7 @@
           "sudo chown -R nginx:nginx /var/app/wardareabook\n",
 
           "# All is well so signal success\n",
-          "/opt/aws/bin/cfn-signal -e 0 -r \"WebServer setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
+          "cfn-signal -e 0 -r \"WebServer setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
 
         ]]}}        
       }
