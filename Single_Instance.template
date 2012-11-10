@@ -126,7 +126,7 @@
             },
 
             "sources" : {
-              "/var/app/wardareabook" : "https://github.com/boushley/WardAreaBook/archive/master.tar.gz"
+              "/var/app/wardareabook" : "https://github.com/boushley/WardAreaBook/zipball/master"
             },
 
             "files" : {
@@ -145,8 +145,7 @@
             "services" : {
               "sysvinit" : {  
                 "nginx"    : { "enabled" : "true", "ensureRunning" : "true" },
-                "mysqld"   : { "enabled" : "true", "ensureRunning" : "true" },
-                "sendmail" : { "enabled" : "false", "ensureRunning" : "false" }
+                "mysql"    : { "enabled" : "true", "ensureRunning" : "true" }
               }
             }
           }
@@ -176,6 +175,7 @@
           "    -s ", { "Ref" : "AWS::StackName" }, " -r WebServer --verbose",
           "         --access-key ", { "Ref" : "HostKeys" },
           "         --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]}, " || error_exit 'Failed to run cfn-init'\n",
+          "echo 'Working'\n",
 
           "# Setup MySQL root password and create a user\n",
           "mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n",
@@ -199,7 +199,7 @@
       "DependsOn" : "WebServer",
       "Properties" : {
         "Handle" : {"Ref" : "WaitHandle"},
-        "Timeout" : "300"
+        "Timeout" : "900"
       }
     },
     
