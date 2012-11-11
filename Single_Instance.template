@@ -116,6 +116,9 @@
             "packages" : {
               "apt" : {
                 "mysql-server-5.5"     : [],
+                "mysql-client-5.5"     : [],
+                "libmysql-ruby"        : [],
+                "libmysqlclient-dev"   : [],
                 "rubygems"             : [],
                 "ruby1.9.3"            : [],
                 "libcurl4-openssl-dev" : [],
@@ -124,6 +127,7 @@
                 "build-essential"      : [],
                 "libxml2-dev"          : [],
                 "libxslt1-dev"         : [],
+                "libsqlite3-dev"       : [],
                 "sqlite3"              : []
               },
               "rubygems" : {
@@ -147,11 +151,22 @@
                 "mode"  : "000644",
                 "owner" : "root",
                 "group" : "root"
+              },
+              "/etc/init/nginx.conf" : {
+                  "content" : { "Fn::Join" : ["\n", [
+                      "description \"Nginx HTTP Server\"",
+                      "start on filesystem\n",
+                      "stop on runlevel [!2345]\n",
+                      "respawn\n",
+                      "exec /opt/nginx/sbin/nginx -g \"daemon off;\"\n",
+                  ]]},
+                  "mode" : "000644",
+                  "owner" : "root",
+                  "group" : "root"
               }
             },
             "services" : {
               "sysvinit" : {  
-                "nginx"    : { "enabled" : "true", "ensureRunning" : "true" },
                 "mysql"    : { "enabled" : "true", "ensureRunning" : "true" }
               }
             },
@@ -163,6 +178,17 @@
                 "install-app-dependencies" : {
                     "command" : "bundle install",
                     "cwd" : "/var/app/wardareabook"
+                },
+                "insert-nginx-config" : {
+                    "command" : {"Fn::Join" :: ["", [
+                        "sudo cat 'server {\\n",
+                            "listen 80;\\n",
+                            "server_name ", {"Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]} , ";\\n",
+                            "root /var/app/wardareabok/public;!\\n",
+                            "passenger_enabled on;\\n",
+                        "}\\n' >> /opt/nginx/conf/nginx.conf"
+                        ]]},
+                    "ignoreErrors" : "false"
                 }
             }
           }
@@ -187,7 +213,7 @@
           "sudo apt-get -y install python-setuptools\n",
           "sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password ", { "Ref" : "DBRootPassword" }, "'\n",
           "sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password ", { "Ref" : "DBRootPassword" }, "'\n",
-          "sudo easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.g\n",
+          "sudo easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
           "sudo cfn-init --region ", { "Ref" : "AWS::Region" },
           "    -s ", { "Ref" : "AWS::StackName" }, " -r WebServer --verbose",
           "         --access-key ", { "Ref" : "HostKeys" },
