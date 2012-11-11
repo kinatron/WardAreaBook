@@ -1,4 +1,4 @@
-WardAreaBook::Application.routes.draw do |map|
+WardAreaBook::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -56,60 +56,36 @@ WardAreaBook::Application.routes.draw do |map|
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
-  map.connect '/action_items/wardActionItems/', :controller => 'action_items', 
-                                               :action => 'wardActionItems'
-  map.resources :action_items
-  map.resources :auth_users
-
-  map.resources :comments
-
-  map.resources :callings
-
-  map.connect '/callings/updateAccessLevels/', :controller => 'callings', 
-                                               :action => 'updateAccessLevels'
-  map.resources :name_mappings
-
-  map.connect '/teaching_routes/updateNames/', :controller => 'teaching_routes', 
-                                               :action => 'updateNames'
-  map.connect '/teaching_routes/updateError/', :controller => 'teaching_routes', 
-                                               :action => 'updateError'
-  map.connect '/teaching_routes/updateRoutes/', :controller => 'teaching_routes', 
-                                               :action => 'updateRoutes'
-  map.connect '/teaching_routes/teacherList/', :controller => 'teaching_routes', 
-                                               :action => 'teacherList'
-  map.resources :teaching_routes
-
-  map.resources :teaching_records
-
-  map.connect '/todo', :controller => 'users', :action => 'todo'
-  map.resources :users
-
-  map.connect '/WardListUpdates', :controller => 'people', :action => 'WardListUpdates'
-
-  map.resources :people
-
-  map.resources :events
-
-  map.resources :password_resets
-
-  map.resources :roster
-
-  map.login 'login', :controller => 'user_sessions', :action => 'new'  
-  map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'  
-  map.resources :user_sessions  
-
-  map.connect '/families/members/', :controller => 'families', :action => 'members'
-  map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
-  map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'
-  map.connect '/families/mergeRecords/', :controller => 'families', :action => 'mergeRecords'
-  map.connect '/families/new_comment/', :controller => 'families', :action => 'new_comment'
-
-  map.activation "/activate/:id", :controller => 'password_resets', :action => 'activate'
-
-  map.resources :families
-
-  map.root :controller => "families"
-
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  match '/action_items/wardActionItems/' => 'action_items#wardActionItems'
+  resources :action_items
+  resources :auth_users
+  resources :comments
+  resources :callings
+  match '/callings/updateAccessLevels/' => 'callings#updateAccessLevels'
+  resources :name_mappings
+  match '/teaching_routes/updateNames/' => 'teaching_routes#updateNames'
+  match '/teaching_routes/updateError/' => 'teaching_routes#updateError'
+  match '/teaching_routes/updateRoutes/' => 'teaching_routes#updateRoutes'
+  match '/teaching_routes/teacherList/' => 'teaching_routes#teacherList'
+  resources :teaching_routes
+  resources :teaching_records
+  match '/todo' => 'users#todo'
+  resources :users
+  match '/WardListUpdates' => 'people#WardListUpdates'
+  resources :people
+  resources :events
+  resources :password_resets
+  resources :roster
+  match 'login' => 'user_sessions#new', :as => :login
+  match 'logout' => 'user_sessions#destroy', :as => :logout
+  resources :user_sessions
+  match '/families/members/' => 'families#members'
+  match '/families/teachingPool/' => 'families#teachingPool'
+  match '/families/investigators/' => 'families#investigators'
+  match '/families/mergeRecords/' => 'families#mergeRecords'
+  match '/families/new_comment/' => 'families#new_comment'
+  match '/activate/:id' => 'password_resets#activate', :as => :activation
+  resources :families
+  match '/' => 'families#index'
+  match '/:controller(/:action(/:id))'
 end
