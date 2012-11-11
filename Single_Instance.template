@@ -120,7 +120,7 @@
                 "libmysql-ruby"        : [],
                 "libmysqlclient-dev"   : [],
                 "rubygems"             : [],
-                "ruby1.9.3"            : [],
+                "ruby1.9.1-full"       : [],
                 "libcurl4-openssl-dev" : [],
                 "libssl-dev"           : [],
                 "zlib1g-dev"           : [],
@@ -171,19 +171,27 @@
               }
             },
             "commands" : {
-                "00-install-nginx" : {
+                "00-change-default-ruby" : {
+                    "command" : "sudo rm /usr/bin/ruby; sudo ln -s /usr/bin/ruby1.9.1 /usr/bin/ruby",
+                    "ignoreErrors" : "false"
+                },
+                "01-install-gems-with-different-ruby" : {
+                    "command" : "sudo gem install passenger bundler",
+                    "ignoreErrors" : "false"
+                },
+                "02-install-nginx" : {
                     "command" : "passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx",
                     "ignoreErrors" : "false"
                 },
-                "01-insert-nginx-config" : {
+                "03-insert-nginx-config" : {
                     "command" : "sudo su root -c \"echo -e \\\"\\nserver {\\n    listen 80;\\n    server_name `curl http://169.254.169.254/latest/meta-data/public-hostname` ;\\n    root /var/app/wardareabok/public;\\n    passenger_enabled on;\\n}\\n\\\" >> /opt/nginx/conf/nginx.conf\"",
                     "ignoreErrors" : "false"
                 },
-                "02-startup-nginx" : {
+                "04-startup-nginx" : {
                     "command" : "sudo service nginx restart",
                     "ignoreErrors" : "false"
                 },
-                "03-install-app-dependencies" : {
+                "05-install-app-dependencies" : {
                     "command" : "bundle install",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
