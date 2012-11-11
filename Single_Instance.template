@@ -139,6 +139,11 @@
             "sources" : {
               "/var/app/wardareabook" : "https://github.com/boushley/WardAreaBook/zipball/master"
             },
+            "users" : {
+                "wardareabook": {
+                    "home" : "/var/app/wardareabook"
+                }
+            },
 
             "files" : {
               "/tmp/setup.mysql" : {
@@ -179,19 +184,66 @@
                     "command" : "sudo gem install passenger bundler",
                     "ignoreErrors" : "false"
                 },
-                "02-install-nginx" : {
+                "02-chown-files" : {
+                    "command" : "sudo chown -R wardareabook:wardareabook /var/app/wardareabook"
+                },
+                "03-install-nginx" : {
                     "command" : "passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx",
                     "ignoreErrors" : "false"
                 },
-                "03-insert-nginx-config" : {
-                    "command" : "sudo su root -c \"echo -e \\\"\\nserver {\\n    listen 80;\\n    server_name `curl http://169.254.169.254/latest/meta-data/public-hostname` ;\\n    root /var/app/wardareabok/public;\\n    passenger_enabled on;\\n}\\n\\\" >> /opt/nginx/conf/nginx.conf\"",
+                "04-change-nginx-config" : {
+                    "command" : { "Fn::Join" : ["\\n", [
+                        "sudo su root -c \"echo -e \\\"",
+                        "user  wardareabook;",
+                        "worker_processes  1;",
+                        "",
+                        "#error_log  logs/error.log;",
+                        "#error_log  logs/error.log  notice;",
+                        "error_log  logs/error.log  info;",
+                        "",
+                        "#pid        logs/nginx.pid;",
+                        "",
+                        "",
+                        "events {",
+                        "    worker_connections  1024;",
+                        "}",
+                        "",
+                        "",
+                        "http {",
+                        "    passenger_root /var/lib/gems/1.8/gems/passenger-3.0.18;",
+                        "    passenger_ruby /usr/bin/ruby1.8;",
+                        "",
+                        "    include       mime.types;",
+                        "    default_type  application/octet-stream;",
+                        "",
+                        "    log_format  main  '$remote_addr - $remote_user [$time_local] \\\\\\\"$request\\\\\\\" '",
+                        "                      '$status $body_bytes_sent \\\\\\\"$http_referer\\\\\\\" '",
+                        "                      '\\\\\\\"$http_user_agent\\\\\\\" \\\\\\\"$http_x_forwarded_for\\\\\\\"';",
+                        "",
+                        "    access_log  logs/access.log  main;",
+                        "",
+                        "    sendfile        on;",
+                        "",
+                        "    keepalive_timeout  65;",
+                        "",
+                        "    server {",
+                        "        listen 80;",
+                        "        server_name `curl http://169.254.169.254/latest/meta-data/public-hostname`;",
+                        "        root /var/app/wardareabook/public;",
+                        "        passenger_enabled on;",
+                        "    }",
+                        "}\\\" > /opt/nginx/conf/nginx.conf\""
+                    ]]},
                     "ignoreErrors" : "false"
                 },
-                "04-startup-nginx" : {
+                "05-startup-nginx" : {
                     "command" : "sudo service nginx restart",
                     "ignoreErrors" : "false"
                 },
-                "05-install-app-dependencies" : {
+                "06-setup-mysql-user" : {
+                    "command" : {"Fn::Join" : ["", ["mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql"]]}
+                },
+                "07-install-app-dependencies" : {
                     "command" : "bundle install",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
@@ -224,13 +276,6 @@
           "    -s ", { "Ref" : "AWS::StackName" }, " -r WebServer --verbose",
           "         --access-key ", { "Ref" : "HostKeys" },
           "         --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]}, " || error_exit 'Failed to run cfn-init'\n",
-          "echo 'Working'\n",
-
-          "# Setup MySQL root password and create a user\n",
-          "mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql || error_exit 'Failed to create database user'\n",
-
-          "# Setup correct file ownership\n",
-          "sudo chown -R nginx:nginx /var/app/wardareabook\n",
 
           "# All is well so signal success\n",
           "cfn-signal -e 0 -r \"WebServer setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
