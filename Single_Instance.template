@@ -154,11 +154,11 @@
               },
               "/etc/init/nginx.conf" : {
                   "content" : { "Fn::Join" : ["\n", [
-                      "description \"Nginx HTTP Server\"",
+                      "description \"Nginx HTTP Server\"\n",
                       "start on filesystem\n",
                       "stop on runlevel [!2345]\n",
                       "respawn\n",
-                      "exec /opt/nginx/sbin/nginx -g \"daemon off;\"\n",
+                      "exec /opt/nginx/sbin/nginx -g \"daemon off;\"\n"
                   ]]},
                   "mode" : "000644",
                   "owner" : "root",
@@ -171,23 +171,21 @@
               }
             },
             "commands" : {
-                "install-nginx" : {
+                "00-install-nginx" : {
                     "command" : "passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx",
                     "ignoreErrors" : "false"
                 },
-                "install-app-dependencies" : {
-                    "command" : "bundle install",
-                    "cwd" : "/var/app/wardareabook"
+                "01-insert-nginx-config" : {
+                    "command" : "sudo su root -c \"echo -e \\\"\\nserver {\\n    listen 80;\\n    server_name `curl http://169.254.169.254/latest/meta-data/public-hostname` ;\\n    root /var/app/wardareabok/public;\\n    passenger_enabled on;\\n}\\n\\\" >> /opt/nginx/conf/nginx.conf\"",
+                    "ignoreErrors" : "false"
                 },
-                "insert-nginx-config" : {
-                    "command" : {"Fn::Join" :: ["", [
-                        "sudo cat 'server {\\n",
-                            "listen 80;\\n",
-                            "server_name ", {"Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]} , ";\\n",
-                            "root /var/app/wardareabok/public;!\\n",
-                            "passenger_enabled on;\\n",
-                        "}\\n' >> /opt/nginx/conf/nginx.conf"
-                        ]]},
+                "02-startup-nginx" : {
+                    "command" : "sudo service nginx restart",
+                    "ignoreErrors" : "false"
+                },
+                "03-install-app-dependencies" : {
+                    "command" : "bundle install",
+                    "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
                 }
             }
@@ -242,7 +240,7 @@
       "DependsOn" : "WebServer",
       "Properties" : {
         "Handle" : {"Ref" : "WaitHandle"},
-        "Timeout" : "900"
+        "Timeout" : "1200"
       }
     },
     
