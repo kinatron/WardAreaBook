@@ -1,5 +1,5 @@
 <% if update %>
-  <% remote_form_for @family do |f| %>
+    <% form_for @family, :url => { :controller => "families", :action => "edit_status"}, :remote => true do |f| %>
     <%= f.error_messages %>
       <% if @family.member == false %>
         <%= f.select :status, nonmemberType %>

@@ -11,5 +11,6 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require prototype
+//= require prototype_ujs
 //= require effects
 //= require_tree .
