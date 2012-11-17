@@ -9,8 +9,8 @@ class UserSessionsController < ApplicationController
   def create  
     @user_session = UserSession.new(params[:user_session])  
     if @user_session.save  
-      @user_session.user.update_attributes(:logged_in_now => true)
-      @user_session.user.update_attributes(:failed_login_count => 0)
+      @user_session.user.logged_in_now = true
+      @user_session.user.failed_login_count = 0
       load_session
     else  
       render :action => 'new'  
@@ -20,7 +20,7 @@ class UserSessionsController < ApplicationController
   def destroy  
     @user_session = UserSession.find  
     if defined?(@user_session)
-      @user_session.user.update_attributes(:logged_in_now => false)
+      @user_session.user.logged_in_now = false
       @user_session.destroy  
     end
     name = session[:user_name]

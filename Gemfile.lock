@@ -42,6 +42,7 @@ GEM
     coffee-script-source (1.4.0)
     domain_name (0.5.4)
       unf (~> 0.0.3)
+    dynamic_form (1.1.4)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -127,6 +128,7 @@ PLATFORMS
 DEPENDENCIES
   authlogic
   coffee-rails (~> 3.2.1)
+  dynamic_form
   jquery-rails
   mechanize
   mysql2

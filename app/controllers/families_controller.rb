@@ -1,5 +1,4 @@
 class FamiliesController < ApplicationController
-  before_filter :store_return_point, :only => [:show]
   caches_action :index, :layout => false
   caches_action :members, :layout => false
   #TODO for some reason the sweeper is not getting called when I update 
@@ -121,11 +120,11 @@ class FamiliesController < ApplicationController
     @action_item = ActionItem.new
     @action_item.family_id = @family.id
 
-    @names = getMapping
-    @families = getFamilyMapping
+    @names = Person.selectionList
+    @families = Family.get_families
 
     @familyName = @family.name + "," + @family.head_of_house_hold;
-    @fellowShippers = getMapping
+    @fellowShippers = Person.selectionList
 
     @event =  Event.new
     @event.family_id = @family.id

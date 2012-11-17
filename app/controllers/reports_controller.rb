@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-  before_filter :store_return_point
   caches_action :hope, :monthlyReport, :allReports, :layout => false
 
   # override the application accessLevel method

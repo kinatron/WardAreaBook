@@ -168,7 +168,7 @@ class TeachingRoutesController < ApplicationController
   # GET /teaching_routes/new.xml
   def new
     @teaching_route = TeachingRoute.new
-    @names = getMapping
+    @names = Person.selectionList
 
     respond_to do |format|
       format.html # new.html.erb
@@ -179,7 +179,7 @@ class TeachingRoutesController < ApplicationController
   # GET /teaching_routes/1/edit
   def edit
     @teaching_route = TeachingRoute.find(params[:id])
-    @names = getMapping 
+    @names = Person.selectionList 
   end
 
   # POST /teaching_routes

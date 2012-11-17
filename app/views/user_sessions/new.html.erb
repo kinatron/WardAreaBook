@@ -1,5 +1,5 @@
 <div class="depot-form">
-  <% form_for @user_session  do |form| %>
+  <%= form_for @user_session, :as => :user_session, :url => { :action => "create" }  do |form| %>
     <%= form.error_messages %>
     <fieldset>
       <legend>Please Login In</legend>

@@ -9,6 +9,7 @@ gem 'sqlite3'
 gem 'mysql2'
 gem 'mechanize'
 gem 'authlogic'
+gem 'dynamic_form'
 
 
 # Gems used only for assets and not required

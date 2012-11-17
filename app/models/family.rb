@@ -82,4 +82,10 @@ class Family < ActiveRecord::Base
     "#{self.head_of_house_hold} #{self.name}"
   end
 
+  def self.get_families
+    @families = Family.find_all_by_current(true, :order => 'name').map do |s| 
+      [s.name + "," + s.head_of_house_hold, s.id]
+    end
+  end
+
 end

@@ -1,6 +1,5 @@
 class ActionItemsController < ApplicationController
   in_place_edit_for :action_item, :action
-  before_filter :store_return_point, :only =>[:wardActionItems]
   listLimit = 5
 
   def checkAccess
@@ -81,8 +80,8 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
                                                          :order => 'updated_at DESC')
 
     @new_action_item = ActionItem.new
-    @names = getMapping
-    @families = getFamilyMapping
+    @names = Person.selectionList
+    @families = Family.get_families
     @limit = CLOSED_ACTION_LIMIT
     respond_to do |format|
       format.html # index.html.erb
@@ -188,8 +187,8 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
 
   def edit_remotely
     @action_item = ActionItem.find(params[:id])
-    @names = getMapping
-    @families = getFamilyMapping
+    @names = Person.selectionList
+    @families = Family.get_families
     respond_to do |format|
       format.js {
         render :update do |page|
@@ -207,8 +206,8 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
   # GET /action_items/1/edit
   def edit
     @action_item = ActionItem.find(params[:id])
-    @familyList = getFamilyMapping 
-    @personList = getMapping 
+    @familyList = Family.get_families 
+    @personList = Person.selectionList 
   end
 
   # POST /action_items

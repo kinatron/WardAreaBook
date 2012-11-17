@@ -14,7 +14,7 @@
       Ward Rep: <%= f.select :person_id, Person.selectionList, :include_blank => true %> 
       <% if showFamily %>
         <p>
-          Family: <%= f.select :family_id, getFamilyMapping %> <br>
+          Family: <%= f.select :family_id, Family.get_families %> <br>
         </p>
       <% end %>
     </p>

@@ -45,9 +45,9 @@ class TeachingRecordsController < ApplicationController
   def new
     @lessons = [0,0,0,0,0,0]
     @teaching_record = TeachingRecord.new
-    @families = getFamilyMapping
-    @fellowShippers = getMapping
-    @names = getMapping
+    @families = Family.get_families
+    @fellowShippers = Person.selectionList
+    @names = Person.selectionList
 
     respond_to do |format|
       format.html # new.html.erb
@@ -65,8 +65,8 @@ class TeachingRecordsController < ApplicationController
       @familyName = ""
     end
 
-    @families = getFamilyMapping
-    @fellowShippers = getMapping
+    @families = Family.get_families
+    @fellowShippers = Person.selectionList
   end
 
   # POST /teaching_records
@@ -94,9 +94,9 @@ class TeachingRecordsController < ApplicationController
         format.html { redirect_to(family_path(@teaching_record.family)) }
         format.xml  { render :xml => @teaching_record, :status => :created, :location => @teaching_record }
       else
-        @families = getFamilyMapping
-        @fellowShippers = getMapping
-        @names = getMapping
+        @families = Family.get_families
+        @fellowShippers = Person.selectionList
+        @names = Person.selectionList
         format.html { render :action => "new" }
         format.xml  { render :xml => @teaching_record.errors, :status => :unprocessable_entity }
       end

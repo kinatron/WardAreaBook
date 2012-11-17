@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
     end
     
     def store_location
-      session[:return_to] = request.request_uri
+      session[:return_to] = request.fullpath
     end
     
     def redirect_back_or_default(default)
@@ -128,13 +128,13 @@ protected
   def authorize
     if session[:user_email] == nil
       flash[:notice] = "Please log in.  Or click on the 'Create a new Account' link to the left"
-      session[:requested_uri] = request.request_uri
+      session[:requested_uri] = request.fullpath
       redirect_to login_path
       return
     end
     if (session[:expiration] == nil) or (session[:expiration] < Time.now)  
       reset_session
-      session[:requested_uri] = request.request_uri
+      session[:requested_uri] = request.fullpath
       flash[:notice] = "User Session Expired.  Please login."
       redirect_to login_path
       return

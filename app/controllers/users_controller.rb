@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_filter :store_return_point, :only =>[:todo]
   skip_before_filter :authorize, :only => [:new, :create]
   skip_before_filter :checkAccess, :only => [:new, :create, :todo]
   layout 'login'
@@ -25,8 +24,8 @@ class UsersController < ApplicationController
     @openActionItems   = @person.open_action_items
     @closedActionItems = @person.closed_action_items
     @new_action_item = ActionItem.new
-    @names = getMapping
-    @families = getFamilyMapping
+    @names = Person.selectionList
+    @families = Family.get_families
     render :layout => 'WardAreaBook'
   end
 
