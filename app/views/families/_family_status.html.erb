@@ -12,7 +12,8 @@
   <% end %>
 <% else %>
   <span style='background-color: <%= statusColor(@family.status) -%>'>
-    <%= link_to_remote @family.status, :url => {:action => 'edit_status', 
-      :id => @family} %>&nbsp;
+      <%= link_to @family.status, :url => {:action => 'edit_status',
+                                              :id => @family,
+                                              :remote => true} %>&nbsp;
   </span>
 <% end %>
