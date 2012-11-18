@@ -1,5 +1,5 @@
 <h1>Home Teaching Assignments 
-  <span style='font-size:smaller'> (last update <%=TeachingRoute.find(:first).last_update%>) </span>
+  <span style='font-size:smaller'> (last update <%=TeachingRoute.first.last_update%>) </span>
   &mdash; 
   <%= link_to "update", :action => 'updateRoutes'  %>
 </h1>

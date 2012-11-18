@@ -2,7 +2,7 @@ require 'csv'
 class TeachingRoutesController < ApplicationController
   caches_action :index, :layout => false
 
-  BAKUP_FILE = "#{RAILS_ROOT}/public/data/LastGoodTeachingReport.csv"
+  BAKUP_FILE = Rails.root.join('public', 'data', 'LastGoodTeachingReport.csv')
 
   def checkAccess
     if (action_name == "teacherList" and params[:id] == session[:user_id].to_s ) or hasAccess(2)

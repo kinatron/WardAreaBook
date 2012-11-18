@@ -1,14 +1,14 @@
 <div id="editing comment">
-  <% remote_form_for(@comment) do |f| %>
+  <%= form_for @comment, :remote => true do |f| %>
     <%= f.error_messages %>
     <%= f.hidden_field :family_id %>
     <%= f.hidden_field :person_id %>
     <p>
       <%= f.text_area :text, :cols => 40, :rows => 3 %>
       <%= f.submit 'Update', :onclick => "toggleDisplay('editing comment');return true"%>
-      <%= link_to_remote 'Cancel', :url => {:controller => 'comments', 
-                                            :action => 'familyComments', 
-                                            :id => @comment } %>
+      <%= link_to 'Cancel', :remote => true, :url => {:controller => 'comments', 
+                                                :action => 'familyComments', 
+                                                :id => @comment } %>
     </p>
     <p>
     </p>

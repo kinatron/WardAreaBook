@@ -27,7 +27,8 @@
 <% end %>
 <% if option_for_more %>
   <li id='nodot'>
-    <%= link_to_remote "more action items...", 
+    <%= link_to "more action items...", 
+                        :remote => true,
                         :url => {:controller => 'action_items',
                                  :action => 'list_closed_action_items',
                                  :conditions => conditions} %>

@@ -7,7 +7,7 @@
 
 <fieldset>
   <legend>General Info</legend>
-  <% form_for(teaching_record) do |f| %>
+  <%= form_for(teaching_record) do |f| %>
     <%= f.error_messages %>
     <div class='noPrint'>
       <% if teaching_record.current %>

@@ -34,11 +34,10 @@ module TeachingRoutesHelper
       hometeacher2 ||=  0
     end
 
-    family.events.find(:first, 
-                       :conditions => ["(person_id = ? or person_id = ?) and 
-                                        (category = 'Visit' or category = 'Lesson')",
-                                        hometeacher1, hometeacher2],
-                       :order => 'date DESC' )
+    family.events.where("(person_id = ? or person_id = ?)
+                                and (category = 'Visit' or category = 'Lesson')",
+                                hometeacher1, hometeacher2)
+                        .order('date DESC')
   rescue
     nil
   end

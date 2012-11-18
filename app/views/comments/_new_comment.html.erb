@@ -1,5 +1,5 @@
 <div id="myToggleDiv">
-  <% remote_form_for(@comment) do |f| %>
+  <%=form_for @comment, :remote => true do |f| %>
     <%= f.error_messages %>
 
     <%= f.hidden_field :family_id %>
@@ -8,7 +8,7 @@
       Comment:<br />
       <%= f.text_area :text, :cols => 40, :rows => 3 %>
       <%= f.submit 'Create', :onclick => "toggleDisplay('myToggleDiv');return true"%>
-      <%= link_to_remote 'Cancel', :url => {:controller => 'comments', 
+      <%= link_to 'Cancel', :remote => true, :url => {:controller => 'comments', 
                                             :action => 'familyComments', 
                                             :family_id => @comment.family } %>
     </p>

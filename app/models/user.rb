@@ -24,12 +24,12 @@ class User < ActiveRecord::Base
 
   def deliver_password_reset_instructions!  
     reset_perishable_token!  
-    AuthMailer.deliver_password_reset_instructions(self)  
+    AuthMailer.password_reset_instructions(self).deliver
   end  
 
   def deliver_verification_instructions!  
     reset_perishable_token!  
-    AuthMailer.deliver_verification_instructions(self)
+    AuthMailer.verification_instructions(self).deliver
   end
 
   def verify!

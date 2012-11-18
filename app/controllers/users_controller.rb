@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.find(:all, :order => :email)
+    @users = User.order('email')
     render :layout => 'admin'
   end
 

@@ -13,7 +13,7 @@ class Family < ActiveRecord::Base
   has_one :teaching_record
   validates_presence_of :name, :head_of_house_hold
 
-  ALL = self.find_all_by_member_and_current(true,true, :order=>'name').map do |s|
+  ALL = self.find_all_by_member_and_current(true,true).order('name').map do |s|
     begin
     [s.name + ", " + s.head_of_house_hold, s.id]
     rescue
@@ -30,9 +30,9 @@ class Family < ActiveRecord::Base
   end
 
   def lastVisit
-    self.events.first(:conditions => "category != 'Attempt' and 
-                                      category != 'Other' and 
-                                      category is not NULL")
+    self.events.where("category != 'Attempt' and 
+                            category != 'Other' and 
+                            category is not NULL").first
   end
 
   def mergeTo(familyRecord)
@@ -69,8 +69,7 @@ class Family < ActiveRecord::Base
 
   def self.visitedWithinTheLastMonths(monthsAgo)
     targetDate = Date.today.months_ago(monthsAgo).at_beginning_of_month
-    events = Event.find(:all, 
-                        :conditions => ["(category != 'Attempt' and category != 'Other' and category is not NULL) and date >=?", targetDate])
+    events = Event.where("(category != 'Attempt' and category != 'Other' and category is not NULL) and date >=?", targetDate)
 
     events.delete_if { |x| x.family.current==false or 
                            x.family.status=='moved' or x.family.member == false}
@@ -83,7 +82,7 @@ class Family < ActiveRecord::Base
   end
 
   def self.get_families
-    @families = Family.find_all_by_current(true, :order => 'name').map do |s| 
+    @families = Family.find_all_by_current(true).order('name').map do |s| 
       [s.name + "," + s.head_of_house_hold, s.id]
     end
   end

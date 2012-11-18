@@ -9,7 +9,8 @@
         <% if @family.events[limit] %>
           <ul>
           <li id = 'nodot'>
-            <%= link_to_remote "more events...", 
+            <%= link_to "more events...", 
+                                :remote => true,
                                 :url => {:controller => 'events',
                                         :action => 'all_family_events',
                                         :id => @family} %>

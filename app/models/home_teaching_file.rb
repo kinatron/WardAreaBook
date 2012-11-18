@@ -2,7 +2,7 @@ class HomeTeachingFile < ActiveRecord::Base
 
   def self.save(upload)
     name =  upload['datafile'].original_filename
-    directory = "#{RAILS_ROOT}/public/data"
+    directory = Rails.root.join('public', 'data')
     # create the file path
     path = File.join(directory, name)
     # write the file

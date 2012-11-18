@@ -23,9 +23,10 @@ end
 <div id = "event_<%=event.id%>"> 
   <div class='<%=isEditable%>' >
     <% if hasAccessToEdit %>
-      <%= link_to_remote "#{event.date} &#151; #{wardRep} 
+      <%= link_to "#{event.date} &#151; #{wardRep} 
                           #{event.category} &#151; #{event.comment}",
           :url => {:controller => 'events', 
+          :remote => true,
           :action => 'edit_remotely', 
           :id => event.id } %>
 

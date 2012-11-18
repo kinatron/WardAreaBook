@@ -13,7 +13,7 @@ class ReportsController < ApplicationController
 
   # TODO reference the hopes by name not id 1
   def hope
-    @events = Event.find_all_by_person_id(1, :order => 'date DESC')
+    @events = Event.find_all_by_person_id(1).order('date DESC')
     @event_weeks = @events.group_by { |week| week.date.at_beginning_of_week }
   end
 
@@ -30,14 +30,13 @@ class ReportsController < ApplicationController
   end
 
   def getMonthlyEvents(range)
-    @events = Event.find(:all, :conditions => 
-                          ["(category != 'Attempt' and 
+    @events = Event.where("(category != 'Attempt' and 
                              category != 'Other' and  
                              category != 'MoveIn' and
                              category != 'MoveOut' and
-                             category is not NULL) and (date > ?)", range
-                          ],
-                          :order => 'date DESC')
+                             category is not NULL) and (date > ?)", range)
+                             .order('date DESC')
+
     @event_months = @events.group_by { |month| month.date.at_beginning_of_month }
   end
 end
