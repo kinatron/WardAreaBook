@@ -13,7 +13,7 @@ class Family < ActiveRecord::Base
   has_one :teaching_record
   validates_presence_of :name, :head_of_house_hold
 
-  ALL = self.find_all_by_member_and_current(true,true).order('name').map do |s|
+  ALL = self.where("member = ? AND current = ?", true, true).order('name').map do |s|
     begin
     [s.name + ", " + s.head_of_house_hold, s.id]
     rescue
@@ -82,7 +82,7 @@ class Family < ActiveRecord::Base
   end
 
   def self.get_families
-    @families = Family.find_all_by_current(true).order('name').map do |s| 
+    @families = Family.where('current = ?', true).order('name').map do |s| 
       [s.name + "," + s.head_of_house_hold, s.id]
     end
   end
