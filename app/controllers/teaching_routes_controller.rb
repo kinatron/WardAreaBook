@@ -26,6 +26,8 @@ class TeachingRoutesController < ApplicationController
         createHomeTeachingRoutes(path)
       rescue Exception => e
         # Most likely a parsing error in the HomeTeacher file.
+        logger.info("Error parsing Home Teaching Routes")
+        logger.info(e)
         path = BAKUP_FILE
         redirect_to :action => 'updateError', :path => path
       end
@@ -39,7 +41,7 @@ class TeachingRoutesController < ApplicationController
     @cantFindTeacher = Set.new
     @cantFindFamily = Set.new
     TeachingRoute.delete_all()
-    CSV.open(homeTeachingFile, 'r') do |row|
+    CSV.foreach(homeTeachingFile, :col_sep => "\t") do |row|
       #skip past the first row
       if row[0] == "Quorum" || row[0] == ""
         next
@@ -131,6 +133,7 @@ class TeachingRoutesController < ApplicationController
   # GET /teaching_routes.xml
   def index
     @teaching_routes = TeachingRoute.all
+    @last_updated = TeachingRoute.first ? "last updated #{TeachingRoute.first.last_update}" : 'never updated'
 
     respond_to do |format|
       format.html # index.html.erb

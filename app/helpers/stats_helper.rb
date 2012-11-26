@@ -19,6 +19,7 @@ module StatsHelper
   end
 
   def getPercentage(num, total)
+    return 0 if num == 0 || total == 0
     ((num.to_f/total.to_f)*100).round
   end
 end

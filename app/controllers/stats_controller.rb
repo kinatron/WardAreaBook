@@ -2,7 +2,7 @@ class StatsController < ApplicationController
   caches_action :index, :layout => false
   def index 
     @totalMembers  = Person.find_all_by_current(true).length
-    @total         = Family.where("status != 'moved' AND current = true AND member = true").length
+    @total         = Family.where("status != 'moved'").where(:current => true, :member => true).length
     @activeFamilies= Family.find_all_by_current_and_member_and_status(true,true,'active')
     @active        = @activeFamilies.length
     @lessActive    = Family.find_all_by_current_and_member_and_status(true,true,'less active').length
@@ -13,7 +13,7 @@ class StatsController < ApplicationController
   end
 
   def showActive
-    @families = Family.where('member = true AND current = true AND status = "active"').order("name")
+    @families = Family.where(:status => 'active', :member => true, :current => true).order("name")
     render :update do |page|
       page.replace_html("show_stuff", 
                         :partial => "families/list_families",
@@ -22,7 +22,7 @@ class StatsController < ApplicationController
   end
 
   def showLessActive
-    @families = Family.where('member = true AND current = true AND status = "less active"').order("name")
+    @families = Family.where(:status => 'less active', :member => true, :current => true).order("name")
     render :update do |page|
       page.replace_html("show_stuff", 
                         :partial => "families/list_families",
@@ -31,7 +31,7 @@ class StatsController < ApplicationController
   end
 
   def showNotInterested
-    @families = Family.where('member = true AND current = true AND status = "not interested"').order("name")
+    @families = Family.where(:status => 'not interested', :member => true, :current => true).order("name")
     render :update do |page|
       page.replace_html("show_stuff", 
                         :partial => "families/list_families",
@@ -40,7 +40,7 @@ class StatsController < ApplicationController
   end
 
   def showDNC
-    @families = Family.where('member = true AND current = true AND status = "dnc"').order("name")
+    @families = Family.where(:status => 'dnc', :member => true, :current => true).order("name")
     render :update do |page|
       page.replace_html("show_stuff", 
                         :partial => "families/list_families",
@@ -49,7 +49,7 @@ class StatsController < ApplicationController
   end
 
   def showUnknown
-    @families = Family.where('member = true AND current = true AND status = "new"').order("name")
+    @families = Family.where(:status => 'new', :member => true, :current => true).order("name")
     render :update do |page|
       page.replace_html("show_stuff", 
                         :partial => "families/list_families",

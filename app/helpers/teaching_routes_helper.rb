@@ -37,7 +37,7 @@ module TeachingRoutesHelper
     family.events.where("(person_id = ? or person_id = ?)
                                 and (category = 'Visit' or category = 'Lesson')",
                                 hometeacher1, hometeacher2)
-                        .order('date DESC')
+                        .order('date DESC').first
   rescue
     nil
   end

@@ -1,6 +1,6 @@
 <h1>Upload CSV file. (obtained from MLS)</h1>
 
-<%= form_tag ({:action => 'uploadFile'}, :multipart => true) do %>
+<%= form_tag 'uploadFile', :multipart => true do %>
 <p><label for="upload_file">Select File</label> : 
 <%= file_field 'upload', 'datafile' %></p>
 <%= submit_tag "Upload", {:onclick=>"Effect.toggle('patients','blind');return true;"} %>
