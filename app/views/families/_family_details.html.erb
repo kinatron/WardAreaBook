@@ -9,7 +9,7 @@
             <span id='family_status' class='editable_comment'>
               <%= render(:partial => "family_status", 
                          :object => @family, 
-                         :locals => {:update => nil}) %>
+                         :locals => {:update => @edit_status}) %>
             </span>
           </td>
           <td ></td>

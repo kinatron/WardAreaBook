@@ -71,14 +71,8 @@ class FamiliesController < ApplicationController
   end
 
   def edit_status
-    @family = Family.find(params[:id])
-
-    render :update do |page|
-      page.replace_html("family_status", 
-                        :partial => "family_status", 
-                        :object => @family,
-                        :locals => {:update => true})
-    end
+    @edit_status = true
+    show
   end
 
   def listArchived
@@ -132,10 +126,7 @@ class FamiliesController < ApplicationController
     @limit = CLOSED_ACTION_LIMIT
 
     if @hasFullAccess or @family.hasHomeTeacher(session[:user_id])
-      respond_to do |format|
-        format.html # show.html.erb
-        format.xml  { render :xml => @family }
-      end
+      render "show"
     else
       render "show2"
     end

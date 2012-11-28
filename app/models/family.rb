@@ -13,6 +13,8 @@ class Family < ActiveRecord::Base
   has_one :teaching_record
   validates_presence_of :name, :head_of_house_hold
 
+  attr_accessible :status
+
   ALL = self.where("member = ? AND current = ?", true, true).order('name').map do |s|
     begin
     [s.name + ", " + s.head_of_house_hold, s.id]
