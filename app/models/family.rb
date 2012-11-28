@@ -11,9 +11,11 @@ class Family < ActiveRecord::Base
                                  :conditions => "status == 'closed'",
                                  :order => 'updated_at DESC'
   has_one :teaching_record
-  validates_presence_of :name, :head_of_house_hold
 
   attr_accessible :status
+
+  validates_presence_of :name, :head_of_house_hold
+
 
   ALL = self.where("member = ? AND current = ?", true, true).order('name').map do |s|
     begin

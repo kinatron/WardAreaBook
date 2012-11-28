@@ -1,7 +1,11 @@
 class Event < ActiveRecord::Base
   belongs_to :family;
   belongs_to :person;
+
+  attr_accessible :date, :family_id, :person_id, :category, :comment
+
   validates_presence_of :family_id
+
   include TeachingRecordsHelper
 
   def getCategory

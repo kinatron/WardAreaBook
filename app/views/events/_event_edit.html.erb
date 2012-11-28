@@ -4,7 +4,7 @@
 
 <fieldset class='teaching-record'>
   <legend> Edit Event Item </legend>
-  <% form_for(event_edit, :url => {:controller => 'events', 
+  <%= form_for(event_edit, :url => {:controller => 'events', 
               :action => 'update_remotely', :id => event_edit.id })  do |f| %>
     <%= f.error_messages %>
     <p>

@@ -3,7 +3,7 @@
 <% redirect ||= 'family' %>
 <fieldset class='teaching-record'>
   <legend> Edit Action Item </legend>
-<% form_for(edit_action_item, :url => {:controller => 'action_items', 
+<%= form_for(edit_action_item, :url => {:controller => 'action_items', 
             :action => 'update', :id => edit_action_item.id })  do |f| %>
   <%= f.error_messages %>
   <p>

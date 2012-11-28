@@ -2,7 +2,7 @@
 <% event ||= nil %>
 <% family ||= nil %>
 
-<% form_for(event, :url => {:controller => 'events', 
+<%= form_for(event, :url => {:controller => 'events', 
                             :action     => 'create_new_family_event'})  do |f| %>
   <%= f.error_messages %>
   <p>

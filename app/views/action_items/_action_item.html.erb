@@ -8,7 +8,7 @@
 <% showRequestor ||=false %>
 <div id = 'action_<%= action_item.id %>' class = 'action_item'>
   <% if checkbox %>
-    <% form_for action_item, :url => {:controller => 'action_items', :action => form_action, :id => action_item},
+    <%= form_for action_item, :url => {:controller => 'action_items', :action => form_action, :id => action_item},
                              :remote => true  do |f| %>
       <%= f.check_box(:status, 
                      {:onclick => "Element.toggle('action-item-edit-#{action_item.id}'); 

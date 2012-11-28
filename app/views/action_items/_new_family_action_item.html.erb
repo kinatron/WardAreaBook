@@ -1,7 +1,7 @@
 <% action_item ||=nil %>
 <% peopleList  ||=nil %>
 
-<% form_for(action_item, :url => {:controller => 'action_items', 
+<%= form_for(action_item, :url => {:controller => 'action_items', 
             :action => 'create', :redirect => 'family'})  do |f| %>
   <%= f.error_messages %>
   <p>
