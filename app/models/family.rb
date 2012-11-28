@@ -69,12 +69,13 @@ class Family < ActiveRecord::Base
 
   def self.visitedWithinTheLastMonths(monthsAgo)
     targetDate = Date.today.months_ago(monthsAgo).at_beginning_of_month
-    events = Event.where("(category != 'Attempt' and category != 'Other' and category is not NULL) and date >=?", targetDate)
-
-    events.delete_if { |x| x.family.current==false or 
-                           x.family.status=='moved' or x.family.member == false}
-    families = events.group_by { |family| family.family_id}
-    return families
+    return Family.order(:name).joins(:events)
+        .where(:current => true, :member => true)
+        .where(['status != ?', 'moved'])
+        .where(['events.date >= ?', targetDate])
+        .where(['events.category != ?', 'Attempt'])
+        .where(['events.category != ?', 'Other'])
+        .where('events.category is not NULL')
   end
 
   def full_name

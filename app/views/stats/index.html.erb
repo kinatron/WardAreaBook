@@ -13,19 +13,19 @@
         <%= getPercentage(@lessActive,@total) %>%
       </a>
     </div> 
-    <div style="background-color:<%= statusColor('Not Interested') %>" 
+    <div style="background-color:<%= statusColor('Not Interested') %>">
       <a href="<%= url_for(:controller => 'stats', :action => 'showNotInterested') %>">
         Not Interested &ndash; <%=@notInterested %> <br>
         <%= getPercentage(@notInterested,@total) %>%
       </a>
     </div> 
-    <div style="background-color:<%= statusColor('dnc') %>" 
+    <div style="background-color:<%= statusColor('dnc') %>">
       <a href="<%= url_for(:controller => 'stats', :action => 'showDNC') %>">
         DNC &ndash; <%=@dnc %><br>
         <%= getPercentage(@dnc,@total) %>%
       </a>
     </div> 
-    <div style="background-color:<%= statusColor('Unknown/New') %>" 
+    <div style="background-color:<%= statusColor('Unknown/New') %>">
       <a href="<%= url_for(:controller => 'stats', :action => 'showUnknown') %>">
         Unknown/New &ndash; <%=@unknown %><br>
         <%= getPercentage(@unknown,@total) %>%
@@ -73,5 +73,5 @@
 </p>
 <hr>
 <div id = show_stuff>
-  <%= render :partial => "families/list_families", :object => @activeFamilies %>
+  <%= render :partial => "families/list_families", :object => @families %>
 </div>
