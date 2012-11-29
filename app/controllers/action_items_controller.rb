@@ -158,30 +158,11 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     @action_item = ActionItem.find(params[:id])
     #TODO error handling
     if @action_item.update_attributes(params[:action_item])
-      #    @action_item.save
+      @action_item.save
       @family = @action_item.family
-      render :update do |page|
-        page.replace_html("open-actions", 
-                          :partial => "action_items/action_items",
-                          :object => @family.open_action_items,
-                          :locals => {:checkbox => true,
-                                      :editable => true,
-                                      :ward_representative => true})
-
-
-        page.replace_html("closed-actions", 
-                          :partial => "action_items/action_items",
-                          :object => @family.closed_action_items,
-                          :locals => {:checkbox => true,
-                                      :editable => true,
-                                      :ward_representative => true})
-      end
+      render :json => "{success: true}"
     else 
-      #TODO error handling!!
-      render :update do |page|
-        page.replace_html("updated-action-list", 
-                          :partial => "action_items/action_item")
-      end
+      render :json => "{success: false}"
     end
   end
 

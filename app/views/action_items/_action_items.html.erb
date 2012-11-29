@@ -35,3 +35,12 @@
     <br>
   </li>
 <% end %>
+<script type="text/javascript">
+    // TODO At some point it would be good to just update the dom, not refresh the whole thing, but for now, lets just refresh
+    $('form.edit_action_item').on('ajax:success', function (event, xhr, status, error) {
+        window.location.reload();
+    });
+    $('form.edit_action_item').on('ajax:error', function (event, xhr, status, error) {
+        window.location.reload();
+    });
+</script>
