@@ -10,6 +10,8 @@ class Person < ActiveRecord::Base
                                  :conditions => "status == 'closed'",
                                  :order => 'updated_at DESC'
 
+  attr_accessible :name, :email, :family_id, :current
+
   def full_name
     if family.name == "Hope"
       "The Hopes"

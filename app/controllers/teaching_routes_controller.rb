@@ -41,9 +41,9 @@ class TeachingRoutesController < ApplicationController
     @cantFindTeacher = Set.new
     @cantFindFamily = Set.new
     TeachingRoute.delete_all()
-    CSV.foreach(homeTeachingFile, :col_sep => "\t") do |row|
+    CSV.foreach(homeTeachingFile, {:headers => true}) do |row|
       #skip past the first row
-      if row[0] == "Quorum" || row[0] == ""
+      if row[0] == ""
         next
       end
       #Get the family name

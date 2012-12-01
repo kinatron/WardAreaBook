@@ -45,7 +45,7 @@ end
 def downLoadNewList
   #TODO fix this warning
   agent = Mechanize.new
-  site = "https://lds.org/SSOSignIn/"
+  site = "https://signin.lds.org/SSOSignIn/"
   puts "accessing #{site}"
   agent.get(site) do |page|
     #TODO brittle....
@@ -150,9 +150,9 @@ begin
   # load the rails environment
   require File.dirname(__FILE__) + "/../../config/environment"
 
-  UPDATEDIR = "#{RAILS_ROOT}/db/updateScripts/"
+  UPDATEDIR = "#{Rails.root}/db/updateScripts/"
   # Create a copy of the database
-  DATABASE = "#{RAILS_ROOT}/db/#{ENV['RAILS_ENV']}.sqlite3"
+  DATABASE = "#{Rails.root}/db/#{ENV['RAILS_ENV']}.sqlite3"
   BACKUP = "#{UPDATEDIR}/bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
   copy(DATABASE,BACKUP)
 
@@ -225,7 +225,7 @@ begin
       # current if they appear in new ward list.
       # For my report I want a list of those people already removed
       alreadyRemoved = Person.find_all_by_family_id_and_current(family.id,0)
-      Person.update_all(:current => false, :family_id => family.id)
+      Person.update_all({:current => false}, {:family_id => family.id})
 
       familyMembers = getFamilyMembers jsonEntry
       familyMembers.each { |new| 
@@ -336,7 +336,7 @@ begin
                            :category => "MoveOut",
                            :comment => "Records removed from the Ward")
       # make all of the family members not current
-      Person.update_all(:current => false, :family_id => family.id)
+      Person.update_all({:current => false}, {:family_id => family.id})
       family.save
       updateMade = true
     end
@@ -351,12 +351,13 @@ begin
 
   # Clear the cache if any updates are made.
   if updateMade
-    system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
+    system("rm -rf #{Rails.root}/public/cache/views/*")
   end
   #remove(BACKUP)
 
 
 rescue Exception => e
+  puts "Here we are"
   puts $!
   p e.backtrace
   copy(BACKUP,DATABASE)
