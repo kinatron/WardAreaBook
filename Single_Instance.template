@@ -247,7 +247,13 @@
                     "command" : "bundle install",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
+                },
+                "08-install-app-dependencies" : {
+                    "command" : "whenever --update-crontab areabookmaintenance",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
                 }
+
             }
           }
         }
