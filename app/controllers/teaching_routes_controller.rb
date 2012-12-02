@@ -110,15 +110,15 @@ class TeachingRoutesController < ApplicationController
   end
 
   def updateNames
-    @path = params[:path] || ""
-    names = params[:correct_person] || ""
+    @path = params[:path] || [""]
+    names = params[:correct_person] || [""]
     names.each do |name, person_id|
       if NameMapping.find_by_name_and_category(name,'person') == nil
         NameMapping.create(:name => name, :person_id => person_id, 
                            :category =>'person')
       end
     end
-    names = params[:correct_family] || ""
+    names = params[:correct_family] || [""]
     names.each do |name, family_id|
       if NameMapping.find_by_name_and_category(name,'family') == nil
         NameMapping.create(:name => name, :family_id => family_id,
