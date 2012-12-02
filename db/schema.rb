@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(:version => 20110404043937) do
     t.integer "family_id"
     t.integer "person_id"
     t.string  "category"
-    t.date    "last_update", :default => '2012-11-24'
+    t.date    "last_update", :default => '2012-12-01'
   end
 
   create_table "users", :force => true do |t|

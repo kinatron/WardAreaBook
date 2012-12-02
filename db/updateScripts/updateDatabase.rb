@@ -354,7 +354,7 @@ begin
     system("rm -rf #{Rails.root}/public/cache/views/*")
   end
   #remove(BACKUP)
-
+  puts "Finished update at #{Time.now}"
 
 rescue Exception => e
   puts "Here we are"
