@@ -15,6 +15,9 @@ gem 'whenever'
 gem 'backup'
 gem 'settingslogic'
 
+# Install a js runtime, so that the plain ubuntu install can run rake
+gem 'therubyracer'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

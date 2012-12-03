@@ -134,8 +134,8 @@
                 "mysql-client-5.5"     : [],
                 "libmysql-ruby"        : [],
                 "libmysqlclient-dev"   : [],
-                "rubygems"             : [],
                 "ruby1.9.1-full"       : [],
+                "rubygems"             : [],
                 "libcurl4-openssl-dev" : [],
                 "libssl-dev"           : [],
                 "zlib1g-dev"           : [],
@@ -277,21 +277,21 @@
             },
             "commands" : {
                 "00-change-default-ruby" : {
-                    "command" : "sudo rm /usr/bin/ruby; sudo ln -s /usr/bin/ruby1.9.1 /usr/bin/ruby",
+                    "command" : "sudo rm /usr/bin/ruby; sudo ln -s /usr/bin/ruby1.9.1 /usr/bin/ruby; sudo rm /usr/bin/ruby1.8;",
                     "ignoreErrors" : "false"
                 },
-                "01-install-gems-with-different-ruby" : {
+                "02-install-gems-with-different-ruby" : {
                     "command" : "sudo gem install passenger bundler",
                     "ignoreErrors" : "false"
                 },
-                "02-chown-files" : {
+                "03-chown-files" : {
                     "command" : "sudo chown -R wardareabook:wardareabook /var/app/wardareabook"
                 },
-                "03-install-nginx" : {
+                "04-install-nginx" : {
                     "command" : "passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx",
                     "ignoreErrors" : "false"
                 },
-                "04-change-nginx-config" : {
+                "05-change-nginx-config" : {
                     "command" : { "Fn::Join" : ["\\n", [
                         "sudo su root -c \"echo -e \\\"",
                         "user  wardareabook;",
@@ -336,24 +336,24 @@
                     ]]},
                     "ignoreErrors" : "false"
                 },
-                "05-startup-nginx" : {
+                "06-startup-nginx" : {
                     "command" : "sudo service nginx restart",
                     "ignoreErrors" : "false"
                 },
-                "06-setup-mysql-user" : {
+                "07-setup-mysql-user" : {
                     "command" : {"Fn::Join" : ["", ["mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql"]]}
                 },
-                "07-install-app-dependencies" : {
+                "08-install-app-dependencies" : {
                     "command" : "bundle install",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
                 },
-                "08-setup-crontab-with-whenever" : {
+                "09-setup-crontab-with-whenever" : {
                     "command" : "whenever --update-crontab areabookmaintenance",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
                 },
-                "09-migrate-the-database" : {
+                "10-migrate-the-database" : {
                     "command" : "rake db:migrate",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
