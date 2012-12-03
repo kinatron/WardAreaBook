@@ -1,0 +1,15 @@
+# config/application.yml
+defaults: &defaults
+    backup_access_key: AKIAILMM75YZU2RSORVA
+    backup_secret_key: 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
+    database_user: admin
+    database_password: abcdefg
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

@@ -19,6 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
+every 1.day, :at => '2am' do
+    command "backup perform -t app_backup -c /var/app/wardareabook/Backup/config.rb"
+end
+
 every 1.day, :at => '3am' do
   rake 'update_ward_db', :output => '/tmp/update_ward_db.log'
 end

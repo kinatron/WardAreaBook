@@ -12,6 +12,8 @@ gem 'authlogic'
 gem 'dynamic_form'
 gem 'in_place_editing'
 gem 'whenever'
+gem 'backup'
+gem 'settingslogic'
 
 # Gems used only for assets and not required
 # in production environments by default.
