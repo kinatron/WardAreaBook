@@ -30,7 +30,6 @@ Backup::Model.new(:app_backup, 'Backup the database contents of the application 
     db.password           = "my_password"
     db.host               = "localhost"
     db.port               = 3306
-    db.socket             = "/tmp/mysql.sock"
     # Note: when using `skip_tables` with the `db.name = :all` option,
     # table names should be prefixed with a database name.
     # e.g. ["db_name.table_to_skip", ...]

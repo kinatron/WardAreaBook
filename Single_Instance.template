@@ -134,8 +134,12 @@
                 "mysql-client-5.5"     : [],
                 "libmysql-ruby"        : [],
                 "libmysqlclient-dev"   : [],
-                "ruby1.9.1-full"       : [],
-                "rubygems"             : [],
+                "ruby1.9.1"            : [],
+                "ruby1.9.1-dev"        : [],
+                "rubygems1.9.1"        : [],
+                "irb1.9.1"             : [],
+                "ri1.9.1"              : [],
+                "rdoc1.9.1"            : [],
                 "libcurl4-openssl-dev" : [],
                 "libssl-dev"           : [],
                 "zlib1g-dev"           : [],
@@ -144,10 +148,6 @@
                 "libxslt1-dev"         : [],
                 "libsqlite3-dev"       : [],
                 "sqlite3"              : []
-              },
-              "rubygems" : {
-                  "passenger"  : [],
-                  "bundler"    : []
               }
             },
 
@@ -174,11 +174,11 @@
               },
               "/etc/init/nginx.conf" : {
                   "content" : { "Fn::Join" : ["\n", [
-                      "description \"Nginx HTTP Server\"\n",
-                      "start on filesystem\n",
-                      "stop on runlevel [!2345]\n",
-                      "respawn\n",
-                      "exec /opt/nginx/sbin/nginx -g \"daemon off;\"\n"
+                      "description \"Nginx HTTP Server\"",
+                      "start on filesystem",
+                      "stop on runlevel [!2345]",
+                      "respawn",
+                      "exec /opt/nginx/sbin/nginx -g \"daemon off;\""
                   ]]},
                   "mode" : "000644",
                   "owner" : "root",
@@ -247,7 +247,6 @@
                       "    db.password           = \"", { "Ref" : "DBPassword" } , "\"\n",
                       "    db.host               = \"localhost\"\n",
                       "    db.port               = 3306\n",
-                      "    db.socket             = \"/tmp/mysql.sock\"\n",
                       "    db.additional_options = [\"--quick\", \"--single-transaction\"]\n",
                       "  end\n",
                       "\n",
@@ -261,6 +260,23 @@
                       "  end\n",
                       "\n",
                       "  compress_with Gzip\n",
+                      "\n",
+                      "# TODO We need to configure this, just like the other mail\n",
+                      "#notify_by Mail do |mail|\n",
+                      "#  mail.on_success           = false\n",
+                      "#  mail.on_warning           = true\n",
+                      "#  mail.on_failure           = true\n",
+                      "#\n",
+                      "#  mail.from                 = 'sender@email.com'\n",
+                      "#  mail.to                   = 'boushley@gmail.com'\n",
+                      "#  mail.address              = 'smtp.gmail.com'\n",
+                      "#  mail.port                 = 587\n",
+                      "#  mail.domain               = 'your.host.name'\n",
+                      "#  mail.user_name            = 'sender@email.com'\n",
+                      "#  mail.password             = 'my_password'\n",
+                      "#  mail.authentication       = 'plain'\n",
+                      "#  mail.enable_starttls_auto = true\n",
+                      "#end\n",
                       "\n",
                       "end\n"
                   ]]},
@@ -276,16 +292,16 @@
               }
             },
             "commands" : {
-                "00-change-default-ruby" : {
-                    "command" : "sudo rm /usr/bin/ruby; sudo ln -s /usr/bin/ruby1.9.1 /usr/bin/ruby; sudo rm /usr/bin/ruby1.8;",
-                    "ignoreErrors" : "false"
+                "01-change-the-ruby-version" : {
+                  "command" : { "Fn::Join" : ["\n", [
+                    "update-alternatives --install /usr/bin/ruby ruby /usr/bin/ruby1.9.1 400 --slave   /usr/share/man/man1/ruby.1.gz ruby.1.gz /usr/share/man/man1/ruby1.9.1.1.gz --slave   /usr/bin/ri ri /usr/bin/ri1.9.1 --slave   /usr/bin/irb irb /usr/bin/irb1.9.1 --slave   /usr/bin/rdoc rdoc /usr/bin/rdoc1.9.1",
+                    "update-alternatives --config ruby"
+                  ]]},
+                  "ignoreErrors" : "false"
                 },
                 "02-install-gems-with-different-ruby" : {
-                    "command" : "sudo gem install passenger bundler",
+                    "command" : "sudo gem install passenger bundler fog",
                     "ignoreErrors" : "false"
-                },
-                "03-chown-files" : {
-                    "command" : "sudo chown -R wardareabook:wardareabook /var/app/wardareabook"
                 },
                 "04-install-nginx" : {
                     "command" : "passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx",
@@ -310,8 +326,8 @@
                         "",
                         "",
                         "http {",
-                        "    passenger_root /var/lib/gems/1.8/gems/passenger-3.0.18;",
-                        "    passenger_ruby /usr/bin/ruby1.8;",
+                        "    passenger_root /var/lib/gems/1.9.1/gems/passenger-3.0.18;",
+                        "    passenger_ruby /usr/bin/ruby1.9.1;",
                         "",
                         "    include       mime.types;",
                         "    default_type  application/octet-stream;",
@@ -354,7 +370,17 @@
                     "ignoreErrors" : "false"
                 },
                 "10-migrate-the-database" : {
-                    "command" : "rake db:migrate",
+                    "command" : "RAILS_ENV=production bundle exec rake db:migrate",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "11-precompile-the-assets" : {
+                    "command" : "RAILS_ENV=production bundle exec rake assets:precompile",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "12-chown-files" : {
+                    "command" : "sudo chown -R wardareabook:wardareabook /var/app/wardareabook; sudo chmod 0666 log/production.log",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
                 }
