@@ -56,75 +56,41 @@ def downLoadNewList
     form.password = root.lds_password 
     page = agent.submit(form)
     puts "Just logged in"
-    # TODO find out if there is way to search for the links 
-    # based on a regex instead of having to cycle through the links
-=begin
-    page.links.each do |link|
-      if link.text =~ /Membership Directory/i
-        page = link.click
-        break
-      end
-    end
-    vcardHref = ""
-    page.links.each do |link| 
-      if link.text =~ /vcard/i
-        line = link.href.match(/\'.*\'/)
-        vcardHref = line.to_s[1..(line.to_s.length-2)]
-        break
-      end
-    end
-    puts "Downloading the ward list"
-    agent.get(vcardHref).save_as("#{UPDATEDIR}/WardList.vcf")
-    puts "Done"
-=end
-  list_location = "#{UPDATEDIR}/WardList.json"
-  FileUtils.mv(list_location, list_location + ".old") if File.exists? list_location
-  agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/25542").save_as(list_location)
-  puts "just retrieved the list"
+
+    list_location = "#{UPDATEDIR}/WardList.json"
+    FileUtils.mv(list_location, list_location + ".old") if File.exists? list_location
+    agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/25542").save_as(list_location)
+    puts "just retrieved the list"
 
 =begin
     puts "Getting leadership information"
-    page.links.each do |link|
-      if link.text =~ /Leadership Directory/i
-        page = link.click
-        break
-      end
-    end
-    leaders = ""
-    page.links.each do |link| 
-      if link.text =~ /Abbreviated/i
-        line = link.href.match(/\'.*\'/)
-        leaders = line.to_s[1..(line.to_s.length-2)]
-        break
-      end
-    end
 
-    @doc = agent.get(leaders)
-    #@doc = Nokogiri::HTML(File.open("Burien Ward Leadership.html"))
+    Looks like you retrieve the leadership roster from:
+    https://www.lds.org/directory/services/ludrs/1.1/unit/stake-leadership-group-detail/{ward id}/{organization id}/1
 
-    callings = Array.new
-    record = false
-    calling = ""
+    Thorton Creek High Priest Group:
+    https://www.lds.org/directory/services/ludrs/1.1/unit/stake-leadership-group-detail/25542/69/1
 
-    @doc.parser.css(".eventsource").each do |row|
-    #@doc.css(".eventsource").each do |row|
-      token = row.text.strip
-      if calling != ""
-        callings << [calling,token]
-        calling = ""
-      else 
-        if token =~ /:/
-          calling = token.chomp(":")
-        end
-      end
-    end
+    Example JSON (Thorton Creek Bishopric):
+    {"leaders":[{"callingName":"Bishop","displayName":"Stephen Wade Standage","email":"brotherstandage@gmail.com","householdPhoneNumber":"206-729-2409","individualId":3056998278,"phoneNumber":"206-491-0689","photoUri":"","positionId":4},{"callingName":"Bishopric First Counselor","displayName":"David Pickett","email":"dpickett82@gmail.com","householdPhoneNumber":"206-395-4364","individualId":2879176527,"phoneNumber":"2063954364","photoUri":"","positionId":54},{"callingName":"Bishopric Second Counselor","displayName":"Andrew David Forbes","email":"drew.forbes@gmail.com","householdPhoneNumber":"1-206-659-3055","individualId":19700743384,"phoneNumber":"1-206-659-3055","photoUri":"","positionId":55},{"callingName":"Ward Executive Secretary","displayName":"Ben Newman","email":"thorntoncreekexecsec@gmail.com","householdPhoneNumber":"801 368 1785","individualId":902144318,"phoneNumber":"801 368 1785","photoUri":"","positionId":56},{"callingName":"Ward Clerk","displayName":"Mitch Jones","email":"aaronmitchelljones@gmail.com","householdPhoneNumber":"8012288094","individualId":20570694452,"phoneNumber":"801-228-8094","photoUri":"","positionId":57},{"callingName":"Ward Assistant Clerk--Finance","displayName":"Alex Quistberg","email":"aquistbe@gmail.com","householdPhoneNumber":"1-206-607-9179","individualId":1182115497,"phoneNumber":"1-206-607-9179","photoUri":"","positionId":786},{"callingName":"Ward Assistant Clerk--Membership","displayName":"Brian Turner","email":"","householdPhoneNumber":"206-363-9228","individualId":2578173080,"phoneNumber":"206-786-4017","photoUri":"","positionId":787}],"unitName":"Thornton Creek Ward"}
 
-    # Hope hack
-    missionary = "Fulltime Missionaries"
-    fullTime = Calling.find_by_job(missionary)
-    if fullTime == nil
-      Calling.create(:job => missionary, :person_id =>1, :access_level => 2)
-    end
+    ward ids
+    thorton creek -- 25542
+
+    organization ids
+    1179 -- Bishopric
+    69 -- High Priest Group
+    70 -- Elders Quorum
+    74 -- Relief Society
+    75 -- Sunday School
+    73 -- Young Men
+    76 -- Young Women
+    77 -- Primary
+    1300 -- Music
+    1298 -- Family History
+    1309 -- Technology
+    1310 -- Ward Missionaries
+
 
     callings.each do |calling,person|
       #puts calling + " <==> " + person
@@ -143,18 +109,11 @@ end
 
 
 
-
-
-
 begin
   # load the rails environment
   require File.dirname(__FILE__) + "/../../config/environment"
 
   UPDATEDIR = "#{Rails.root}/db/updateScripts/"
-  # Create a copy of the database
-  DATABASE = "#{Rails.root}/db/#{ENV['RAILS_ENV']}.sqlite3"
-  BACKUP = "#{UPDATEDIR}/bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
-  copy(DATABASE,BACKUP)
 
   downLoadNewList 
 
@@ -360,5 +319,4 @@ rescue Exception => e
   puts "Here we are"
   puts $!
   p e.backtrace
-  copy(BACKUP,DATABASE)
 end
