@@ -28,6 +28,21 @@
       "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
       "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
     },
+
+    "WardAdminUser": {
+      "Description" : "The username for the account to use for syncing with lds.org",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "36"
+    },
+    
+    "WardAdminPassword": {
+      "NoEcho": "true",
+      "Description" : "The password for the account to use for syncing with lds.org",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41"
+    },
     
     "DBUsername": {
       "Default": "admin",
@@ -234,6 +249,18 @@
                   "group" : "root"
               },
 
+              "/var/app/wardareabook/db/seeds.rb" : {
+                "content" : {"Fn::Join" : ["", [
+                  "ra = RootAdmin.new\n",
+                  "ra.lds_user_name = '", { "Ref" : "WardAdminUser" } , "'\n",
+                  "ra.lds_password = '", { "Ref" : "WardAdminPassword" } , "'\n",
+                  "ra.save\n"
+                ]]},
+                "mode" : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+
               "/var/app/wardareabook/Backup/models/app_backup.rb" : {
                   "content" : {"Fn::Join" : ["", [
                       "# encoding: utf-8\n",
@@ -300,7 +327,11 @@
                   "ignoreErrors" : "false"
                 },
                 "02-install-gems-with-different-ruby" : {
-                    "command" : "sudo gem install passenger bundler fog",
+                    "command" : "sudo gem install passenger bundler",
+                    "ignoreErrors" : "false"
+                },
+                "03-install-specific-fog-version" : {
+                    "command" : "sudo gem install fog -v '~> 1.4.0'",
                     "ignoreErrors" : "false"
                 },
                 "04-install-nginx" : {
@@ -374,12 +405,17 @@
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
                 },
-                "11-precompile-the-assets" : {
+                "11-seed-the-database" : {
+                    "command" : "RAILS_ENV=production bundle exec rake db:seed",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "15-precompile-the-assets" : {
                     "command" : "RAILS_ENV=production bundle exec rake assets:precompile",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
                 },
-                "12-chown-files" : {
+                "20-chown-files" : {
                     "command" : "sudo chown -R wardareabook:wardareabook /var/app/wardareabook; sudo chmod 0666 log/production.log",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
