@@ -319,6 +319,10 @@
               }
             },
             "commands" : {
+                "00-change-the-timezone" : {
+                  "command" : "echo \"US/Pacific\" | sudo tee /etc/timezone && sudo dpkg-reconfigure --frontend noninteractive tzdata",
+                  "ignoreErrors" : "false"
+                },
                 "01-change-the-ruby-version" : {
                   "command" : { "Fn::Join" : ["\n", [
                     "update-alternatives --install /usr/bin/ruby ruby /usr/bin/ruby1.9.1 400 --slave   /usr/share/man/man1/ruby.1.gz ruby.1.gz /usr/share/man/man1/ruby1.9.1.1.gz --slave   /usr/bin/ri ri /usr/bin/ri1.9.1 --slave   /usr/bin/irb irb /usr/bin/irb1.9.1 --slave   /usr/bin/rdoc rdoc /usr/bin/rdoc1.9.1",
