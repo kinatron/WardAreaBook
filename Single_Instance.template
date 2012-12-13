@@ -162,6 +162,7 @@
                 "libxml2-dev"          : [],
                 "libxslt1-dev"         : [],
                 "libsqlite3-dev"       : [],
+                "sendmail"             : [],
                 "sqlite3"              : []
               }
             },
