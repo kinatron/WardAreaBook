@@ -11,7 +11,7 @@ require File.dirname(__FILE__) + "/../../config/environment"
 # TODO Eventually this needs to be made multi-tenant so that it can work for multiple wards,
 # for now we'll just use a constant for the ward id
 WARD_ID = 25542
-ORGANIZATIONS_TO_GET = [69]
+ORGANIZATIONS_TO_GET = [1179, 69]
 DEFAULT_PERMISSION_LEVEL = 1
 POSITION_TO_LEVEL = {
   "4" => 3,
@@ -72,7 +72,7 @@ def downLoadNewInfo
     page = agent.submit(form)
     puts "Just logged in"
 
-    list_location = "#{UPDATEDIR}/WardList.json"
+    list_location = "#{UPDATEDIR}WardList.json"
     FileUtils.mv(list_location, list_location + ".old") if File.exists? list_location
     agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/#{WARD_ID}").save_as(list_location)
     puts "just retrieved the list"
@@ -183,7 +183,7 @@ end
 
 
 begin
-  log_file = "#{UPDATEDIR}/WardListImport.log"
+  log_file = "#{UPDATEDIR}WardListImport.log"
   puts "Logging to #{log_file}"
   $stdout = File.open(log_file,'a')
   puts Time.now.strftime("%a %b %d %Y - %I:%M %p")
@@ -205,7 +205,7 @@ begin
     family.save
   end
 
-  jsonString = File.open("#{UPDATEDIR}/WardList.json", "r").read
+  jsonString = File.open("#{UPDATEDIR}WardList.json", "r").read
   ward = JSON.parse(jsonString)
   ward.each do |jsonEntry|
     uid   = jsonEntry['headOfHouseIndividualId']

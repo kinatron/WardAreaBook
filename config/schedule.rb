@@ -18,6 +18,7 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+env :PATH, ENV['PATH']
 
 every 1.day, :at => '2am' do
     command "/usr/local/bin/backup perform -t app_backup -c /var/app/wardareabook/Backup/config.rb", :output => '/tmp/backup_db.log'
