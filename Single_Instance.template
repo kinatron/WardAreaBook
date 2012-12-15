@@ -282,7 +282,7 @@
                       "    s3.access_key_id     = \"", { "Ref" : "BackupAccessKey" } , "\"\n",
                       "    s3.secret_access_key = \"", { "Ref" : "BackupSecretKey" } , "\"\n",
                       "    s3.region            = \"us-west-2\"\n",
-                      "    s3.bucket            = \"ward-area-book-backups\"\n",
+                      "    s3.bucket            = \"ward-area-book\"\n",
                       "    s3.path              = \"/backups\"\n",
                       "    s3.keep              = 20\n",
                       "  end\n",
@@ -417,6 +417,11 @@
                 },
                 "15-precompile-the-assets" : {
                     "command" : "RAILS_ENV=production bundle exec rake assets:precompile",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "16-update-the-database" : {
+                    "command" : "RAILS_ENV=production bundle exec rake update_ward_db",
                     "cwd" : "/var/app/wardareabook",
                     "ignoreErrors" : "false"
                 },
