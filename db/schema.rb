@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121212031230) do
+ActiveRecord::Schema.define(:version => 20121216000138) do
 
   create_table "action_items", :force => true do |t|
     t.integer  "family_id"
@@ -151,6 +151,13 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.datetime "current_login_at"
     t.datetime "last_login_at"
     t.boolean  "verified",            :default => false
+  end
+
+  create_table "visiting_teaching_routes", :force => true do |t|
+    t.integer  "visiting_teacher_id"
+    t.integer  "person_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "ward_profiles", :force => true do |t|
