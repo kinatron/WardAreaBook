@@ -42,6 +42,22 @@ module TeachingRoutesHelper
     nil
   end
 
+  def getLastVisitingTeacherVisit(person)
+    # some routes only have one home teacher.  Referencing the routes by the 
+    # array index does make this kind of brittle.  TODO
+    visitingTeachers = person.visiting_teachers.all
+
+    clause = "(category ='Visit' or category = 'Lesson') and ("
+
+    clause += visitingTeachers.collect { |vt| 'person_id = ' + vt.id }.join(' or ')
+
+    clause += ")"
+
+    family.events.where(clause).order('date DESC').first
+  rescue
+    nil
+  end
+
 
   def getHomeTeachingVisitDate(event)
     if event
