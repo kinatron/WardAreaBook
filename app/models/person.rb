@@ -30,6 +30,7 @@ class Person < ActiveRecord::Base
   end
 
   def full_name
+      def full_name
     if Calling.find_by_job("Bishop").people.include? self
       "Bishop #{family.name}"
     else

@@ -1,0 +1,14 @@
+<%= form_tag visiting_teaching_update_names_path do %>
+  <%= hidden_field_tag :path, @path %>
+  <h1>Please match up the following people</h1>
+  <h1>All other routes have been saved. If you can match these people up we'll add these routes too.</h1>
+  <% @cantFindPerson.each do |person| %>
+    <%= person %>&nbsp; &nbsp; &nbsp; 
+    <%= select_tag "correct_person[#{person}]", options_for_select(personSuggestions(person)) %>
+    <br><br>
+  <% end %>
+  <br><br><br>
+  <%= submit_tag "Update Names" %>
+<% end %>
+
+
