@@ -20,8 +20,15 @@
     <%= f.text_field :email %>
   </p>
   <p>
-    <%= f.label :calling %><br />
-    <%= f.text_field :calling %>
+  <%= f.label :callings %><br />
+  <ul>
+    <%= f.fields_for :calling_assignments do |builder| %>
+      <% unless builder.object.id.nil? %>
+        <li><%= builder.object.calling.job %> <small><%= builder.label :_destroy, "Release" %></small><%= builder.check_box :_destroy %></li>
+      <% end %>
+    <% end %>
+  </ul>
+  <%= link_to_add_calling "Assign another calling", f, :calling_assignments %>
   </p>
   <p>
     <%= f.submit 'Update' %>

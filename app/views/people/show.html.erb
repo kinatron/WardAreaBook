@@ -19,8 +19,12 @@
 </p>
 
 <p>
-  <b>Calling:</b>
-  <%=h @person.calling %>
+<b>Callings:</b>
+<ul>
+  <% @person.callings.each do |calling| %>
+    <li><%=h calling.job %></li>
+  <% end %>
+</ul>
 </p>
 
 

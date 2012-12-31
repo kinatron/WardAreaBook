@@ -13,7 +13,7 @@ class ReportsController < ApplicationController
 
   # TODO reference the hopes by name not id 1
   def hope
-    @events = Event.find_all_by_person_id(1).order('date DESC')
+    @events = Event.find_all_by_person_id(1, order: 'date DESC')
     @event_weeks = @events.group_by { |week| week.date.at_beginning_of_week }
   end
 

@@ -1,11 +1,11 @@
 <p>
   <b>Name:</b>
-  <%=h @user.name %>
+  <%=h @user.person.name %>
 </p>
 
 <p>
   <b>Access Level:</b>
-  <%=h @user.access_level %>
+  <%=h @user.person.access_level %>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

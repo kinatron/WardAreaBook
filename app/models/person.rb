@@ -9,10 +9,18 @@ class Person < ActiveRecord::Base
   has_many :closed_action_items, :class_name => "ActionItem",
                                  :conditions => "status == 'closed'",
                                  :order => 'updated_at DESC'
+  has_many :calling_assignments, :dependent => :destroy
+  has_many :callings, :through => :calling_assignments, :order => "callings.access_level DESC"
 
-  attr_accessible :name, :email, :family_id, :current, :uid
+  attr_accessible :name, :email, :family_id, :current, :uid, :phone, :calling_assignments_attributes
+  accepts_nested_attributes_for :calling_assignments, allow_destroy: true
+
+  def access_level
+    callings.first.access_level
+  end
 
   def full_name
+    # Why the hard-coded cases? What gives?
     if family.name == "Hope"
       "The Hopes"
     elsif family.name == "Elders"
@@ -22,8 +30,8 @@ class Person < ActiveRecord::Base
     else
       "#{name} #{family.name}"
     end
-  rescue 
-    ""
+  rescue
+    name
   end
 
   # TODO this is a very costly operation.  

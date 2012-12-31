@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121212031230) do
+ActiveRecord::Schema.define(:version => 20121216013331) do
 
   create_table "action_items", :force => true do |t|
     t.integer  "family_id"
@@ -21,16 +21,27 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.date     "due_date"
     t.string   "status",     :default => "open"
     t.text     "comment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
+
+  create_table "calling_assignments", :force => true do |t|
+    t.integer  "calling_id"
+    t.integer  "person_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "calling_assignments", ["calling_id", "person_id"], :name => "index_calling_assignments_on_calling_id_and_person_id", :unique => true
+  add_index "calling_assignments", ["calling_id"], :name => "index_calling_assignments_on_calling_id"
+  add_index "calling_assignments", ["person_id"], :name => "index_calling_assignments_on_person_id"
 
   create_table "callings", :force => true do |t|
     t.string   "job"
     t.integer  "person_id"
     t.integer  "access_level", :default => 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
     t.string   "position_id"
   end
 
@@ -38,8 +49,8 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.integer  "family_id"
     t.integer  "person_id"
     t.text     "text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "events", :force => true do |t|
@@ -48,8 +59,8 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.integer  "person_id"
     t.string   "category"
     t.text     "comment"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "author",     :default => 1
   end
 
@@ -60,8 +71,8 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.string   "address"
     t.string   "status"
     t.text     "information"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.boolean  "current",            :default => true
     t.boolean  "member",             :default => true
     t.string   "uid"
@@ -69,8 +80,8 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
 
   create_table "home_teaching_files", :force => true do |t|
     t.string   "location"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "name_mappings", :force => true do |t|
@@ -78,8 +89,8 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.string   "category"
     t.integer  "person_id"
     t.integer  "family_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "people", :force => true do |t|
@@ -87,9 +98,8 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.integer  "family_id"
     t.string   "phone"
     t.string   "email"
-    t.string   "calling"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.boolean  "current",    :default => true
     t.string   "uid"
   end
@@ -98,15 +108,15 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.integer  "person_id"
     t.string   "lds_user_name"
     t.string   "lds_password"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
@@ -121,8 +131,8 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.integer  "person_id"
     t.string   "membership_milestone"
     t.date     "milestone_date_goal"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
     t.boolean  "current",              :default => true
     t.string   "organization",         :default => "Ward Mission"
   end
@@ -131,15 +141,15 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.integer "family_id"
     t.integer "person_id"
     t.string  "category"
-    t.date    "last_update", :default => '2012-10-28'
+    t.date    "last_update", :default => '2012-11-24'
   end
 
   create_table "users", :force => true do |t|
     t.string   "email"
     t.string   "crypted_password"
     t.string   "password_salt"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.integer  "person_id"
     t.boolean  "logged_in_now",       :default => false
     t.string   "persistence_token",   :default => "",    :null => false
@@ -164,8 +174,8 @@ ActiveRecord::Schema.define(:version => 20121212031230) do
     t.integer  "new"
     t.integer  "moved"
     t.integer  "visited"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
 end
