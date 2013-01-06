@@ -63,12 +63,18 @@ WardAreaBook::Application.routes.draw do
   resources :callings
   match '/callings/updateAccessLevels/' => 'callings#updateAccessLevels'
   resources :name_mappings
+
+  resources :teaching_records
   match '/teaching_routes/updateNames/' => 'teaching_routes#updateNames'
   match '/teaching_routes/updateError/' => 'teaching_routes#updateError'
   match '/teaching_routes/updateRoutes/' => 'teaching_routes#updateRoutes'
-  match '/teaching_routes/teacherList/' => 'teaching_routes#teacherList'
-  resources :teaching_routes
-  resources :teaching_records
+  match '/teaching_routes/teacherList/:id' => 'teaching_routes#teacherList'
+
+  match '/visiting_teaching' => 'teaching_routes#visiting_teaching_index'
+  namespace :visiting_teaching do
+    match 'route/:id' => 'teaching_routes#visiting_teaching_route'
+  end
+
   match '/todo' => 'users#todo'
   resources :users
   match '/WardListUpdates' => 'people#WardListUpdates'

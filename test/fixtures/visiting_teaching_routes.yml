@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  visiting_teacher_id: 1
+  person_id: 1
+
+two:
+  visiting_teacher_id: 1
+  person_id: 1

@@ -1,4 +1,4 @@
-<h1>Home Teaching Assignments 
+<h1>Visiting Teaching Assignments 
     <span style='font-size:smaller'> (<%= @last_updated %>) </span>
   &mdash; 
   <%= link_to "update", :action => 'updateRoutes'  %>
@@ -14,37 +14,35 @@
 <div style = "font:85% sans-serif;" >
   <form>
     Quick Search &mdash;
-    <input name="quickSearch" onkeyup="filterTable(this, 'filterable', 1,3)" type="text">
+    <input name="quickSearch" onkeyup="filterTable(this, 'filterable', 0,2)" type="text">
   </form>
 </div>
 <br>
 <table id = 'filterable' class='sorttable resizable'>
   <thead>
   <tr>
-    <th>Quorum</th>
-    <th>Family</th>
+    <th>Sisiter</th>
     <th>Last Visit</th>
-    <th>Home Teacher</th>
+    <th>Visiting Teacher</th>
   </tr>
   </thead>
 
 <% @teaching_routes.each do |route| %>
   <tr class="<%=cycle('list-line-odd','list-line-even')%>"> 
-    <td><%=h route.category %></td>
     <td class='cell' onclick = "window.location.href='<%= family_path(route.family) %>'">
       <div class='hidexxx'>
-        <%=h route.family.name + ", " + route.family.head_of_house_hold %>
+        <%= route.person.full_name %>
       </div>
     </td>
-    <% lastEvent = getLastHomeTeacherVisit(route.family) %>
+    <% lastEvent = getLastVisitingTeacherVisit(route.person) %>
     <td sorttable_customkey="<%= getHomeTeachingVisitDateSortable(lastEvent)%>"
         bgcolor=<%= getLastHomeTeacherVisitColor(lastEvent) %> >
       <div>
         <%= getHomeTeachingVisitDate(lastEvent) %>
       </div>
     </td>
-    <td class='cell' onClick = "window.location.href='<%= "/teaching_routes/teacherList/" + route.person.id.to_s %>'">
-      <%=h route.person.name + " " + route.person.family.name %>
+    <td class='cell' onClick = "window.location.href='<%= "/visiting_teaching/route/" + route.visiting_teacher.id.to_s %>'">
+      <%= route.visiting_teacher.full_name %>
     </td>
   </tr>
 <% end %>

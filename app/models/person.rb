@@ -1,6 +1,10 @@
 class Person < ActiveRecord::Base
   belongs_to :family
   has_many :teachingRoutes 
+
+  has_and_belongs_to_many :visiting_teachers, {:join_table => "visiting_teaching_routes", :class_name => "Person", :foreign_key => "person_id", :association_foreign_key => "visiting_teacher_id"}
+  has_and_belongs_to_many :visit_teach, {:join_table => "visiting_teaching_routes", :class_name => "Person", :foreign_key => "visiting_teacher_id", :association_foreign_key => "person_id"}
+
   has_many :action_items 
   has_many :events
   has_many :open_action_items, :class_name => "ActionItem",

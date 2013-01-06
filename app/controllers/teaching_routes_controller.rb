@@ -4,6 +4,7 @@ class TeachingRoutesController < ApplicationController
 
   BAKUP_FILE = Rails.root.join('public', 'data', 'LastGoodTeachingReport.csv')
 
+  # TODO This doesn't appear to ever be called...
   def checkAccess
     if (action_name == "teacherList" and params[:id] == session[:user_id].to_s ) or hasAccess(2)
       true
@@ -35,6 +36,8 @@ class TeachingRoutesController < ApplicationController
   end
 
   def createHomeTeachingRoutes(homeTeachingFile=nil)
+    # TODO This is pretty dangerous, just letting people pass a path into the webserver that
+    # we will then read from disk...
     if params[:path] != nil
       homeTeachingFile = params[:path]
     end
@@ -49,31 +52,31 @@ class TeachingRoutesController < ApplicationController
       #Get the family name
       famName, headOfHouseHold = getName(row[12].gsub("&","and"))
       fam = Family.find_by_name_and_head_of_house_hold(famName,headOfHouseHold)
-      if fam == nil
+      if fam.nil?
         # Check to see if this name is in the NameMapping table
         nameMap = NameMapping.find_by_name_and_category(row[12],'family')
-        if nameMap != nil
-          fam = Family.find(nameMap.family_id)
-        else
+        if nameMap.nil?
           # If there is only one "Smith" in the ward then assume this is the family we want
-          fam = Family.find_all_by_name(famName)
-          if fam.size == 1
-            fam = fam[0]
+          families = Family.find_all_by_name(famName)
+          if families.size == 1
+            fam = families[0]
           else 
             @cantFindFamily.add(row[12])
             next
           end
+        else
+          fam = Family.find(nameMap.family_id)
         end
       end
       #Get the first home teacher
       hometeacher1 = getPerson(row[6])
-      unless hometeacher1 == nil
+      if hometeacher1.nil?
+        @cantFindTeacher.add(row[6])
+      else
         #puts hometeacher1.name + " " + hometeacher1.family.name 
         TeachingRoute.create(:category => row[0], 
                              :person_id => hometeacher1.id, 
                              :family_id => fam.id)
-      else
-        @cantFindTeacher.add(row[6])
       end
 
       hometeacher2 = getPerson(row[9])
@@ -141,7 +144,35 @@ class TeachingRoutesController < ApplicationController
     end
   end
 
-  # GET /teaching_routes/teacherList.html
+  # GET /visiting_teaching
+  # GET /visiting_teaching.xml
+  def visiting_teaching_index
+    @teaching_routes = VisitingTeachingRoute.all
+    @last_updated = VisitingTeachingRoute.first ? "last updated #{TeachingRoute.first.updated_at}" : 'never updated'
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @teaching_routes }
+    end
+  end
+
+  # GET /visiting_teaching/route/1
+  # GET /visiting_teaching/route/1.xml
+  def visiting_teaching_route
+    @sisters = Set.new
+    @visitingTeacher = Person.find(params[:id])
+    @teachingRoutes = VisitingTeachingRoute.find_all_by_visiting_teacher_id(@visitingTeacher.id)
+    @teachingRoutes.each do |route|
+      @sisters.add(route.person)
+    end
+
+    respond_to do |format|
+      format.html # visiting_teaching_route.html.erb
+      format.xml  { render :xml => @teaching_routes }
+    end
+  end
+
+  # GET /teaching_routes/teacherList/1
   def teacherList
     @families = Set.new
     @homeTeacher = Person.find(params[:id])
@@ -250,8 +281,8 @@ private
 
       family.each do |fam|
         #puts firstName + "--" + fam.id.to_s
-        person = Person.find_by_current_and_name_and_family_id(true,firstName,fam.id)
-        if person == nil
+        person = family.people.find_by_current_and_name(true, firstName)
+        if person.nil?
           next 
         end
         return person

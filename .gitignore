@@ -19,3 +19,5 @@ config/application.yml
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+script/set_passwords
