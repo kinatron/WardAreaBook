@@ -4,8 +4,12 @@
 </p>
 
 <p>
-  <b>Person:</b>
-  <%=h @calling.person_id %>
+  <b>People:</b>
+<ul>
+<% @calling.people.each do |person| %>
+  <li><%= link_to person.full_name, person_path(person) %></li>
+<% end %>
+</ul>
 </p>
 
 <p>

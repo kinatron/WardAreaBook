@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121216013331) do
+ActiveRecord::Schema.define(:version => 20130106202554) do
 
   create_table "action_items", :force => true do |t|
     t.integer  "family_id"
@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20121216013331) do
 
   create_table "callings", :force => true do |t|
     t.string   "job"
-    t.integer  "person_id"
     t.integer  "access_level", :default => 0
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false

@@ -17,10 +17,7 @@
     access_level = 0
     person = Person.find_by_current_and_email(true, user.email)
     unless person == nil
-      calling = Calling.find_by_person_id(person.id) 
-    end
-    unless calling == nil
-      access_level = calling.access_level
+      access_level = person.access_level
     end 
  #   if User.find(user, :conditions => ["last_request_at > ?", 60.minutes.ago])
     if user.last_request_at && user.logged_in_now

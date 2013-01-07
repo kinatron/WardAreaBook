@@ -15,17 +15,18 @@ class Person < ActiveRecord::Base
   attr_accessible :name, :email, :family_id, :current, :uid, :phone, :calling_assignments_attributes
   accepts_nested_attributes_for :calling_assignments, allow_destroy: true
 
+  # callings are in descending order by access level, so the first will be the highest
   def access_level
-    callings.first.access_level
+    if callings.empty?
+      1
+    else
+      callings.first.access_level
+    end
   end
 
   def full_name
-    # Why the hard-coded cases? What gives?
-    if family.name == "Hope"
-      "The Hopes"
-    elsif family.name == "Elders"
-      "The Elders"
-    elsif Calling.find_by_job("Bishop").person_id == id
+    # This was the default -- how special is this special case?
+    if Calling.find_by_job("Bishop").people.include? self
       "Bishop #{family.name}"
     else
       "#{name} #{family.name}"

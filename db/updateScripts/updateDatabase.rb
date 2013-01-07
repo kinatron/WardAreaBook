@@ -11,12 +11,36 @@ require File.dirname(__FILE__) + "/../../config/environment"
 # TODO Eventually this needs to be made multi-tenant so that it can work for multiple wards,
 # for now we'll just use a constant for the ward id
 WARD_ID = 25542
-ORGANIZATIONS_TO_GET = [1179, 69]
+ORGANIZATIONS_TO_GET = [1179, 69, 70, 73, 74, 75, 76, 77, 1310]
 DEFAULT_PERMISSION_LEVEL = 1
+# CALLING => POSITION_ID
+# Bishop => 4
+# 1st counselor => 54
+# 2nd counselor => 55
+# Exec Sec => 56
+# Ward Clerk => 57
+# RS Pres => 143
+# HPGL => 133
+# EQP => 138
+# Ward Mission Leader => 221
+# Primary Pres => 210
+# YW Pres => 183
+# YM Pres => 158
+# SS Pres => 204
 POSITION_TO_LEVEL = {
   "4" => 3,
   "54" => 3,
-  "55" => 3
+  "55" => 3,
+  "56" => 3,
+  "57" => 3,
+  "143" => 2,
+  "133" => 2,
+  "138" => 2,
+  "221" => 2,
+  "210" => 2,
+  "183" => 2,
+  "158" => 2,
+  "204" => 2,
 }
 
 UPDATEDIR = "#{Rails.root}/db/updateScripts/"
@@ -167,11 +191,13 @@ def parse_callings
       puts "Mapping person id: #{personId} to #{callingName}(#{positionId})"
 
       if cal
-        cal.person_id = personId
-        cal.save!
+        assignment = cal.calling_assignments.build(:person_id => personId)
+        # If the calling_assignment already exists, save returns false; we don't want an exception here
+        cal.save
       else
-        level = POSITION_TO_LEVEL[positionId] || DEFAULT_PERMISSION_LEVEL
-        Calling.create(:job => callingName, :person_id => personId, :position_id => positionId, :access_level => level)
+        level = POSITION_TO_LEVEL[positionId.to_s] || DEFAULT_PERMISSION_LEVEL
+        new_cal = Calling.create(:job => callingName, :position_id => positionId, :access_level => level)
+        new_cal.save!
       end
     end
   end
