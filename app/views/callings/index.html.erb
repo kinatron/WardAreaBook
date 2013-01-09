@@ -13,7 +13,7 @@
           <%= check_box_tag "accessLevels[#{calling.job}]", value=2, 
             checked = (calling.access_level >= 2) %>
           </td>
-          <td><%=h calling.job %></td>
+          <td><%= calling.job %></td>
           <td>
             <% calling.people.each do |person| %>
               <%= link_to person.full_name, person_path(person) %><% unless calling.people.last == person %>, <% end %> 

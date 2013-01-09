@@ -17,15 +17,14 @@ class Person < ActiveRecord::Base
 
   # callings are in descending order by access level, so the first will be the highest
   def access_level
-    if callings.empty?
-      1
-    else
+    begin
       callings.first.access_level
+    rescue
+      1
     end
   end
 
   def full_name
-    # This was the default -- how special is this special case?
     if Calling.find_by_job("Bishop").people.include? self
       "Bishop #{family.name}"
     else
