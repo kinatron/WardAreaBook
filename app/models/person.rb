@@ -17,10 +17,11 @@ class Person < ActiveRecord::Base
 
   # callings are in descending order by access level, so the first will be the highest
   def access_level
-    begin
-      callings.first.access_level
-    rescue
-      1
+    call = callings.first
+    if call.nil?
+      return 1
+    else
+      call.access_level
     end
   end
 
