@@ -50,7 +50,6 @@ class CallingsController < ApplicationController
   # GET /callings/new
   # GET /callings/new.xml
   def new
-    @names = Person.selectionList
     @calling = Calling.new
 
     respond_to do |format|

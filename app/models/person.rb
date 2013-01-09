@@ -13,21 +13,30 @@ class Person < ActiveRecord::Base
   has_many :closed_action_items, :class_name => "ActionItem",
                                  :conditions => "status == 'closed'",
                                  :order => 'updated_at DESC'
+  has_many :calling_assignments, :dependent => :destroy
+  has_many :callings, :through => :calling_assignments, :order => "callings.access_level DESC"
 
-  attr_accessible :name, :email, :family_id, :current, :uid
+  attr_accessible :name, :email, :family_id, :current, :uid, :phone, :calling_assignments_attributes
+  accepts_nested_attributes_for :calling_assignments, allow_destroy: true
+
+  # callings are in descending order by access level, so the first will be the highest
+  def access_level
+    call = callings.first
+    if call.nil?
+      return 1
+    else
+      call.access_level
+    end
+  end
 
   def full_name
-    if family.name == "Hope"
-      "The Hopes"
-    elsif family.name == "Elders"
-      "The Elders"
-    elsif Calling.find_by_job("Bishop").person_id == id
+    if Calling.find_by_job("Bishop").people.include? self
       "Bishop #{family.name}"
     else
       "#{name} #{family.name}"
     end
-  rescue 
-    ""
+  rescue
+    name
   end
 
   # TODO this is a very costly operation.  

@@ -1,16 +1,20 @@
 <p>
   <b>Job:</b>
-  <%=h @calling.job %>
+  <%= @calling.job %>
 </p>
 
 <p>
-  <b>Person:</b>
-  <%=h @calling.person_id %>
+  <b>People:</b>
+<ul>
+<% @calling.people.each do |person| %>
+  <li><%= link_to person.full_name, person_path(person) %></li>
+<% end %>
+</ul>
 </p>
 
 <p>
   <b>Access level:</b>
-  <%=h @calling.access_level %>
+  <%= @calling.access_level %>
 </p>
 
 

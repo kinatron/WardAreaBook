@@ -4,12 +4,8 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :access_level %><br />
-    <%= f.select :access_level, {"0"=>0,"1"=>1,"2"=>2,"3"=>3,"4"=>4,"5"=>5} %>
+    <%= f.label :person %><br />
+    <%= link_to @user.person.full_name, @user.person %>
   </p>
   <p>
     <%= f.submit 'Update' %>

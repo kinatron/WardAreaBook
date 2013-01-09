@@ -1,26 +1,30 @@
 <p>
   <b>Name:</b>
-  <%=h @person.name %>
+  <%= @person.name %>
 </p>
 
 <p>
   <b>Family:</b>
-  <%=h @person.family.name %>
+  <%= @person.family.name %>
 </p>
 
 <p>
   <b>Phone:</b>
-  <%=h @person.phone %>
+  <%= @person.phone %>
 </p>
 
 <p>
   <b>Email:</b>
-  <%=h @person.email %>
+  <%= @person.email %>
 </p>
 
 <p>
-  <b>Calling:</b>
-  <%=h @person.calling %>
+<b>Callings:</b>
+<ul>
+  <% @person.callings.each do |calling| %>
+    <li><%= calling.job %></li>
+  <% end %>
+</ul>
 </p>
 
 
