@@ -144,34 +144,6 @@ class TeachingRoutesController < ApplicationController
     end
   end
 
-  # GET /visiting_teaching
-  # GET /visiting_teaching.xml
-  def visiting_teaching_index
-    @teaching_routes = VisitingTeachingRoute.all
-    @last_updated = VisitingTeachingRoute.first ? "last updated #{TeachingRoute.first.updated_at}" : 'never updated'
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @teaching_routes }
-    end
-  end
-
-  # GET /visiting_teaching/route/1
-  # GET /visiting_teaching/route/1.xml
-  def visiting_teaching_route
-    @sisters = Set.new
-    @visitingTeacher = Person.find(params[:id])
-    @teachingRoutes = VisitingTeachingRoute.find_all_by_visiting_teacher_id(@visitingTeacher.id)
-    @teachingRoutes.each do |route|
-      @sisters.add(route.person)
-    end
-
-    respond_to do |format|
-      format.html # visiting_teaching_route.html.erb
-      format.xml  { render :xml => @teaching_routes }
-    end
-  end
-
   # GET /teaching_routes/teacherList/1
   def teacherList
     @families = Set.new
