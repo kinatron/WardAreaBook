@@ -195,10 +195,11 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
   # POST /action_items.xml
   def create
     @action_item = ActionItem.new(params[:action_item])
-    @action_item.issuer_id = session[:user_id]
+    @action_item.issuer = Person.find(session[:user_id])
+    @action_item.status = "open"
     respond_to do |format|
       if @action_item.save
-        format.html { redirect_to(:back) }
+        format.html { redirect_to(action_items_path) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @action_item.errors, :status => :unprocessable_entity }
@@ -213,7 +214,7 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     respond_to do |format|
       if @action_item.update_attributes(params[:action_item])
         #flash[:notice] = 'ActionItem was successfully updated.'
-        format.html { redirect_back}
+        format.html { redirect_to action_item_path(@action_item) }
         #format.html { redirect_to(family_path(@action_item.family))}
         format.xml  { head :ok }
       else
@@ -234,7 +235,7 @@ ACTION_ITEM_OPTIONS = {:checkbox => true,
     @action_item = ActionItem.find(params[:id])
     @action_item.destroy
     respond_to do |format|
-      format.html { redirect_to(:back) }
+      format.html { redirect_to(action_items_path) }
       format.xml  { head :ok }
     end
   end
