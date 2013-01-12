@@ -16,6 +16,9 @@ class Person < ActiveRecord::Base
   has_many :calling_assignments, :dependent => :destroy
   has_many :callings, :through => :calling_assignments, :order => "callings.access_level DESC"
 
+  has_and_belongs_to_many :visiting_teachers, {:join_table => "visiting_teaching_routes", :class_name => "Person", :foreign_key => "person_id", :association_foreign_key => "visiting_teacher_id"}
+  has_and_belongs_to_many :visit_teach, {:join_table => "visiting_teaching_routes", :class_name => "Person", :foreign_key => "visiting_teacher_id", :association_foreign_key => "person_id"}
+
   attr_accessible :name, :email, :family_id, :current, :uid, :phone, :calling_assignments_attributes
   accepts_nested_attributes_for :calling_assignments, allow_destroy: true
 
