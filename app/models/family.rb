@@ -5,10 +5,10 @@ class Family < ActiveRecord::Base
   has_many :teaching_routes  # really it only has two 
   has_many :action_items, :order => 'due_date DESC', :dependent => :destroy
   has_many :open_action_items, :class_name => "ActionItem",
-                               :conditions => "status == 'open'",
+                               :conditions => "status = 'open'",
                                :order => 'due_date ASC, updated_at DESC'
   has_many :closed_action_items, :class_name => "ActionItem",
-                                 :conditions => "status == 'closed'",
+                                 :conditions => "status = 'closed'",
                                  :order => 'updated_at DESC'
   has_one :teaching_record
 

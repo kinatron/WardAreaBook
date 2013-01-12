@@ -17,6 +17,7 @@ gem 'settingslogic'
 gem 'fog'
 
 # Install a js runtime, so that the plain ubuntu install can run rake
+gem 'libv8', '~> 3.11.8.11', :platform => :ruby
 gem 'therubyracer'
 
 # Gems used only for assets and not required

@@ -8,10 +8,10 @@ class Person < ActiveRecord::Base
   has_many :action_items 
   has_many :events
   has_many :open_action_items, :class_name => "ActionItem",
-                               :conditions => "status == 'open'",
+                               :conditions => "status = 'open'",
                                :order => 'due_date ASC, updated_at DESC'
   has_many :closed_action_items, :class_name => "ActionItem",
-                                 :conditions => "status == 'closed'",
+                                 :conditions => "status = 'closed'",
                                  :order => 'updated_at DESC'
   has_many :calling_assignments, :dependent => :destroy
   has_many :callings, :through => :calling_assignments, :order => "callings.access_level DESC"
