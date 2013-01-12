@@ -33,6 +33,17 @@ class Family < ActiveRecord::Base
     return false
   end
 
+  def hasVisitingTeacher(person_id)
+    self.people.includes(:visiting_teachers).each do |person|
+      person.visiting_teachers.each do |vt|
+        return true if vt.id == person_id
+      end
+    end
+    return false
+  rescue
+    return false
+  end
+
   def lastVisit
     self.events.where("category != 'Attempt' and 
                             category != 'Other' and 

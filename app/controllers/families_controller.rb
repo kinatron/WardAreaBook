@@ -18,8 +18,8 @@ class FamiliesController < ApplicationController
        action_name == 'members' or 
        action_name == 'show' or 
        action_name == 'edit_status' or 
-       (action_name == 'edit' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) or 
-       (action_name == 'update' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) 
+       (action_name == 'edit' and (Family.find(params[:id]).hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id]))) or 
+       (action_name == 'update' and (Family.find(params[:id]).hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id])))
       true
     elsif
       action_name == 'index' and not hasAccess(2)
@@ -125,7 +125,7 @@ class FamiliesController < ApplicationController
 
     @limit = CLOSED_ACTION_LIMIT
 
-    if @hasFullAccess or @family.hasHomeTeacher(session[:user_id])
+    if @hasFullAccess or @family.hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id])
       render "show"
     else
       render "show2"
