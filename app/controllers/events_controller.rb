@@ -138,7 +138,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update_attributes(params[:event])
         #flash[:notice] = 'Event was successfully updated.'
-        format.html { redirect_back }
+        format.html { render :action => "show" }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

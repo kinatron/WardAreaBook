@@ -18,7 +18,7 @@ gem 'fog'
 
 # Install a js runtime, so that the plain ubuntu install can run rake
 gem 'libv8', '~> 3.11.8.11', :platform => :ruby
-gem 'therubyracer'
+gem 'therubyracer', '~> 0.11.2'
 
 # Gems used only for assets and not required
 # in production environments by default.

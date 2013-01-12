@@ -4,31 +4,23 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :family_id %><br />
-    <%= f.text_field :family_id %>
+  <%= f.label :family_id %><br />
+  <%= f.select :family_id, options_for_select(Family.all.map { |fam| [fam.full_name, fam.id] }) %>
   </p>
   <p>
-    <%= f.label :person_id %><br />
-    <%= f.text_field :person_id %>
+  <%= f.label :person_id %><br />
+  <%= f.select :person_id, options_for_select(Person.all.map { |p| [p.full_name, p.id] }) %>
   </p>
   <p>
-    <%= f.label :action %><br />
-    <%= f.text_area :action %>
+  <%= f.label :action %><br />
+  <%= f.text_area :action %>
   </p>
   <p>
-    <%= f.label :due_date %><br />
-    <%= f.date_select :due_date %>
+  <%= f.label :due_date %><br />
+  <%= f.date_select :due_date %>
   </p>
   <p>
-    <%= f.label :status %><br />
-    <%= f.text_field :status %>
-  </p>
-  <p>
-    <%= f.label :issuer_id %><br />
-    <%= f.text_field :issuer_id %>
-  </p>
-  <p>
-    <%= f.submit 'Create' %>
+  <%= f.submit 'Create' %>
   </p>
 <% end %>
 
