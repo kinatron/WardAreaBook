@@ -75,7 +75,7 @@ WardAreaBook::Application.routes.draw do
   get '/visiting_teaching/update_routes/' => 'visiting_teaching#update_routes'
   post '/visiting_teaching/update_routes/' => 'visiting_teaching#upload_file'
   post '/visiting_teaching/update_with_path/' => 'visiting_teaching#update_with_path'
-  match '/visiting_teaching/update_names/' => 'visiting_teaching#update_Names'
+  match '/visiting_teaching/update_names/' => 'visiting_teaching#update_names'
   match '/visiting_teaching/update_error/' => 'visiting_teaching#update_error'
   match '/visiting_teaching/teacher_list/' => 'visiting_teaching#teacher_list'
 
