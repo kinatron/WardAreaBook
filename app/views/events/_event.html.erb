@@ -13,7 +13,7 @@ end %>
 <% # TODO there's got to be a better way -%>
 <%  
 if event.person 
-  wardRep = event.person.full_name + " &#151"
+  wardRep = event.person.full_name + " --"
 else
   wardRep = ""
 end
@@ -23,18 +23,18 @@ end
 <div id = "event_<%=event.id%>"> 
   <div class='<%=isEditable%>' >
     <% if hasAccessToEdit %>
-      <%= link_to "#{event.date} &#151; #{wardRep} 
-                          #{event.category} &#151; #{event.comment}",
+      <%= link_to "#{event.date} -- #{wardRep} 
+                          #{event.category} -- #{event.comment}",
           :url => {:controller => 'events', 
           :remote => true,
           :action => 'edit_remotely', 
           :id => event.id } %>
 
     <% else %>
-      <%=h event.date %> &#151;
+      <%= event.date %> --
       <%= wardRep %> 
-      <%=h event.category %> &#151;
-      <%=h event.comment %>
+      <%= event.category %> --
+      <%= event.comment %>
     <% end %>
   </div>
 </div>

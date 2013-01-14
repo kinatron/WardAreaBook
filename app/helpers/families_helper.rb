@@ -20,7 +20,12 @@ module FamiliesHelper
   def displayAddress(address)
     begin
       # city, state zipcode   - put a break right before the city.
-      address.insert(address.rindex(/\W+\w+\W+\w+\W+\d\d\d\d\d/),"<br>")
+      zipcode_index = address.rindex(/\W+\w+\W+\w+\W+\d\d\d\d\d/)
+
+      formatted_address = "".html_safe
+      formatted_address << address[0..zipcode_index]
+      formatted_address.safe_concat "<br />"
+      formatted_address << address[zipcode_index..-1]
     rescue
       address
     end
