@@ -148,14 +148,19 @@ class TeachingRoutesController < ApplicationController
   def teacherList
     @families = Set.new
     @homeTeacher = Person.find(params[:id])
-    @teachingRoutes = TeachingRoute.find_all_by_person_id(@homeTeacher.id)
-    @teachingRoutes.each do | route|
+    teachingRoutes = TeachingRoute.includes(:family).find_all_by_person_id(@homeTeacher.id)
+    teachingRoutes.each do | route|
       @families.add(route.family)
+    end
+
+    visitingRoutes = VisitingTeachingRoute.includes(:person => [:family]).find_all_by_visiting_teacher_id(@homeTeacher.id)
+    visitingRoutes.each do |route|
+      @families.add(route.person.family)
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @teaching_routes }
+      format.xml  { render :xml => teaching_routes }
     end
   end
 
