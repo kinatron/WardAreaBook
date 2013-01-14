@@ -38,8 +38,8 @@
           </td>
           <td >
             <% if @family.teaching_routes.size == 0 %>
-              <b>Home Teachers have not been <br>
-                 assigned to this family</b>
+              <b>Home Teachers have not been <br />
+                assigned to this family</b><br />
             <% else %>
               <% @family.teaching_routes.each do |teacher| %>
                 Home Teacher: <%= teacher.person.name + " " + teacher.person.family.name %> <br />
