@@ -38,6 +38,7 @@ GEM
     better_errors (0.3.2)
       coderay (>= 1.0.0)
       erubis (>= 2.7.0)
+    binding_of_caller (0.6.8)
     builder (3.0.4)
     chronic (0.9.0)
     coderay (1.0.8)
@@ -167,6 +168,7 @@ DEPENDENCIES
   authlogic
   backup
   better_errors
+  binding_of_caller
   coffee-rails (~> 3.2.1)
   dynamic_form
   fog
