@@ -48,3 +48,8 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+group :development do
+  gem 'better_errors'
+  gem 'quiet_assets'
+end
