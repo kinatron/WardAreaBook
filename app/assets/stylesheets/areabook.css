@@ -534,3 +534,6 @@ h1 {
   list-style: square;
 }
 
+.startHidden {
+  display: none;
+}

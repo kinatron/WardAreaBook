@@ -119,38 +119,25 @@ class CommentsController < ApplicationController
   # PUT /comments/1.xml
   def update
     @comment = Comment.find(params[:id])
-    respond_to do |format|
-      if @comment.update_attributes(params[:comment])
-        format.js {
-          render :update do |page|
-            page.replace_html("comments", :partial => "comments/comment", 
-                                          :collection => @comment.family.comments)
-          end
-        }
-        format.html { redirect_to(@comment) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
-      end
+
+    if hasAccess(2) || (!@comment.person.nil? && @comment.person.id == session[:user_id])
+      @comment.text = params[:text]
+      @comment.save
     end
+
+    redirect_to(@comment.family)
   end
 
   # DELETE /comments/1
   # DELETE /comments/1.xml
   def destroy
-    @comment = Comment.find(params[:id])
-    @comment.destroy
+    comment = Comment.find(params[:id])
+    family = comment.family
 
-    respond_to do |format|
-      format.js {
-        render :update do |page|
-          page.replace_html("comments", :partial => "comments/comment", 
-                                        :collection => @comment.family.comments)
-        end
-      }
-      format.html { redirect_to(comments_url) }
-      format.xml  { head :ok }
+    if hasAccess(2) || (!comment.person.nil? && comment.person.id == session[:user_id])
+      comment.destroy
     end
+
+    redirect_to(family)
   end
 end

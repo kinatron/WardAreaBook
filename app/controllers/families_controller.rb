@@ -51,14 +51,8 @@ class FamiliesController < ApplicationController
 
   def new_comment
     @fam = Family.find(params[:id])
-    @comment = Comment.create(:family_id => @fam.id)
-    respond_to do |format|
-      format.js {
-        render :update do |page|
-          page.replace_html("new comment", :partial => "new_comment", :object => @comment)
-        end
-      }
-    end
+    @fam.comments.create(:person_id => session[:user_id], :text => params[:text])
+    redirect_to(@fam)
 
   end
 

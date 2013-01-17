@@ -93,7 +93,7 @@ WardAreaBook::Application.routes.draw do
   match '/families/teachingPool/' => 'families#teachingPool'
   match '/families/investigators/' => 'families#investigators'
   match '/families/mergeRecords/' => 'families#mergeRecords'
-  match '/families/new_comment/' => 'families#new_comment'
+  post '/families/:id/new_comment' => 'families#new_comment'
   match '/families/edit_status/:id' => 'families#edit_status'
   match '/activate/:id' => 'password_resets#activate', :as => :activation
   resources :families
