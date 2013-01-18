@@ -133,18 +133,16 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def update
-    @event = Event.find(params[:id])
-
-    respond_to do |format|
-      if @event.update_attributes(params[:event])
-        #flash[:notice] = 'Event was successfully updated.'
-        format.html { render :action => "show" }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-      end
+    event = Event.find(params[:id])
+    if event.author == session[:user_id] or event.person_id == session[:user_id] or hasAccess(2)
+      event.date = Date.new(params[:date]["year"].to_i, params[:date]["month"].to_i, params[:date]["day"].to_i)
+      event.person_id = params[:person_id]
+      event.category = params[:category]
+      event.comment = params[:comment]
+      event.save
     end
+
+    redirect_to event.family
   end
 
   #TODO Hack!  There's got to be a more approprate way to do this.

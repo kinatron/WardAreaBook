@@ -1,12 +1,12 @@
 <% # TODO DRY fix with the access_level %>
 <% if session[:access_level] >= 3 or (!comment.person.nil? and comment.person.id == session[:user_id]) %>
-      <div id='comment_<%=comment.id%>' class='editable_comment'>
-        <%= link_to_function simple_format(comment.text)[3..-5].html_safe, "switch_to_comment_form(#{comment.id})" %>
+      <div id='comment_display_<%=comment.id%>' class='editable_comment'>
+        <%= link_to_function simple_format(comment.text)[3..-5].html_safe, "switch_to_form('comment', #{comment.id})" %>
       </div>
       <%= form_tag comment_path(comment), :method => :put, :id => "comment_edit_form_#{comment.id}", :class => 'startHidden' do %>
         <%= text_area_tag :text, comment.text, :cols => 60, :rows => 5 %>
         <%= submit_tag "Update Info" %>
-        <%= link_to_function "Cancel", "switch_back_from_comment_from(#{comment.id})" %>
+        <%= link_to_function "Cancel", "switch_back_from_form('comment', #{comment.id})" %>
       <% end %>
 <% else %>
   <%= simple_format(comment.text)[3..-5].html_safe %>

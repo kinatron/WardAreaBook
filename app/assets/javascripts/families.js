@@ -1,9 +1,9 @@
-function switch_to_comment_form(comment_id) {
-  $('#comment_' + comment_id).hide();
-  $('#comment_edit_form_' + comment_id).show();
+function switch_to_form(type, id) {
+  $('#' + type + '_display_' + id).hide();
+  $('#' + type + '_edit_form_' + id).show();
 }
 
-function switch_back_from_comment_from(comment_id) {
-  $('#comment_' + comment_id).show();
-  $('#comment_edit_form_' + comment_id).hide();
+function switch_back_from_form(type, id) {
+  $('#' + type + '_display_' + id).show();
+  $('#' + type + '_edit_form_' + id).hide();
 }
