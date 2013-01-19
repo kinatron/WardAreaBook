@@ -2,6 +2,7 @@
 
 <%= form_for(@event) do |f| %>
   <%= f.error_messages %>
+  <%= hidden_field_tag :redirect, "list" %>
 
   <p>
     <%= f.label :date %><br />

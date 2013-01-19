@@ -76,9 +76,10 @@ WardAreaBook::Application.routes.draw do
   match '/todo' => 'users#todo'
   resources :users, :only => [:index, :new, :create, :update, :destroy]
 
-  # Haven't gotten to yet
   match '/WardListUpdates' => 'people#WardListUpdates'
   resources :people
+
+  # Haven't gotten to yet
   resources :events
   resources :password_resets
   resources :roster

@@ -21,27 +21,27 @@ end %>
     <% end %>
   </div>
   <% if hasAccessToEdit %>
-    <%= form_tag event_path(event), :method => :put, :id => "event_edit_form_#{event.id}", :class => 'startHidden' do %>
+    <%= form_for event, :method => :put, :html => {:id => "event_edit_form_#{event.id}", :class => 'startHidden'} do |f|%>
       <p>
-        <%= label_tag :date %><br />
-        <%= select_date event.date %>
+        <%= f.label :date %><br />
+        <%= f.date_select :date %>
         <%= label_tag "Visiting Person" %>
-        <%= select_tag :person_id, options_for_select(names, event.person.id) %> <br />
+        <%= f.select :person_id, options_for_select(names, event.person.id) %> <br />
       </p>
       <p>
       <% if event.family.teaching_record != nil %>
         <%= label_tag :category %>
-        <%= select_tag :category, options_for_select(teachingRecordEvents + memberMilestones, event.category) %>
+        <%= f.select :category, options_for_select(teachingRecordEvents + memberMilestones, event.category) %>
       <% else %>
         <%= label_tag :category %>
-        <%= select_tag :category, options_for_select(eventCategories, event.category) %>
+        <%= f.select :category, options_for_select(eventCategories, event.category) %>
       <% end %>
       </p>
       <p>
         <%= label_tag :comment %><br />
-        <%= text_area_tag :comment, event.comment, :cols => 75, :rows => 3 %>
+        <%= f.text_area :comment, :cols => 75, :rows => 3 %>
       </p>
-        <%= submit_tag "Update Event" %>
+        <%= f.submit "Update Event" %>
         <%= link_to_function "Cancel", "switch_back_from_form('event', #{event.id})" %>
     <% end %>
   <% end %>

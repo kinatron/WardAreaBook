@@ -135,14 +135,14 @@ class EventsController < ApplicationController
   def update
     event = Event.find(params[:id])
     if event.author == session[:user_id] or event.person_id == session[:user_id] or hasAccess(2)
-      event.date = Date.new(params[:date]["year"].to_i, params[:date]["month"].to_i, params[:date]["day"].to_i)
-      event.person_id = params[:person_id]
-      event.category = params[:category]
-      event.comment = params[:comment]
-      event.save
+      event.update_attributes(params[:event])
     end
 
-    redirect_to event.family
+    if params[:redirect] == "list"
+      redirect_to events_path
+    else
+      redirect_to event.family
+    end
   end
 
   #TODO Hack!  There's got to be a more approprate way to do this.
