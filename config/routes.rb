@@ -60,8 +60,6 @@ WardAreaBook::Application.routes.draw do
   resources :action_items, :only => [:create, :update, :destroy]
   resources :comments, :only => [:update, :destroy]
 
-  resources :teaching_records
-
   match '/teaching_routes/updateNames/' => 'teaching_routes#updateNames'
   match '/teaching_routes/updateError/' => 'teaching_routes#updateError'
   match '/teaching_routes/updateRoutes/' => 'teaching_routes#updateRoutes'
@@ -76,7 +74,9 @@ WardAreaBook::Application.routes.draw do
   match '/visiting_teaching/teacher_list/' => 'visiting_teaching#teacher_list'
 
   match '/todo' => 'users#todo'
-  resources :users
+  resources :users, :only => [:index, :new, :create, :update, :destroy]
+
+  # Haven't gotten to yet
   match '/WardListUpdates' => 'people#WardListUpdates'
   resources :people
   resources :events
@@ -102,4 +102,5 @@ WardAreaBook::Application.routes.draw do
 
   # Unsure about
   resources :auth_users
+  resources :teaching_records
 end
