@@ -14,6 +14,6 @@
   <% end %>
   <% if lesson_event.author == session[:user_id] or lesson_event.person_id == session[:user_id] %>
     <%= link_to 'Edit',   :controller => 'events', :action => 'edit', :id=> lesson_event %>
-    <%= link_to 'Delete', :controller => 'events', :action => 'remove', :id=> lesson_event %>
+    <%= button_to 'Delete', event_path(lesson_event), :method => :delete %>
   <% end %>
 </li>

@@ -57,9 +57,9 @@ WardAreaBook::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   match '/action_items/wardActionItems/' => 'action_items#wardActionItems'
-  resources :action_items
-  resources :auth_users
-  resources :comments
+  resources :action_items, :only => [:create, :update, :destroy]
+  resources :comments, :only => [:update, :destroy]
+
   resources :callings
   match '/callings/updateAccessLevels/' => 'callings#updateAccessLevels'
   resources :name_mappings
@@ -99,4 +99,7 @@ WardAreaBook::Application.routes.draw do
   resources :families
   match '/' => 'families#index'
   match '/:controller(/:action(/:id))'
+
+  # Unsure about
+  resources :auth_users
 end
