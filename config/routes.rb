@@ -60,10 +60,6 @@ WardAreaBook::Application.routes.draw do
   resources :action_items, :only => [:create, :update, :destroy]
   resources :comments, :only => [:update, :destroy]
 
-  resources :callings
-  match '/callings/updateAccessLevels/' => 'callings#updateAccessLevels'
-  resources :name_mappings
-
   resources :teaching_records
 
   match '/teaching_routes/updateNames/' => 'teaching_routes#updateNames'
@@ -99,6 +95,10 @@ WardAreaBook::Application.routes.draw do
   resources :families
   match '/' => 'families#index'
   match '/:controller(/:action(/:id))'
+
+  # Unsure what is used but look safe
+  resources :callings
+  match '/callings/updateAccessLevels/' => 'callings#updateAccessLevels'
 
   # Unsure about
   resources :auth_users
