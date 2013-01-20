@@ -47,11 +47,12 @@ UPDATEDIR = "#{Rails.root}/db/updateScripts/"
 CALLINGS_LOCATION = "#{UPDATEDIR}callings_lists";
 
 class JsonPerson
-  attr_accessor :name, :email, :uid, :lastName
+  attr_accessor :name, :email, :uid, :lastName, :phone
   def initialize(person)
     @name = person['preferredName']
     @uid = person['individualId']
     @email = person['email']
+    @phone = person['phone']
     @lastName, @name = @name.split(/,/)
     @name.strip!
     @email.strip!
@@ -294,6 +295,14 @@ begin
             puts "\t  updating email: (#{person.email}) --> (#{new.email}) for " + new.name + " " + family.name
             person.email = new.email
           end
+          if (person.phone != new.phone)
+            puts "\t  updating phone: (#{person.phone}) --> (#{new.phone}) for " + new.name + " " + family.name
+            person.phone = new.phone
+          end
+          if (person.name != new.name)
+            puts "\t  updating name: (#{person.name}) --> (#{new.name}) for " + new.name + " " + family.name
+            person.name = new.name
+          end
           person.current = true
           person.save
           # otherwise create new person
@@ -306,6 +315,7 @@ begin
           Person.create({
             :name => new.name,
             :email => new.email,
+            :phone => new.phone,
             :family_id => family.id,
             :uid => new.uid,
             :current => true
@@ -366,6 +376,7 @@ begin
         Person.create({
           :name => person.name,
           :email => person.email,
+          :phone => person.phone,
           :family_id => family.id,
           :uid => person.uid,
           :current => true
