@@ -1,0 +1,18 @@
+<p>
+  <b>Category:</b>
+  <%=h @teaching_route.category %>
+</p>
+
+<p>
+  <b>Family:</b>
+  <%=h @teaching_route.family.head_of_house_hold + " " + @teaching_route.family.name %>
+</p>
+
+<p>
+  <b>Home Teacher:</b>
+  <%=h @teaching_route.person.name + " " + @teaching_route.person.family.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_teaching_route_path(@teaching_route) %> |
+<%= link_to 'Back', teaching_routes_path %>

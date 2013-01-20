@@ -5,10 +5,10 @@ class Family < ActiveRecord::Base
   has_many :teaching_routes  # really it only has two 
   has_many :action_items, :order => 'due_date DESC', :dependent => :destroy
   has_many :open_action_items, :class_name => "ActionItem",
-                               :conditions => "status == 'open'",
+                               :conditions => "status = 'open'",
                                :order => 'due_date ASC, updated_at DESC'
   has_many :closed_action_items, :class_name => "ActionItem",
-                                 :conditions => "status == 'closed'",
+                                 :conditions => "status = 'closed'",
                                  :order => 'updated_at DESC'
   has_one :teaching_record
 
@@ -27,6 +27,17 @@ class Family < ActiveRecord::Base
   def hasHomeTeacher(person_id)
     self.teaching_routes.each do |route|
       return true if route.person_id == person_id 
+    end
+    return false
+  rescue
+    return false
+  end
+
+  def hasVisitingTeacher(person_id)
+    self.people.includes(:visiting_teachers).each do |person|
+      person.visiting_teachers.each do |vt|
+        return true if vt.id == person_id
+      end
     end
     return false
   rescue

@@ -1,4 +1,4 @@
-<h1><%=h @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp; </h1>
+<h1><%= @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp; </h1>
   <!-- Family Details -->
     <table style='border:none'>
       <tr>
@@ -29,6 +29,11 @@
         <td style='border:none'> 
           <% @family.teaching_routes.each do |teacher| %>
             Home Teacher: <%= teacher.person.name + " " + teacher.person.family.name %> <br>
+          <% end %>
+          <% @family.people.each do |member| %>
+            <% member.visiting_teachers.each do |vt| %>
+              Visiting Teacher: <%= vt.name + " " + vt.family.name %> teaches <%= member.name %> <br />
+            <% end %>
           <% end %>
         </td>
       </tr>

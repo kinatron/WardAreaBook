@@ -3,7 +3,7 @@
     <ul>
       <% list_events.each do |event| %>
         <li>
-          <%= render(:partial => "events/event", :object => event) %>
+          <%= render(:partial => "events/event", :object => event, :locals => {:names => names}) %>
         </li>
       <% end %>
     </ul>

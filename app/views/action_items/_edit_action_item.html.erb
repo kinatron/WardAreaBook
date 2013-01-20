@@ -39,9 +39,7 @@
     <%= f.submit 'update' %> &nbsp; &nbsp;
     <%= link_to 'Cancel', :back %>
     <% if edit_action_item.issuer_id == session[:user_id] %>
-      <%= link_to 'Delete',:controller =>'action_items',
-                           :action => 'remove',
-                           :id=> edit_action_item %>
+      <%= button_to 'Delete', action_item_path(edit_action_item), :method => :delete %>
     <% end %>
   </p>
 <% end %>

@@ -1,24 +1,24 @@
 <% # TODO DRY fix with the access_level %>
-<% if comment.person == nil or session[:access_level] >= 3 or 
-      comment.person.id == session[:user_id] %>
-      <div id='comment_<%=comment.id%>' class='editable_comment'>
-      <%= link_to simple_format(comment.text)[3..-5], :remote => true,
-        :url => {:controller => "comments", :action=> 'edit_remotely', :id => comment }%>
+<% if session[:access_level] >= 3 or (!comment.person.nil? and comment.person.id == session[:user_id]) %>
+      <div id='comment_display_<%=comment.id%>' class='editable_comment'>
+        <%= link_to_function simple_format(comment.text)[3..-5].html_safe, "switch_to_form('comment', #{comment.id})" %>
       </div>
+      <%= form_tag comment_path(comment), :method => :put, :id => "comment_edit_form_#{comment.id}", :class => 'startHidden' do %>
+        <%= text_area_tag :text, comment.text, :cols => 60, :rows => 5 %>
+        <%= submit_tag "Update Info" %>
+        <%= link_to_function "Cancel", "switch_back_from_form('comment', #{comment.id})" %>
+      <% end %>
 <% else %>
-  <%= simple_format(comment.text)[3..-5] %>
+  <%= simple_format(comment.text)[3..-5].html_safe %>
 <% end %>
-<% unless comment.person == nil %>
-  &mdash;<%= comment.person.name + " " + 
-             comment.person.family.name + " " + 
-             comment.updated_at.strftime("%b %d, %y") %>
 
+<% unless comment.person == nil %>
+  &mdash;<%= "#{comment.person.name} #{comment.person.family.name} #{comment.updated_at.strftime("%b %d, %y")}" %>
 <% end %>
-<% if comment.person == nil or session[:access_level] >= 3 or 
-      comment.person.id == session[:user_id] %>
+
+<% if session[:access_level] >= 3 or (!comment.person.nil? and comment.person.id == session[:user_id]) %>
   &nbsp;
-  <%= link_to 'delete', :remote => true,
-         :url => {:controller => 'comments', :action => 'remove', :id=> comment} %>
+  <%= button_to 'Delete', comment_path(comment), {:method => :delete} %>
 <% end %>
 <br>
 <br>

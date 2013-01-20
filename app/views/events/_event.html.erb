@@ -9,32 +9,40 @@
   isEditable = "editable-action"
   hasAccessToEdit = true;
 end %>
-
-<% # TODO there's got to be a better way -%>
-<%  
-if event.person 
-  wardRep = event.person.full_name + " &#151"
-else
-  wardRep = ""
-end
-%>
   
 <% #=================== Partial Content ============================  -%>
 <div id = "event_<%=event.id%>"> 
-  <div class='<%=isEditable%>' >
+  <div id="event_display_<%= event.id %>" class='<%=isEditable%>' >
     <% if hasAccessToEdit %>
-      <%= link_to "#{event.date} &#151; #{wardRep} 
-                          #{event.category} &#151; #{event.comment}",
-          :url => {:controller => 'events', 
-          :remote => true,
-          :action => 'edit_remotely', 
-          :id => event.id } %>
+      <%= link_to_function event.getEventDisplay, "switch_to_form('event', #{event.id})"%>
 
     <% else %>
-      <%=h event.date %> &#151;
-      <%= wardRep %> 
-      <%=h event.category %> &#151;
-      <%=h event.comment %>
+      <%= event.getEventDisplay %>
     <% end %>
   </div>
+  <% if hasAccessToEdit %>
+    <%= form_for event, :method => :put, :html => {:id => "event_edit_form_#{event.id}", :class => 'startHidden'} do |f|%>
+      <p>
+        <%= f.label :date %><br />
+        <%= f.date_select :date %>
+        <%= label_tag "Visiting Person" %>
+        <%= f.select :person_id, options_for_select(names, event.person.id) %> <br />
+      </p>
+      <p>
+      <% if event.family.teaching_record != nil %>
+        <%= label_tag :category %>
+        <%= f.select :category, options_for_select(teachingRecordEvents + memberMilestones, event.category) %>
+      <% else %>
+        <%= label_tag :category %>
+        <%= f.select :category, options_for_select(eventCategories, event.category) %>
+      <% end %>
+      </p>
+      <p>
+        <%= label_tag :comment %><br />
+        <%= f.text_area :comment, :cols => 75, :rows => 3 %>
+      </p>
+        <%= f.submit "Update Event" %>
+        <%= link_to_function "Cancel", "switch_back_from_form('event', #{event.id})" %>
+    <% end %>
+  <% end %>
 </div>

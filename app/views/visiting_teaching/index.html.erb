@@ -1,7 +1,7 @@
 <h1>Visiting Teaching Assignments 
     <span style='font-size:smaller'> (<%= @last_updated %>) </span>
   &mdash; 
-  <%= link_to "update", :action => 'updateRoutes'  %>
+  <%= link_to "update", visiting_teaching_update_routes_path %>
 </h1>
 <table >
   <tr>
@@ -21,7 +21,7 @@
 <table id = 'filterable' class='sorttable resizable'>
   <thead>
   <tr>
-    <th>Sisiter</th>
+    <th>Sister</th>
     <th>Last Visit</th>
     <th>Visiting Teacher</th>
   </tr>
@@ -29,19 +29,19 @@
 
 <% @teaching_routes.each do |route| %>
   <tr class="<%=cycle('list-line-odd','list-line-even')%>"> 
-    <td class='cell' onclick = "window.location.href='<%= family_path(route.family) %>'">
+    <td class='cell' onclick = "window.location.href='<%= family_path(route.person.family) %>'">
       <div class='hidexxx'>
         <%= route.person.full_name %>
       </div>
     </td>
-    <% lastEvent = getLastVisitingTeacherVisit(route.person) %>
+    <% lastEvent = getLastVisitingTeachingEvent(route.person) %>
     <td sorttable_customkey="<%= getHomeTeachingVisitDateSortable(lastEvent)%>"
         bgcolor=<%= getLastHomeTeacherVisitColor(lastEvent) %> >
       <div>
         <%= getHomeTeachingVisitDate(lastEvent) %>
       </div>
     </td>
-    <td class='cell' onClick = "window.location.href='<%= "/visiting_teaching/route/" + route.visiting_teacher.id.to_s %>'">
+    <td class='cell' onClick = "window.location.href='<%= "/visiting_teaching/teacher_list?id=" + route.visiting_teacher.id.to_s %>'">
       <%= route.visiting_teacher.full_name %>
     </td>
   </tr>

@@ -133,17 +133,15 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def update
-    @event = Event.find(params[:id])
+    event = Event.find(params[:id])
+    if event.author == session[:user_id] or event.person_id == session[:user_id] or hasAccess(2)
+      event.update_attributes(params[:event])
+    end
 
-    respond_to do |format|
-      if @event.update_attributes(params[:event])
-        #flash[:notice] = 'Event was successfully updated.'
-        format.html { render :action => "show" }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-      end
+    if params[:redirect] == "list"
+      redirect_to events_path
+    else
+      redirect_to event.family
     end
   end
 

@@ -362,15 +362,15 @@
                         "",
                         "",
                         "http {",
-                        "    passenger_root /var/lib/gems/1.9.1/gems/passenger-3.0.18;",
+                        "    passenger_root /var/lib/gems/1.9.1/gems/passenger-3.0.19;",
                         "    passenger_ruby /usr/bin/ruby1.9.1;",
                         "",
                         "    include       mime.types;",
                         "    default_type  application/octet-stream;",
                         "",
-                        "    log_format  main  '$remote_addr - $remote_user [$time_local] \\\\\\\"$request\\\\\\\" '",
-                        "                      '$status $body_bytes_sent \\\\\\\"$http_referer\\\\\\\" '",
-                        "                      '\\\\\\\"$http_user_agent\\\\\\\" \\\\\\\"$http_x_forwarded_for\\\\\\\"';",
+                        "    log_format  main  '\$remote_addr - \$remote_user [\$time_local] \\\\\\\"\$request\\\\\\\" '",
+                        "                      '\$status \$body_bytes_sent \\\\\\\"\$http_referer\\\\\\\" '",
+                        "                      '\\\\\\\"\$http_user_agent\\\\\\\" \\\\\\\"\$http_x_forwarded_for\\\\\\\"';",
                         "",
                         "    access_log  logs/access.log  main;",
                         "",
@@ -475,7 +475,7 @@
       "DependsOn" : "WebServer",
       "Properties" : {
         "Handle" : {"Ref" : "WaitHandle"},
-        "Timeout" : "1200"
+        "Timeout" : "2500"
       }
     },
     

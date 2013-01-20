@@ -1,7 +1,7 @@
 class AuthMailer < ActionMailer::Base
-  default_url_options[:host] = "wardareabook.org"  
+  default_url_options[:host] = "thorntoncreekareabook.org"  
 
-  default :from => "wardareabook@burienwardmission.com"
+  default :from => "wardareabookapp@gmail.com"
 
   def password_reset_instructions(user)  
     @edit_password_reset_url = edit_password_reset_url(user.perishable_token)  

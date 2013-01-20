@@ -38,32 +38,41 @@
           </td>
           <td >
             <% if @family.teaching_routes.size == 0 %>
-              <b>Home Teachers have not been <br>
-                 assigned to this family</b>
+              <b>Home Teachers have not been <br />
+                assigned to this family</b><br />
             <% else %>
               <% @family.teaching_routes.each do |teacher| %>
-                Home Teacher: <%= teacher.person.name + " " + teacher.person.family.name %> <br>
+                Home Teacher: <%= teacher.person.name + " " + teacher.person.family.name %> <br />
+              <% end %>
+            <% end %>
+            <% @family.people.each do |member| %>
+              <% member.visiting_teachers.each do |vt| %>
+                Visiting Teacher: <%= vt.name + " " + vt.family.name %> teaches <%= member.name %> <br />
               <% end %>
             <% end %>
           </td>
         </tr>
       </table>
-        <b>General Information:</b> 
-        <span id="comments">
-          <%= render(:partial => "comments/comment", :collection => @family.comments) %>
-        </span>
-      <div id="new comment" class ="noPrint">
-        <%= render(:partial => "submit_button") %>
-        <br>
-        <% unless @family.member %>
+      <h4>General Information:</h4> 
+      <span id="comments">
+        <%= render(:partial => "comments/comment", :collection => @family.comments) %>
+      </span>
+      <%= form_tag family_path(@family) + '/new_comment', :class => "noPrint" do %>
+        <%= text_area_tag :text, nil, :cols => 60, :rows => 5 %><br />
+        <%= submit_tag "Add Info" %>
+      <% end %>
+
+      <% unless @family.member %>
+        <div class="noPrint">
           <%= link_to 'Edit family details', edit_family_path(@family) %><br>
           <br>
           <%= link_to 'Merge records', :controller => 'families', 
             :action => 'mergeRecords', 
             :family => @family %><br>
             <br><br>                                     
-        <% end %>
-      </div>
+        </div>
+      <% end %>
+
     </div>
   </div>
 </li>

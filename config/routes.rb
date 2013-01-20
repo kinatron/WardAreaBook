@@ -57,28 +57,29 @@ WardAreaBook::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
 
   match '/action_items/wardActionItems/' => 'action_items#wardActionItems'
-  resources :action_items
-  resources :auth_users
-  resources :comments
-  resources :callings
-  match '/callings/updateAccessLevels/' => 'callings#updateAccessLevels'
-  resources :name_mappings
+  resources :action_items, :only => [:create, :update, :destroy]
+  resources :comments, :only => [:update, :destroy]
 
-  resources :teaching_records
   match '/teaching_routes/updateNames/' => 'teaching_routes#updateNames'
   match '/teaching_routes/updateError/' => 'teaching_routes#updateError'
   match '/teaching_routes/updateRoutes/' => 'teaching_routes#updateRoutes'
   match '/teaching_routes/teacherList/:id' => 'teaching_routes#teacherList'
 
-  match '/visiting_teaching' => 'teaching_routes#visiting_teaching_index'
-  namespace :visiting_teaching do
-    match 'route/:id' => 'teaching_routes#visiting_teaching_route'
-  end
+  get '/visiting_teaching' => 'visiting_teaching#index'
+  get '/visiting_teaching/update_routes/' => 'visiting_teaching#update_routes'
+  post '/visiting_teaching/update_routes/' => 'visiting_teaching#upload_file'
+  post '/visiting_teaching/update_with_path/' => 'visiting_teaching#update_with_path'
+  match '/visiting_teaching/update_names/' => 'visiting_teaching#update_names'
+  match '/visiting_teaching/update_error/' => 'visiting_teaching#update_error'
+  match '/visiting_teaching/teacher_list/' => 'visiting_teaching#teacher_list'
 
   match '/todo' => 'users#todo'
-  resources :users
+  resources :users, :only => [:index, :new, :create, :update, :destroy]
+
   match '/WardListUpdates' => 'people#WardListUpdates'
   resources :people
+
+  # Haven't gotten to yet
   resources :events
   resources :password_resets
   resources :roster
@@ -89,10 +90,18 @@ WardAreaBook::Application.routes.draw do
   match '/families/teachingPool/' => 'families#teachingPool'
   match '/families/investigators/' => 'families#investigators'
   match '/families/mergeRecords/' => 'families#mergeRecords'
-  match '/families/new_comment/' => 'families#new_comment'
+  post '/families/:id/new_comment' => 'families#new_comment'
   match '/families/edit_status/:id' => 'families#edit_status'
   match '/activate/:id' => 'password_resets#activate', :as => :activation
   resources :families
   match '/' => 'families#index'
   match '/:controller(/:action(/:id))'
+
+  # Unsure what is used but look safe
+  resources :callings
+  match '/callings/updateAccessLevels/' => 'callings#updateAccessLevels'
+
+  # Unsure about
+  resources :auth_users
+  resources :teaching_records
 end

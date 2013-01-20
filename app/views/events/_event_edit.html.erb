@@ -30,9 +30,7 @@
     <%= f.submit "update" %> &nbsp; &nbsp;
     <%= link_to "Cancel", "" %>
     <% if event_edit.author == session[:user_id] %>
-      <%= link_to 'Delete',:controller =>'events',
-                           :action => 'remove',
-                           :id=> event_edit %>
+      <%= button_to 'Delete', event_path(event_edit), :method => :delete %>
     <% end %>
   <% end %>
 </fieldset>

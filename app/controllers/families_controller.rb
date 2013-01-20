@@ -18,8 +18,8 @@ class FamiliesController < ApplicationController
        action_name == 'members' or 
        action_name == 'show' or 
        action_name == 'edit_status' or 
-       (action_name == 'edit' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) or 
-       (action_name == 'update' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) 
+       (action_name == 'edit' and (Family.find(params[:id]).hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id]))) or 
+       (action_name == 'update' and (Family.find(params[:id]).hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id])))
       true
     elsif
       action_name == 'index' and not hasAccess(2)
@@ -51,14 +51,8 @@ class FamiliesController < ApplicationController
 
   def new_comment
     @fam = Family.find(params[:id])
-    @comment = Comment.create(:family_id => @fam.id)
-    respond_to do |format|
-      format.js {
-        render :update do |page|
-          page.replace_html("new comment", :partial => "new_comment", :object => @comment)
-        end
-      }
-    end
+    @fam.comments.create(:person_id => session[:user_id], :text => params[:text])
+    redirect_to(@fam)
 
   end
 
@@ -125,7 +119,7 @@ class FamiliesController < ApplicationController
 
     @limit = CLOSED_ACTION_LIMIT
 
-    if @hasFullAccess or @family.hasHomeTeacher(session[:user_id])
+    if @hasFullAccess or @family.hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id])
       render "show"
     else
       render "show2"

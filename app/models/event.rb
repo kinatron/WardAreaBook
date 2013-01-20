@@ -47,4 +47,13 @@ class Event < ActiveRecord::Base
     homeTeachers
   end
 
+  def getEventDisplay
+    if self.person 
+      wardRep = self.person.full_name + " -- "
+    else
+      wardRep = ""
+    end
+    "#{self.date} -- #{wardRep}#{self.category} -- #{self.comment}"
+  end
+
 end

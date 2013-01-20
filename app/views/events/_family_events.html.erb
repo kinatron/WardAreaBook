@@ -5,6 +5,7 @@
     <div id='family-events'>
       <div>
         <%= render(:partial => 'events/list_events', 
+                   :locals => {:names => names},
                    :object => @family.events[0..limit-1]) %>
         <% if @family.events[limit] %>
           <ul>
