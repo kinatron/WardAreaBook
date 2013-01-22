@@ -236,6 +236,7 @@ begin
   ward = JSON.parse(jsonString)
   ward.each do |jsonEntry|
     uid   = jsonEntry['headOfHouseIndividualId']
+    familyEmail = jsonEntry['emailAddress']
     coupleName = jsonEntry['coupleName']
     lastName, headOfHouseHold = coupleName.split(/,/)
     lastName.strip!
@@ -289,11 +290,17 @@ begin
       familyMembers = getFamilyMembers jsonEntry
       familyMembers.each { |new| 
         person = Person.where(:uid => new.uid).first
+
+        emailToUse = new.email
+        if new.uid == uid && (emailToUse.nil? || emailToUse.empty?)
+          emailToUse = familyEmail
+        end
+
         # if the person exists make them current and then verify the email address
         if person
-          if (person.email != new.email) 
-            puts "\t  updating email: (#{person.email}) --> (#{new.email}) for " + new.name + " " + family.name
-            person.email = new.email
+          if (person.email != emailToUse) 
+            puts "\t  updating email: (#{person.email}) --> (#{emailToUse}) for " + new.name + " " + family.name
+            person.email = emailToUse
           end
           if (person.phone != new.phone)
             puts "\t  updating phone: (#{person.phone}) --> (#{new.phone}) for " + new.name + " " + family.name
@@ -307,14 +314,14 @@ begin
           person.save
           # otherwise create new person
         else
-          unless new.email == nil
-            puts "\t  Creating person :" + new.name + " with email :" + new.email 
+          unless emailToUse == nil
+            puts "\t  Creating person :" + new.name + " with email :" + emailToUse 
           else
             puts "\t  Creating person :" + new.name 
           end
           Person.create({
             :name => new.name,
-            :email => new.email,
+            :email => emailToUse,
             :phone => new.phone,
             :family_id => family.id,
             :uid => new.uid,
