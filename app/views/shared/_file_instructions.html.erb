@@ -1,0 +1,30 @@
+<div>
+
+    <p>
+        To get the file needed for upload you can follow the following steps:
+    </p>
+
+    <ol>
+      <li>
+        Log into MLS<br/>
+      </li>
+      <li>
+        Select Export from the file menu. <br/>
+        <%= image_tag("data_export_option.png") %> <br/>
+      </li>
+      <li>
+        Select <%= is_home_teaching ? '"Export Home Teaching Data"' : '"Export Visiting Teaching Data"' %>.<br/>
+        <%= image_tag("data_export_home_teaching.png") %><br/>
+      </li>
+      <li>
+        Hit ok and then type in your credentials again.<br/>
+        <%= image_tag('data_export_credentials.png') %><br/>
+      </li>
+      <li>
+        Now choose the location you want to save the file to.<br/>
+        <%= image_tag('data_export_save.png') %><br/>
+      </li>
+
+    </ol>
+
+</div>
