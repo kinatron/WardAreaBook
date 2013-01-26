@@ -2,19 +2,9 @@
 <% ward_representative ||= false %>
 <% noLinks ||= false %>
 <% family   ||=false %>
-<% editable ||=false %>
 <% showRequestor ||=false %>
-<% hasAccessToEdit =false %>
-<% isEditable = "" %>
 <% isLate = "" %>
 <% isClosed = "open-actions" %>
-<% showDate = action_details.due_date %>
-
-<% # Can the user edit this action?  -%>
-<% if editable and (action_details.issuer_id == session[:user_id] or action_details.person_id == session[:user_id]) 
-       isEditable = "editable-action"
-       hasAccessToEdit = true;
-end %>
 
 <% # Is the action late? %>
 <% if (action_details.due_date < Date.today and 
@@ -25,7 +15,6 @@ end %>
 <% # Is the action completed? %>
 <% if action_details.status == 'closed'
   isClosed = "closed-actions" 
-  showDate = action_details.updated_at.strftime("%b %d")
 end %>
 
 <% #=================== Code Content ============================  -%>
@@ -50,20 +39,12 @@ end %>
     <% end %> 
   <% end %> 
 
-  <div class='<%=isEditable%>' >
-    <% if hasAccessToEdit %>
-      <%= link_to "#{action_details.action} (#{showDate})",
-                  {:controller => 'action_items', 
-                  :action => 'edit_remotely', 
-                  :id => action_details.id },
-                  :remote => true %>
-    <% else %>
+  <div>
       <%=h "#{action_details.action} (#{action_details.due_date})" %>
-    <% end %>
     <% if showRequestor %>
       &ndash; requested by: <%= action_details.author %>
     <% end %>
-  </div> <!-- IsEditable hover effects-->
+  </div>
 </div> <!-- IsClosed (strike through) isLate (red)-->
 
 <div id = 'action-item-comment-<%= action_details.id %>'> 
@@ -71,3 +52,4 @@ end %>
     &nbsp;&nbsp;(<%=h action_details.comment %>)
   <% end %>
 </div> <!-- Action Comment -->
+
