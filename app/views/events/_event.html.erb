@@ -1,25 +1,30 @@
-<% #=================== Set Up ============================  -%>
-<% editable ||= true %>
-<% hasAccessToEdit =false %>
-<% isEditable = "" %>
+<%
+#=================== Set Up ============================
+editable ||= true
+hasAccessToEdit =false
+isEditable = ""
 
-<% # Can the user edit this action?  -%>
-<% if editable and (event.author == session[:user_id] or 
-                    event.person_id == session[:user_id]) 
+# Can the user edit this action?
+
+if editable and (event.author == session[:user_id] or event.person_id == session[:user_id]) 
   isEditable = "editable-action"
   hasAccessToEdit = true;
-end %>
+end
   
-<% #=================== Partial Content ============================  -%>
+#=================== Partial Content ============================
+%>
 <div id = "event_<%=event.id%>"> 
-  <div id="event_display_<%= event.id %>" class='<%=isEditable%>' >
+
+  <% # Setup the display %>
+  <div id="event_display_<%= event.id %>" class='<%=isEditable%>'>
     <% if hasAccessToEdit %>
       <%= link_to_function event.getEventDisplay, "switch_to_form('event', #{event.id})"%>
-
     <% else %>
       <%= event.getEventDisplay %>
     <% end %>
   </div>
+
+  <% # Setting up the edit form, if they have access to edit %>
   <% if hasAccessToEdit %>
     <%= form_for event, :method => :put, :html => {:id => "event_edit_form_#{event.id}", :class => 'startHidden'} do |f|%>
       <p>

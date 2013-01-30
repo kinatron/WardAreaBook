@@ -20,6 +20,7 @@ class ReportsController < ApplicationController
   def allReports
     @showLink = false
     @event_months = getMonthlyEvents(0)
+    @names = Person.selectionList
     render :action=>"monthlyReport"
   end
 
@@ -27,6 +28,7 @@ class ReportsController < ApplicationController
     @showLink = true
     range = 3.months.ago.at_beginning_of_month.to_date
     @event_months = getMonthlyEvents(range)
+    @names = Person.selectionList
   end
 
   def getMonthlyEvents(range)

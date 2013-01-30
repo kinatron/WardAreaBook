@@ -28,17 +28,14 @@
         <%= link_to 'Other Families', :controller => 'families', :action => 'investigators'  %><br />
         <%= link_to 'Teaching Pool', :controller => 'teaching_records' %><br />
       </p>
-      <br><br>
+      <br>
       <p>
         <%= link_to 'Home Teaching', :controller => 'teaching_routes' %><br />
         <%= link_to 'Visiting Teaching', visiting_teaching_path %><br />
  <% else %>      
         <%= link_to 'Ward List', :controller => 'families', :action => 'members'  %><br />
 <% end %>
-        <%= link_to 'My Families ', :controller => 'teaching_routes',
-                                    :action => 'teacherList', 
-                                    :id => session[:user_id]
-          %><br />
+        <%= link_to 'My Families ', :controller => 'teaching_routes', :action => 'teacherList', :id => session[:user_id] %>
 
 <% if session[:access_level] >=2 %>
       </p>
@@ -46,19 +43,16 @@
       <p>
         <%= link_to 'Assignments', :controller => 'action_items', :action => 'wardActionItems' %><br />
       </p>
-      <br> <br> 
       <br> 
       <%= link_to 'Reports', :controller => 'reports', :action => 'monthlyReport' %><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Hopes', :controller => 'reports', :action => 'hope' %><br />
       &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Month', :controller => 'reports', :action => 'monthlyReport' %><br />
-      <br><br><br>
+      <br>
       <%= link_to 'Stats', :controller => 'stats' %><br />
 <% end %>
 
 <% if session[:access_level] >=3 %>
-  <br><br><br><br>
+  <br><br>
   <%= link_to "Admin", :controller => 'users', :action => 'index' %><br />
-  <br>
   <br>
 <% end %>
   </div>
