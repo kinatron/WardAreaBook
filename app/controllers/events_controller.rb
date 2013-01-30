@@ -158,7 +158,7 @@ class EventsController < ApplicationController
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_back }
+      format.html { redirect_to events_path }
       format.xml  { head :ok }
     end
   end
