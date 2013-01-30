@@ -1,26 +1,14 @@
 <% unless @family.events().empty? %>
-  <% limit = 5 %>
-  <li> <a href ='#' class = 'subtile-links' onclick="Effect.toggle('family-events', 'blind');
-      return false;">Events </a> 
-    <div id='family-events'>
-      <div>
-        <%= render(:partial => 'events/list_events', 
-                   :locals => {:names => names},
-                   :object => @family.events[0..limit-1]) %>
-        <% if @family.events[limit] %>
-          <ul>
-          <li id = 'nodot'>
-            <%= link_to "more events...", 
-                                :remote => true,
-                                :url => {:controller => 'events',
-                                        :action => 'all_family_events',
-                                        :id => @family} %>
-            <br>
-          </li>
-          </ul>
-        <% end %>
-      </div>
-    <br>
-    </div>
-  </li>
+  <section id="events">
+    <h3>Events</h3>
+
+    <ul>
+      <% @family.events.each do |event| %>
+        <li>
+          <%= render(:partial => "events/event", :object => event, :locals => {:names => names}) %>
+        </li>
+      <% end %>
+    </ul>
+
+  </section>
 <% end %>

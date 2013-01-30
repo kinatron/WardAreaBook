@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-  <title>Thorton Creek Ward Area Book</title>
+  <title>Thornton Creek Ward Area Book</title>
 <!-- START:stylesheet -->
   <%= stylesheet_link_tag "areabook", :media => "all" %><!-- <label id="code.slt"/> -->
   <%= javascript_include_tag "application" %>
@@ -11,7 +11,7 @@
 <body id="store">
   <div id="banner">
     <!-- <%= image_tag("logo.png") %> -->
-    <%= @page_title || "Thorton Creek Ward Area Book" %><!-- <label id="code.depot.e.title"/> -->
+    <%= @page_title || "Thornton Creek Ward Area Book" %><!-- <label id="code.depot.e.title"/> -->
   </div>
   <div id="columns">
     <div id="side">
@@ -31,6 +31,9 @@
       <% end -%>
       <!-- END:flash -->
       <%= yield :layout %><!-- <label id="code.depot.e.include"/> -->
+      <footer>
+        This is NOT an official site of The Church of Jesus Christ of Latter-day Saints.
+      </footer>
     </div>
   </div>
 </body>

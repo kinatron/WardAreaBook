@@ -6,16 +6,6 @@ class EventsController < ApplicationController
   def checkAccess
   end
 
-
-  def all_family_events
-    @family = Family.find(params[:id])
-    render :update do |page|
-      page.replace_html('family-events', 
-                        :partial => "events/list_events", 
-                        :object => @family.events)
-    end
-  end
-
   def edit_remotely
     @event = Event.find(params[:id])
     render :update do |page|
