@@ -25,15 +25,14 @@ module VisitingTeachingHelper
 
   def getLastVisitingTeachingEvent(person)
     begin
-      visiting_teacher_1 = family.visiting_teachers[0].id 
-      visiting_teacher_2 = family.visiting_teachers[1].id 
+      visiting_teacher_1 = person.visiting_teachers[0].id 
+      visiting_teacher_2 = person.visiting_teachers[1].id 
     rescue 
       visiting_teacher_1 ||=  0
       visiting_teacher_2 ||=  0
     end
 
-    family.events.where("(person_id = ? or person_id = ?)
-                                and (category = 'Visit' or category = 'Lesson')",
+    person.family.events.where("(person_id = ? or person_id = ?) and (category = 'Visit' or category = 'Lesson')",
                                 visiting_teacher_1, visiting_teacher_1)
                         .order('date DESC').first
   rescue
