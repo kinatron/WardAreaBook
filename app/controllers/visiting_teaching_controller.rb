@@ -1,7 +1,5 @@
 require 'csv'
 class VisitingTeachingController < ApplicationController
-  caches_action :index, :layout => false
-
   BAKUP_FILE = Rails.root.join('public', 'data', 'LastGoodVisitingTeachingReport.csv')
 
   # GET /teaching_routes
@@ -82,9 +80,6 @@ class VisitingTeachingController < ApplicationController
     end # iterate through the ward list
 
     if @cantFindPerson.empty?
-      # All is well - clear the cache and save this 
-      # copy of the visiting teaching report
-      expire_action :action => "index"
       if visitingTeachingFile != BAKUP_FILE
         FileUtils.cp(visitingTeachingFile,BAKUP_FILE)
       end

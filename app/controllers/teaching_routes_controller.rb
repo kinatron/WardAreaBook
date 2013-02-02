@@ -1,7 +1,5 @@
 require 'csv'
 class TeachingRoutesController < ApplicationController
-  caches_action :index, :layout => false
-
   BAKUP_FILE = Rails.root.join('public', 'data', 'LastGoodTeachingReport.csv')
 
   # TODO This doesn't appear to ever be called...
@@ -94,9 +92,6 @@ class TeachingRoutesController < ApplicationController
     end # iterate through the ward list
 
     if @cantFindTeacher.empty? and @cantFindFamily.empty?
-      # All is well - clear the cache and save this 
-      # copy of the home teaching report
-      expire_action :action => "index"
       if homeTeachingFile != BAKUP_FILE
         FileUtils.cp(homeTeachingFile,BAKUP_FILE)
       end
