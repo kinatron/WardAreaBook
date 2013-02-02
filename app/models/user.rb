@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     if person.nil?
       errors.add(:email, " - You must be a member of this ward
                              and have an email registered with lds.org
-                             Please contact Brother Boushley for more information")
+                             Please check out the FAQ page for more information.")
     else
       self.person = person
     end

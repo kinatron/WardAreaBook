@@ -56,6 +56,8 @@ WardAreaBook::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
 
+  match '/faq' => 'static_pages#faq'
+
   match '/action_items/wardActionItems/' => 'action_items#wardActionItems'
   resources :action_items, :only => [:create, :update, :destroy]
   resources :comments, :only => [:update, :destroy]
