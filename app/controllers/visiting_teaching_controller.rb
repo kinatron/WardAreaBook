@@ -1,6 +1,5 @@
 require 'csv'
 class VisitingTeachingController < ApplicationController
-  BAKUP_FILE = Rails.root.join('public', 'data', 'LastGoodVisitingTeachingReport.csv')
 
   # GET /teaching_routes
   # GET /teaching_routes.xml
@@ -14,39 +13,15 @@ class VisitingTeachingController < ApplicationController
     end
   end
 
-  def update_routes
-  end
-
-  def upload_file
-    if params[:upload] == nil
-      flash[:notice] = 'Please browse to a valid csv file'
-      redirect_to :action => 'update_routes'
-    else
-      path = HomeTeachingFile.save(params[:upload])
-      expire_action :action => "index"
-      begin
-        create_visiting_teaching_routes(path)
-      rescue Exception => e
-        # Most likely a parsing error in the HomeTeacher file.
-        logger.info("Error parsing Visiting Teaching Routes")
-        logger.info(e)
-        path = BAKUP_FILE
-        redirect_to :action => 'update_error', :path => path
-      end
+  def create_routes(file_name)
+    if file_name.nil?
+      # No file, nothing to do
+      raise "Something is wrong, we need a file_name"
     end
-  end
 
-  def update_with_path
-    create_visiting_teaching_routes
-  end
-
-  def create_visiting_teaching_routes(visitingTeachingFile=nil)
-    if params[:path] != nil
-      visitingTeachingFile = params[:path]
-    end
     @cantFindPerson = Set.new
     VisitingTeachingRoute.delete_all()
-    CSV.foreach(visitingTeachingFile, {:headers => true}) do |row|
+    CSV.foreach(uploaded_file_path(file_name), {:headers => true}) do |row|
       #skip past the first row
       if row[0] == ""
         next
@@ -80,32 +55,15 @@ class VisitingTeachingController < ApplicationController
     end # iterate through the ward list
 
     if @cantFindPerson.empty?
-      if visitingTeachingFile != BAKUP_FILE
-        FileUtils.cp(visitingTeachingFile,BAKUP_FILE)
+      if file_name != backup_file_name
+        FileUtils.cp(uploaded_file_path(file_name), uploaded_file_path(backup_file_name))
       end
       redirect_to(visiting_teaching_path) 
     else 
-      @path = visitingTeachingFile 
+      @name = file_name 
       render 'update_names'
     end
 
-  end # action uploadFile
-
-  def update_error
-    @path = params[:path]
-  end
-
-  def update_names
-    @path = params[:path] || [""]
-    names = params[:correct_person] || [""]
-    names.each do |name, person_id|
-      if NameMapping.find_by_name_and_category(name,'person') == nil
-        NameMapping.create(:name => name, :person_id => person_id, 
-                           :category =>'person')
-      end
-    end
-
-    create_visiting_teaching_routes(@path)
   end
 
 
@@ -210,6 +168,10 @@ class VisitingTeachingController < ApplicationController
   end
 
 private
+
+  def backup_file_name
+    'LastGoodVisitingTeachingRoutes.csv'
+  end
 
   def getName(fullName)
     fullName.split(",").collect! {|x| x.strip}

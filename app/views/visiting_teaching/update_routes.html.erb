@@ -3,7 +3,7 @@
 <%= form_tag visiting_teaching_update_routes_path, { :method => :post, :multipart => true } do %>
 <p><label for="upload_file">Select File</label> : 
 <%= file_field 'upload', 'datafile' %></p>
-<%= submit_tag "Upload", {:onclick=>"Effect.toggle('patients','blind');return true;"} %>
+<%= submit_tag "Upload", {:onclick=>"$('#patients').show();return true;"} %>
     <div id="patients" style = 'display:none'>
       Be patient... this takes a minute.
     </div>
