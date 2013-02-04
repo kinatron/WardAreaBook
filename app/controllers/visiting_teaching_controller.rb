@@ -1,5 +1,5 @@
 require 'csv'
-class VisitingTeachingController < ApplicationController
+class VisitingTeachingController < TeachingRouteUploadingController
 
   # GET /teaching_routes
   # GET /teaching_routes.xml
