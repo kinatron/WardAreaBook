@@ -122,6 +122,9 @@ class FamiliesController < ApplicationController
     if @hasFullAccess or @family.hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id])
       render "show"
     else
+      # TODO: This needs more work. There should probably be just one view, and it should be cleaned up
+      user = Person.find(session[:user_id])
+      @show_events = (@family.people.include? user) ? true : false
       render "show2"
     end
   end

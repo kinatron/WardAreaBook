@@ -38,6 +38,13 @@
         </td>
       </tr>
     </table>
+    <% if @show_events %>
+    <%= render(:partial => "teaching_records/teaching_record",
+               :object => @family.teaching_record,
+               :locals => {:events => @family.events}) %>
+               <%= render(:partial => "events/family_events", :locals => {:names => @names}) %>
+ 
+    <% end %>
 <br> <br> <br>
 <br> <br> <br>
 <br> <br> <br>
