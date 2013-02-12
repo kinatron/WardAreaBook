@@ -40,8 +40,8 @@
   <div class='forceWidth'>
     <div> 
       <a href="<%= url_for(:controller => 'stats', :action => 'showThisMonth') %>">
-        This Month &ndash; <%= this = familiesVisited(0) %> <br>
-        <%= getPercentage(this,@total) %>%
+        This Month &ndash; <%= month = familiesVisited(0) %> <br>
+        <%= getPercentage(month,@total) %>%
       </a>
     </div>
     <div> 

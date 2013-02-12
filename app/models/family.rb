@@ -84,7 +84,7 @@ class Family < ActiveRecord::Base
 
   def self.visitedWithinTheLastMonths(monthsAgo)
     targetDate = Date.today.months_ago(monthsAgo).at_beginning_of_month
-    return Family.order(:name).joins(:events)
+    return Family.order(:name).includes(:events)
         .where(:current => true, :member => true)
         .where(['status != ?', 'moved'])
         .where(['events.date >= ?', targetDate])
