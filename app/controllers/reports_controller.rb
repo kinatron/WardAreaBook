@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-  caches_action :hope, :monthlyReport, :allReports, :layout => false
 
   # override the application accessLevel method
   def checkAccess

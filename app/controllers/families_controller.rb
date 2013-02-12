@@ -1,10 +1,7 @@
 class FamiliesController < ApplicationController
-  caches_action :index, :layout => false
-  caches_action :members, :layout => false
   #TODO for some reason the sweeper is not getting called when I update 
   #the family records.  So I instead I'm explicitly updating this.
   #the sweeper is working for the events_controller....
-  cache_sweeper :family_sweeper, :only => [:update, :edit]
   in_place_edit_for :action_item, :action
 
   @hasFullAccess = false
