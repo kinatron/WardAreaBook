@@ -1,4 +1,7 @@
 module VisitingTeachingHelper
+
+  include VisitFindingHelper
+
   def familySuggestions(familyName)
     last, first = familyName.split(",").collect! {|x| x.strip}
     names = Array.new
@@ -21,22 +24,6 @@ module VisitingTeachingHelper
       end
     end
     names
-  end
-
-  def getLastVisitingTeachingEvent(person)
-    begin
-      visiting_teacher_1 = person.visiting_teachers[0].id 
-      visiting_teacher_2 = person.visiting_teachers[1].id 
-    rescue 
-      visiting_teacher_1 ||=  0
-      visiting_teacher_2 ||=  0
-    end
-
-    person.family.events.where("(person_id = ? or person_id = ?) and (category = 'Visit' or category = 'Lesson')",
-                                visiting_teacher_1, visiting_teacher_1)
-                        .order('date DESC').first
-  rescue
-    nil
   end
 
 

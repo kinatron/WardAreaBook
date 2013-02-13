@@ -141,17 +141,12 @@ class TeachingRoutesController < ApplicationController
 
   # GET /teaching_routes/teacherList/1
   def teacherList
-    @families = Set.new
-    @homeTeacher = Person.find(params[:id])
-    teachingRoutes = TeachingRoute.includes(:family).find_all_by_person_id(@homeTeacher.id)
-    teachingRoutes.each do | route|
-      @families.add(route.family)
-    end
+    @teacher = Person.find(params[:id])
+    teachingRoutes = TeachingRoute.includes(:family).find_all_by_person_id(@teacher.id)
+    @htFamilies = teachingRoutes.collect {|route| route.family }
 
-    visitingRoutes = VisitingTeachingRoute.includes(:person => [:family]).find_all_by_visiting_teacher_id(@homeTeacher.id)
-    visitingRoutes.each do |route|
-      @families.add(route.person.family)
-    end
+    visitingRoutes = VisitingTeachingRoute.includes(:person => [:family]).find_all_by_visiting_teacher_id(@teacher.id)
+    @vtPeople = visitingRoutes.collect {|route| route.person }
 
     respond_to do |format|
       format.html # index.html.erb

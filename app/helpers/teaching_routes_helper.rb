@@ -1,4 +1,6 @@
 module TeachingRoutesHelper
+  include VisitFindingHelper
+
   def familySuggestions(familyName)
     last, first = familyName.split(",").collect! {|x| x.strip}
     names = Array.new
@@ -22,42 +24,6 @@ module TeachingRoutesHelper
     end
     names
   end
-
-  def getLastHomeTeacherVisit(family)
-    # some routes only have one home teacher.  Referencing the routes by the 
-    # array index does make this kind of brittle.  TODO
-    begin
-      hometeacher1 = family.teaching_routes[0].person.id 
-      hometeacher2 = family.teaching_routes[1].person.id 
-    rescue 
-      hometeacher1 ||=  0
-      hometeacher2 ||=  0
-    end
-
-    family.events.where("(person_id = ? or person_id = ?)
-                                and (category = 'Visit' or category = 'Lesson')",
-                                hometeacher1, hometeacher2)
-                        .order('date DESC').first
-  rescue
-    nil
-  end
-
-  def getLastVisitingTeacherVisit(person)
-    # some routes only have one home teacher.  Referencing the routes by the 
-    # array index does make this kind of brittle.  TODO
-    visitingTeachers = person.visiting_teachers.all
-
-    clause = "(category ='Visit' or category = 'Lesson') and ("
-
-    clause += visitingTeachers.collect { |vt| 'person_id = ' + vt.id }.join(' or ')
-
-    clause += ")"
-
-    family.events.where(clause).order('date DESC').first
-  rescue
-    nil
-  end
-
 
   def getHomeTeachingVisitDate(event)
     if event

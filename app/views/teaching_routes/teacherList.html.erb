@@ -1,4 +1,4 @@
-<h1><%= @homeTeacher.name + " " + @homeTeacher.family.name %>  
+<h1><%= @teacher.name + " " + @teacher.family.name %>  
   Home Teaching Assignments</h1>
 
 <table>
@@ -20,20 +20,17 @@
   </thead>
   <tbody>
 
-    <% @families.each do |family| %>
-      <% lastVisit = getLastHomeTeacherVisit(family) %>
-    <tr class="<%=cycle('list-line-odd','list-line-even')%>" 
-      onClick = "window.location.href='<%= family_path(family) %>'" >
-      <td>
-        <%=h family.name %>, <%=h family.head_of_house_hold %></td>
-      <td>
-        <%=h family.status %></td>
-      <td sorttable_customkey="<%= getHomeTeachingVisitDateSortable(lastVisit)%>"
-        bgcolor="<%= getLastHomeTeacherVisitColor(lastVisit) %>">
-        <%= lastVisit.date.to_s(:sortable) if lastVisit %></td>
-      <td>
-        <%= lastVisit.comment if lastVisit  %></td>
-    </tr>
+    <%
+      @htFamilies.each do |family|
+        lastVisit = getLastHomeTeacherVisit(family)
+    %>
+    <%= render(:partial => 'family_row', :locals => { :family => family, :lastVisit => lastVisit}) %>
+  <% end %>
+    <%
+      @vtPeople.each do |person|
+        lastVisit = getLastVisitingTeachingEvent(person)
+    %>
+    <%= render(:partial => 'family_row', :locals => { :family => person.family, :lastVisit => lastVisit}) %>
   <% end %>
 </tbody>
 </table>

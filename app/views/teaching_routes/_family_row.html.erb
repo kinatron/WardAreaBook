@@ -1,0 +1,11 @@
+<tr class="<%=cycle('list-line-odd','list-line-even')%>" onClick = "window.location.href='<%= family_path(family) %>'" >
+  <td>
+    <%=h family.name %>, <%=h family.head_of_house_hold %></td>
+  <td>
+    <%=h family.status %></td>
+  <td sorttable_customkey="<%= getHomeTeachingVisitDateSortable(lastVisit)%>"
+    bgcolor="<%= getLastHomeTeacherVisitColor(lastVisit) %>">
+    <%= lastVisit.date.to_s(:sortable) if lastVisit %></td>
+  <td>
+    <%= lastVisit.comment if lastVisit  %></td>
+</tr>
