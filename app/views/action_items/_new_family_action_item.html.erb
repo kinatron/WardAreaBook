@@ -20,7 +20,7 @@
   <p>
     <%= f.submit 'Create' %>
     &nbsp;
-    <%= link_to 'Cancel', family_path(action_item.family) %>
+    <%= link_to_function 'Cancel',  "$('#new-action').hide(); $('#actionButtons').show();" %>
   </p>
 <% end %>
 

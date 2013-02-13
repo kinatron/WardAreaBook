@@ -57,10 +57,6 @@
       <span id="comments">
         <%= render(:partial => "comments/comment", :collection => @family.comments) %>
       </span>
-      <%= form_tag family_path(@family) + '/new_comment', :class => "noPrint" do %>
-        <%= text_area_tag :text, nil, :cols => 60, :rows => 5 %><br />
-        <%= submit_tag "Add Info" %>
-      <% end %>
 
       <% unless @family.member %>
         <div class="noPrint">

@@ -1,8 +1,10 @@
 <h1><%= @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp;
   <div id='actionButtons' >
-    <%= button_to_function("New Event", "$('#new-event').show(); $('#actionButtons').hide();")%>
+    <%= button_to_function("New Visit", "$('#new-event').show(); $('#actionButtons').hide();")%>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
     <%= button_to_function("New Action Item", "$('#new-action').show(); $('#actionButtons').hide();")%>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
+    <%= button_to_function("New Family Info", "$('#new-comment').show(); $('#actionButtons').hide();")%>
   </div>
 </h1>
 
@@ -21,6 +23,14 @@
   <hr>
 </div>
 
+<div id="new-comment" class="startHidden">
+  <%= form_tag family_path(@family) + '/new_comment', :class => "noPrint" do %>
+    <%= text_area_tag :text, nil, :cols => 60, :rows => 5 %><br />
+    <%= submit_tag "Add Info" %>
+    <%= link_to_function "Cancel", "$('#new-comment').hide(); $('#actionButtons').show();" %>
+  <% end %>
+  <hr>
+</div>
 <ul>
     <%= render(:partial => "family_details") %>
     <%= render(:partial => "teaching_records/teaching_record",
