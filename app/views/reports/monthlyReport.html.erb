@@ -1,4 +1,5 @@
 <h1>Monthly Report - Lessons and Visits</h1>
+<h3>This shows all visits (Home Teaching or Visiting Teaching) sorted by the Quorum the family is assigned to.</h3>
 <% @monthly_info.each do |month_info| %>  
   <h4 onclick="$('#<%= month_info[:month].to_s %>-events').toggle(); return false;" style="cursor: pointer;"> <%= month_info[:month].strftime("%b") %> &#151; <%= month_info[:families_visited_count] %> Families Visited</h4>
   <div id='<%= month_info[:month] %>-events' style='display:none'>
