@@ -1,25 +1,21 @@
-<h1>Monthly Report - Lessons and Visits <br>
-  for both Members and Investigators</h1>
-<% @event_months.each do |month, events| %>  
-  <% events.sort! { |a,b| a.family.name <=> b.family.name } %>
-  <h4 onclick="$('#<%= month.to_s %>-events').toggle(); return false;" style="cursor: pointer;"> <%= month.strftime("%b") %> &#151; <%=getMonthlyTotal(events)%> Families Visited</h4>
-  <div id='<%= month %>-events' style='display:none'>
-    <% visits = events.group_by { |event| event.family_id} %> 
-    <% hp,elders,unAssigned = categorizeVisits(visits) %>
+<h1>Monthly Report - Lessons and Visits</h1>
+<% @monthly_info.each do |month_info| %>  
+  <h4 onclick="$('#<%= month_info[:month].to_s %>-events').toggle(); return false;" style="cursor: pointer;"> <%= month_info[:month].strftime("%b") %> &#151; <%= month_info[:families_visited_count] %> Families Visited</h4>
+  <div id='<%= month_info[:month] %>-events' style='display:none'>
     <div class='report'>
       <table>
           <tr>
             <td>
               <h1>High Priest Families</h1>
-              <%= render(:partial => "monthlyDetails", :object => hp, :locals => { :names => @names }) %>
+              <%= render(:partial => "monthlyDetails", :object => month_info[:hp], :locals => { :names => @names }) %>
             </td>
             <td>
               <h1>Elder Familes</h1>
-              <%= render(:partial => "monthlyDetails", :object => elders, :locals => { :names => @names }) %>
+              <%= render(:partial => "monthlyDetails", :object => month_info[:elders], :locals => { :names => @names }) %>
             </td>
             <td>
               <h1>Unassigned Families</h1>
-              <%= render(:partial => "monthlyDetails", :object => unAssigned, :locals => { :names => @names }) %>
+              <%= render(:partial => "monthlyDetails", :object => month_info[:unassigned], :locals => { :names => @names }) %>
             </td>
           </tr>
       </table>
