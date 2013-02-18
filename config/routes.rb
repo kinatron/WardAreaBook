@@ -62,9 +62,12 @@ WardAreaBook::Application.routes.draw do
   resources :action_items, :only => [:create, :update, :destroy]
   resources :comments, :only => [:update, :destroy]
 
-  match '/teaching_routes/updateNames/' => 'teaching_routes#updateNames'
-  match '/teaching_routes/updateError/' => 'teaching_routes#updateError'
-  match '/teaching_routes/updateRoutes/' => 'teaching_routes#updateRoutes'
+  get '/teaching_routes' => 'teaching_routes#index'
+  get '/teaching_routes/update_routes/' => 'teaching_routes#update_routes'
+  post '/teaching_routes/update_routes/' => 'teaching_routes#upload_file'
+  match '/teaching_routes/update_names/' => 'teaching_routes#update_names'
+  match '/teaching_routes/update_error/' => 'teaching_routes#update_error'
+  post '/teaching_routes/update_with_path/' => 'teaching_routes#update_with_path'
   match '/teaching_routes/teacherList/:id' => 'teaching_routes#teacherList'
 
   get '/visiting_teaching' => 'visiting_teaching#index'

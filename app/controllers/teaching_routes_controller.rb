@@ -1,48 +1,30 @@
 require 'csv'
-class TeachingRoutesController < ApplicationController
-  BAKUP_FILE = Rails.root.join('public', 'data', 'LastGoodTeachingReport.csv')
+class TeachingRoutesController < TeachingRouteUploadingController
 
   # TODO This doesn't appear to ever be called...
   def checkAccess
-    if (action_name == "teacherList" and params[:id] == session[:user_id].to_s ) or hasAccess(2)
+    if (action_name == "teacherList" and params[:id] == session[:user_id].to_s) or hasAccess(2)
       true
     else 
       deny_access
     end
   end
 
-  def updateRoutes
-  end
+  def create_routes(file_name=nil)
+    if file_name.nil?
+      file_name = params[:name]
 
-  def uploadFile
-    if params[:upload] == nil
-      flash[:notice] = 'Please browse to a valid csv file'
-      redirect_to :action => 'updateRoutes'
-    else
-      path = HomeTeachingFile.save(params[:upload])
-      expire_action :action => "index"
-      begin
-        createHomeTeachingRoutes(path)
-      rescue Exception => e
-        # Most likely a parsing error in the HomeTeacher file.
-        logger.info("Error parsing Home Teaching Routes")
-        logger.info(e)
-        path = BAKUP_FILE
-        redirect_to :action => 'updateError', :path => path
+      if file_name.nil?
+        # No file, nothing to do
+        return
       end
     end
-  end
 
-  def createHomeTeachingRoutes(homeTeachingFile=nil)
-    # TODO This is pretty dangerous, just letting people pass a path into the webserver that
-    # we will then read from disk...
-    if params[:path] != nil
-      homeTeachingFile = params[:path]
-    end
+
     @cantFindTeacher = Set.new
     @cantFindFamily = Set.new
     TeachingRoute.delete_all()
-    CSV.foreach(homeTeachingFile, {:headers => true}) do |row|
+    CSV.foreach(uploaded_file_path(file_name), {:headers => true}) do |row|
       #skip past the first row
       if row[0] == ""
         next
@@ -92,38 +74,14 @@ class TeachingRoutesController < ApplicationController
     end # iterate through the ward list
 
     if @cantFindTeacher.empty? and @cantFindFamily.empty?
-      if homeTeachingFile != BAKUP_FILE
-        FileUtils.cp(homeTeachingFile,BAKUP_FILE)
+      if file_name != backup_file_name
+        FileUtils.cp(uploaded_file_path(file_name), uploaded_file_path(backup_file_name))
       end
       redirect_to(teaching_routes_path) 
     else 
-      @path = homeTeachingFile 
-      render 'updateNames'
+      @file_name = file_name 
+      render 'update_names'
     end
-
-  end # action uploadFile
-
-  def updateError
-    @path = params[:path]
-  end
-
-  def updateNames
-    @path = params[:path] || [""]
-    names = params[:correct_person] || [""]
-    names.each do |name, person_id|
-      if NameMapping.find_by_name_and_category(name,'person') == nil
-        NameMapping.create(:name => name, :person_id => person_id, 
-                           :category =>'person')
-      end
-    end
-    names = params[:correct_family] || [""]
-    names.each do |name, family_id|
-      if NameMapping.find_by_name_and_category(name,'family') == nil
-        NameMapping.create(:name => name, :family_id => family_id,
-                           :category =>'family')
-      end
-    end
-    createHomeTeachingRoutes(@path)
   end
 
 
@@ -232,6 +190,10 @@ class TeachingRoutesController < ApplicationController
   end
 
 private
+
+  def backup_file_name
+    'LastGoodHomeTeachingRoutes.csv'
+  end
 
   def getName(fullName)
     fullName.split(",").collect! {|x| x.strip}
