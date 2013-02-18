@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
   def update
     @comment = Comment.find(params[:id])
 
-    if hasAccess(2) || (!@comment.person.nil? && @comment.person.id == session[:user_id])
+    if hasAccess(3) || (!@comment.person.nil? && @comment.person.id == session[:user_id])
       @comment.text = params[:text]
       @comment.save
     end
@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
     comment = Comment.find(params[:id])
     family = comment.family
 
-    if hasAccess(2) || (!comment.person.nil? && comment.person.id == session[:user_id])
+    if hasAccess(3) || (!comment.person.nil? && comment.person.id == session[:user_id])
       comment.destroy
     end
 

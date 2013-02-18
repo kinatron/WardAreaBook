@@ -23,7 +23,7 @@
     <div id="side">
       <br> <br> 
       <p>
-<% if session[:access_level] >=2 %>
+<% if session[:access_level] >=3 %>
         <%= link_to 'Ward List', :controller => 'families'  %><br />
         <%= link_to 'Other Families', :controller => 'families', :action => 'investigators'  %><br />
         <%= link_to 'Teaching Pool', :controller => 'teaching_records' %><br />
@@ -37,7 +37,7 @@
 <% end %>
         <%= link_to 'My Families ', :controller => 'teaching_routes', :action => 'teacherList', :id => session[:user_id] %>
 
-<% if session[:access_level] >=2 %>
+<% if session[:access_level] >=3 %>
       </p>
       <br>
       <p>
@@ -50,7 +50,7 @@
       <%= link_to 'Stats', :controller => 'stats' %><br />
 <% end %>
 
-<% if session[:access_level] >=3 %>
+<% if session[:access_level] >=4 %>
   <br><br>
   <%= link_to "Admin", :controller => 'users', :action => 'index' %><br />
   <br>

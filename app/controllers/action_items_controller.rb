@@ -3,7 +3,7 @@ class ActionItemsController < ApplicationController
 
   def checkAccess
     if (action_name == 'wardActionItems')
-      if hasAccess(2)
+      if hasAccess(3)
         true
       else
         deny_access

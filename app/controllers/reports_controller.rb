@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
   # override the application accessLevel method
   def checkAccess
     #only the ward council has access
-    if hasAccess(2)
+    if hasAccess(3)
       true
     else
       deny_access

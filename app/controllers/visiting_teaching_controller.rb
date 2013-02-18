@@ -202,7 +202,7 @@ class VisitingTeachingController < ApplicationController
   end
 
   def checkAccess
-    if (action_name == "teacherList" and params[:id] == session[:user_id].to_s ) or hasAccess(2)
+    if (action_name == "teacherList" and params[:id] == session[:user_id].to_s ) or hasAccess(3)
       true
     else 
       deny_access

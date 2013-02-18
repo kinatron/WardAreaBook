@@ -101,7 +101,9 @@ protected
 
   def checkAccess
     # Make the default the most restrictive
-    if hasAccess(2)
+    # TODO: I'm bumping this from 2 to 3 per issue #40;
+    # need to check if that's correct
+    if hasAccess(3)
       true
     else
       deny_access

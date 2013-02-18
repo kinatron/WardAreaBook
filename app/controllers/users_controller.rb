@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @limit = 3
     if (params[:id])
       @person = Person.find(params[:id])
-      unless hasAccess(2)
+      unless hasAccess(3)
         redirect_to families_path
         return
       end

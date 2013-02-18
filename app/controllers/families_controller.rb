@@ -9,9 +9,9 @@ class FamiliesController < ApplicationController
   # override the application accessLevel method
   # TODO refactor this method
   def checkAccess
-    @hasFullAccess = hasAccess(2)
+    @hasFullAccess = hasAccess(3)
     # Everybody has access to these methods
-    if hasAccess(2) or 
+    if hasAccess(3) or 
        action_name == 'members' or 
        action_name == 'show' or 
        action_name == 'edit_status' or 
@@ -19,7 +19,7 @@ class FamiliesController < ApplicationController
        (action_name == 'update' and (Family.find(params[:id]).hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id])))
       true
     elsif
-      action_name == 'index' and not hasAccess(2)
+      action_name == 'index' and not hasAccess(3)
       redirect_to(:action => 'members')
     else
       deny_access

@@ -32,7 +32,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    if hasAccess(3)
+    if hasAccess(4)
       @events = Event.all
 
       respond_to do |format|
@@ -123,7 +123,7 @@ class EventsController < ApplicationController
   # PUT /events/1.xml
   def update
     event = Event.find(params[:id])
-    if event.author == session[:user_id] or event.person_id == session[:user_id] or hasAccess(2)
+    if event.author == session[:user_id] or event.person_id == session[:user_id] or hasAccess(3)
       event.update_attributes(params[:event])
     end
 

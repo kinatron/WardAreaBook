@@ -1,5 +1,5 @@
 <% # TODO DRY fix with the access_level %>
-<% if session[:access_level] >= 3 or (!comment.person.nil? and comment.person.id == session[:user_id]) %>
+<% if session[:access_level] >= 4 or (!comment.person.nil? and comment.person.id == session[:user_id]) %>
       <div id='comment_display_<%=comment.id%>' class='editable_comment'>
         <%= link_to_function simple_format(comment.text)[3..-5].html_safe, "switch_to_form('comment', #{comment.id})" %>
       </div>
@@ -16,7 +16,7 @@
   &mdash;<%= "#{comment.person.name} #{comment.person.family.name} #{comment.updated_at.strftime("%b %d, %y")}" %>
 <% end %>
 
-<% if session[:access_level] >= 3 or (!comment.person.nil? and comment.person.id == session[:user_id]) %>
+<% if session[:access_level] >= 4 or (!comment.person.nil? and comment.person.id == session[:user_id]) %>
   &nbsp;
   <%= button_to 'Delete', comment_path(comment), {:method => :delete} %>
 <% end %>

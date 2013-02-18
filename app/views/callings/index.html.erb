@@ -10,8 +10,9 @@
     <% @callings.each do |calling| %>
       <tr>
         <td>
-          <%= check_box_tag "accessLevels[#{calling.job}]", value=2, 
-            checked = (calling.access_level >= 2) %>
+	  <!-- TODO: check if this is right. I think PEC should be 4, not 3. This was set to 2 before I updated it per issue #40 -->
+          <%= check_box_tag "accessLevels[#{calling.job}]", value=3, 
+            checked = (calling.access_level >= 3) %>
           </td>
           <td><%= calling.job %></td>
           <td>
