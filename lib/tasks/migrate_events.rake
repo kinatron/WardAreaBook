@@ -27,7 +27,7 @@ task :migrate_visits => :environment do
       uncategorized += 1
     else
       e.category = new_category
-      #e.save
+      e.save
     end
   end
 
