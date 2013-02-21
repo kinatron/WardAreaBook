@@ -15,6 +15,10 @@
               <%= render(:partial => "monthlyDetails", :object => month_info[:elders], :locals => { :names => @names }) %>
             </td>
             <td>
+              <h1>Visiting Teaching</h1>
+              <%= render(:partial => "monthlyDetails", :object => month_info[:vt], :locals => { :names => @names }) %>
+            </td>
+            <td>
               <h1>Unassigned Families</h1>
               <%= render(:partial => "monthlyDetails", :object => month_info[:unassigned], :locals => { :names => @names }) %>
             </td>
