@@ -6,8 +6,8 @@ All visiting teaching assignments have just been deleted.
   Click on the following button to restore the visiting teaching assignments <br>
   to their previous values.
   <%= form_tag visiting_teaching_update_with_path_path, { :method => :post } do %>
-    <%= hidden_field_tag :path, @path %>
-    <%= submit_tag "Restore", {:onclick=>"Effect.toggle('patients','blind');return true;"} %>
+    <%= hidden_field_tag :file_name, @file_name %>
+    <%= submit_tag "Restore", {:onclick=>"$('#patients').show();return true;"} %>
     <div id="patients" style = 'display:none'>
       Be patient... this takes a minute.
     </div>
