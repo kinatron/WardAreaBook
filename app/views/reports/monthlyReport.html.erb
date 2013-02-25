@@ -7,11 +7,11 @@
       <table>
           <tr>
             <td>
-              <h1>High Priest Families</h1>
+              <h1>High Priest Visits</h1>
               <%= render(:partial => "monthlyDetails", :object => month_info[:hp], :locals => { :names => @names }) %>
             </td>
             <td>
-              <h1>Elder Familes</h1>
+              <h1>Elder Visits</h1>
               <%= render(:partial => "monthlyDetails", :object => month_info[:elders], :locals => { :names => @names }) %>
             </td>
             <td>
@@ -19,7 +19,7 @@
               <%= render(:partial => "monthlyDetails", :object => month_info[:vt], :locals => { :names => @names }) %>
             </td>
             <td>
-              <h1>Unassigned Families</h1>
+              <h1>Other Events</h1>
               <%= render(:partial => "monthlyDetails", :object => month_info[:unassigned], :locals => { :names => @names }) %>
             </td>
           </tr>

@@ -19,7 +19,7 @@ task :migrate_visits => :environment do
             break
           end
         end
-        break if new_category.nil?
+        break unless new_category.nil?
       end
     end
 
