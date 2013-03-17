@@ -5,8 +5,9 @@ All home teaching assignments have just been deleted.
 <p>
   Click on the following button to restore the home teaching assignments <br>
   to their previous values.
-  <%= form_tag 'createHomeTeachingRoutes', :path=>@path do %>
-    <%= submit_tag "Restore", {:onclick=>"Effect.toggle('patients','blind');return true;"} %>
+  <%= form_tag 'update_with_path', { :method => :post } do %>
+    <%= hidden_field_tag :file_name, @file_name %>
+    <%= submit_tag "Restore", {:onclick=>"$('#patients').show();return true;"} %>
     <div id="patients" style = 'display:none'>
       Be patient... this takes a minute.
     </div>

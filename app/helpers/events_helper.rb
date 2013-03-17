@@ -1,8 +1,8 @@
 module EventsHelper
   def eventCategories 
     [
-      ["Visit"  , "Visit"], 
-      ["Lesson" , "Lesson"], 
+      ["Home Teaching"  , "Home Teaching"], 
+      ["Visiting Teaching"  , "Visiting Teaching"], 
       ["Attempt", "Attempt"],
       ["Other", "Other"]
     ]

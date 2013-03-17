@@ -8,18 +8,20 @@
   </div>
 </h1>
 
-<div id = 'new-event' style='display:none;'> 
+<div id='new-event' style='display:none;'> 
   <%= render(:partial => 'events/new_family_event',
              :locals => {:peopleList => @names,
                          :event => @event,
                          :family => @family}) %>
+   <%= render(:partial => 'shared/leadership_emails') %>
   <hr>
 </div>
 
-<div id = 'new-action' style='display:none;'> 
+<div id='new-action' style='display:none;'> 
   <%= render(:partial => 'action_items/new_family_action_item', 
              :locals => {:peopleList => @names,
                          :action_item => @action_item}) %>
+  <%= render(:partial => 'shared/leadership_emails') %>
   <hr>
 </div>
 
@@ -29,6 +31,7 @@
     <%= submit_tag "Add Info" %>
     <%= link_to_function "Cancel", "$('#new-comment').hide(); $('#actionButtons').show();" %>
   <% end %>
+  <%= render(:partial => 'shared/leadership_emails') %>
   <hr>
 </div>
 <ul>
