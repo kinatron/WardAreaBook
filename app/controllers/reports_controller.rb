@@ -2,11 +2,6 @@ class ReportsController < ApplicationController
 
   # override the application accessLevel method
   def checkAccess
-    logger.info "report requested: #{params[:report]}"
-    callings = current_user.person.callings
-    callings.each do |calling|
-      logger.info "user calling: #{calling.position_id}"
-    end
     #only the ward council and org. leadership have access
     if hasAccess(2)
       true
@@ -31,7 +26,6 @@ class ReportsController < ApplicationController
 
   def getMonthlyEvents(range)
     allowed_reports = allowedReports
-    logger.debug "allowed reports: #{allowed_reports}"
     @events = Event.includes(:family => { :teaching_routes => {} }).where("(category != 'Attempt' and
                              category != 'Other' and
                              category != 'MoveIn' and
