@@ -21,7 +21,7 @@
   </div>
   <div id="columns">
     <div id="side">
-      <br> <br> 
+      <br> <br>
       <p>
 <% if session[:access_level] >=3 %>
         <%= link_to 'Ward List', :controller => 'families'  %><br />
@@ -32,7 +32,7 @@
       <p>
         <%= link_to 'Home Teaching', :controller => 'teaching_routes' %><br />
         <%= link_to 'Visiting Teaching', visiting_teaching_path %><br />
- <% else %>      
+ <% else %>
         <%= link_to 'Ward List', :controller => 'families', :action => 'members'  %><br />
 <% end %>
         <%= link_to 'My Families ', :controller => 'teaching_routes', :action => 'teacherList', :id => session[:user_id] %>
@@ -43,13 +43,15 @@
       <p>
         <%= link_to 'Assignments', :controller => 'action_items', :action => 'wardActionItems' %><br />
       </p>
-      <br> 
-      <%= link_to 'Reports', :controller => 'reports', :action => 'monthlyReport' %><br />
-      &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Month', :controller => 'reports', :action => 'monthlyReport' %><br />
       <br>
       <%= link_to 'Stats', :controller => 'stats' %><br />
 <% end %>
-
+<% if session[:access_level] >= 2 %>
+<p>
+      <%= link_to 'Reports', :controller => 'reports', :action => 'monthlyReport' %><br />
+      &nbsp;&nbsp;&nbsp;&nbsp;<%= link_to 'Month', :controller => 'reports', :action => 'monthlyReport' %>
+</p>
+<% end %>
 <% if session[:access_level] >=4 %>
   <br><br>
   <%= link_to "Admin", :controller => 'users', :action => 'index' %><br />

@@ -91,8 +91,8 @@ class JsonPerson
     @lastName, @name = @name.split(/,/)
     @name.strip!
     @email.strip!
-    if @email.empty? 
-      @email = nil 
+    if @email.empty?
+      @email = nil
     else
       @email.downcase!
     end
@@ -128,7 +128,7 @@ def downLoadNewInfo
     # TODO What happens when you have multiple wards and admins?
     root = RootAdmin.find(:first)
     form.username = root.lds_user_name
-    form.password = root.lds_password 
+    form.password = root.lds_password
     page = agent.submit(form)
     puts "Just logged in"
 
@@ -252,7 +252,7 @@ begin
 
   downLoadNewInfo
 
-  # This is a flag to determine if I need to clear the cache or not for the ward 
+  # This is a flag to determine if I need to clear the cache or not for the ward
   # list index page.
   changesMade = false
 
@@ -279,10 +279,10 @@ begin
     headOfHouseHold.gsub!("&", "and")
     address    = jsonEntry['desc1'] + " " + jsonEntry['desc2']
     phone      = jsonEntry['phone']
-    lastName ||= "" 
-    headOfHouseHold ||= "" 
-    phone ||= "" 
-    address ||= "" 
+    lastName ||= ""
+    headOfHouseHold ||= ""
+    phone ||= ""
+    address ||= ""
 
     family = Family.find_by_uid(uid)
 
@@ -295,19 +295,19 @@ begin
         puts "\t" + family.name  + "," + family.head_of_house_hold + " update"
         changesMade = true
 
-        if family.name != lastName 
+        if family.name != lastName
           puts "\t  familyName          : " + family.name + "--->" + lastName
           family.name = lastName
         end
-        if family.head_of_house_hold != headOfHouseHold 
+        if family.head_of_house_hold != headOfHouseHold
           puts "\t  Head of House Hold: : " + family.head_of_house_hold + "--->" + headOfHouseHold
           family.head_of_house_hold = headOfHouseHold
         end
-        if family.phone != phone 
+        if family.phone != phone
           puts "\t  phone               : " + family.phone + "--->" + phone
           family.phone = phone
         end
-        if family.address != address 
+        if family.address != address
           puts "\t  address             : " + family.address + "--->"+  address
           family.address = address
         end
@@ -323,7 +323,7 @@ begin
       Person.update_all({:current => false}, {:family_id => family.id})
 
       familyMembers = getFamilyMembers jsonEntry
-      familyMembers.each { |new| 
+      familyMembers.each { |new|
         person = Person.where(:uid => new.uid).first
 
         emailToUse = new.email
@@ -333,7 +333,7 @@ begin
 
         # if the person exists make them current and then verify the email address
         if person
-          if (person.email != emailToUse) 
+          if (person.email != emailToUse)
             puts "\t  updating email: (#{person.email}) --> (#{emailToUse}) for " + new.name + " " + family.name
             person.email = emailToUse
           end
@@ -350,9 +350,9 @@ begin
           # otherwise create new person
         else
           unless emailToUse == nil
-            puts "\t  Creating person :" + new.name + " with email :" + emailToUse 
+            puts "\t  Creating person :" + new.name + " with email :" + emailToUse
           else
-            puts "\t  Creating person :" + new.name 
+            puts "\t  Creating person :" + new.name
           end
           Person.create({
             :name => new.name,
@@ -366,7 +366,7 @@ begin
       }
 
       removed = Person.find_all_by_family_id_and_current(family.id, false) - alreadyRemoved
-      removed.each { |person| 
+      removed.each { |person|
         #eventually delete these people if they are not tied to an event
         puts "\t  #{person.name} #{family.name} is no longer current"
       }
@@ -393,13 +393,13 @@ begin
       puts "  \t" + address;
       puts ""
       # Create the new family
-      # Set status 
+      # Set status
       # label them as current
 
       family = Family.create(:name => lastName, :head_of_house_hold => headOfHouseHold,
-                             :phone => phone, :address => address, :status => "new", 
+                             :phone => phone, :address => address, :status => "new",
                              :uid => uid, :current => true)
-      family.events.create(:date => Date.today, 
+      family.events.create(:date => Date.today,
                            :category => "MoveIn",
                            :comment => "Received records from SLC")
       changesMade = true
@@ -409,10 +409,10 @@ begin
       #
 
       familyMembers = getFamilyMembers jsonEntry
-      familyMembers.each { |person| 
+      familyMembers.each { |person|
         print "\t  Creating person :" + person.name
-        unless person.email == nil or person.email == "" 
-          print " with email :" + person.email 
+        unless person.email == nil or person.email == ""
+          print " with email :" + person.email
         end
         puts ""
         Person.create({
@@ -428,12 +428,12 @@ begin
     end
   end
 
-  # Get all of the non-current families. 
+  # Get all of the non-current families.
   # Find all that don't have a status of "Moved - Old Record" and print those to a report
   # change status of those families to   "Moved - Old Record"
   moved = Family.where({current: false, member: true}).where("status != 'Moved - Old Record'")
 
-  unless moved.empty? 
+  unless moved.empty?
     puts "\tFamilies moved out:"
     moved.each do |family|
       puts "\t\t" + family.name + "," + family.head_of_house_hold
