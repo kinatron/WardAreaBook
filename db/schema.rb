@@ -165,8 +165,8 @@ ActiveRecord::Schema.define(:version => 20130106202554) do
   create_table "visiting_teaching_routes", :force => true do |t|
     t.integer  "visiting_teacher_id"
     t.integer  "person_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "ward_profiles", :force => true do |t|

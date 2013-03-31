@@ -1,8 +1,9 @@
 class Family < ActiveRecord::Base
   has_many :events, :order => 'date DESC, updated_at DESC', :dependent => :destroy
-  has_many :people 
-  has_many :comments 
-  has_many :teaching_routes  # really it only has two 
+  has_many :people
+  has_many :comments
+  has_many :teaching_routes  # really it only has two
+  has_many :home_teachers, :through => :teaching_routes, :source => :person
   has_many :action_items, :order => 'due_date DESC', :dependent => :destroy
   has_many :open_action_items, :class_name => "ActionItem",
                                :conditions => "status = 'open'",
@@ -26,7 +27,7 @@ class Family < ActiveRecord::Base
 
   def hasHomeTeacher(person_id)
     self.teaching_routes.each do |route|
-      return true if route.person_id == person_id 
+      return true if route.person_id == person_id
     end
     return false
   rescue
@@ -45,8 +46,8 @@ class Family < ActiveRecord::Base
   end
 
   def lastVisit
-    self.events.where("category != 'Attempt' and 
-                            category != 'Other' and 
+    self.events.where("category != 'Attempt' and
+                            category != 'Other' and
                             category is not NULL").first
   end
 
@@ -98,7 +99,7 @@ class Family < ActiveRecord::Base
   end
 
   def self.get_families
-    @families = Family.where('current = ?', true).order('name').map do |s| 
+    @families = Family.where('current = ?', true).order('name').map do |s|
       [s.name + "," + s.head_of_house_hold, s.id]
     end
   end

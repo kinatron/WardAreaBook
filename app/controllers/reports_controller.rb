@@ -43,19 +43,19 @@ class ReportsController < ApplicationController
       hp, elders, vt, unassigned = categorizeVisits(events_by_families)
 
       visit_count = 0
-      if allowed_reports.include? :hp
+      if allowed_reports[:hp]
         month_info[:hp] = hp
         visit_count += hp.size
       end
-      if allowed_reports.include? :elders
+      if allowed_reports[:elders]
         month_info[:elders] = elders
         visit_count += elders.size
       end
-      if allowed_reports.include? :vt
+      if allowed_reports[:vt]
         month_info[:vt] = vt
         visit_count += vt.size
       end
-      if allowed_reports.include? :unassigned
+      if allowed_reports[:unassigned]
         month_info[:unassigned] = unassigned
         visit_count += unassigned.size
       end
@@ -117,21 +117,20 @@ class ReportsController < ApplicationController
 
   def allowedReports
     if hasAccess(3)
-      allowed_reports = [:unassigned, :vt, :hp, :elders]
+      allowed_reports = {unassigned: true, vt: true, hp: true, elders: true}
     else
-      ward_council =  ['4', '54', '55', '56', '57', '143', '133', '138', '221', '210', '183', '158', '204']
       calling_report_access = {
-        unassigned: ward_council,
-        vt: ward_council + ['143', '144', '145', '146', '151'],
-        hp: ward_council + ['133', '134', '135', '1395'],
-        elders: ward_council + ['138', '139', '140', '141']
+        unassigned: Calling::WARD_COUNCIL,
+        vt: Calling::WARD_COUNCIL + Calling::RELIEF_SOCIETY,
+        hp: Calling::WARD_COUNCIL + Calling::HIGH_PRIESTS,
+        elders: Calling::WARD_COUNCIL + Calling::ELDERS_QUORUM
       }
-      allowed_reports = Array.new
+      allowed_reports = {unassigned: false, vt: false, hp: false, elders: false}
       pos_ids = current_user.person.callings.map {|c| c.position_id}
       pos_ids.each do |pid|
         calling_report_access.keys.each do |key|
           if calling_report_access[key].include? pid
-            allowed_reports << key
+            allowed_reports[key] = true
           end
         end
       end
