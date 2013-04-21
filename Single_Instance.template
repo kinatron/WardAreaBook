@@ -1,0 +1,501 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  
+  "Description" : "AWS CloudFormation Template to launch the WardAreaBook",
+  
+  "Parameters" : {
+      
+    "KeyName" : {
+      "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+      "Type" : "String",
+      "Default": "WardPair"
+    },    
+    
+    "InstanceType" : {
+      "Description" : "WebServer EC2 instance type",
+      "Type" : "String",
+      "Default" : "m1.small",
+      "AllowedValues" : [ "t1.micro","m1.small","m1.medium","m1.large","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","c1.medium","c1.xlarge","cc1.4xlarge","cc2.8xlarge","cg1.4xlarge"],
+      "ConstraintDescription" : "must be a valid EC2 instance type."
+    },
+          
+    "DBName": {
+      "Default": "wardAreaBook",
+      "Description" : "The WardAreaBook database",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "64",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+
+    "WardAdminUser": {
+      "Description" : "The username for the account to use for syncing with lds.org",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "36"
+    },
+    
+    "WardAdminPassword": {
+      "NoEcho": "true",
+      "Description" : "The password for the account to use for syncing with lds.org",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41"
+    },
+    
+    "DBUsername": {
+      "Default": "admin",
+      "Description" : "The WardAreaBook database admin account username",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "16",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+    
+    "DBPassword": {
+      "Default": "abc1234",
+      "NoEcho": "true",
+      "Description" : "The WardAreaBook database admin account password",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters."
+    },
+
+    "DBRootPassword": {
+      "Default": "abc1234",
+      "NoEcho": "true",
+      "Description" : "Root password for MySQL",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters."
+    },
+
+    "BackupAccessKey": {
+      "Description" : "The access key for the account to use for backups",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41"
+    },
+
+    "BackupSecretKey": {
+      "NoEcho": "true",
+      "Description" : "The secret key for the account to use for backups",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "41"
+    }   
+  },
+  
+  "Mappings" : {
+    "AWSInstanceType2Arch" : {
+      "t1.micro"    : { "Arch" : "64" },
+      "m1.small"    : { "Arch" : "64" },
+      "m1.medium"   : { "Arch" : "64" },
+      "m1.large"    : { "Arch" : "64" },
+      "m1.xlarge"   : { "Arch" : "64" },
+      "m2.xlarge"   : { "Arch" : "64" },
+      "m2.2xlarge"  : { "Arch" : "64" },
+      "m2.4xlarge"  : { "Arch" : "64" },
+      "c1.medium"   : { "Arch" : "64" },
+      "c1.xlarge"   : { "Arch" : "64" },
+      "cc1.4xlarge" : { "Arch" : "64HVM" },
+      "cc2.8xlarge" : { "Arch" : "64HVM" },
+      "cg1.4xlarge" : { "Arch" : "64HVM" }
+    },
+
+    "AWSRegionArch2AMI" : {
+      "us-west-2" :      { "32" : "ami-8c109ebc", "64" : "ami-8e109ebe" }
+    }
+  },
+    
+  "Resources" : {     
+      
+    "CfnUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "Path": "/",
+        "Policies": [{
+          "PolicyName": "root",
+          "PolicyDocument": { "Statement":[{
+            "Effect":"Allow",
+            "Action":"cloudformation:DescribeStackResource",
+            "Resource":"*"
+          }]}
+        }]
+      }
+    },
+
+    "HostKeys" : {
+      "Type" : "AWS::IAM::AccessKey",
+      "Properties" : {
+        "UserName" : {"Ref": "CfnUser"}
+      }
+    },
+
+    "WebServer": {  
+      "Type": "AWS::EC2::Instance",
+      "Metadata" : {
+        "AWS::CloudFormation::Init" : {
+          "config" : {
+            "packages" : {
+              "apt" : {
+                "mysql-server-5.5"     : [],
+                "mysql-client-5.5"     : [],
+                "libmysql-ruby"        : [],
+                "libmysqlclient-dev"   : [],
+                "ruby1.9.1"            : [],
+                "ruby1.9.1-dev"        : [],
+                "rubygems1.9.1"        : [],
+                "git"                  : [],
+                "irb1.9.1"             : [],
+                "ri1.9.1"              : [],
+                "rdoc1.9.1"            : [],
+                "libcurl4-openssl-dev" : [],
+                "libssl-dev"           : [],
+                "zlib1g-dev"           : [],
+                "build-essential"      : [],
+                "libxml2-dev"          : [],
+                "libxslt1-dev"         : [],
+                "libsqlite3-dev"       : [],
+                "sendmail"             : [],
+                "sqlite3"              : []
+              }
+            },
+
+            "sources" : {
+              "/var/app/wardareabook" : "https://github.com/boushley/WardAreaBook/zipball/master"
+            },
+            "users" : {
+                "wardareabook": {
+                    "home" : "/var/app/wardareabook"
+                }
+            },
+
+            "files" : {
+              "/tmp/setup.mysql" : {
+                "content" : { "Fn::Join" : ["", [
+                  "CREATE DATABASE ", { "Ref" : "DBName" }, ";\n",
+                  "CREATE USER '", { "Ref" : "DBUsername" }, "'@'localhost' IDENTIFIED BY '", { "Ref" : "DBPassword" }, "';\n",
+                  "GRANT ALL ON ", { "Ref" : "DBName" }, ".* TO '", { "Ref" : "DBUsername" }, "'@'localhost';\n",
+                  "FLUSH PRIVILEGES;\n"
+                  ]]},
+                "mode"  : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+              "/etc/init/nginx.conf" : {
+                  "content" : { "Fn::Join" : ["\n", [
+                      "description \"Nginx HTTP Server\"",
+                      "start on filesystem",
+                      "stop on runlevel [!2345]",
+                      "respawn",
+                      "exec /opt/nginx/sbin/nginx -g \"daemon off;\""
+                  ]]},
+                  "mode" : "000644",
+                  "owner" : "root",
+                  "group" : "root"
+              },
+              "/var/app/wardareabook/config/database.yml" : {
+                  "content" : { "Fn::Join" : ["", [
+                    "development:\n",
+                    "  adapter: sqlite3\n",
+                    "  database: db/development.sqlite3\n",
+                    "  pool: 5\n",
+                    "  timeout: 5000\n",
+                    "\n",
+                    "test:\n",
+                    "  adapter: sqlite3\n",
+                    "  database: db/test.sqlite3\n",
+                    "  pool: 5\n",
+                    "  timeout: 5000\n",
+                    "\n",
+                    "production:\n",
+                    "  adapter: mysql2\n",
+                    "  username: ", { "Ref" : "DBUsername" } , "\n",
+                    "  password: ", { "Ref" : "DBPassword" } , "\n",
+                    "  host: localhost\n",
+                    "  database: ", { "Ref" : "DBName" } , "\n",
+                    "  encoding: utf8\n"
+                  ]]},
+                  "mode" : "000644",
+                  "owner" : "root",
+                  "group" : "root"
+              },
+              "/var/app/wardareabook/config/application.yml" : {
+                  "content" : { "Fn::Join" : ["", [
+                    "# config/application.yml\n",
+                    "defaults: &defaults\n",
+                    "    backup_access_key: ", { "Ref" : "BackupAccessKey" } , "\n",
+                    "    backup_secret_key: ", { "Ref" : "BackupSecretKey" } , "\n",
+                    "    database_name: ", { "Ref" : "DBName" } , "\n",
+                    "    database_user: ", { "Ref" : "DBUsername" } , "\n",
+                    "    database_password: ", { "Ref" : "DBPassword" } , "\n",
+                    "\n",
+                    "development:\n",
+                    "  <<: *defaults\n",
+                    "\n",
+                    "test:\n",
+                    "  <<: *defaults\n",
+                    "\n",
+                    "production:\n",
+                    "  <<: *defaults\n"
+                  ]]},
+                  "mode" : "000644",
+                  "owner" : "root",
+                  "group" : "root"
+              },
+
+              "/var/app/wardareabook/db/seeds.rb" : {
+                "content" : {"Fn::Join" : ["", [
+                  "ra = RootAdmin.new\n",
+                  "ra.lds_user_name = '", { "Ref" : "WardAdminUser" } , "'\n",
+                  "ra.lds_password = '", { "Ref" : "WardAdminPassword" } , "'\n",
+                  "ra.save\n"
+                ]]},
+                "mode" : "000644",
+                "owner" : "root",
+                "group" : "root"
+              },
+
+              "/var/app/wardareabook/Backup/models/app_backup.rb" : {
+                  "content" : {"Fn::Join" : ["", [
+                      "# encoding: utf-8\n",
+                      "\n",
+                      "Backup::Model.new(:app_backup, 'Backup the database contents of the application to S3') do\n",
+                      "  split_into_chunks_of 250\n",
+                      "\n",
+                      "  database MySQL do |db|\n",
+                      "    db.name               = \"", { "Ref" : "DBName" } , "\"\n",
+                      "    db.username           = \"", { "Ref" : "DBUsername" } , "\"\n",
+                      "    db.password           = \"", { "Ref" : "DBPassword" } , "\"\n",
+                      "    db.host               = \"localhost\"\n",
+                      "    db.port               = 3306\n",
+                      "    db.additional_options = [\"--quick\", \"--single-transaction\"]\n",
+                      "  end\n",
+                      "\n",
+                      "  store_with S3 do |s3|\n",
+                      "    s3.access_key_id     = \"", { "Ref" : "BackupAccessKey" } , "\"\n",
+                      "    s3.secret_access_key = \"", { "Ref" : "BackupSecretKey" } , "\"\n",
+                      "    s3.region            = \"us-west-2\"\n",
+                      "    s3.bucket            = \"ward-area-book\"\n",
+                      "    s3.path              = \"/backups\"\n",
+                      "    s3.keep              = 20\n",
+                      "  end\n",
+                      "\n",
+                      "  compress_with Gzip\n",
+                      "\n",
+                      "# TODO We need to configure this, just like the other mail\n",
+                      "#notify_by Mail do |mail|\n",
+                      "#  mail.on_success           = false\n",
+                      "#  mail.on_warning           = true\n",
+                      "#  mail.on_failure           = true\n",
+                      "#\n",
+                      "#  mail.from                 = 'sender@email.com'\n",
+                      "#  mail.to                   = 'boushley@gmail.com'\n",
+                      "#  mail.address              = 'smtp.gmail.com'\n",
+                      "#  mail.port                 = 587\n",
+                      "#  mail.domain               = 'your.host.name'\n",
+                      "#  mail.user_name            = 'sender@email.com'\n",
+                      "#  mail.password             = 'my_password'\n",
+                      "#  mail.authentication       = 'plain'\n",
+                      "#  mail.enable_starttls_auto = true\n",
+                      "#end\n",
+                      "\n",
+                      "end\n"
+                  ]]},
+                  "mode" : "000644",
+                  "owner" : "root",
+                  "group" : "root"
+              }
+            },
+
+            "services" : {
+              "sysvinit" : {  
+                "mysql"    : { "enabled" : "true", "ensureRunning" : "true" }
+              }
+            },
+            "commands" : {
+                "00-change-the-timezone" : {
+                  "command" : "echo \"US/Pacific\" | sudo tee /etc/timezone && sudo dpkg-reconfigure --frontend noninteractive tzdata",
+                  "ignoreErrors" : "false"
+                },
+                "01-change-the-ruby-version" : {
+                  "command" : { "Fn::Join" : ["\n", [
+                    "update-alternatives --install /usr/bin/ruby ruby /usr/bin/ruby1.9.1 400 --slave   /usr/share/man/man1/ruby.1.gz ruby.1.gz /usr/share/man/man1/ruby1.9.1.1.gz --slave   /usr/bin/ri ri /usr/bin/ri1.9.1 --slave   /usr/bin/irb irb /usr/bin/irb1.9.1 --slave   /usr/bin/rdoc rdoc /usr/bin/rdoc1.9.1",
+                    "update-alternatives --config ruby"
+                  ]]},
+                  "ignoreErrors" : "false"
+                },
+                "02-install-gems-with-different-ruby" : {
+                    "command" : "sudo gem install passenger bundler",
+                    "ignoreErrors" : "false"
+                },
+                "03-install-specific-fog-version" : {
+                    "command" : "sudo gem install fog -v '~> 1.4.0'",
+                    "ignoreErrors" : "false"
+                },
+                "04-install-nginx" : {
+                    "command" : "passenger-install-nginx-module --auto-download --auto --prefix=/opt/nginx",
+                    "ignoreErrors" : "false"
+                },
+                "05-change-nginx-config" : {
+                    "command" : { "Fn::Join" : ["\\n", [
+                        "sudo su root -c \"echo -e \\\"",
+                        "user  wardareabook;",
+                        "worker_processes  1;",
+                        "",
+                        "#error_log  logs/error.log;",
+                        "#error_log  logs/error.log  notice;",
+                        "error_log  logs/error.log  info;",
+                        "",
+                        "#pid        logs/nginx.pid;",
+                        "",
+                        "",
+                        "events {",
+                        "    worker_connections  1024;",
+                        "}",
+                        "",
+                        "",
+                        "http {",
+                        "    passenger_root /var/lib/gems/1.9.1/gems/passenger-3.0.19;",
+                        "    passenger_ruby /usr/bin/ruby1.9.1;",
+                        "",
+                        "    include       mime.types;",
+                        "    default_type  application/octet-stream;",
+                        "",
+                        "    log_format  main  '\$remote_addr - \$remote_user [\$time_local] \\\\\\\"\$request\\\\\\\" '",
+                        "                      '\$status \$body_bytes_sent \\\\\\\"\$http_referer\\\\\\\" '",
+                        "                      '\\\\\\\"\$http_user_agent\\\\\\\" \\\\\\\"\$http_x_forwarded_for\\\\\\\"';",
+                        "",
+                        "    access_log  logs/access.log  main;",
+                        "",
+                        "    sendfile        on;",
+                        "",
+                        "    keepalive_timeout  65;",
+                        "",
+                        "    server {",
+                        "        listen 80;",
+                        "        server_name `curl http://169.254.169.254/latest/meta-data/public-hostname`;",
+                        "        root /var/app/wardareabook/public;",
+                        "        passenger_enabled on;",
+                        "    }",
+                        "}\\\" > /opt/nginx/conf/nginx.conf\""
+                    ]]},
+                    "ignoreErrors" : "false"
+                },
+                "06-startup-nginx" : {
+                    "command" : "sudo service nginx restart",
+                    "ignoreErrors" : "false"
+                },
+                "07-setup-mysql-user" : {
+                    "command" : {"Fn::Join" : ["", ["mysql -u root --password='", { "Ref" : "DBRootPassword" }, "' < /tmp/setup.mysql"]]}
+                },
+                "08-install-app-dependencies" : {
+                    "command" : "bundle install",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "09-setup-crontab-with-whenever" : {
+                    "command" : "whenever --update-crontab areabookmaintenance",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "10-migrate-the-database" : {
+                    "command" : "RAILS_ENV=production bundle exec rake db:migrate",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "11-seed-the-database" : {
+                    "command" : "RAILS_ENV=production bundle exec rake db:seed",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "15-precompile-the-assets" : {
+                    "command" : "RAILS_ENV=production bundle exec rake assets:precompile",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "16-update-the-database" : {
+                    "command" : "RAILS_ENV=production bundle exec rake update_ward_db",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                },
+                "20-chown-files" : {
+                    "command" : "sudo chown -R wardareabook:wardareabook /var/app/wardareabook; sudo chmod 0666 log/production.log",
+                    "cwd" : "/var/app/wardareabook",
+                    "ignoreErrors" : "false"
+                }
+            }
+          }
+        }
+      },
+      "Properties": {
+        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
+                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
+        "InstanceType"   : { "Ref" : "InstanceType" },
+        "SecurityGroups" : [ {"Ref" : "WebServerSecurityGroup"} ],
+        "KeyName"        : { "Ref" : "KeyName" },
+        "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+          "#!/bin/bash -v\n",
+
+          "function error_exit\n",
+          "{\n",
+          "  cfn-signal -e 1 -r \"$1\" '", { "Ref" : "WaitHandle" }, "'\n",
+          "  exit 1\n",
+          "}\n",
+
+          "sudo apt-get -y update\n",
+          "sudo apt-get -y install python-setuptools\n",
+          "sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password password ", { "Ref" : "DBRootPassword" }, "'\n",
+          "sudo debconf-set-selections <<< 'mysql-server-5.5 mysql-server/root_password_again password ", { "Ref" : "DBRootPassword" }, "'\n",
+          "sudo easy_install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz\n",
+          "sudo cfn-init --region ", { "Ref" : "AWS::Region" },
+          "    -s ", { "Ref" : "AWS::StackName" }, " -r WebServer --verbose",
+          "         --access-key ", { "Ref" : "HostKeys" },
+          "         --secret-key ", {"Fn::GetAtt": ["HostKeys", "SecretAccessKey"]}, " || error_exit 'Failed to run cfn-init'\n",
+
+          "# All is well so signal success\n",
+          "cfn-signal -e 0 -r \"WebServer setup complete\" '", { "Ref" : "WaitHandle" }, "'\n"
+
+        ]]}}        
+      }
+    },
+
+    "WaitHandle" : {
+      "Type" : "AWS::CloudFormation::WaitConditionHandle"
+    },
+
+    "WaitCondition" : {
+      "Type" : "AWS::CloudFormation::WaitCondition",
+      "DependsOn" : "WebServer",
+      "Properties" : {
+        "Handle" : {"Ref" : "WaitHandle"},
+        "Timeout" : "2500"
+      }
+    },
+    
+    "WebServerSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "Enable HTTP access via port 80 and SSH access",
+        "SecurityGroupIngress" : [
+          {"IpProtocol" : "tcp", "FromPort" : "80", "ToPort" : "80", "CidrIp" : "0.0.0.0/0"},
+          {"IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : "0.0.0.0/0"}
+        ]
+      }      
+    }          
+  },
+  
+  "Outputs" : {
+    "WebsiteURL" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}, "/"]] },
+      "Description" : "WardAreaBook Website"
+    }
+  }
+}

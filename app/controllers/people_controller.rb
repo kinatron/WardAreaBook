@@ -3,7 +3,7 @@ class PeopleController < ApplicationController
   # GET /people
   # GET /people.xml
   def index
-    @people = Person.find(:all, :order => :family_id)
+    @people = Person.order("family_id")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -85,7 +85,7 @@ class PeopleController < ApplicationController
   end
 
   def WardListUpdates
-    @fileContents = IO.read("#{RAILS_ROOT}/public/WardListImport.log")
+    @fileContents = IO.read(Rails.root.join('public', 'WardListImport.log'))
   end
 
 end

@@ -1,7 +1,7 @@
 <h1>Home Teaching Assignments 
-  <span style='font-size:smaller'> (last update <%=TeachingRoute.find(:first).last_update%>) </span>
+    <span style='font-size:smaller'> (<%= @last_updated %>) </span>
   &mdash; 
-  <%= link_to "update", :action => 'updateRoutes'  %>
+  <%= link_to "update", :action => 'update_routes'  %>
 </h1>
 <table >
   <tr>
@@ -43,7 +43,7 @@
         <%= getHomeTeachingVisitDate(lastEvent) %>
       </div>
     </td>
-    <td class='cell' onClick = "window.location.href='<%= "/teaching_routes/teacherList?id=" + route.person.id.to_s %>'">
+    <td class='cell' onClick = "window.location.href='<%= "/teaching_routes/teacherList/" + route.person.id.to_s %>'">
       <%=h route.person.name + " " + route.person.family.name %>
     </td>
   </tr>

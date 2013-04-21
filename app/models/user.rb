@@ -2,13 +2,14 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
   belongs_to :person;
+  attr_accessible :email, :password, :password_confirmation
   validate :valid_email
 
 
   acts_as_authentic do |c|
     c.transition_from_crypto_providers(MyCryptoProvider)
     c.logged_in_timeout = 60.minutes
-  end  
+  end
 
 
   def valid_email
@@ -16,20 +17,20 @@ class User < ActiveRecord::Base
     if person.nil?
       errors.add(:email, " - You must be a member of this ward
                              and have an email registered with lds.org
-                             Please contact Brother Kinateder for more information")
+                             Please check out the FAQ page for more information.")
     else
       self.person = person
     end
   end
 
-  def deliver_password_reset_instructions!  
-    reset_perishable_token!  
-    AuthMailer.deliver_password_reset_instructions(self)  
-  end  
+  def deliver_password_reset_instructions!
+    reset_perishable_token!
+    AuthMailer.password_reset_instructions(self).deliver
+  end
 
-  def deliver_verification_instructions!  
-    reset_perishable_token!  
-    AuthMailer.deliver_verification_instructions(self)
+  def deliver_verification_instructions!
+    reset_perishable_token!
+    AuthMailer.verification_instructions(self).deliver
   end
 
   def verify!
@@ -68,7 +69,7 @@ class User < ActiveRecord::Base
   def password
     @password
   end
-  
+
   def password=(pwd)
     @password = pwd
     return if pwd.blank?
@@ -78,13 +79,13 @@ class User < ActiveRecord::Base
 
 
 
-private 
+private
 
   def valid_email
-    if Person.find_all_by_email(email).empty? 
+    if Person.find_all_by_email(email).empty?
       errors.add(:email, " - You must be a member of this ward
                              and have an email registered with lds.org
-                             Please contact Brother Kinateder for more information")
+                             Please contact Brother Boushley for more information")
     end
   end
 

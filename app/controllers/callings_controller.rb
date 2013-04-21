@@ -2,7 +2,7 @@ class CallingsController < ApplicationController
   layout 'admin'
 
   def checkAccess
-    if hasAccess(3)
+    if hasAccess(4)
       true
     else
       deny_access
@@ -12,12 +12,12 @@ class CallingsController < ApplicationController
   def updateAccessLevels
     # because "unchecked checkbox values are not sent I'm going to update everything
     # (except admin level access) to 0 access and then update according to the post
-    Calling.update_all("access_level = 0", "access_level < 3")
+    Calling.update_all("access_level = 0", "access_level < 4")
     callings = params[:accessLevels] || ""
     callings.each do |calling, access_level|
       cal = Calling.find_by_job(calling)
       # don't update admins since they already have access
-      if cal.access_level < 3
+      if cal.access_level < 4
         cal.access_level = access_level
         cal.save!
       end
@@ -50,7 +50,6 @@ class CallingsController < ApplicationController
   # GET /callings/new
   # GET /callings/new.xml
   def new
-    @names = getMapping
     @calling = Calling.new
 
     respond_to do |format|
@@ -62,6 +61,7 @@ class CallingsController < ApplicationController
   # GET /callings/1/edit
   def edit
     @calling = Calling.find(params[:id])
+    @callings = Calling.all
   end
 
   # POST /callings

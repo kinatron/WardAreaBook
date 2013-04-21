@@ -1,6 +1,6 @@
 <h1>Editing action_item</h1>
 
-<% form_for(@action_item) do |f| %>
+<%= form_for(@action_item) do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -29,8 +29,7 @@
   </p>
   <p>
     <%= f.label :issuer_id %><br />
-    <%= Person.find(@action_item.issuer_id).name unless @action_item.issuer_id == nil%>
-    <%= Person.find(@action_item.issuer_id).family.name unless @action_item.issuer_id == nil%>
+    <%= @action_item.issuer.full_name unless @action_item.issuer.nil? %>
   </p>
   <p>
     <%= f.submit 'Update' %>

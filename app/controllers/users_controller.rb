@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_filter :store_return_point, :only =>[:todo]
   skip_before_filter :authorize, :only => [:new, :create]
   skip_before_filter :checkAccess, :only => [:new, :create, :todo]
   layout 'login'
@@ -7,7 +6,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.xml
   def index
-    @users = User.find(:all, :order => :email)
+    @users = User.order('email')
     render :layout => 'admin'
   end
 
@@ -15,7 +14,7 @@ class UsersController < ApplicationController
     @limit = 3
     if (params[:id])
       @person = Person.find(params[:id])
-      unless hasAccess(2)
+      unless hasAccess(3)
         redirect_to families_path
         return
       end
@@ -25,19 +24,9 @@ class UsersController < ApplicationController
     @openActionItems   = @person.open_action_items
     @closedActionItems = @person.closed_action_items
     @new_action_item = ActionItem.new
-    @names = getMapping
-    @families = getFamilyMapping
+    @names = Person.selectionList
+    @families = Family.get_families
     render :layout => 'WardAreaBook'
-  end
-
-  # GET /users/1
-  # GET /users/1.xml
-  def show
-    @user = User.find(params[:id])
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @user }
-    end
   end
 
   # GET /users/new
@@ -49,11 +38,6 @@ class UsersController < ApplicationController
       format.html # new.html.erb
       format.xml  { render :xml => @user }
     end
-  end
-
-  # GET /users/1/edit
-  def edit
-    @user = User.find(params[:id])
   end
 
   # POST /users

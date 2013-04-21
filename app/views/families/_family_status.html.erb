@@ -1,18 +1,17 @@
 <% if update %>
-  <% remote_form_for @family do |f| %>
+    <%= form_for @family, :url => { :controller => "families", :action => "update", :id => @family} do |f| %>
     <%= f.error_messages %>
-      <% if @family.member == false %>
-        <%= f.select :status, nonmemberType %>
-      <% else %> 
-        <%= f.select :status, memberStatus %>
-      <% end %>
-      &nbsp;
-      <%= f.submit 'Update' %>
-      <%= link_to 'cancel', "", {:style=>'text-decoration:underline'}%>
+    <% if @family.member == false %>
+      <%= f.select :status, nonmemberType %>
+    <% else %> 
+      <%= f.select :status, memberStatus %>
+    <% end %>
+    &nbsp;
+    <%= f.submit 'Update' %>
+    <%= link_to 'cancel', {:controller => "families", :action => "show", :id => @family.id}, {:style=>'text-decoration:underline'}%>
   <% end %>
 <% else %>
   <span style='background-color: <%= statusColor(@family.status) -%>'>
-    <%= link_to_remote @family.status, :url => {:action => 'edit_status', 
-      :id => @family} %>&nbsp;
+    <%= link_to @family.status, :controller => "families", :action => "edit_status", :id => @family.id %>&nbsp;
   </span>
 <% end %>

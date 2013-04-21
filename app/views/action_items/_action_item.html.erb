@@ -1,18 +1,27 @@
-<% checkbox ||= false %>
-<% form_action ||= "save_family_action" %>
+<%
+    checkbox ||= false
+    form_action ||= "save_family_action"
 
-<% ward_representative ||= false %>
-<% family   ||=false %>
-<% editable ||=false %>
-<% noLinks  ||=false %>
-<% showRequestor ||=false %>
+    ward_representative ||= false
+    family   ||=false
+    editable ||=false
+    noLinks  ||=false
+    showRequestor ||=false
+    hasAccessToEdit ||= false
+
+
+    # Can the user edit this action?
+    if editable and (action_item.issuer_id == session[:user_id] or action_item.person_id == session[:user_id])
+     hasAccessToEdit = true
+    end
+%>
+
 <div id = 'action_<%= action_item.id %>' class = 'action_item'>
   <% if checkbox %>
-    <% form_remote_for action_item, :url => {:controller => 'action_items', 
-                        :action => form_action, :id => action_item}  do |f| %>
+      <%= form_for action_item, :url => url_for(action_item), :method => :put do |f| %>
       <%= f.check_box(:status, 
-                     {:onclick => "Element.toggle('action-item-edit-#{action_item.id}'); 
-                                   Element.toggle('action-item-comment-#{action_item.id}');
+                     {:onclick => "$('#action-item-edit-#{action_item.id}').toggle(); 
+                                   $('#action-item-comment-#{action_item.id}').toggle();
                                    return true;"}, 
                     'closed', 'open') %>
       <%= render(:partial => 'action_items/action_details', 
@@ -23,7 +32,7 @@
                              :noLinks => noLinks,
                              :family => family}) -%>
 
-      <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em' class = 'comment'> 
+      <div id ='action-item-edit-<%= action_item.id %>' style='display:none; text-indent: 1.5em' class = 'comment'>
         <%= f.text_area(:comment, :rows=> 1) %>
         <%= f.submit "save" %> &nbsp;&nbsp;
         <%= link_to 'Cancel' %>
@@ -38,5 +47,9 @@
                            :showRequestor => showRequestor,
                            :noLinks => noLinks,
                            :family => family}) %>
+  <% end %>
+
+  <% if hasAccessToEdit %>
+      <%= button_to "Delete", action_item, :method => :delete %>
   <% end %>
 </div>

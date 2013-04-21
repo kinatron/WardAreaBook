@@ -1,30 +1,48 @@
 class Person < ActiveRecord::Base
   belongs_to :family
-  has_many :teachingRoutes 
-  has_many :action_items 
+  has_many :teaching_routes
+
+  has_many :home_teachers, :through => :family
+  has_many :home_teach, :through => :teaching_routes, :source => :family
+
+  has_and_belongs_to_many :visiting_teachers, {:join_table => "visiting_teaching_routes", :class_name => "Person", :foreign_key => "person_id", :association_foreign_key => "visiting_teacher_id"}
+  has_and_belongs_to_many :visit_teach, {:join_table => "visiting_teaching_routes", :class_name => "Person", :foreign_key => "visiting_teacher_id", :association_foreign_key => "person_id"}
+
+  has_many :action_items
   has_many :events
   has_many :open_action_items, :class_name => "ActionItem",
-                               :conditions => "status == 'open'",
+                               :conditions => "status = 'open'",
                                :order => 'due_date ASC, updated_at DESC'
   has_many :closed_action_items, :class_name => "ActionItem",
-                                 :conditions => "status == 'closed'",
+                                 :conditions => "status = 'closed'",
                                  :order => 'updated_at DESC'
+  has_many :calling_assignments, :dependent => :destroy
+  has_many :callings, :through => :calling_assignments, :order => "callings.access_level DESC"
+
+  attr_accessible :name, :email, :family_id, :current, :uid, :phone, :calling_assignments_attributes
+  accepts_nested_attributes_for :calling_assignments, allow_destroy: true
+
+  # callings are in descending order by access level, so the first will be the highest
+  def access_level
+    call = callings.first
+    if call.nil?
+      return 1
+    else
+      call.access_level
+    end
+  end
 
   def full_name
-    if family.name == "Hope"
-      "The Hopes"
-    elsif family.name == "Elders"
-      "The Elders"
-    elsif Calling.find_by_job("Bishop").person_id == id
+    if Calling.find_by_job("Bishop").people.include? self
       "Bishop #{family.name}"
     else
       "#{name} #{family.name}"
     end
-  rescue 
-    ""
+  rescue
+    name
   end
 
-  # TODO this is a very costly operation.  
+  # TODO this is a very costly operation.
   # Find out how to cache this in rails. (Maybe it already is??)
   def self.selectionList(current=true)
     return @@names if defined?(@@names)

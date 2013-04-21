@@ -1,0 +1,3 @@
+<div>
+  <%= f.label :job, "Select new calling: "%><%= f.select(:calling_id, options_from_collection_for_select(Calling.all, :id, :job)) %>
+</div>

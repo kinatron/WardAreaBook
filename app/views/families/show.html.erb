@@ -1,45 +1,45 @@
-<script type="text/javascript">
-function showElement(divId) {
-  var div = document.getElementById(divId);
-  div.style.display = "inline";
-}
-function hideElement(divId) {
-  var div = document.getElementById(divId);
-  div.style.display = "none";
-}
-</script>
-
-<h1><%=h @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp;
+<h1><%= @family.name %> Family &nbsp;&nbsp;&nbsp;&nbsp;
   <div id='actionButtons' >
-    <%= button_to_function("New Event", "showElement('new-event');
-                                         hideElement('actionButtons');")%>
+    <%= button_to_function("New Visit", "$('#new-event').show(); $('#actionButtons').hide();")%>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
-    <%= button_to_function("New Action Item", "showElement('new-action');
-                                               hideElement('actionButtons');")%>
+    <%= button_to_function("New Action Item", "$('#new-action').show(); $('#actionButtons').hide();")%>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     
+    <%= button_to_function("New Family Info", "$('#new-comment').show(); $('#actionButtons').hide();")%>
   </div>
 </h1>
 
-<div id = 'new-event' style='display:none;'> 
+<div id='new-event' style='display:none;'> 
   <%= render(:partial => 'events/new_family_event',
              :locals => {:peopleList => @names,
                          :event => @event,
                          :family => @family}) %>
+   <%= render(:partial => 'shared/leadership_emails') %>
   <hr>
 </div>
 
-<div id = 'new-action' style='display:none;'> 
+<div id='new-action' style='display:none;'> 
   <%= render(:partial => 'action_items/new_family_action_item', 
              :locals => {:peopleList => @names,
                          :action_item => @action_item}) %>
+  <%= render(:partial => 'shared/leadership_emails') %>
   <hr>
 </div>
 
+<div id="new-comment" class="startHidden">
+  <%= form_tag family_path(@family) + '/new_comment', :class => "noPrint" do %>
+    <%= text_area_tag :text, nil, :cols => 60, :rows => 5 %><br />
+    <%= submit_tag "Add Info" %>
+    <%= link_to_function "Cancel", "$('#new-comment').hide(); $('#actionButtons').show();" %>
+  <% end %>
+  <%= render(:partial => 'shared/leadership_emails') %>
+  <hr>
+</div>
 <ul>
     <%= render(:partial => "family_details") %>
     <%= render(:partial => "teaching_records/teaching_record",
                :object => @family.teaching_record,
                :locals => {:events => @family.events}) %>
-    <%= render(:partial => "events/family_events") %>
+               <%= render(:partial => "events/family_events", :locals => {:names => @names}) %>
     <div id="updated-action-list">
       <%= render(:partial => "action_items/family_action_items",
                  :locals => {:option_for_more => true}) %>

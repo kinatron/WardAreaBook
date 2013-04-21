@@ -1,94 +1,112 @@
-ActionController::Routing::Routes.draw do |map|
-  map.connect '/action_items/wardActionItems/', :controller => 'action_items', 
-                                               :action => 'wardActionItems'
-  map.resources :action_items
-  map.resources :auth_users
-
-  map.resources :comments
-
-  map.resources :callings
-
-  map.connect '/callings/updateAccessLevels/', :controller => 'callings', 
-                                               :action => 'updateAccessLevels'
-  map.resources :name_mappings
-
-  map.connect '/teaching_routes/updateNames/', :controller => 'teaching_routes', 
-                                               :action => 'updateNames'
-  map.connect '/teaching_routes/updateError/', :controller => 'teaching_routes', 
-                                               :action => 'updateError'
-  map.connect '/teaching_routes/updateRoutes/', :controller => 'teaching_routes', 
-                                               :action => 'updateRoutes'
-  map.connect '/teaching_routes/teacherList/', :controller => 'teaching_routes', 
-                                               :action => 'teacherList'
-  map.resources :teaching_routes
-
-  map.resources :teaching_records
-
-  map.connect '/todo', :controller => 'users', :action => 'todo'
-  map.resources :users
-
-  map.connect '/WardListUpdates', :controller => 'people', :action => 'WardListUpdates'
-
-  map.resources :people
-
-  map.resources :events
-
-  map.resources :password_resets
-
-  map.resources :roster
-
-  map.login 'login', :controller => 'user_sessions', :action => 'new'  
-  map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'  
-  map.resources :user_sessions  
-
-  map.connect '/families/members/', :controller => 'families', :action => 'members'
-  map.connect '/families/teachingPool/', :controller => 'families', :action => 'teachingPool'
-  map.connect '/families/investigators/', :controller => 'families', :action => 'investigators'
-  map.connect '/families/mergeRecords/', :controller => 'families', :action => 'mergeRecords'
-  map.connect '/families/new_comment/', :controller => 'families', :action => 'new_comment'
-
-  map.activation "/activate/:id", :controller => 'password_resets', :action => 'activate'
-
-  map.resources :families
-  # The priority is based upon order of creation: first created -> highest priority.
+WardAreaBook::Application.routes.draw do
+  # The priority is based upon order of creation:
+  # first created -> highest priority.
 
   # Sample of regular route:
-  #   map.connect 'products/:id', :controller => 'catalog', :action => 'view'
+  #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
+  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   map.resources :products
+  #   resources :products
 
   # Sample resource route with options:
-  #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
+  #   resources :products do
+  #     member do
+  #       get 'short'
+  #       post 'toggle'
+  #     end
+  #
+  #     collection do
+  #       get 'sold'
+  #     end
+  #   end
 
   # Sample resource route with sub-resources:
-  #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
-  
+  #   resources :products do
+  #     resources :comments, :sales
+  #     resource :seller
+  #   end
+
   # Sample resource route with more complex sub-resources
-  #   map.resources :products do |products|
-  #     products.resources :comments
-  #     products.resources :sales, :collection => { :recent => :get }
+  #   resources :products do
+  #     resources :comments
+  #     resources :sales do
+  #       get 'recent', :on => :collection
+  #     end
   #   end
 
   # Sample resource route within a namespace:
-  #   map.namespace :admin do |admin|
-  #     # Directs /admin/products/* to Admin::ProductsController (app/controllers/admin/products_controller.rb)
-  #     admin.resources :products
+  #   namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
+  #     resources :products
   #   end
 
-  # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => "families"
+  # You can have the root of your site routed with "root"
+  # just remember to delete public/index.html.
+  # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 
-  # Install the default routes as the lowest priority.
-  # Note: These default routes make all actions in every controller accessible via GET requests. You should
-  # consider removing or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  # This is a legacy wild controller route that's not recommended for RESTful applications.
+  # Note: This route will make all actions in every controller accessible via GET requests.
+  # match ':controller(/:action(/:id))(.:format)'
+
+  match '/faq' => 'static_pages#faq'
+
+  match '/action_items/wardActionItems/' => 'action_items#wardActionItems'
+  resources :action_items, :only => [:create, :update, :destroy]
+  resources :comments, :only => [:update, :destroy]
+
+  get '/teaching_routes' => 'teaching_routes#index'
+  get '/teaching_routes/update_routes/' => 'teaching_routes#update_routes'
+  post '/teaching_routes/update_routes/' => 'teaching_routes#upload_file'
+  match '/teaching_routes/update_names/' => 'teaching_routes#update_names'
+  match '/teaching_routes/update_error/' => 'teaching_routes#update_error'
+  post '/teaching_routes/update_with_path/' => 'teaching_routes#update_with_path'
+  match '/teaching_routes/teacherList/:id' => 'teaching_routes#teacherList'
+
+  get '/visiting_teaching' => 'visiting_teaching#index'
+  get '/visiting_teaching/update_routes/' => 'visiting_teaching#update_routes'
+  post '/visiting_teaching/update_routes/' => 'visiting_teaching#upload_file'
+  post '/visiting_teaching/update_with_path/' => 'visiting_teaching#update_with_path'
+  match '/visiting_teaching/update_names/' => 'visiting_teaching#update_names'
+  match '/visiting_teaching/update_error/' => 'visiting_teaching#update_error'
+  match '/visiting_teaching/teacher_list/' => 'visiting_teaching#teacher_list'
+
+  match '/todo' => 'users#todo'
+  resources :users, :only => [:index, :new, :create, :update, :destroy]
+
+  match '/WardListUpdates' => 'people#WardListUpdates'
+  resources :people
+
+  # Haven't gotten to yet
+  resources :events
+  resources :password_resets
+  resources :roster
+  match 'login' => 'user_sessions#new', :as => :login
+  match 'logout' => 'user_sessions#destroy', :as => :logout
+  resources :user_sessions
+  match '/families/members/' => 'families#members'
+  match '/families/teachingPool/' => 'families#teachingPool'
+  match '/families/investigators/' => 'families#investigators'
+  match '/families/mergeRecords/' => 'families#mergeRecords'
+  post '/families/:id/new_comment' => 'families#new_comment'
+  match '/families/edit_status/:id' => 'families#edit_status'
+  match '/activate/:id' => 'password_resets#activate', :as => :activation
+  resources :families
+  match '/' => 'families#index'
+  match '/:controller(/:action(/:id))'
+
+  # Unsure what is used but look safe
+  resources :callings
+  match '/callings/updateAccessLevels/' => 'callings#updateAccessLevels'
+
+  # Unsure about
+  resources :auth_users
+  resources :teaching_records
 end

@@ -3,7 +3,7 @@
 <div class='teaching-record'>
 <fieldset>
   <legend>General Info</legend>
-  <% form_for(@teaching_record) do |f| %>
+  <%= form_for(@teaching_record) do |f| %>
     <%= f.error_messages %>
     <p>
       <%= f.label :family_id %><br />

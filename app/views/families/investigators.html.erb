@@ -11,5 +11,5 @@
 
 <br /> <br /> <br />
 <div id='archived-families'>
-  <%= link_to_remote "Dropped Families", :url => {:controller => "families",  :action => 'listArchived'} %>
+  <%= link_to "Dropped Families", :url => {:controller => "families",  :action => 'listArchived'}, :remote => true %>
 </div>

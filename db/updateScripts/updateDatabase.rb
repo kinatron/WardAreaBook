@@ -5,19 +5,94 @@ require 'date'
 require 'rake'
 require 'json'
 
-# This is a flag to determine if I need to clear the cache or not for the ward 
-# list index page.
-updateMade = false
+# load the rails environment
+require File.dirname(__FILE__) + "/../../config/environment"
+
+# TODO Eventually this needs to be made multi-tenant so that it can work for multiple wards,
+# for now we'll just use a constant for the ward id
+WARD_ID = 25542
+ORGANIZATIONS_TO_GET = [1179, 69, 70, 73, 74, 75, 76, 77, 1310]
+DEFAULT_PERMISSION_LEVEL = 1
+# CALLING => POSITION_ID
+# Bishop => 4
+# 1st counselor => 54
+# 2nd counselor => 55
+# Exec Sec => 56
+# Ward Clerk => 57
+# RS Pres => 143
+# RS 1st counselor => 144
+# RS 2nd counselor => 145
+# RS secretary => 146
+# RS VT coordinator => 151
+# HPGL => 133
+# HP 1st assistant => 134
+# HP 2nd assistant => 135
+# HP secretary => 136? (needs confirmation)
+# HP HT Supervisor => 1395
+# EQP => 138
+# EQ 1st counselor => 139
+# EQ 2nd counselor => 140
+# EQ secretary => 141
+# Ward Mission Leader => 221
+# Primary Pres => 210
+# Primary 1st counselor => 211
+# Primary 2nd counselor => 212
+# YW Pres => 183
+# YW 1st counselor => 184
+# YW 2nd counselor => 185
+# YM Pres => 158
+# YM 1st counselor => 159
+# YM 2nd counselor => 160
+# SS Pres => 204
+# SS 1st counselor => 205
+# SS 2nd counselor => 206
+POSITION_TO_LEVEL = {
+  "4" => 4,
+  "54" => 4,
+  "55" => 4,
+  "56" => 4,
+  "57" => 4,
+  "143" => 3,
+  "133" => 3,
+  "138" => 3,
+  "221" => 3,
+  "210" => 3,
+  "183" => 3,
+  "158" => 3,
+  "204" => 3,
+  "134" => 2,
+  "135" => 2,
+  "139" => 2,
+  "140" => 2,
+  "141" => 2,
+  "144" => 2,
+  "145" => 2,
+  "146" => 2,
+  "151" => 2,
+  "159" => 2,
+  "160" => 2,
+  "184" => 2,
+  "185" => 2,
+  "211" => 2,
+  "212" => 2,
+  "1395" => 2,
+}
+
+UPDATEDIR = "#{Rails.root}/db/updateScripts/"
+CALLINGS_LOCATION = "#{UPDATEDIR}callings_lists";
 
 class JsonPerson
-  attr_accessor :name, :email, :uid, :lastName
+  attr_accessor :name, :email, :uid, :lastName, :phone
   def initialize(person)
-    @name,@uid,@email = person['preferredName'],person['individualId'],person['email']
+    @name = person['preferredName']
+    @uid = person['individualId']
+    @email = person['email']
+    @phone = person['phone']
     @lastName, @name = @name.split(/,/)
     @name.strip!
     @email.strip!
-    if @email.empty? 
-      @email = nil 
+    if @email.empty?
+      @email = nil
     else
       @email.downcase!
     end
@@ -42,100 +117,125 @@ def getFamilyMembers family
   return familyMembers
 end
 
-def downLoadNewList
+def downLoadNewInfo
   #TODO fix this warning
   agent = Mechanize.new
-  site = "https://lds.org/SSOSignIn/"
+  site = "https://signin.lds.org/SSOSignIn/"
   puts "accessing #{site}"
   agent.get(site) do |page|
     #TODO brittle....
-    form = page.forms[0]
+    form = page.forms.find { |form| form.fields.length > 1 }
     # TODO What happens when you have multiple wards and admins?
     root = RootAdmin.find(:first)
     form.username = root.lds_user_name
-    form.password = root.lds_password 
+    form.password = root.lds_password
     page = agent.submit(form)
     puts "Just logged in"
-    # TODO find out if there is way to search for the links 
-    # based on a regex instead of having to cycle through the links
-=begin
-    page.links.each do |link|
-      if link.text =~ /Membership Directory/i
-        page = link.click
-        break
-      end
-    end
-    vcardHref = ""
-    page.links.each do |link| 
-      if link.text =~ /vcard/i
-        line = link.href.match(/\'.*\'/)
-        vcardHref = line.to_s[1..(line.to_s.length-2)]
-        break
-      end
-    end
-    puts "Downloading the ward list"
-    agent.get(vcardHref).save_as("#{UPDATEDIR}/WardList.vcf")
-    puts "Done"
-=end
-  agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/31089").save_as("#{UPDATEDIR}/WardList.json")
-  puts "just retrieved the list"
 
-=begin
+    list_location = "#{UPDATEDIR}WardList.json"
+    FileUtils.mv(list_location, list_location + ".old") if File.exists? list_location
+    agent.get("https://lds.org/directory/services/ludrs/mem/member-detaillist/#{WARD_ID}").save_as(list_location)
+    puts "just retrieved the list"
+
     puts "Getting leadership information"
-    page.links.each do |link|
-      if link.text =~ /Leadership Directory/i
-        page = link.click
-        break
-      end
+
+    FileUtils.rm_rf(CALLINGS_LOCATION + ".old") if File.exists? CALLINGS_LOCATION + ".old"
+    FileUtils.mv(CALLINGS_LOCATION, CALLINGS_LOCATION + ".old") if File.exists? CALLINGS_LOCATION
+    Dir.mkdir(CALLINGS_LOCATION)
+
+    ORGANIZATIONS_TO_GET.each do |org_id|
+
+      agent.get("https://www.lds.org/directory/services/ludrs/1.1/unit/stake-leadership-group-detail/#{WARD_ID}/#{org_id}/1").save_as("#{CALLINGS_LOCATION}/#{org_id}.json")
+      puts "just retrieved callings for #{org_id}"
+
     end
-    leaders = ""
-    page.links.each do |link| 
-      if link.text =~ /Abbreviated/i
-        line = link.href.match(/\'.*\'/)
-        leaders = line.to_s[1..(line.to_s.length-2)]
-        break
-      end
-    end
+=begin
+    Looks like you retrieve the leadership roster from:
+    https://www.lds.org/directory/services/ludrs/1.1/unit/stake-leadership-group-detail/{ward id}/{organization id}/1
 
-    @doc = agent.get(leaders)
-    #@doc = Nokogiri::HTML(File.open("Burien Ward Leadership.html"))
+    Thorton Creek High Priest Group:
+    https://www.lds.org/directory/services/ludrs/1.1/unit/stake-leadership-group-detail/25542/69/1
 
-    callings = Array.new
-    record = false
-    calling = ""
+    Example JSON (Thorton Creek Bishopric):
+    {
+      "leaders":[
+        {
+          "callingName":"Bishop",
+          "displayName":"Stephen Wade Standage",
+          "email":"brotherstandage@gmail.com",
+          "householdPhoneNumber":"206-729-2409",
+          "individualId":3056998278, #TODO We need to keep these when we do the ward list import, so we can match it up here
+          "phoneNumber":"206-491-0689",
+          "photoUri":"",
+          "positionId":4
+        },
+        {"callingName":"Bishopric First Counselor","displayName":"David Pickett","email":"dpickett82@gmail.com","householdPhoneNumber":"206-395-4364","individualId":2879176527,"phoneNumber":"2063954364","photoUri":"","positionId":54},
+        {"callingName":"Bishopric Second Counselor","displayName":"Andrew David Forbes","email":"drew.forbes@gmail.com","householdPhoneNumber":"1-206-659-3055","individualId":19700743384,"phoneNumber":"1-206-659-3055","photoUri":"","positionId":55},
+        {"callingName":"Ward Executive Secretary","displayName":"Ben Newman","email":"thorntoncreekexecsec@gmail.com","householdPhoneNumber":"801 368 1785","individualId":902144318,"phoneNumber":"801 368 1785","photoUri":"","positionId":56},
+        {"callingName":"Ward Clerk","displayName":"Mitch Jones","email":"aaronmitchelljones@gmail.com","householdPhoneNumber":"8012288094","individualId":20570694452,"phoneNumber":"801-228-8094","photoUri":"","positionId":57},
+        {"callingName":"Ward Assistant Clerk--Finance","displayName":"Alex Quistberg","email":"aquistbe@gmail.com","householdPhoneNumber":"1-206-607-9179","individualId":1182115497,"phoneNumber":"1-206-607-9179","photoUri":"","positionId":786},
+        {"callingName":"Ward Assistant Clerk--Membership","displayName":"Brian Turner","email":"","householdPhoneNumber":"206-363-9228","individualId":2578173080,"phoneNumber":"206-786-4017","photoUri":"","positionId":787}
+      ],
+      "unitName":"Thornton Creek Ward"
+    }
 
-    @doc.parser.css(".eventsource").each do |row|
-    #@doc.css(".eventsource").each do |row|
-      token = row.text.strip
-      if calling != ""
-        callings << [calling,token]
-        calling = ""
-      else 
-        if token =~ /:/
-          calling = token.chomp(":")
-        end
-      end
-    end
+    ward ids
+    thorton creek -- 25542
 
-    # Hope hack
-    missionary = "Fulltime Missionaries"
-    fullTime = Calling.find_by_job(missionary)
-    if fullTime == nil
-      Calling.create(:job => missionary, :person_id =>1, :access_level => 2)
-    end
-
-    callings.each do |calling,person|
-      #puts calling + " <==> " + person
-      cal = Calling.find_by_job(calling)
-      if cal
-        cal.person_id = Person.find_by_full_name(person).id
-        cal.save!
-      else
-        Calling.create(:job => calling, :person_id => Person.find_by_full_name(person).id)
-      end
-    end
-
+    organization ids
+    1179 -- Bishopric
+    69 -- High Priest Group
+    70 -- Elders Quorum
+    74 -- Relief Society
+    75 -- Sunday School
+    73 -- Young Men
+    76 -- Young Women
+    77 -- Primary
+    1300 -- Music
+    1298 -- Family History
+    1309 -- Technology
+    1310 -- Ward Missionaries
 =end
+  end
+end
+
+
+def parse_callings
+  puts "Parsing Calings"
+
+  unless File.directory?(CALLINGS_LOCATION)
+    puts "Missing callings folder #{CALLINGS_LOCATION}, can't parse callings"
+    return
+  end
+
+  Dir.foreach(CALLINGS_LOCATION) do |filename|
+    fullFileName = File.join(CALLINGS_LOCATION, filename)
+    puts "Skipping because its a directory: #{fullFileName}" if File.directory?(fullFileName)
+    next if File.directory?(fullFileName)
+
+    puts "Parsing callings out of: #{fullFileName}"
+
+    jsonString = File.open(fullFileName, "r").read
+    callings = JSON.parse(jsonString)
+
+    callings['leaders'].each do |jsonEntry|
+      personId = Person.where(:uid => jsonEntry['individualId']).first.id
+      positionId = jsonEntry['positionId']
+      cal = Calling.where(:position_id => positionId).first
+      callingName = jsonEntry['callingName']
+
+      puts "Mapping person id: #{personId} to #{callingName}(#{positionId})"
+
+      if cal
+        assignment = cal.calling_assignments.build(:person_id => personId)
+        # If the calling_assignment already exists, save returns false; we don't want an exception here
+        cal.save
+      else
+        level = POSITION_TO_LEVEL[positionId.to_s] || DEFAULT_PERMISSION_LEVEL
+        new_cal = Calling.create(:job => callingName, :position_id => positionId, :access_level => level)
+        new_cal.save!
+      end
+    end
   end
 end
 
@@ -145,20 +245,16 @@ end
 
 
 begin
-  # load the rails environment
-  require File.dirname(__FILE__) + "/../../config/environment"
-
-  UPDATEDIR = "#{RAILS_ROOT}/db/updateScripts/"
-  # Create a copy of the database
-  DATABASE = "#{RAILS_ROOT}/db/#{ENV['RAILS_ENV']}.sqlite3"
-  BACKUP = "#{UPDATEDIR}/bak/#{Time.now.strftime("%c")}-#{ENV['RAILS_ENV']}.sqlite3"
-  copy(DATABASE,BACKUP)
-
-#  downLoadNewList 
-
-
-  $stdout = File.open("#{UPDATEDIR}/WardListImport.log",'a')
+  log_file = "#{UPDATEDIR}WardListImport.log"
+  puts "Logging to #{log_file}"
+  $stdout = File.open(log_file,'a')
   puts Time.now.strftime("%a %b %d %Y - %I:%M %p")
+
+  downLoadNewInfo
+
+  # This is a flag to determine if I need to clear the cache or not for the ward
+  # list index page.
+  changesMade = false
 
   ########################################################################
   # Extract the data from the cvs file
@@ -171,30 +267,11 @@ begin
     family.save
   end
 
-  # Find the Hopes and Elders make them current because 
-  # they won't show up in the new  ward list
-  # TODO you need to better account for missionaries.
-  #
-  hopes = Family.find_by_name("Hope")
-  hopes.current=true
-  hopes.member=false
-  hopes.save
-  hopes = hopes.people[0]
-  hopes.current=true
-  hopes.save
-
-  elders = Family.find_by_name("Elders")
-  elders.current=true
-  elders.member=false
-  elders.save
-  elders = elders.people[0]
-  elders.current=true
-  elders.save
-
-  jsonString = File.open("#{UPDATEDIR}/WardList.json", "r").read
+  jsonString = File.open("#{UPDATEDIR}WardList.json", "r").read
   ward = JSON.parse(jsonString)
   ward.each do |jsonEntry|
     uid   = jsonEntry['headOfHouseIndividualId']
+    familyEmail = jsonEntry['emailAddress']
     coupleName = jsonEntry['coupleName']
     lastName, headOfHouseHold = coupleName.split(/,/)
     lastName.strip!
@@ -202,10 +279,10 @@ begin
     headOfHouseHold.gsub!("&", "and")
     address    = jsonEntry['desc1'] + " " + jsonEntry['desc2']
     phone      = jsonEntry['phone']
-    lastName ||= "" 
-    headOfHouseHold ||= "" 
-    phone ||= "" 
-    address ||= "" 
+    lastName ||= ""
+    headOfHouseHold ||= ""
+    phone ||= ""
+    address ||= ""
 
     family = Family.find_by_uid(uid)
 
@@ -216,21 +293,21 @@ begin
       if family.name != lastName or family.head_of_house_hold != headOfHouseHold or
         family.phone != phone   or family.address != address
         puts "\t" + family.name  + "," + family.head_of_house_hold + " update"
-        updateMade = true
+        changesMade = true
 
-        if family.name != lastName 
+        if family.name != lastName
           puts "\t  familyName          : " + family.name + "--->" + lastName
           family.name = lastName
         end
-        if family.head_of_house_hold != headOfHouseHold 
+        if family.head_of_house_hold != headOfHouseHold
           puts "\t  Head of House Hold: : " + family.head_of_house_hold + "--->" + headOfHouseHold
           family.head_of_house_hold = headOfHouseHold
         end
-        if family.phone != phone 
+        if family.phone != phone
           puts "\t  phone               : " + family.phone + "--->" + phone
           family.phone = phone
         end
-        if family.address != address 
+        if family.address != address
           puts "\t  address             : " + family.address + "--->"+  address
           family.address = address
         end
@@ -243,33 +320,53 @@ begin
       # current if they appear in new ward list.
       # For my report I want a list of those people already removed
       alreadyRemoved = Person.find_all_by_family_id_and_current(family.id,0)
-      Person.update_all(:current => false, :family_id => family.id)
+      Person.update_all({:current => false}, {:family_id => family.id})
 
       familyMembers = getFamilyMembers jsonEntry
-      familyMembers.each { |new| 
-        person = Person.find_by_name_and_family_id(new.name,family)
+      familyMembers.each { |new|
+        person = Person.where(:uid => new.uid).first
+
+        emailToUse = new.email
+        if new.uid == uid && (emailToUse.nil? || emailToUse.empty?)
+          emailToUse = familyEmail
+        end
+
         # if the person exists make them current and then verify the email address
         if person
-          if (person.email != new.email) 
-            puts "\t  updating email: (#{person.email}) --> (#{new.email}) for " + new.name + " " + family.name
-            person.email = new.email
+          if (person.email != emailToUse)
+            puts "\t  updating email: (#{person.email}) --> (#{emailToUse}) for " + new.name + " " + family.name
+            person.email = emailToUse
+          end
+          if (person.phone != new.phone)
+            puts "\t  updating phone: (#{person.phone}) --> (#{new.phone}) for " + new.name + " " + family.name
+            person.phone = new.phone
+          end
+          if (person.name != new.name)
+            puts "\t  updating name: (#{person.name}) --> (#{new.name}) for " + new.name + " " + family.name
+            person.name = new.name
           end
           person.current = true
           person.save
           # otherwise create new person
         else
-          unless new.email == nil
-            puts "\t  Creating person :" + new.name + " with email :" + new.email 
+          unless emailToUse == nil
+            puts "\t  Creating person :" + new.name + " with email :" + emailToUse
           else
-            puts "\t  Creating person :" + new.name 
+            puts "\t  Creating person :" + new.name
           end
-          Person.create(:name => new.name, :email => new.email, 
-                        :family_id => family.id, :current => true)
+          Person.create({
+            :name => new.name,
+            :email => emailToUse,
+            :phone => new.phone,
+            :family_id => family.id,
+            :uid => new.uid,
+            :current => true
+          })
         end
       }
 
       removed = Person.find_all_by_family_id_and_current(family.id, false) - alreadyRemoved
-      removed.each { |person| 
+      removed.each { |person|
         #eventually delete these people if they are not tied to an event
         puts "\t  #{person.name} #{family.name} is no longer current"
       }
@@ -279,7 +376,7 @@ begin
         family.status = "Returned Record"
         puts "  *** Returned Record ***"
         puts "\t#{lastName}, #{headOfHouseHold}"
-        updateMade = true
+        changesMade = true
       end
 
       # label the family as current
@@ -296,71 +393,64 @@ begin
       puts "  \t" + address;
       puts ""
       # Create the new family
-      # Set status 
+      # Set status
       # label them as current
 
-      family = Family.create(:name => lastName, :head_of_house_hold =>headOfHouseHold,
-                             :phone => phone, :address => address, :status => "new", 
+      family = Family.create(:name => lastName, :head_of_house_hold => headOfHouseHold,
+                             :phone => phone, :address => address, :status => "new",
                              :uid => uid, :current => true)
-      family.events.create(:date => Date.today, 
+      family.events.create(:date => Date.today,
                            :category => "MoveIn",
                            :comment => "Received records from SLC")
-      updateMade = true
+      changesMade = true
 
       #create people records from family members
       # Sample vard data  ---> Household members:=0D=0A=Ryan <todd@grail.com>=0D=0A=Jennifer Jones=0D=0A=Joseph Hyrum=0D=0A=Richard Isaac
       #
 
       familyMembers = getFamilyMembers jsonEntry
-      familyMembers.each { |person| 
+      familyMembers.each { |person|
         print "\t  Creating person :" + person.name
-        unless person.email == nil or person.email == "" 
-          print " with email :" + person.email 
+        unless person.email == nil or person.email == ""
+          print " with email :" + person.email
         end
         puts ""
-        Person.create(:name => person.name, :email => person.email, 
-                      :family_id => family.id, :current => true)
+        Person.create({
+          :name => person.name,
+          :email => person.email,
+          :phone => person.phone,
+          :family_id => family.id,
+          :uid => person.uid,
+          :current => true
+        })
       }
 
     end
   end
 
-
-  # Get all of the non-current families. 
+  # Get all of the non-current families.
   # Find all that don't have a status of "Moved - Old Record" and print those to a report
   # change status of those families to   "Moved - Old Record"
-  #
+  moved = Family.where({current: false, member: true}).where("status != 'Moved - Old Record'")
 
-  moved = Family.find_all_by_current_and_member(false,true)
-
-  # TODO gotta be amore elegant way to determine if we need to print
-  # "Familes moved out.  --- Database query
-  newMoveOuts = false;
-  moved.each do |family|
-    if family.status != "Moved - Old Record"
-      newMoveOuts = true
-      break
-    end
-  end
-
-  if newMoveOuts 
+  unless moved.empty?
     puts "\tFamilies moved out:"
-  end
-  moved.each do |family|
-    if family.status != "Moved - Old Record"
+    moved.each do |family|
       puts "\t\t" + family.name + "," + family.head_of_house_hold
       family.status = "Moved - Old Record"
       family.events.create(:date => Date.today,
                            :category => "MoveOut",
                            :comment => "Records removed from the Ward")
       # make all of the family members not current
-      Person.update_all(:current => false, :family_id => family.id)
+      Person.update_all({:current => false}, {:family_id => family.id})
       family.save
-      updateMade = true
+      changesMade = true
     end
   end
 
   puts "\n"
+
+  parse_callings
 
   #email_out_standing_todo
   #email_home_teachers_daily_events
@@ -368,14 +458,14 @@ begin
   #quartlyReport
 
   # Clear the cache if any updates are made.
-  if updateMade
-    system("rm -rf #{RAILS_ROOT}/public/cache/views/*")
+  if changesMade
+    # TODO It would be great if this cron didn't have permission to just delete stuff out of our directory
+    system("rm -rf #{Rails.root}/public/cache/views/*")
   end
-  #remove(BACKUP)
-
+  puts "Finished update at #{Time.now}"
 
 rescue Exception => e
-  puts $!
+  puts "We had a failure. Printing error: "
+  p e
   p e.backtrace
-  copy(BACKUP,DATABASE)
 end

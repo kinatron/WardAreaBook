@@ -1,11 +1,7 @@
 class FamiliesController < ApplicationController
-  before_filter :store_return_point, :only => [:show]
-  caches_action :index, :layout => false
-  caches_action :members, :layout => false
   #TODO for some reason the sweeper is not getting called when I update 
   #the family records.  So I instead I'm explicitly updating this.
   #the sweeper is working for the events_controller....
-  cache_sweeper :family_sweeper, :only => [:update, :edit]
   in_place_edit_for :action_item, :action
 
   @hasFullAccess = false
@@ -13,17 +9,17 @@ class FamiliesController < ApplicationController
   # override the application accessLevel method
   # TODO refactor this method
   def checkAccess
-    @hasFullAccess = hasAccess(2)
+    @hasFullAccess = hasAccess(3)
     # Everybody has access to these methods
-    if hasAccess(2) or 
+    if hasAccess(3) or 
        action_name == 'members' or 
        action_name == 'show' or 
        action_name == 'edit_status' or 
-       (action_name == 'edit' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) or 
-       (action_name == 'update' and Family.find(params[:id]).hasHomeTeacher(session[:user_id])) 
+       (action_name == 'edit' and (Family.find(params[:id]).hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id]))) or 
+       (action_name == 'update' and (Family.find(params[:id]).hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id])))
       true
     elsif
-      action_name == 'index' and not hasAccess(2)
+      action_name == 'index' and not hasAccess(3)
       redirect_to(:action => 'members')
     else
       deny_access
@@ -52,14 +48,8 @@ class FamiliesController < ApplicationController
 
   def new_comment
     @fam = Family.find(params[:id])
-    @comment = Comment.create(:family_id => @fam.id)
-    respond_to do |format|
-      format.js {
-        render :update do |page|
-          page.replace_html("new comment", :partial => "new_comment", :object => @comment)
-        end
-      }
-    end
+    @fam.comments.create(:person_id => session[:user_id], :text => params[:text])
+    redirect_to(@fam)
 
   end
 
@@ -72,14 +62,8 @@ class FamiliesController < ApplicationController
   end
 
   def edit_status
-    @family = Family.find(params[:id])
-
-    render :update do |page|
-      page.replace_html("family_status", 
-                        :partial => "family_status", 
-                        :object => @family,
-                        :locals => {:update => true})
-    end
+    @edit_status = true
+    show
   end
 
   def listArchived
@@ -121,23 +105,23 @@ class FamiliesController < ApplicationController
     @action_item = ActionItem.new
     @action_item.family_id = @family.id
 
-    @names = getMapping
-    @families = getFamilyMapping
+    @names = Person.selectionList
+    @families = Family.get_families
 
     @familyName = @family.name + "," + @family.head_of_house_hold;
-    @fellowShippers = getMapping
+    @fellowShippers = Person.selectionList
 
     @event =  Event.new
     @event.family_id = @family.id
 
     @limit = CLOSED_ACTION_LIMIT
 
-    if @hasFullAccess or @family.hasHomeTeacher(session[:user_id])
-      respond_to do |format|
-        format.html # show.html.erb
-        format.xml  { render :xml => @family }
-      end
+    if @hasFullAccess or @family.hasHomeTeacher(session[:user_id]) or @family.hasVisitingTeacher(session[:user_id])
+      render "show"
     else
+      # TODO: This needs more work. There should probably be just one view, and it should be cleaned up
+      user = Person.find(session[:user_id])
+      @show_events = (@family.people.include? user) ? true : false
       render "show2"
     end
   end

@@ -1,19 +1,8 @@
 class EventsController < ApplicationController
   layout 'admin'
-  cache_sweeper :family_sweeper, :only => [:create_new_family_event, :remove, :update]
 
 # TOOD probably want to make this more restrictive
   def checkAccess
-  end
-
-
-  def all_family_events
-    @family = Family.find(params[:id])
-    render :update do |page|
-      page.replace_html('family-events', 
-                        :partial => "events/list_events", 
-                        :object => @family.events)
-    end
   end
 
   def edit_remotely
@@ -43,7 +32,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    if hasAccess(3)
+    if hasAccess(4)
       @events = Event.all
 
       respond_to do |format|
@@ -133,17 +122,15 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def update
-    @event = Event.find(params[:id])
+    event = Event.find(params[:id])
+    if event.author == session[:user_id] or event.person_id == session[:user_id] or hasAccess(3)
+      event.update_attributes(params[:event])
+    end
 
-    respond_to do |format|
-      if @event.update_attributes(params[:event])
-        #flash[:notice] = 'Event was successfully updated.'
-        format.html { redirect_back }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
-      end
+    if params[:redirect] == "list"
+      redirect_to events_path
+    else
+      redirect_to event.family
     end
   end
 
@@ -160,7 +147,7 @@ class EventsController < ApplicationController
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_back }
+      format.html { redirect_to events_path }
       format.xml  { head :ok }
     end
   end

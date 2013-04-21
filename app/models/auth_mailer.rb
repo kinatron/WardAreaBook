@@ -1,20 +1,16 @@
 class AuthMailer < ActionMailer::Base
-  default_url_options[:host] = "wardareabook.org"  
+  default_url_options[:host] = "thorntoncreekareabook.org"  
+
+  default :from => "wardareabookapp@gmail.com"
 
   def password_reset_instructions(user)  
-    subject       "Password Reset Instructions"  
-    from          "Ward Areabook"  
-    recipients    user.email  
-    sent_on       Time.now  
-    body          :edit_password_reset_url => edit_password_reset_url(user.perishable_token)  
+    @edit_password_reset_url = edit_password_reset_url(user.perishable_token)  
+    mail(:to => user.email, :subject => "Password Reset Instructions")
   end  
 
   def verification_instructions(user)  
-    subject       "Ward Areabook Account verification Instructions"  
-    from          "Ward Areabook"  
-    recipients    user.email  
-    sent_on       Time.now  
-    body          :activation_url => activation_url(user.perishable_token)  
+    @activation_url = activation_url(user.perishable_token)
+    mail(:to => user.email, :subject => "Ward Areabook Account verification Instructions")
   end  
 
 end

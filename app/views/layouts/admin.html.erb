@@ -2,12 +2,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <title>Burien Ward Area Book</title>
+    <title>Thornton Creek Ward Area Book</title>
     <!-- START:stylesheet -->
     <%= stylesheet_link_tag "areabook", :media => "all" %>
     <%= stylesheet_link_tag "sortable", :media => "all" %>
     <!-- <label id="code.slt"/> -->
-      <%= javascript_include_tag :defaults %>
+      <%= javascript_include_tag :application %>
       <%= javascript_include_tag "sorttable"%>
       <%= javascript_include_tag "tablekit"%>
       <%= javascript_include_tag "filter"%>
@@ -15,7 +15,7 @@
   </head>
   <body id="store">
     <div id="banner">
-      <%= @page_title || "Burien Ward Area Book" %>
+      <%= @page_title || "Thornton Creek Ward Area Book" %>
       <div>
         <%= session[:user_name] %><br>
         <%= link_to "logout", logout_path %>

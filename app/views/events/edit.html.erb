@@ -1,14 +1,15 @@
 <h1>Editing event</h1>
 
-<% form_for(@event) do |f| %>
+<%= form_for(@event) do |f| %>
   <%= f.error_messages %>
+  <%= hidden_field_tag :redirect, "list" %>
 
   <p>
     <%= f.label :date %><br />
     <%= f.date_select :date %>
   </p>
   <p>
-    <%= Family.find(@event.family_id).name %> Family
+  <%= @event.family.name %> Family (<%= @event.family.head_of_house_hold %>)
   </p>
   <p>
     <%= f.label :category %><br />
@@ -17,12 +18,12 @@
   <p>
     <%= f.label :person_id %><br />
     <%= f.select :person_id, Person.selectionList,
-                 :prompt => "Select Who visited" %>
+                 :prompt => "Select Visiting Member" %>
     
   </p>
   <p>
     <% author = Person.find(@event.author) %>
-    <%= "author: " + author.name + " " + author.family.name %>
+    <%= "Event created by: " + author.full_name %>
   </p>
   <p>
     <%= f.label :comment %><br />

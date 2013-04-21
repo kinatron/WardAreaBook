@@ -1,5 +1,5 @@
 <div class="depot-form">
-  <% form_for(@user) do |f| %>
+  <%= form_for(@user) do |f| %>
     <%= f.error_messages %>
 
     <fieldset>
@@ -7,6 +7,7 @@
       <div>
         <%= f.label :email %>:
         <%= f.text_field :email, :size => 40 %>
+        <span style="font-size: 14px">Note: This is your email address from the ward area book</span>
       </div>
 
       <div>

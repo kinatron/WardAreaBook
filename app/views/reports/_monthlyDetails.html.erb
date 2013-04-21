@@ -1,12 +1,12 @@
 <% monthlyDetails.each do |family_id, events| %>
   <% family = Family.find(family_id) %>
   <a href ='#' class = 'subtile-links' 
-     onclick="Effect.toggle('<%= events[0].date.mon.to_s + family_id.to_s %>', 'blind'); 
+     onclick="$('#<%= events[0].date.mon.to_s + family_id.to_s %>').toggle(); 
         return false;"><%= family.name %>,&nbsp;<%= family.head_of_house_hold %></a>
       <div id='<%= events[0].date.mon.to_s + family_id.to_s %>' style='display:none'>
         <ul>
           <%= link_to "family page...", family %>
-          <%= render(:partial => "/events/event", :collection => events) %>
+          <%= render(:partial => "/events/event", :collection => events, :locals => {:names => names}) %>
         </ul>
       </div>
       <br>

@@ -4,7 +4,7 @@
 
 <fieldset class='teaching-record'>
   <legend> Edit Event Item </legend>
-  <% form_for(event_edit, :url => {:controller => 'events', 
+  <%= form_for(event_edit, :url => {:controller => 'events', 
               :action => 'update_remotely', :id => event_edit.id })  do |f| %>
     <%= f.error_messages %>
     <p>
@@ -14,7 +14,7 @@
       Ward Rep: <%= f.select :person_id, Person.selectionList, :include_blank => true %> 
       <% if showFamily %>
         <p>
-          Family: <%= f.select :family_id, getFamilyMapping %> <br>
+          Family: <%= f.select :family_id, Family.get_families %> <br>
         </p>
       <% end %>
     </p>
@@ -30,9 +30,7 @@
     <%= f.submit "update" %> &nbsp; &nbsp;
     <%= link_to "Cancel", "" %>
     <% if event_edit.author == session[:user_id] %>
-      <%= link_to 'Delete',:controller =>'events',
-                           :action => 'remove',
-                           :id=> event_edit %>
+      <%= button_to 'Delete', event_path(event_edit), :method => :delete %>
     <% end %>
   <% end %>
 </fieldset>

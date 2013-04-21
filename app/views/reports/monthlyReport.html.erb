@@ -1,16 +1,41 @@
-<h1>Monthly Report - Lessons and Visits <br>
-  for both Members and Investigators</h1>
-<% @event_months.each do |month, events| %>  
-  <% events.sort! { |a,b| a.family.name <=> b.family.name } %>
-  <b><a href ='#' class = 'subtile-links' onclick="Effect.toggle('<%= month.to_s %>-events', 'blind'); return false;">
-      <%= month.strftime("%b") %></b> &#151; <%=getMonthlyTotal(events)%> Families Visited</a> 
-  <ul>
-  <div id='<%= month %>-events' style='display:none'>
-    <%= render(:partial => "monthlyReport", :object => events) %>
+<h1>Monthly Report - Lessons and Visits</h1>
+<h3>This shows all visits (Home Teaching or Visiting Teaching) sorted by the Quorum the family is assigned to.</h3>
+<% @monthly_info.each do |month_info| %>
+  <h4 onclick="$('#<%= month_info[:month].to_s %>-events').toggle(); return false;" style="cursor: pointer;"> <%= month_info[:month].strftime("%b") %> &#151; <%= month_info[:families_visited_count] %> Families Visited</h4>
+  <div id='<%= month_info[:month] %>-events' style='display:none'>
+    <div class='report'>
+      <table>
+          <tr>
+            <% if month_info[:hp] %>
+            <td>
+              <h1>High Priest Visits</h1>
+              <%= render(:partial => "monthlyDetails", :object => month_info[:hp], :locals => { :names => @names }) %>
+            </td>
+            <% end %>
+            <% if month_info[:elders] %>
+            <td>
+              <h1>Elder Visits</h1>
+              <%= render(:partial => "monthlyDetails", :object => month_info[:elders], :locals => { :names => @names }) %>
+            </td>
+            <% end %>
+            <% if month_info[:vt] %>
+            <td>
+              <h1>Visiting Teaching</h1>
+              <%= render(:partial => "monthlyDetails", :object => month_info[:vt], :locals => { :names => @names }) %>
+            </td>
+            <% end %>
+            <% if month_info[:unassigned] %>
+            <td>
+              <h1>Other Events</h1>
+              <%= render(:partial => "monthlyDetails", :object => month_info[:unassigned], :locals => { :names => @names }) %>
+            </td>
+            <% end %>
+          </tr>
+      </table>
+    </div>
   </div>
-  </ul>
-<% end %> 
-<br> <br> 
+<% end %>
+<br> <br>
 <% if @showLink %>
   <%= link_to "all reports...", {:action => :allReports}%>
 <% end %>

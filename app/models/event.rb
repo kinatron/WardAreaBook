@@ -1,7 +1,11 @@
 class Event < ActiveRecord::Base
   belongs_to :family;
   belongs_to :person;
+
+  attr_accessible :date, :family_id, :person_id, :category, :comment
+
   validates_presence_of :family_id
+
   include TeachingRecordsHelper
 
   def getCategory
@@ -41,6 +45,15 @@ class Event < ActiveRecord::Base
       end
     end
     homeTeachers
+  end
+
+  def getEventDisplay
+    if self.person 
+      wardRep = self.person.full_name + " -- "
+    else
+      wardRep = ""
+    end
+    "#{self.date} -- #{wardRep}#{self.category} -- #{self.comment}"
   end
 
 end

@@ -14,5 +14,5 @@
 <% end %>
 <br />
 <div id='archived-records' class = "noPrint">
-  <%= link_to_remote "Dropped Records", :url => {:controller => "teaching_records",  :action => 'listArchived'} %>
+  <%= link_to "Dropped Records", :url => {:controller => "teaching_records",  :action => 'listArchived'}, :remote => true %>
 </div>

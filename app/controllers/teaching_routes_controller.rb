@@ -1,84 +1,69 @@
 require 'csv'
-class TeachingRoutesController < ApplicationController
-  caches_action :index, :layout => false
+class TeachingRoutesController < TeachingRouteUploadingController
 
-  BAKUP_FILE = "#{RAILS_ROOT}/public/data/LastGoodTeachingReport.csv"
-
+  # TODO This doesn't appear to ever be called...
   def checkAccess
-    if (action_name == "teacherList" and params[:id] == session[:user_id].to_s ) or hasAccess(2)
+    if (action_name == "teacherList" and params[:id] == session[:user_id].to_s ) or hasAccess(3)
       true
-    else 
+    else
       deny_access
     end
   end
 
-  def updateRoutes
-  end
+  def create_routes(file_name=nil)
+    if file_name.nil?
+      file_name = params[:name]
 
-  def uploadFile
-    if params[:upload] == nil
-      flash[:notice] = 'Please browse to a valid csv file'
-      redirect_to :action => 'updateRoutes'
-    else
-      path = HomeTeachingFile.save(params[:upload])
-      expire_action :action => "index"
-      begin
-        createHomeTeachingRoutes(path)
-      rescue Exception => e
-        # Most likely a parsing error in the HomeTeacher file.
-        path = BAKUP_FILE
-        redirect_to :action => 'updateError', :path => path
+      if file_name.nil?
+        # No file, nothing to do
+        return
       end
     end
-  end
 
-  def createHomeTeachingRoutes(homeTeachingFile=nil)
-    if params[:path] != nil
-      homeTeachingFile = params[:path]
-    end
+
     @cantFindTeacher = Set.new
     @cantFindFamily = Set.new
     TeachingRoute.delete_all()
-    CSV.open(homeTeachingFile, 'r') do |row|
+    CSV.foreach(uploaded_file_path(file_name), {:headers => true}) do |row|
       #skip past the first row
-      if row[0] == "Quorum" || row[0] == ""
+      if row[0] == ""
         next
       end
       #Get the family name
       famName, headOfHouseHold = getName(row[12].gsub("&","and"))
       fam = Family.find_by_name_and_head_of_house_hold(famName,headOfHouseHold)
-      if fam == nil
+      if fam.nil?
         # Check to see if this name is in the NameMapping table
         nameMap = NameMapping.find_by_name_and_category(row[12],'family')
-        if nameMap != nil
-          fam = Family.find(nameMap.family_id)
-        else
+        if nameMap.nil?
           # If there is only one "Smith" in the ward then assume this is the family we want
-          fam = Family.find_all_by_name(famName)
-          if fam.size == 1
-            fam = fam[0]
-          else 
+          families = Family.find_all_by_name(famName)
+          if families.size == 1
+            fam = families[0]
+          else
             @cantFindFamily.add(row[12])
             next
           end
+        else
+          fam = Family.find(nameMap.family_id)
         end
       end
       #Get the first home teacher
       hometeacher1 = getPerson(row[6])
-      unless hometeacher1 == nil
-        #puts hometeacher1.name + " " + hometeacher1.family.name 
-        TeachingRoute.create(:category => row[0], 
-                             :person_id => hometeacher1.id, 
-                             :family_id => fam.id)
-      else
+      if hometeacher1.nil?
         @cantFindTeacher.add(row[6])
+      else
+        #puts hometeacher1.name + " " + hometeacher1.family.name
+        TeachingRoute.create(:category => row[0],
+                             :person_id => hometeacher1.id,
+                             :family_id => fam.id)
       end
 
       hometeacher2 = getPerson(row[9])
       unless hometeacher2 == nil
-        #puts hometeacher2.name + " " + hometeacher2.family.name 
-        TeachingRoute.create(:category => row[0], 
-                             :person_id => hometeacher2.id, 
+        #puts hometeacher2.name + " " + hometeacher2.family.name
+        TeachingRoute.create(:category => row[0],
+                             :person_id => hometeacher2.id,
                              :family_id => fam.id)
       else
         unless row[9] == ""
@@ -89,41 +74,14 @@ class TeachingRoutesController < ApplicationController
     end # iterate through the ward list
 
     if @cantFindTeacher.empty? and @cantFindFamily.empty?
-      # All is well - clear the cache and save this 
-      # copy of the home teaching report
-      expire_action :action => "index"
-      if homeTeachingFile != BAKUP_FILE
-        FileUtils.cp(homeTeachingFile,BAKUP_FILE)
+      if file_name != backup_file_name
+        FileUtils.cp(uploaded_file_path(file_name), uploaded_file_path(backup_file_name))
       end
-      redirect_to(teaching_routes_path) 
-    else 
-      @path = homeTeachingFile 
-      render 'updateNames'
+      redirect_to(teaching_routes_path)
+    else
+      @file_name = file_name
+      render 'update_names'
     end
-
-  end # action uploadFile
-
-  def updateError
-    @path = params[:path]
-  end
-
-  def updateNames
-    @path = params[:path] || ""
-    names = params[:correct_person] || ""
-    names.each do |name, person_id|
-      if NameMapping.find_by_name_and_category(name,'person') == nil
-        NameMapping.create(:name => name, :person_id => person_id, 
-                           :category =>'person')
-      end
-    end
-    names = params[:correct_family] || ""
-    names.each do |name, family_id|
-      if NameMapping.find_by_name_and_category(name,'family') == nil
-        NameMapping.create(:name => name, :family_id => family_id,
-                           :category =>'family')
-      end
-    end
-    createHomeTeachingRoutes(@path)
   end
 
 
@@ -131,6 +89,7 @@ class TeachingRoutesController < ApplicationController
   # GET /teaching_routes.xml
   def index
     @teaching_routes = TeachingRoute.all
+    @last_updated = TeachingRoute.first ? "last updated #{TeachingRoute.first.last_update}" : 'never updated'
 
     respond_to do |format|
       format.html # index.html.erb
@@ -138,18 +97,18 @@ class TeachingRoutesController < ApplicationController
     end
   end
 
-  # GET /teaching_routes/teacherList.html
+  # GET /teaching_routes/teacherList/1
   def teacherList
-    @families = Set.new
-    @homeTeacher = Person.find(params[:id])
-    @teachingRoutes = TeachingRoute.find_all_by_person_id(@homeTeacher.id)
-    @teachingRoutes.each do | route|
-      @families.add(route.family)
-    end
+    @teacher = Person.find(params[:id])
+    teachingRoutes = TeachingRoute.includes(:family).find_all_by_person_id(@teacher.id)
+    @htFamilies = teachingRoutes.collect {|route| route.family }
+
+    visitingRoutes = VisitingTeachingRoute.includes(:person => [:family]).find_all_by_visiting_teacher_id(@teacher.id)
+    @vtPeople = visitingRoutes.collect {|route| route.person }
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @teaching_routes }
+      format.xml  { render :xml => teaching_routes }
     end
   end
 
@@ -168,7 +127,7 @@ class TeachingRoutesController < ApplicationController
   # GET /teaching_routes/new.xml
   def new
     @teaching_route = TeachingRoute.new
-    @names = getMapping
+    @names = Person.selectionList
 
     respond_to do |format|
       format.html # new.html.erb
@@ -179,7 +138,7 @@ class TeachingRoutesController < ApplicationController
   # GET /teaching_routes/1/edit
   def edit
     @teaching_route = TeachingRoute.find(params[:id])
-    @names = getMapping 
+    @names = Person.selectionList
   end
 
   # POST /teaching_routes
@@ -232,6 +191,10 @@ class TeachingRoutesController < ApplicationController
 
 private
 
+  def backup_file_name
+    'LastGoodHomeTeachingRoutes.csv'
+  end
+
   def getName(fullName)
     fullName.split(",").collect! {|x| x.strip}
   end
@@ -248,8 +211,8 @@ private
       family.each do |fam|
         #puts firstName + "--" + fam.id.to_s
         person = Person.find_by_current_and_name_and_family_id(true,firstName,fam.id)
-        if person == nil
-          next 
+        if person.nil?
+          next
         end
         return person
       end

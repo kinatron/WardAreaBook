@@ -11,7 +11,6 @@
 <% style ||="id='nodot'" %>
 
 <% #TODO I need to define some globals %>
-<% listLimit ||= 5 %>
 
 <% action_items.each do |action| %>
   <li <%=style%>>
@@ -27,10 +26,20 @@
 <% end %>
 <% if option_for_more %>
   <li id='nodot'>
-    <%= link_to_remote "more action items...", 
+    <%= link_to "more action items...", 
+                        :remote => true,
                         :url => {:controller => 'action_items',
                                  :action => 'list_closed_action_items',
                                  :conditions => conditions} %>
     <br>
   </li>
 <% end %>
+<script type="text/javascript">
+    // TODO At some point it would be good to just update the dom, not refresh the whole thing, but for now, lets just refresh
+    $('form.edit_action_item').on('ajax:success', function (event, xhr, status, error) {
+        window.location.reload();
+    });
+    $('form.edit_action_item').on('ajax:error', function (event, xhr, status, error) {
+        window.location.reload();
+    });
+</script>

@@ -1,15 +1,11 @@
 <h1>Editing calling</h1>
 
-<% form_for(@calling) do |f| %>
+<%= form_for(@calling) do |f| %>
   <%= f.error_messages %>
 
   <p>
     <%= f.label :job %><br />
     <%= f.text_field :job %>
-  </p>
-  <p>
-    <%= f.label :person_id %><br />
-    <%= f.text_field :person_id %>
   </p>
   <p>
     <%= f.label :access_level %><br />

@@ -1,11 +1,12 @@
 <div class="depot-form">
-  <% form_for @user_session  do |form| %>
+  <%= form_for @user_session, :as => :user_session, :url => { :action => "create" }  do |form| %>
     <%= form.error_messages %>
     <fieldset>
       <legend>Please Login In</legend>
       <div>
         <%= form.label :email, "Email" %>  
         <%= form.text_field :email %>  
+        <span style="font-size: 14px">Note: This is your email address from the ward area book</span>
       </div>
       <div>
         <%= form.label :password, "Password" %>  
@@ -19,11 +20,12 @@
 </div>
 <div>
   <% if @user_session.attempted_record && @user_session.attempted_record.failed_login_count > 1 %>
-    <% form_tag password_resets_path do %>
+    <%= form_tag password_resets_path do %>
       <%= hidden_field_tag 'email', @user_session.attempted_record.email %><br />
-      Opps did you forget your password? <br><br>
+      Oops did you forget your password? <br><br>
       <%= submit_tag "Reset my password" %>
     <% end %>
+    <p><%= link_to "Having trouble?", faq_path %></p>
     <br> <br> <br>
   <% end %>
 </div>

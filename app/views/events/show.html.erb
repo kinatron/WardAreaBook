@@ -1,21 +1,22 @@
 <p>
   <b>Date:</b>
-  <%=h @event.date %>
+  <%= @event.date %>
 </p>
 
 <p>
-  <b>Family:</b>
-  <%=h @event.family_id %>
+<b>Family:</b>
+  <%= link_to(@event.family.name, @event.family) %>
 </p>
 
 <p>
-  <b>Member:</b>
-  <%=h @event.person_id %>
+<b>Visiting Member:</b>
+  <% person = @event.person %>
+  <%= person.nil? ? "No visitor specified" : link_to(person.full_name, person) %>
 </p>
 
 <p>
   <b>Comment:</b>
-  <%=h @event.comment %>
+  <%= @event.comment %>
 </p>
 
 

@@ -1,0 +1,543 @@
+/* Global styles */
+.report table {
+  border: 0px solid red;
+}
+
+.report td {
+  border: 0px solid red;
+}
+
+.teaching-record {
+  width: 800px;
+  background: #feb;
+  padding: 10px 20px;
+}
+
+.teaching-record fieldset {
+  background: #ffd;
+  border-color:gray;
+  width:700px;
+}
+
+.teaching-record legend {
+  color: black;
+  background: #9c9;
+  border-color:black;
+  font-family: sans-serif;
+  padding: 0.2em 1em;
+}
+
+.hoverme:hover {
+  background-color: #bdb;
+  cursor: pointer;
+}
+
+#square {
+  list-style-type: square;
+}
+
+.nodot {
+  list-style-type: none;
+}
+#nodot {
+  list-style-type: none;
+}
+
+#closed-actions {
+  list-style-type: none;
+}
+
+.closed-actions {
+  text-decoration: line-through;
+}
+
+#action-item-edit {
+  display:none;
+  text-indent: 1.5em;
+}
+
+.forceWidth {
+  width:1050px;
+}
+
+.forceWidth div {
+  font:  110% sans-serif;
+  padding: 10px;
+  float: left;
+  text-align: center;
+  margin-right: 30px;
+}
+.forceWidth div:hover {
+  background-color: #bdb;
+  cursor: pointer;
+}
+
+/* START:notice */
+#notice {
+  border: 2px solid red;
+  padding: 1em;
+  margin-bottom: 2em;
+  background-color: #f0f0f0;
+  font: bold smaller sans-serif;
+}
+/* END:notice */
+
+table td {
+  padding: 2px;
+  padding-right: 25px;
+  vertical-align: top;
+  text-align: left;
+  color: black;
+}
+
+h1 {
+  font:  150% sans-serif;
+  color: #433;
+  border-bottom: 2px dotted #433;
+}
+
+#familyHeader {
+  font:  150% sans-serif;
+  color: #433;
+  border-bottom: 2px dotted #433;
+}
+#familyHeader a {
+  font:  50% sans-serif;
+  text-decoration:none;
+  color: #433;
+}
+
+.family_details {}
+.family_details table {
+  border:none;
+  margin:0.4em;
+}
+.family_details td {
+  border:none;
+}
+
+
+.events {
+  border:0px none;
+  margin-left: 2em;
+}
+
+.events td {
+  border:0px solid;
+  table-layout:auto;
+  padding: 7px 2px;
+  vertical-align: top;
+  text-align: left;
+  color: black;
+}
+
+.events .comment {
+  width:600px;
+}
+
+.events .editable:hover {
+  background-color: #fe0;
+  cursor: pointer;
+}
+
+.editable_action {
+  display:inline;
+}
+
+
+.action_item {
+  color:black; 
+  display:inline;
+}
+
+.action_item .comment{
+  display:block;
+}
+
+.action_item div{
+  display:inline;
+}
+
+.editable-action {
+  display:inline;
+}
+
+.editable-action a {
+  text-decoration: none;
+  color:black; 
+}
+
+.editable-action:hover { 
+  background-color: #fe0;
+  cursor: pointer;
+}
+
+.editable-action .late a {
+  text-decoration: none;
+  color:red; 
+}
+
+.late {
+  display:inline;
+  color:red; 
+}
+.late a {
+  display:inline;
+  color:red; 
+}
+
+.editable_comment a {
+  text-decoration: none;
+  color:black; 
+}
+
+.editable_comment a:hover { 
+  background-color: #fe0;
+  cursor: pointer;
+}
+
+.editable_comment td a:hover { 
+  background-color: #fe0;
+  cursor: pointer;
+}
+
+.justPrint {
+  display:none;
+}
+
+/* Styles for products/index */
+
+.subtile-links {
+  text-decoration: none;
+  color: black;
+}
+
+.subtile-links:hover {
+  background-color: #bdb;
+  cursor: pointer;
+}
+
+
+#action-list table {
+  border-collapse: collapse; 
+}
+
+#action-list th {
+  text-align: left;
+  white-space: nowrap;
+  padding-right: 20px;
+}
+
+#action-list table tr td {
+  padding-right: 200px;
+  vertical-align: top;
+  text-align: left;
+}
+
+#action-list a {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+#action-list  .edit-fields {
+  padding: 2px;
+  vertical-align: top;
+  text-align: left;
+  width: 20px;
+}
+
+#action-list  .open-actions {
+  list-style-type: none;
+}
+
+#action-list  .closed-actions {
+  text-decoration: line-through;
+  list-style-type: none;
+}
+
+#action-list .description {
+  width:        600px;
+  height:       70px;
+}
+
+#action-list .list-description {
+  width:        60%;
+}
+
+#action-list .list-description dl {
+  margin: 0;
+}
+
+#action-list .list-description dt {
+  color:        #244;
+  font-weight:  bold;
+  font-size:    larger;
+}
+
+#action-list .list-description dd {
+  margin: 0;
+}
+
+#action-list .list-actions {
+  font-size:    x-small;
+  text-align:   right;
+  padding-left: 1em;
+}
+
+.list-line-even {
+  background:   #feb;
+}
+.list-line-even:hover {
+  color:   red;
+  background-color: #bdb;
+  cursor: pointer;
+}
+
+.list-line-odd {
+  background:   #ffd;
+}
+.list-line-odd:hover {
+  background-color: #bdb;
+  cursor: pointer;
+}
+
+.list-line-even div.hide {
+  visibility:hidden;
+}
+
+
+.cell:hover {
+  background-color: #bdb;
+  cursor: pointer;
+}
+
+
+/* START:mainlayout */
+/* Styles for main page */
+
+#banner {
+  background: #9c9;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid;
+  font: small-caps 40px/40px "Times New Roman", serif;
+  color: #000;
+  text-align: center;
+}
+
+#banner img {
+  float: left;
+}
+#banner div {
+  width: 110px;
+  padding-right: 10px;
+  font: small-caps 15px/15px "Times New Roman", serif;
+  float: right;
+}
+
+
+#columns {
+  background: #feb;
+}
+
+#main {
+  margin-left: 11em;
+  padding-top: 2em;
+  padding-left: 3em;
+  background: #ffd;
+}
+
+#actionButtons {
+  display:inline;
+}
+
+#updateButton {
+  display:none;
+}
+
+#side {
+  float: left;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-bottom: 1em;
+  width: 10em;
+  background: #feb;
+}
+
+#side a {
+  color: #000;
+  font-size: medium;
+  font-weight: bold;
+  text-decoration:none;
+}
+/* END:mainlayout */
+
+/* An entry in the store catalog */
+
+#store  .entry {
+  overflow: auto;
+  margin-top: 1em;
+  border-bottom: 1px dotted #77d;
+}
+
+#store  .title {
+  font-size: 120%;
+  font-family: sans-serif;
+}
+
+#store .entry img {
+  width: 75px;
+  float: left;
+}
+
+
+#store .entry h3 {
+ margin-top: 0;
+ margin-bottom: 2px;
+ color: #227;
+}
+
+#store .entry p {
+ margin-top: 0.5em; 
+ margin-bottom: 0.8em; 
+}
+
+#store .entry .price-line {
+ clear: both;
+}
+
+#store .entry .add-to-cart {
+  position: relative;
+}
+
+#store .entry  .price {
+  color: #44a;
+  font-weight: bold;
+  margin-right: 2em;
+}
+
+/* START:inline */
+#store .entry form, #store .entry form div {
+  display: inline;
+}
+/* END:inline */
+
+/* START:cartmain */
+/* Styles for the cart in the main page */
+
+.cart-title {
+  font: 120% bold;
+}
+
+.item-price, .total-line {
+  text-align: right;
+}
+
+.total-line .total-cell {
+  font-weight: bold;
+  border-top: 1px solid #595;
+}
+/* END:cartmain */
+
+/* START:cartside */
+/* Styles for the cart in the sidebar */
+
+#cart, #cart table {
+  font-size: smaller;
+  color:     white;
+}
+
+#cart table {
+  border-top:    1px dotted #595;
+  border-bottom: 1px dotted #595;
+  margin-bottom: 10px;
+}
+/* END:cartside */
+
+/* START:form */
+/* Styles for order form */
+
+.depot-form fieldset {
+  background: #efe;
+  width:680px;
+}
+
+.depot-form legend {
+  color: #dfd;
+  background: #141;
+  font-family: sans-serif;
+  padding: 0.2em 1em;
+}
+
+.depot-form label {
+  width: 5em;
+  float: left;
+  text-align: right;
+  padding-top: 0.2em;
+  margin-right: 0.1em;
+  display: block;
+}
+
+.depot-form select, .depot-form textarea, .depot-form input {
+  margin-left: 0.5em;
+}
+
+.depot-form .submit {
+  margin-left: 4em;
+}
+
+.depot-form div {
+  margin: 0.5em 0;
+}
+/* END:form */
+
+/* The error box */
+
+.fieldWithErrors {
+  padding: 2px;
+  background-color: #EEFFEE;
+  display: inline;
+}
+
+.fieldWithErrors * {
+  background-color: red;
+}
+
+#errorExplanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#errorExplanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#errorExplanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#errorExplanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+.startHidden {
+  display: none;
+}
+
+footer {
+  margin-top: 10px;
+}
